@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:48:31 by ldulling          #+#    #+#             */
-/*   Updated: 2023/11/24 21:53:19 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/04 10:24:41 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
  * @param str   The string to be tokenized. On the first call to ft_strtok,
  *              this should be the string you want to tokenize. On subsequent
  *              calls, it should be NULL.
+ *              Note: Calling ft_strtok the first time with str equal to NULL
+ *              will cause a segmentation fault.
  * @param delim The delimiter string. Each character in this string is
  *              considered a valid delimiter.
  *

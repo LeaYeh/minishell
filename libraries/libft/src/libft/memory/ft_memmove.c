@@ -6,13 +6,24 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:08:23 by ldulling          #+#    #+#             */
-/*   Updated: 2023/11/13 21:32:54 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/04 12:03:50 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * Checks if dest is before or after src in memory, then starts copying from
- * the beginning or the end respectively.
+ * The ft_memmove function copies n bytes from memory area src to memory area
+ * dest.
+ * Unlike ft_memcpy, the memory areas may overlap.
+ * This function checks if dest is before or after src in memory, then starts
+ * copying from the beginning or the end respectively.
+ *
+ * @param dest  The memory area to copy to.
+ * @param src   The memory area to copy from.
+ * @param n     The number of bytes to copy.
+ *
+ * @return Returns a pointer to dest.
+ *         Note: Giving dest or src as NULL with n not 0 will cause a
+ *         segmentation fault.
  */
 
 #include "libft.h"

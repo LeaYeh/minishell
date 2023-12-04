@@ -10,6 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * The ft_memcpy function copies n bytes from memory area src to memory area
+ * dest.
+ * The memory areas must not overlap.
+ *
+ * @param dest  The memory area to copy to.
+ * @param src   The memory area to copy from.
+ * @param n     The number of bytes to copy.
+ *              Note: Giving dest or src as NULL with n not 0 will cause a
+ *              segmentation fault.
+ *
+ * @return Returns a pointer to dest.
+ *
+ */
+
 #include "libft.h"
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
