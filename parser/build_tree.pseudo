@@ -1,0 +1,29 @@
+// End of stack needs to be NULL.
+
+root = pop_stack;
+cur = root;
+new_node = pop_stack;
+while (new_node)
+{
+	placed = false;
+	while (!placed)
+	{
+		if (cur.right == NULL)
+		{
+			cur.right = new_node;
+			if (cur.right.type == op)
+				cur = cur.right;
+			placed = true;
+		}
+		else if (cur.left == NULL)
+		{
+			cur.left = new_node;
+			if (cur.left.type == op)
+				cur = cur.left;
+			placed = true;
+		}
+		else
+			cur = cur.parent;
+	}
+	new_node = pop_stack;
+}

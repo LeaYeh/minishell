@@ -1,0 +1,25 @@
+// End of stack needs to be NULL.
+
+root = pop_stack;
+build_tree(root, pop_stack());
+
+function build_tree(cur, new_node)
+{
+	if (cur != NULL && new_node != NULL)
+	{
+		if (cur.right == NULL)
+		{
+			cur.right = new_node;
+			if (cur.right.type == op)
+				return (build_tree(cur.right, pop_stack()));
+		}
+		else if (cur.left == NULL)
+		{
+			cur.left = new_node;
+			if (cur.left.type == op)
+				return (build_tree(cur.left, pop_stack()));
+		}
+		else
+			return (build_tree(cur.parent, new_node));
+	}
+}
