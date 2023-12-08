@@ -1,0 +1,7 @@
+{
+	<insert_a_suppression_name_here>
+	Memcheck:Leak
+	...
+	obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
+	...
+}
