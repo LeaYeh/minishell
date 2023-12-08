@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "readline.h": "c",
+        "libft.h": "c"
+    }
+}
