@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/08 21:32:56 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/08 21:40:12 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 // # define BOLD_RED			"\033[1;31m"
 // # define RESET				"\033[0m"
 
-# define PROMPT				"\001\033[1;32m\002minishell$ \001\033[0m\002"
+# define PROMPT				"\033[1;32mminishell$ \033[0m"
+// # define PROMPT				"\001\033[1;32m\002minishell$ \001\033[0m\002"
 // # define PROMPT				"minishell$ "
 
 #endif	
