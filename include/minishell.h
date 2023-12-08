@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:43:22 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/08 20:42:18 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/08 21:50:24 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_io_redirect
 typedef struct s_cmd_table
 {
 	char			*cmd_name;
-	char			*args;
+	char			*cmd_args;
 	t_io_redirect	*io_redirect;
 }	t_cmd_table;
 
