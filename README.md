@@ -90,6 +90,22 @@ lyeh@c1r1p5:~/project/curriculum/minishell/data$ << $'USER'
 > USER
 
 ```
+## Parsing
+
+### Generate parsing table
+
+Pre-requirement: GNU M4 1.4 and bison, [check here](https://chat.openai.com/share/06ff7af8-0ab0-477e-a2e9-aa095199a704).
+
+1. Design parsing rule, look more detail in our [parsing rule](data/parsing_rule.y).
+    - TODO: need to check rule about expandtion nearby redirect.
+        * ... (some examples...)
+2. Use `bison` tool to generate parsing table by the rules, and check your output `<PARSING_RULES>`.output
+
+```
+> bison -v <PARSING_RULES>.y
+```
+
+3. Convert parsing table to fit your data structure
 
 ## Collaborations
 

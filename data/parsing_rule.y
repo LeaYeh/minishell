@@ -1,9 +1,9 @@
 %token  WORD
 %token  ASSIGNMENT_WORD
 /*       '='     */
-%token  RET_IN
+%token  RED_IN
 /*       '<'     */
-%token  RET_OUT
+%token  RED_OUT
 /*       '>'     */
 %token  PIPE
 /*       '|'     */
@@ -13,6 +13,8 @@
 /*       '>>'     */
 %token  AND    OR
 /*      '&&'  '||'   */
+%token  L_BRACKET    R_BRACKET
+/*          '('         ')'   */
 
 %start pipe_sequence
 %%
@@ -24,7 +26,7 @@ and_or          :            pipe_sequence
                 | and_or AND pipe_sequence
                 | and_or OR  pipe_sequence
                 ;
-subshell        : '(' and_or ')'
+subshell        : L_BRACKET and_or R_BRACKET
                 ;
 command         : simple_command
                 | subshell
@@ -56,8 +58,8 @@ cmd_suffix		:            io_redirect
 io_redirect		: io_file
 				| io_here
 				;
-io_file			: RET_OUT filename
-				| RET_IN  filename
+io_file			: RED_OUT filename
+				| RED_IN  filename
 				| APPEND  filename
 				;
 filename		: WORD
