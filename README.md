@@ -1,6 +1,15 @@
 # Minishell | 42Vienna
 
-A brief description of what this project does and who it's for.
+This repository contains the source code for MiniShell, a minimalistic shell interpreter built from scratch. The project is designed to mimic the functionality of traditional Unix shells in a simplified manner, providing a lightweight and easy-to-understand alternative for learning and teaching purposes.
+
+Features
+Basic command execution: MiniShell can execute basic commands that are found in the PATH.
+Environment variable handling: MiniShell supports the use of environment variables in commands.
+Command chaining: Commands can be chained using logical operators (&& and ||).
+Redirections: MiniShell supports input and output redirections (<, >, >>).
+Pipes: Commands can be piped using the | operator.
+Subshells: Commands can be grouped and executed in subshells using parentheses (()).
+Here documents: MiniShell supports here documents (<<).
 
 ## Collaborations
 
