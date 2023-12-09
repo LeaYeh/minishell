@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2023/11/28 23:53:56 by ldulling         ###   ########.fr        #
+#    Updated: 2023/12/07 03:12:53 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SUBDIR	:=	memory/
 TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_bzero.c \
 			ft_calloc.c \
+			ft_free_and_null.c \
 			ft_memchr.c \
 			ft_memcmp.c \
 			ft_memcpy.c \
