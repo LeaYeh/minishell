@@ -59,6 +59,37 @@ Pre-requirement: GNU M4 1.4 and bison, [check here](https://chat.openai.com/shar
 ```
 
 3. Convert parsing table to fit your data structure
+## Expander
+
+...
+
+#### TODO
+
+- [ ] Handle these cases...
+
+```sh
+lyeh@c1r1p5:~/project/curriculum/minishell/data$ export a="file name"
+lyeh@c1r1p5:~/project/curriculum/minishell/data$ < $a
+bash: $a: ambiguous redirect
+lyeh@c1r1p5:~/project/curriculum/minishell/data$ export a="ls -l"
+lyeh@c1r1p5:~/project/curriculum/minishell/data$ $a
+total 56
+drwxr-xr-x 2 lyeh 2022_vienna  4096 Dec  9 17:36 images
+-rw-r--r-- 1 lyeh 2022_vienna 43623 Dec  9 18:41 parseing_rule.tab.c
+-rw-r--r-- 1 lyeh 2022_vienna  2405 Dec  9 18:41 parseing_rule.tab.h
+-rw-r--r-- 1 lyeh 2022_vienna  1457 Dec  9 18:39 parseing_rule.y
+lyeh@c1r1p5:~/project/curriculum/minishell/data$ << eof
+> eof
+lyeh@c1r1p5:~/project/curriculum/minishell/data$ << $USER
+> USER
+> $USER
+lyeh@c1r1p5:~/project/curriculum/minishell/data$ echo $'USER'
+USER
+lyeh@c1r1p5:~/project/curriculum/minishell/data$ << $'USER'
+> $USER
+> USER
+
+```
 
 ## Collaborations
 
