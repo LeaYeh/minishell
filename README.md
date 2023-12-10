@@ -102,9 +102,10 @@ Occur confiliction when rebase...
 #### Step 3
 
 Push the feature branch to the remote repository branch 
+PS: Because we use `rebase` to change the history, so it's necessary force push.
 
 ```
-> git push origin feat-<NAME>
+> git push origin feat-<NAME> --force
 ```
 
 #### Step 4
