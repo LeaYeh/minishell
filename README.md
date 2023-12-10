@@ -58,7 +58,13 @@ Pre-requirement: GNU M4 1.4 and bison, [check here](https://chat.openai.com/shar
 > bison -v <PARSING_RULES>.y
 ```
 
+> check our parsing rules [here](data/parsing%20rules/index.md) (ref: [online BNF generator](https://www.bottlecaps.de/rr/ui))
+
+> use online tool to check input command parsing tree with BNF [here](http://lab.antlr.org/).
+
 3. Convert parsing table to fit your data structure
+
+
 ## Expander
 
 ...
