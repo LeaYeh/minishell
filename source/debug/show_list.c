@@ -1,27 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_env_list.c                                    :+:      :+:    :+:   */
+/*   show_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 18:00:04 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/08 20:59:57 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/11 19:48:10 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parser.h"
+
+void	ft_print_env(t_env *env)
+{
+	printf("%s=%s\n", env->key, env->value);
+}
+
+void	ft_print_token(t_token *token)
+{
+	printf("(type: %s, data: %s)\n",
+		ft_get_token_type_str(token->type), token->data);
+}
+
+void	ft_show_token_list(t_shell *shell)
+{
+	printf("-------- TOKEN LIST --------\n");
+	ft_lstiter(shell->token_list, (void *)ft_print_token);
+	printf("----------------------------\n\n");
+}
 
 void	ft_show_env_list(t_shell *shell)
 {
-	t_list	*curr;
-	t_env	*env;
-
-	curr = shell->env_list;
-	while (curr)
-	{
-		env = (t_env *)curr->content;
-		ft_printf("%s=%s\n", env->key, env->value);
-		curr = curr->next;
-	}
+	printf("--------- ENV LIST ---------\n");
+	ft_lstiter(shell->env_list, (void *)ft_print_env);
+	printf("----------------------------\n\n");
 }
