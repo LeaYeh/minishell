@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/19 20:40:59 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/20 15:06:28 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+
+typedef struct s_stack
+{
+	void			*content;
+	struct s_stack	*next;
+}	t_stack;
 
 typedef struct s_list_d
 {
@@ -65,6 +71,13 @@ void		ft_lstadd_front_d(t_list_d **lst, t_list_d *new);
 void		ft_lstclear_d(t_list_d **lst, void (*del)(void *));
 t_list_d	*ft_lstlast_d(t_list_d *lst);
 t_list_d	*ft_lstnew_d(void *content);
+
+/* Stack */
+void		ft_stkclear(t_stack **stk, void (*del)(void *));
+void		ft_stkpush(t_stack **stk, t_stack *new);
+t_stack		*ft_stkpop(t_stack **stk);
+t_stack		*ft_stknew(void *content);
+int			ft_stksize(t_stack *stk);
 
 /* Memory */
 void		ft_bzero(void *s, size_t n);

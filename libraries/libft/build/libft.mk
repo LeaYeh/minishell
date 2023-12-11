@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    libft.mk                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
+#    By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2023/12/19 20:42:02 by ldulling         ###   ########.fr        #
+#    Updated: 2023/12/20 15:06:19 by lyeh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,16 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstclear_d.c \
 			ft_lstlast_d.c \
 			ft_lstnew_d.c \
+)
+
+#   Stack:
+SUBDIR	:=	stack/
+TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+			ft_stkclear.c \
+			ft_stknew.c \
+			ft_stkpop.c \
+			ft_stkpush.c \
+			ft_stksize.c \
 )
 
 #  Memory:
