@@ -6,12 +6,21 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:57:56 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/10 01:33:50 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/11 21:47:41 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+
+extern const int	g_parsing_table[][5];
+typedef struct s_ast
+{
+	int				type;
+	char			*data;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast;
 
 typedef enum e_action_type
 {
