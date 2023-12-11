@@ -1,11 +1,7 @@
 import click
 
 
-ACTION_TYPES = {
-    'accept': 0,
-    'shift': 1,
-    'reduce': 2,
-}
+ACTION_TYPES = {'accept': 0, 'shift': 1, 'reduce': 2}
 
 TOKEN_TYPES = ['WORD', 'ASSIGNMENT_WORD',
                 'RED_IN', 'RED_OUT',
@@ -81,6 +77,15 @@ def parse_parsing_table(parsing_table: str, verbose: bool = False):
     return action_table
 
 
+def action_table_to_c_array(action_table):
+    c_array = "const int\tg_parsing_table[][5] = {\\\n"
+    for state, actions in action_table.items():
+        for symbol, (action_type, next_state, num_reduced_tokens) in actions.items():
+            c_array += f"\t{{{state}, {symbol}, {action_type}, {next_state}, {num_reduced_tokens}}}, \\\n"
+    c_array += "};"
+    return c_array
+
+
 def action_table_to_md(action_table):
     md_table = "| State | Token Type | Action | Next State | Number of Reduced Tokens |\n|-------|------------|--------|------------|-------------------------|\n"
     for state, actions in action_table.items():
@@ -99,10 +104,14 @@ def main(input_file, output_file, verbose):
     click.echo(f"Verbose mode: {'Enabled' if verbose else 'Disabled'}")
 
     with open(input_file, "r") as in_file:
-        with open(output_file, "w") as out_file:
-            action_table = parse_parsing_table(in_file.read(), verbose)
-            md_table = action_table_to_md(action_table)
-            out_file.write(md_table)
+        action_table = parse_parsing_table(in_file.read(), verbose)
+        md_table = action_table_to_md(action_table)
+        if not verbose:
+            with open(f'{output_file}.c', "w") as out_file_c:
+                c_array_str = action_table_to_c_array(action_table)
+                out_file_c.write(c_array_str)
+        with open(f'{output_file}.md', "w") as out_file_md:
+            out_file_md.write(md_table)
 
 
 if __name__ == '__main__':
