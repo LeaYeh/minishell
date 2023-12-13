@@ -1,4 +1,6 @@
 import click
+import re
+import copy
 
 
 ACTION_TYPES = {'accept': 0, 'shift': 1, 'reduce': 2}
@@ -94,6 +96,53 @@ def action_table_to_md(action_table):
     return md_table
 
 
+def parse_grammar(input_string):
+    result = {}
+    lines = input_string.split("\n")
+    while True:
+        line = lines.pop(0)
+        if line.strip().startswith("Grammar"):
+            break
+    for line in lines:
+        line = line.strip()
+        if line.startswith("Terminals"):
+            break
+        if not line:
+            continue
+        key, rest = re.split(':|\|', line)
+        key = int(key.split()[0].strip())
+        values = rest.strip().split(' ')
+        result[key] = values
+    return result
+
+def get_redueced_item(input_string, grammer_table, state):
+    lines = input_string.split("\n")
+    while True:
+        line = lines.pop(0)
+        if line.strip().startswith(f"state {state}"):
+            break
+    while True:
+        line = lines.pop(0)
+        line = line.strip()
+        if line.startswith("$default") and 'reduce' in line:
+            break
+    match = re.search(r'rule (\d+)', line)
+    rule_number = int(match.group(1))
+    return grammer_table[rule_number]
+
+
+def tune_action_table(input_string, action_table, verbose=False):
+    grammer_table = parse_grammar(input_string)
+    for state, actions in action_table.items():
+        for symbol, (action_type, action_state, num_reduced_tokens) in actions.items():
+            if (action_type == 2 or action_type == "shift") and num_reduced_tokens == -1:
+                redueced_item = get_redueced_item(input_string, grammer_table, state)
+                num_reduced_tokens = redueced_item if verbose else len(redueced_item)
+                action_table[state][symbol] = (action_type, action_state, num_reduced_tokens)
+    return action_table
+
+
+
 @click.command()
 @click.argument('input_file', type=click.Path(exists=True))
 @click.argument('output_file', type=click.Path())
@@ -104,7 +153,9 @@ def main(input_file, output_file, verbose):
     click.echo(f"Verbose mode: {'Enabled' if verbose else 'Disabled'}")
 
     with open(input_file, "r") as in_file:
-        action_table = parse_parsing_table(in_file.read(), verbose)
+        input_string = in_file.read()
+        action_table = parse_parsing_table(input_string, verbose)
+        action_table = tune_action_table(input_string, action_table, verbose)
         md_table = action_table_to_md(action_table)
         if not verbose:
             with open(f'{output_file}.c', "w") as out_file_c:
