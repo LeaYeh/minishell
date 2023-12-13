@@ -135,7 +135,7 @@ def tune_action_table(input_string, action_table, verbose=False):
     grammer_table = parse_grammar(input_string)
     for state, actions in action_table.items():
         for symbol, (action_type, action_state, num_reduced_tokens) in actions.items():
-            if (action_type == 2 or action_type == "shift") and num_reduced_tokens == -1:
+            if (action_type == 2 or action_type == "reduce") and num_reduced_tokens == -1:
                 redueced_item = get_redueced_item(input_string, grammer_table, state)
                 num_reduced_tokens = redueced_item if verbose else len(redueced_item)
                 action_table[state][symbol] = (action_type, action_state, num_reduced_tokens)
