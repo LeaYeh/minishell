@@ -16,25 +16,21 @@
 %token  L_BRACKET    R_BRACKET
 /*          '('         ')'   */
 
-%start pipe_sequence
+%start and_or
 %%
 
-pipe_sequence	: command 
-				| pipe_sequence PIPE command
-				;
 and_or          :            pipe_sequence
                 | and_or AND pipe_sequence
                 | and_or OR  pipe_sequence
                 ;
-subshell        : L_BRACKET pipe_sequence R_BRACKET
-                | L_BRACKET and_or R_BRACKET
-                ;
+pipe_sequence	:                    command 
+				| pipe_sequence PIPE command
+				;
 command         : simple_command
                 | subshell
                 | subshell redirect_list
                 ;
-redirect_list   :               io_redirect
-                | redirect_list io_redirect
+subshell        : L_BRACKET and_or R_BRACKET
                 ;
 simple_command	: cmd_prefix cmd_word cmd_suffix
 				| cmd_prefix cmd_word
@@ -56,6 +52,9 @@ cmd_suffix		:            io_redirect
 				|            WORD
 				| cmd_suffix WORD
 				;
+redirect_list   :               io_redirect
+                | redirect_list io_redirect
+                ;
 io_redirect		: io_file
 				| io_here
 				;
