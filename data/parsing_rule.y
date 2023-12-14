@@ -26,7 +26,8 @@ and_or          :            pipe_sequence
                 | and_or AND pipe_sequence
                 | and_or OR  pipe_sequence
                 ;
-subshell        : L_BRACKET and_or R_BRACKET
+subshell        : L_BRACKET pipe_sequence R_BRACKET
+                | L_BRACKET and_or R_BRACKET
                 ;
 command         : simple_command
                 | subshell
