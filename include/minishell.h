@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:43:22 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/08 21:50:24 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/14 22:28:06 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_cmd_table
 
 typedef struct s_shell
 {
+	int				exit_code;
 	t_list			*env_list;
 	t_list			*token_list;
 	t_list			*final_cmd_table;
@@ -64,5 +65,7 @@ typedef struct s_shell
 }	t_shell;
 
 bool	ft_init_shell(t_shell *shell, char **env);
+
+void	ft_exec_env(t_shell *shell, char **args);
 
 #endif
