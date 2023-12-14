@@ -72,6 +72,8 @@ def parse_parsing_table(parsing_table: str, verbose: bool = False):
         elif line.strip() and current_state is not None:
             parts = line.split()
             token_type = map_string_to_int(parts[0], TOKEN_TYPES, verbose)
+            if token_type == -1:
+                token_type = map_string_to_int(parts[0], RULE_NAMES, verbose)
             action = parse_action(" ".join(parts[1:]), verbose)
             if (isinstance(token_type, str) and token_type != 'None') or \
                 (isinstance(token_type, int) and token_type > -1):
