@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 15:06:28 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/20 15:07:12 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void		ft_stkpush(t_stack **stk, t_stack *new);
 t_stack		*ft_stkpop(t_stack **stk);
 t_stack		*ft_stknew(void *content);
 int			ft_stksize(t_stack *stk);
+t_stack		*ft_stkpeektop(t_stack *stk);
 
 /* Memory */
 void		ft_bzero(void *s, size_t n);
