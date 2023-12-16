@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:57:56 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/11 21:47:41 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/16 17:02:09 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,25 @@ typedef struct s_ast
 
 typedef enum e_action_type
 {
-	A_REJECT = -1,
+	A_REJECT = -2,
 	A_ACCEPT = 0,
 	A_SHIFT,
-	A_REDUCE
+	A_REDUCE,
+	A_GOTO
 }	t_action_type;
 
 typedef enum e_rules
 {
-	R_PIPE_SEQ = 100,
-	R_AND_OR,
-	R_SUBSHELL,
+	R_AND_OR = 100,
+	R_PIPE_SEQ,
 	R_CMD,
-	R_RED_LIST,
+	R_SUBSHELL,
 	R_SIMPLE_CMD,
 	R_CMD_NAME,
 	R_CMD_WORD,
 	R_CMD_PREFIX,
 	R_CMD_SUFFIX,
+	R_RED_LIST,
 	R_IO_RED,
 	R_IO_FILE,
 	R_FILENAME,
@@ -56,9 +57,9 @@ typedef enum e_token_type
 	T_ASSIGNMENT_WORD,
 	T_RED_IN,
 	T_RED_OUT,
-	T_HEREDOC,
-	T_APPEND,
 	T_PIPE,
+	T_HERE_DOC,
+	T_APPEND,
 	T_OR,
 	T_AND,
 	T_L_BRACKET,
