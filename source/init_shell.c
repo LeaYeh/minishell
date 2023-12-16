@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/16 15:28:56 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/16 15:57:46 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "clean.h"
 
 bool	ft_append_env(t_shell *shell, char *key, char *value)
 {
@@ -55,7 +56,7 @@ bool	ft_setup_env(t_shell *shell, char **env)
 			continue ;
 		}
 		if (!ft_append_env(shell, key, value))
-			return (ft_lstclear(&shell->env_list, free),
+			return (ft_lstclear(&shell->env_list, free_env_node),
 				free(key), free(value), false);
 	}
 	return (true);
@@ -63,6 +64,7 @@ bool	ft_setup_env(t_shell *shell, char **env)
 
 bool	ft_init_shell(t_shell *shell, char **env)
 {
+	shell->exit_code = EXIT_SUCCESS;
 	shell->env_list = NULL;
 	shell->token_list = NULL;
 	shell->ast = NULL;

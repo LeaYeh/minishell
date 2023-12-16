@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/08 20:39:45 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/16 15:46:45 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	main(int argc, char **argv, char **env)
 	((void)argc, (void)argv);
 	if (!ft_init_shell(&shell, env))
 		return (EXIT_FAILED);
-	ft_show_env_list(&shell);
 	// init signal handler
 	// return correct exit code
 	while (true)
