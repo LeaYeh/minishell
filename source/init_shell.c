@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/16 15:57:46 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/16 17:35:45 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,20 @@ bool	ft_setup_default_env(t_shell *shell)
 	return (true);
 }
 
+bool	extract_string(char **res, char *str, char *delim)
+{
+	char	*tmp;
+
+	tmp = ft_strtok(str, delim);
+	if (tmp)
+		*res = ft_strdup(tmp);
+	else
+		*res = ft_strdup("");
+	if (!*res)
+		return (false);
+	return (true);
+}
+
 bool	ft_setup_env(t_shell *shell, char **env)
 {
 	int		i;
@@ -43,22 +57,21 @@ bool	ft_setup_env(t_shell *shell, char **env)
 	char	*value;
 
 	shell->env_list = NULL;
+	key = NULL;
+	value = NULL;
 	i = -1;
 	while (env[++i])
 	{
-		key = ft_strdup(ft_strtok(env[i], "="));
-		if (!key)
-			continue ;
-		value = ft_strdup(ft_strtok(NULL, "\n\0"));
-		if (!value)
-		{
-			free(key);
-			continue ;
-		}
+		if (!extract_string(&key, env[i], "="))
+			break ;
+		if (!extract_string(&value, NULL, "\n\0"))
+			break ;
 		if (!ft_append_env(shell, key, value))
-			return (ft_lstclear(&shell->env_list, free_env_node),
-				free(key), free(value), false);
+			break ;
 	}
+	if (env[i])
+		return (ft_lstclear(&shell->env_list, free_env_node),
+			free(key), free(value), false);
 	return (true);
 }
 
