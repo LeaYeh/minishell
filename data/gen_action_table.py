@@ -3,28 +3,30 @@ import re
 import copy
 
 
-ACTION_TYPES = {'accept': 0, 'shift': 1, 'reduce': 2}
+ACTION_TYPES = {'accept': 0, 'shift': 1, 'reduce': 2, 'goto': 3}
 
 TOKEN_TYPES = ['WORD', 'ASSIGNMENT_WORD',
-                'RED_IN', 'RED_OUT',
+                'RED_IN', 'RED_OUT', 'PIPE',
                 'HERE_DOC', 'APPEND',
-                'PIPE', 'OR', 'AND',
-                'L_BRACKET', 'R_BRACKET', '$end']
+                'OR', 'AND',
+                'L_BRACKET', 'R_BRACKET']
 
 TOKEN_TYPES = {key: i for i, key in enumerate(TOKEN_TYPES)}
-import click
-RULE_NAMES = ['pipe_sequence', 'and_or', 'subshell',
-              'command', 'redirect_list', 'simple_command',
+TOKEN_TYPES['T_END'] = -2
+
+RULE_NAMES = ['and_or', 'pipe_sequence', 'command',
+              'subshell', 'simple_command',
               'cmd_name', 'cmd_word', 'cmd_prefix', 'cmd_suffix',
-              'io_redirect', 'io_file', 'filename', 'io_here', 'here_end']
+              'redirect_list', 'io_redirect', 'io_file',
+              'filename', 'io_here', 'here_end']
 RULE_NAMES = {key: i for i, key in enumerate(RULE_NAMES, 100)}
 
 
 # Function to map a string to an int, with an optional verbose mode
-def map_string_to_int(s, mapping, verbose=False):
+def map_string_to_int(string, mapping, verbose=False):
     if verbose:
-        return s
-    return mapping.get(s, 'None' if verbose else -1)
+        return string
+    return mapping.get(string, 'None' if verbose else -1)
 
 
 def parse_state(state_str: str) -> int:
@@ -51,7 +53,10 @@ def get_next_state(action: str, verbose: bool = False) -> int:
 
 def parse_action(action, verbose: bool = False):
     action_term = action.split(", and go to state ")
-    action_type = map_string_to_int(action_term[0].strip() if action_term else action.split()[0].strip(), ACTION_TYPES, verbose)
+    action_term[0] = action_term[0].strip()
+    if action_term[0].startswith("go to"):
+        action_term[0] = 'goto'
+    action_type = map_string_to_int(action_term[0] if action_term else action.split()[0].strip(), ACTION_TYPES, verbose)
     next_state = get_next_state(action, verbose)
     return (action_type, next_state, -1)
 
