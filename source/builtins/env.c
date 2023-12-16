@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:07:52 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/16 16:10:28 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/16 17:41:52 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void	ft_exec_env(t_shell *shell, char **args)
 		shell->exit_code = EXIT_FAILED;
 		ft_clean_shell(shell);
 	}
-	free_str_array(args);
+	else
+		free_str_array(args);
 }
