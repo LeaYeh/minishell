@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/08 20:55:04 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/16 15:28:56 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool	ft_setup_env(t_shell *shell, char **env)
 		key = ft_strdup(ft_strtok(env[i], "="));
 		if (!key)
 			continue ;
-		value = ft_strdup(ft_strtok(env[i], "="));
+		value = ft_strdup(ft_strtok(NULL, "\n\0"));
 		if (!value)
 		{
 			free(key);
