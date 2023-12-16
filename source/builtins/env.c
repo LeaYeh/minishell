@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:07:52 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/14 22:30:11 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/16 15:39:22 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ bool	check_env_args(char **args)
 		i++;
 	if (i > 1)
 	{
-		ft_putstr_fd("env: ", 2);
+		ft_putstr_fd("env: '", 2);
 		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_putstr_fd("': No such file or directory\n", 2);
 		return (false);
 	}
 	return (true);

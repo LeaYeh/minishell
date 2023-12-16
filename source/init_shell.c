@@ -6,11 +6,12 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/16 15:56:25 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/16 15:57:46 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "clean.h"
 
 bool	ft_append_env(t_shell *shell, char *key, char *value)
 {
@@ -55,7 +56,7 @@ bool	ft_setup_env(t_shell *shell, char **env)
 			continue ;
 		}
 		if (!ft_append_env(shell, key, value))
-			return (ft_lstclear(&shell->env_list, free),
+			return (ft_lstclear(&shell->env_list, free_env_node),
 				free(key), free(value), false);
 	}
 	return (true);
