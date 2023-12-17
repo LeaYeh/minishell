@@ -6,14 +6,14 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 16:27:22 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/16 17:20:53 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/17 13:57:37 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
 // | State | Token Type | Action | Next State | Number of Reduced Tokens |
-const int	g_parsing_table[][5] = {\
+const int	g_parsing_table[][PT_COL_SIZE] = {\
 	{0, 0, 1, 1, -1}, \
 	{0, 1, 1, 2, -1}, \
 	{0, 2, 1, 3, -1}, \
@@ -205,4 +205,58 @@ const int	g_parsing_table[][5] = {\
 	{45, 110, 3, 44, -1}, \
 	{45, 111, 3, 16, -1}, \
 	{45, 113, 3, 17, -1}, \
+	{}
 };
+
+
+t_pt_node	*init_pt_node(const int pt_row[])
+{
+	t_pt_node	*pt_node;
+
+	pt_node = malloc(sizeof(t_pt_node));
+	if (!pt_node)
+		return (NULL);
+	pt_node->state = pt_row[PT_COL_STATE];
+	pt_node->token_type = pt_row[PT_COL_TOKEN_TYPE];
+	pt_node->action = pt_row[PT_COL_ACTION];
+	pt_node->next_state = pt_row[PT_COL_NEXT_STATE];
+	pt_node->num_reduced = pt_row[PT_COL_NUM_REDUCED];
+	return (pt_node);
+}
+
+// | State | Token Type | Action | Next State | Number of Reduced Tokens |
+t_pt_node	*get_pt_entry(
+	const int parsing_table[][5], int state, int token_type)
+{
+	int			i;
+	t_pt_node	*pt_entry;
+
+	i = 0;
+	while (parsing_table[i])
+	{
+		if (parsing_table[i][PT_COL_STATE] == state && \
+			parsing_table[i][PT_COL_TOKEN_TYPE] == token_type)
+			break ;
+	}
+	if (!parsing_table[i])
+		return (NULL);
+	pt_entry = init_pt_node(parsing_table[i]);
+	return (pt_entry);
+}
+
+t_pt_node	*find_pt_entry(int state, int token_type)
+{
+	return (get_pt_entry(g_parsing_table, state, token_type));
+}
+
+bool	update_pt_entry(t_pt_node **pt_entry, int state, int token_type)
+{
+	t_pt_node	*new_pt_entry;
+
+	new_pt_entry = find_pt_entry(state, token_type);
+	if (!new_pt_entry)
+		return (false);
+	free(*pt_entry);
+	*pt_entry = new_pt_entry;
+	return (true);
+}
