@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:27:12 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/04 13:23:14 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/17 13:37:42 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ int	print_ptr(size_t ptr, t_format *f)
 	len_ptr = ptrlen(ptr);
 	len_full = fullptrlen(len_ptr, f);
 	if (!f->minus && f->width > len_full && !(f->zero && f->precision < 0))
-		printed += ft_putnchar_fd(' ', f->width - len_full, FD);
+		printed += ft_putnchar_fd(' ', f->width - len_full, f->fd);
 	if (f->plus)
-		printed += ft_putnchar_fd('+', 1, FD);
+		printed += ft_putnchar_fd('+', 1, f->fd);
 	else if (f->space)
-		printed += ft_putnchar_fd(' ', 1, FD);
-	printed += ft_putnstr_fd("0x", 2, FD);
+		printed += ft_putnchar_fd(' ', 1, f->fd);
+	printed += ft_putnstr_fd("0x", 2, f->fd);
 	if (f->precision > len_ptr)
-		printed += ft_putnchar_fd('0', f->precision - len_ptr, FD);
+		printed += ft_putnchar_fd('0', f->precision - len_ptr, f->fd);
 	else if (f->zero && !f->minus && f->precision < 0 && f->width > len_full)
-		printed += ft_putnchar_fd('0', f->width - len_full, FD);
+		printed += ft_putnchar_fd('0', f->width - len_full, f->fd);
 	printed += puthex(ptr);
 	if (f->minus && f->width > len_full)
-		printed += ft_putnchar_fd(' ', f->width - len_full, FD);
+		printed += ft_putnchar_fd(' ', f->width - len_full, f->fd);
 	return (printed);
 }
 
@@ -53,10 +53,10 @@ static int	print_nullptr(t_format *f)
 	len = ft_strlen(NULL_PRINTOUT_PTR);
 	printed = 0;
 	if (!f->minus && f->width > len)
-		printed += ft_putnchar_fd(' ', f->width - len, FD);
-	printed += ft_putnstr_fd(NULL_PRINTOUT_PTR, len, FD);
+		printed += ft_putnchar_fd(' ', f->width - len, f->fd);
+	printed += ft_putnstr_fd(NULL_PRINTOUT_PTR, len, f->fd);
 	if (f->minus && f->width > len)
-		printed += ft_putnchar_fd(' ', f->width - len, FD);
+		printed += ft_putnchar_fd(' ', f->width - len, f->fd);
 	return (printed);
 }
 
@@ -95,8 +95,8 @@ static int	puthex(size_t ptr)
 		printed += puthex(ptr / 16);
 	ptr %= 16;
 	if (ptr >= 10)
-		printed += ft_putnchar_fd(ptr - 10 + 'a', 1, FD);
+		printed += ft_putnchar_fd(ptr - 10 + 'a', 1, f->fd);
 	else
-		printed += ft_putnchar_fd(ptr + '0', 1, FD);
+		printed += ft_putnchar_fd(ptr + '0', 1, f->fd);
 	return (printed);
 }

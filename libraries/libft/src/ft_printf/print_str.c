@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:27:17 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/02 20:16:30 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/17 13:37:42 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static int	print(const char *str, int len, t_format *f)
 
 	printed = 0;
 	if (!f->minus && f->width > len)
-		printed += ft_putnchar_fd(' ', f->width - len, FD);
-	printed += ft_putnstr_fd((char *) str, len, FD);
+		printed += ft_putnchar_fd(' ', f->width - len, f->fd);
+	printed += ft_putnstr_fd((char *) str, len, f->fd);
 	if (f->minus && f->width > len)
-		printed += ft_putnchar_fd(' ', f->width - len, FD);
+		printed += ft_putnchar_fd(' ', f->width - len, f->fd);
 	return (printed);
 }
