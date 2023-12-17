@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 08:31:35 by codespace         #+#    #+#             */
-/*   Updated: 2023/12/17 19:56:26 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/17 20:23:01 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ bool	split_node(t_list *lst_node1, size_t i)
 	if (!data_split)
 		return (false);
 	ft_free_and_null((void **) data_ptr);
-	token_node = init_token_node(NULL, data_split[0]);
+	token_node = init_token_node(-1, data_split[0]);
 	if (!token_node)
 		return (free(data_split[0]), free(data_split[1]),
 			free(data_split), false);
@@ -187,7 +187,7 @@ bool	create_token_list(t_shell *shell, char *input_line)
 	lst_node = NULL;
 	while (true)
 	{
-		token_node = init_token_node(NULL, NULL);
+		token_node = init_token_node(-1, NULL);
 		if (!token_node)
 			return (false);
 		if (!get_data(input_line, &i, token_node))
