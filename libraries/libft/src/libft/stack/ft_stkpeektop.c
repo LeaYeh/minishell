@@ -6,13 +6,13 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 20:29:13 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/13 20:32:02 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/17 13:58:59 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-const t_stack	*ft_stkpeektop(t_stack *stk)
+t_stack	*ft_stkpeektop(t_stack *stk)
 {
 	if (stk == NULL)
 		return (NULL);
