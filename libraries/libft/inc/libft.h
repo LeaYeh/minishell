@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/16 23:53:50 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/17 14:25:15 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void		ft_putstr_fd(char *s, int fd);
 /* Strings */
 char		*ft_itoa(int n);
 char		**ft_split(char const *s, char c);
+char		**ft_split_at_index(char *str, size_t index);
 char		*ft_strchr(const char *s, int c);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strdup(const char *s);
