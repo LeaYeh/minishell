@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 15:43:22 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/16 22:06:20 by lyeh             ###   ########.fr       */
+/*   Created: 2023/12/16 22:01:28 by lyeh              #+#    #+#             */
+/*   Updated: 2023/12/17 13:47:49 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "defines.h"
+#include "defines.h"
 
-bool	ft_init_shell(t_shell *shell, char **env);
-bool	mock_lexer(t_shell *shell);
+t_token	*init_token_node(int type, char *data)
+{
+	t_token	*token_node;
 
-char	*ft_get_token_type_str(int type);
+	token_node = (t_token *) malloc(sizeof(t_token));
+	if (!token_node)
+		return (NULL);
+	token_node->type = type;
+	token_node->data = data;
+	return (token_node);
+}
 
-void	ft_exec_env(t_shell *shell, char **args);
+void	free_token_node(void *content)
+{
+	t_token	*token;
 
-#endif
+	token = (t_token *)content;
+	if (token->data)
+		free(token->data);
+	free(token);
+}
