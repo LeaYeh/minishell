@@ -6,18 +6,18 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:04:12 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/16 23:49:45 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/17 09:26:58 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * The ft_lstinsert_after function inserts a new node after a given node in a
- * singly linked list.
+ * The ft_lstinsert_after function inserts a new node or even a full linked list
+ * after a given node into a singly linked list.
  *
- * @param lst   A double pointer to the node after which the new node should be
+ * @param lst   A double pointer to the node after which the new list should be
  *              inserted.
  *              If *lst is NULL, the new node is set as the first node.
- * @param new   The new node to be inserted into the list.
+ * @param new   The new node or list to be inserted into the list.
  */
 
 #include "libft.h"
