@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:27:12 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/17 13:37:42 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/17 18:08:57 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	print_nullptr(t_format *f);
 static int	ptrlen(size_t ptr);
 static int	fullptrlen(int len_ptr, t_format *f);
-static int	puthex(size_t ptr);
+static int	puthex(size_t ptr, t_format *f);
 
 int	print_ptr(size_t ptr, t_format *f)
 {
@@ -39,7 +39,7 @@ int	print_ptr(size_t ptr, t_format *f)
 		printed += ft_putnchar_fd('0', f->precision - len_ptr, f->fd);
 	else if (f->zero && !f->minus && f->precision < 0 && f->width > len_full)
 		printed += ft_putnchar_fd('0', f->width - len_full, f->fd);
-	printed += puthex(ptr);
+	printed += puthex(ptr, f);
 	if (f->minus && f->width > len_full)
 		printed += ft_putnchar_fd(' ', f->width - len_full, f->fd);
 	return (printed);
@@ -86,13 +86,13 @@ static int	fullptrlen(int len_ptr, t_format *f)
 	return (len_full);
 }
 
-static int	puthex(size_t ptr)
+static int	puthex(size_t ptr, t_format *f)
 {
 	int	printed;
 
 	printed = 0;
 	if (ptr >= 16)
-		printed += puthex(ptr / 16);
+		printed += puthex(ptr / 16, f);
 	ptr %= 16;
 	if (ptr >= 10)
 		printed += ft_putnchar_fd(ptr - 10 + 'a', 1, f->fd);
