@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_dprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:03 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/17 13:42:46 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/17 13:44:10 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *format, ...)
+int	ft_dprintf(int fd, const char *format, ...)
 {
 	int			i;
 	int			printed;
@@ -20,9 +20,9 @@ int	ft_printf(const char *format, ...)
 	t_format	f;
 	va_list		ap;
 
-	if (format == NULL)
+	if (format == NULL || fd < 0)
 		return (-1);
-	f.fd = STDOUT_FILENO;
+	f.fd = fd;
 	va_start(ap, format);
 	f.unresolved = 0;
 	printed = 0;

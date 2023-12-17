@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:08 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/02 20:16:30 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/17 13:45:49 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,7 @@
 # define FT_PRINTF_H
 
 # include "libft.h"
-# include <stdarg.h>
-# include <unistd.h>
 
-# ifndef FD
-#  define FD 1
-# endif
 # define SPECIFIERS "cspdiuxX%"
 # define FLAGS "#+- 0"
 # define NULL_PRINTOUT_PTR "(nil)"
@@ -39,14 +34,19 @@ typedef struct s_format
 	int		precision;
 	char	specifier;
 	int		unresolved;
+	int		fd;
 }	t_format;
 
 int		ft_printf(const char *format, ...);
+int		ft_dprintf(int fd, const char *format, ...);
+int		parseandprint(const char *format, int *i, t_format *f, va_list *ap);
+int		print_argument(t_format *f, va_list *ap);
 int		print_char(unsigned char c, t_format *f);
 int		print_nbr(long nbr, t_format *f);
 int		print_parsed(const char *format, int parsed, t_format *f);
 int		print_ptr(size_t ptr, t_format *f);
 int		print_str(const char *str, t_format *f);
+void	reset_format(t_format *f);
 int		set_format(const char *format, int *i, t_format *f, va_list *ap);
 
 #endif

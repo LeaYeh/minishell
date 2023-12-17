@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:55 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/02 20:16:30 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/17 13:37:42 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ int	print_nbr(long nbr, t_format *f)
 	if (padding == '0' && f->specifier != 'u')
 		printed += print_prefix(nbr, f);
 	if (!f->minus && f->width > len_full)
-		printed += ft_putnchar_fd(padding, f->width - len_full, FD);
+		printed += ft_putnchar_fd(padding, f->width - len_full, f->fd);
 	if (padding == ' ' && f->specifier != 'u'
 		&& !(nbr == 0 && f->precision == 0))
 		printed += print_prefix(nbr, f);
 	if (f->precision > len_nbr)
-		printed += ft_putnchar_fd('0', f->precision - len_nbr, FD);
+		printed += ft_putnchar_fd('0', f->precision - len_nbr, f->fd);
 	if (!(nbr == 0 && f->precision == 0))
 		printed += print_nbr_in_correct_base(nbr, f);
 	if (f->minus && f->width > len_full)
-		printed += ft_putnchar_fd(' ', f->width - len_full, FD);
+		printed += ft_putnchar_fd(' ', f->width - len_full, f->fd);
 	return (printed);
 }
 
@@ -96,19 +96,19 @@ static int	print_prefix(long nbr, t_format *f)
 		if (f->hash && nbr != 0)
 		{
 			if (f->specifier == 'x')
-				printed += ft_putnstr_fd("0x", 2, FD);
+				printed += ft_putnstr_fd("0x", 2, f->fd);
 			else if (f->specifier == 'X')
-				printed += ft_putnstr_fd("0X", 2, FD);
+				printed += ft_putnstr_fd("0X", 2, f->fd);
 		}
 	}
 	else
 	{
 		if (nbr < 0)
-			printed += ft_putnchar_fd('-', 1, FD);
+			printed += ft_putnchar_fd('-', 1, f->fd);
 		else if (f->plus)
-			printed += ft_putnchar_fd('+', 1, FD);
+			printed += ft_putnchar_fd('+', 1, f->fd);
 		else if (f->space)
-			printed += ft_putnchar_fd(' ', 1, FD);
+			printed += ft_putnchar_fd(' ', 1, f->fd);
 	}
 	return (printed);
 }
@@ -119,12 +119,12 @@ static int	print_nbr_in_correct_base(long nbr, t_format *f)
 
 	printed = 0;
 	if (f->specifier == 'x')
-		printed += ft_putnbr_base_fd(nbr, "0123456789abcdef", FD);
+		printed += ft_putnbr_base_fd(nbr, "0123456789abcdef", f->fd);
 	else if (f->specifier == 'X')
-		printed += ft_putnbr_base_fd(nbr, "0123456789ABCDEF", FD);
+		printed += ft_putnbr_base_fd(nbr, "0123456789ABCDEF", f->fd);
 	else if (nbr < 0)
-		printed += ft_putnbr_base_fd(nbr * -1, "0123456789", FD);
+		printed += ft_putnbr_base_fd(nbr * -1, "0123456789", f->fd);
 	else
-		printed += ft_putnbr_base_fd(nbr, "0123456789", FD);
+		printed += ft_putnbr_base_fd(nbr, "0123456789", f->fd);
 	return (printed);
 }
