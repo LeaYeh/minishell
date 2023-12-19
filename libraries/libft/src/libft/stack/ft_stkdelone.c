@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stkclear.c                                      :+:      :+:    :+:   */
+/*   ft_stkdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/11 21:03:00 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/17 19:19:18 by lyeh             ###   ########.fr       */
+/*   Created: 2023/12/17 19:41:12 by lyeh              #+#    #+#             */
+/*   Updated: 2023/12/17 22:13:23 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_stkclear(t_stack **stk, void (*del)(void *))
+void	ft_stkdelone(t_stack *stk, void (*del)(void *))
 {
-	t_stack	*cur;
-
-	while (*stk != NULL)
+	if (stk != NULL)
 	{
-		cur = *stk;
-		*stk = (*stk)->next;
-		if (*del)
-			(*del)(cur->content);
-		free(cur);
+		if (del != NULL && stk->content != NULL)
+			(*del)(stk->content);
+		free(stk);
 	}
 	return ;
 }

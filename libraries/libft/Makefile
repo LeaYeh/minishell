@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
+#    By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/25 12:48:32 by ldulling          #+#    #+#              #
-#    Updated: 2023/12/02 20:14:14 by ldulling         ###   ########.fr        #
+#    Updated: 2023/12/17 21:17:08 by lyeh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SOURCELISTS		:=	libft.mk \
 
 # Flags:
 CC				:=	cc
-CFLAGS			?=	-Wall -Wextra -Werror $(addprefix -I,$I)
+CFLAGS			?=	-Wall -Wextra -Werror $(addprefix -I,$I) -g
 DEBUGFLAGS		:=	-g
 ARFLAGS			:=	rcs
 

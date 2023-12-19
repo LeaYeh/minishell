@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 15:07:12 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/20 15:08:43 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_list_d	*ft_lstlast_d(t_list_d *lst);
 t_list_d	*ft_lstnew_d(void *content);
 
 /* Stack */
+void		ft_stkdelone(t_stack *stk, void (*del)(void *));
 void		ft_stkclear(t_stack **stk, void (*del)(void *));
 void		ft_stkpush(t_stack **stk, t_stack *new);
 t_stack		*ft_stkpop(t_stack **stk);

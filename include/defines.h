@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 14:09:31 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/20 15:08:15 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define EXIT_FAILED	    -1
 
 # define PT_COL_SIZE        5
+# define PT_ROW_SIZE        191
+# define UNDEFINED_TYPE     -99
 
 // # define RED				"\033[0;31m"
 // # define GREEN				"\033[0;32m"
@@ -60,11 +62,11 @@ typedef enum e_pt_col
 
 typedef enum e_action_type
 {
-	A_REJECT = -2,
-	A_ACCEPT = 0,
-	A_SHIFT,
-	A_REDUCE,
-	A_GOTO
+	A_REJECT	= -2,
+	A_ACCEPT	= 0,
+	A_SHIFT		= 0b001,
+	A_REDUCE	= 0b010,
+	A_GOTO		= 0b100
 }	t_action_type;
 
 typedef enum e_rules

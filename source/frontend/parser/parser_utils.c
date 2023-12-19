@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stkclear.c                                      :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/11 21:03:00 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/17 19:19:18 by lyeh             ###   ########.fr       */
+/*   Created: 2023/12/16 22:05:05 by lyeh              #+#    #+#             */
+/*   Updated: 2023/12/17 21:37:01 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "parser.h"
+#include "utils.h"
 
-void	ft_stkclear(t_stack **stk, void (*del)(void *))
+bool	init_parse(t_list *token_list, t_list **input_buffer,
+	t_stack **state_stack, t_stack **parse_stack)
 {
-	t_stack	*cur;
+	*input_buffer = token_list;
+	*parse_stack = NULL;
+	if (!push_state(state_stack, 0))
+		return (false);
+	return (true);
+}
 
-	while (*stk != NULL)
-	{
-		cur = *stk;
-		*stk = (*stk)->next;
-		if (*del)
-			(*del)(cur->content);
-		free(cur);
-	}
-	return ;
+void	free_parse(t_stack **state_stack, t_stack **parse_stack)
+{
+	ft_stkclear(state_stack, free);
+	ft_stkclear(parse_stack, NULL);
 }

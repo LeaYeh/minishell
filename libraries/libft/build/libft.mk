@@ -6,7 +6,7 @@
 #    By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2023/12/20 15:06:19 by lyeh             ###   ########.fr        #
+#    Updated: 2023/12/20 15:08:28 by lyeh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,6 +79,8 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_stkpop.c \
 			ft_stkpush.c \
 			ft_stksize.c \
+			ft_stkpeektop.c \
+			ft_stkdelone.c \
 )
 
 #  Memory:

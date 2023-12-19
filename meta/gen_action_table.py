@@ -3,7 +3,7 @@ import re
 import copy
 
 
-ACTION_TYPES = {'accept': 0, 'shift': 1, 'reduce': 2, 'goto': 3}
+ACTION_TYPES = {'accept': 0, 'shift': 0b001, 'reduce': 0b010, 'goto': 0b100}
 
 TOKEN_TYPES = ['WORD', 'ASSIGNMENT_WORD',
                 'RED_IN', 'RED_OUT', 'PIPE',
@@ -50,7 +50,7 @@ def get_next_state(action: str, verbose: bool = False) -> int:
     else:
         return 'None' if verbose else -1
 
-
+# TODO: !!miss $end token!!
 def parse_action(action, verbose: bool = False):
     action_term = action.split(", and go to state ")
     action_term[0] = action_term[0].strip()
