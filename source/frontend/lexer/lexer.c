@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 08:31:35 by codespace         #+#    #+#             */
-/*   Updated: 2023/12/17 20:23:01 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:03:11 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 NOTES:
 - END token at the end
 - echo>out should be split into 3 tokens
+- Assignment word!
+	- =abc -> WORD
+	- abc=abc -> ASSIGNMENT_WORD
+	- a"b"c=456 -> WORD (unspecified)
 */
 
 /* < > << >> | || && ( ) */
@@ -48,75 +52,88 @@ int	which_pipe(char *data)
 		return (T_PIPE);
 }
 
-void	get_type(t_token *token_node)
+void	get_type(t_list *lst_node)
 {
 	char	*data;
+	t_token	*token;
 
-	data = token_node->data;
-	if (*data == '<')
-		token_node->type = which_lesser(data);
-	else if (*data == '>')
-		token_node->type = which_greater(data);
-	else if (*data == '|')
-		token_node->type = which_pipe(data);
-	else if (ft_strcmp("&&", data) == 0)
-		token_node->type = T_AND;
-	else if (*data == '(')
-		token_node->type = T_L_BRACKET;
-	else if (*data == ')')
-		token_node->type = T_R_BRACKET;
-	else if (*data == '\0')
-		token_node->type = T_END;
-	else
-		token_node->type = T_WORD;
+	while (lst_node)
+	{
+		token = (t_token *) lst_node->content;
+		data = token->data;
+		if (!data || *data == '\0')
+			token->type = T_END;
+		else if (*data == '<')
+			token->type = which_lesser(data);
+		else if (*data == '>')
+			token->type = which_greater(data);
+		else if (*data == '|')
+			token->type = which_pipe(data);
+		else if (ft_strcmp("&&", data) == 0)
+			token->type = T_AND;
+		else if (*data == '(')
+			token->type = T_L_BRACKET;
+		else if (*data == ')')
+			token->type = T_R_BRACKET;
+		else
+			token->type = T_WORD;
+		lst_node = lst_node->next;
+	}
 }
 
-void	skip_until_same_quote(char *data, size_t *i)
+void	skip_past_same_quote(char *str, size_t *i)
 {
-	char	open_quote;
+	char	*open_quote;
 
-	open_quote = data[*i];
-	while (data[*i] && data[*i] != open_quote)
-		(*i)++;
+	open_quote = ft_strchr(QUOTES, str[*i]);
+	if (open_quote)
+	{
+		while (str[*i])
+		{
+			(*i)++;
+			if (str[*i] == *open_quote)
+			{
+				(*i)++;
+				break ;
+			}
+		}
+	}
 }
 
 bool	split_node(t_list *lst_node1, size_t i)
 {
-	char	**data_ptr;
+	char	**data_node1;
 	char	**data_split;
 	t_list	*lst_node2;
-	t_token	*token_node;
+	t_token	*token;
 
-	data_ptr = &((t_token *) lst_node1->content)->data;
-	data_split = ft_split_at_index(*data_ptr, i);
+	data_node1 = &((t_token *) lst_node1->content)->data;
+	data_split = ft_split_at_index(*data_node1, i);
 	if (!data_split)
 		return (false);
-	ft_free_and_null((void **) data_ptr);
-	token_node = init_token_node(-1, data_split[0]);
-	if (!token_node)
-		return (free(data_split[0]), free(data_split[1]),
-			free(data_split), false);
-	lst_node2 = ft_lstnew(token_node);
+	free(*data_node1);
+	*data_node1 = data_split[0];
+	token = init_token_node(-1, data_split[1]);
+	if (!token)
+		return (free(data_split[1]), free(data_split), false);
+	lst_node2 = ft_lstnew(token);
 	if (!lst_node2)
-		return (free(data_split[0]), free(data_split[1]),
-			free(data_split), free(token_node), false);
+		return (free_token_node(token), free(data_split), (false));
 	ft_lstinsert_after(&lst_node1, lst_node2);
 	free(data_split);
 	return (true);
 }
 
-bool	split_token(t_list *lst_node, size_t i)
+bool	separate_operator(t_list *lst_node, size_t i)
 {
-	t_list	*cur;
 	char	*data;
 
 	data = ((t_token *) lst_node->content)->data;
-	cur = lst_node;
 	if (i != 0)
 	{
-		if (!split_node(cur, i))
+		if (!split_node(lst_node, i))
 			return (false);
-		cur = cur->next;
+		lst_node = lst_node->next;
 	}
 	if (data[i] == '<' || data[i] == '>' || data[i] == '|' || data[i] == '&')
 	{
@@ -124,53 +141,55 @@ bool	split_token(t_list *lst_node, size_t i)
 		if (data[i] == data[i - 1])
 			i++;
 	}
-	if (data[i])
-		if (!split_node(cur, i))
+	else if (data[i] == '(' || data[i] == ')')
+		i++;
+	if (!split_node(lst_node, i))
 			return (false);
 	return (true);
 }
 
-bool	split_by_symbols(t_list *lst_node)
+bool	split_nodes_by_data(t_list *lst_node)
 {
 	char	*data;
 	size_t	i;
 
-	data = ((t_token *) lst_node->content)->data;
-	i = 0;
-	while (data[i])
+	while (lst_node)
 	{
-		if (ft_strchr(TOK_SYMBOLS, data[i]))
-			break ;
-		else if (ft_strchr(QUOTES, data[i]))
-			skip_until_same_quote(data, &i);
-		i++;
+		data = ((t_token *) lst_node->content)->data;
+		i = 0;
+		while (data[i])
+		{
+			if (ft_strchr(TOK_SYMBOLS, data[i]))
+				break ;
+			else if (ft_strchr(QUOTES, data[i]))
+				skip_past_same_quote(data, &i);
+			else
+				i++;
+		}
+		if (data[i] != '\0')
+			if (!separate_operator(lst_node, i))
+				return (false);
+		lst_node = ft_lstlast(lst_node)->next;
 	}
-	if (data[i] != '\0')
-		if (!split_token(lst_node, i))
-			return (false);
 	return (true);
 }
 
-bool	get_data(char *input_line, size_t *i, t_token *token_node)
+bool	get_data(char *input_line, size_t *i, t_token *token)
 {
-	char	*open_quote;
 	size_t	start;
 
 	while (ft_strchr(WHITESPACE, input_line[*i]))
 		(*i)++;
 	start = *i;
-	open_quote = NULL;
-	while (input_line[*i]
-		&& (!ft_strchr(WHITESPACE, input_line[*i]) || open_quote))
+	while (input_line[*i] && !ft_strchr(WHITESPACE, input_line[*i]))
 	{
-		if (!open_quote)
-			open_quote = ft_strchr(QUOTES, input_line[*i]);
-		else if (*open_quote == input_line[*i])
-			open_quote = NULL;
-		(*i)++;
+		if (ft_strchr(QUOTES, input_line[*i]))
+			skip_past_same_quote(input_line, i);
+		else
+			(*i)++;
 	}
-	token_node->data = ft_substr(input_line, start, *i - start);
-	if (!token_node->data)
+	token->data = ft_substr(input_line, start, *i - start);
+	if (!token->data)
 		return (false);
 	return (true);
 }
@@ -178,34 +197,34 @@ bool	get_data(char *input_line, size_t *i, t_token *token_node)
 bool	create_token_list(t_shell *shell, char *input_line)
 {
 	size_t	i;
-	t_list	*lst_node;
-	t_token	*token_node;
+	t_list	*new_nodes;
+	t_token	*token;
 
 	if (!input_line)
 		return (NULL);
 	i = 0;
-	lst_node = NULL;
+	new_nodes = NULL;
 	while (true)
 	{
-		token_node = init_token_node(-1, NULL);
-		if (!token_node)
+		token = init_token_node(-1, NULL);
+		if (!token)
 			return (false);
-		if (!get_data(input_line, &i, token_node))
+		if (!get_data(input_line, &i, token))
 			break ;
-		lst_node = ft_lstnew(token_node);
-		if (!lst_node || !split_by_symbols(lst_node))
+		new_nodes = ft_lstnew(token);
+		if (!new_nodes || !split_nodes_by_data(new_nodes))
 			break ;
-		get_type(token_node);
-		ft_lstadd_back(&shell->token_list, lst_node);
-		if (token_node->type == T_END)
+		get_type(new_nodes);
+		ft_lstadd_back(&shell->token_list, new_nodes);
+		if (((t_token *) ft_lstlast(new_nodes)->content)->type == T_END)
 			return (true);
 	}
-	return (free(token_node->data), free(token_node), free(lst_node), false);
+	return (free_token_node(token), ft_lstclear(&new_nodes, free), false);
 }
 
-bool	ft_lexer(t_shell *shell, char *input_line)
+bool	ft_lexer(t_shell *shell)
 {
-	if (!create_token_list(shell, input_line))
+	if (!create_token_list(shell, shell->input_line))
 		return (false);
 	return (true);
 }
