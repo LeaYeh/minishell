@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 08:31:35 by codespace         #+#    #+#             */
-/*   Updated: 2023/12/19 23:55:00 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:20:40 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ NOTES:
 - END token at the end
 - echo>out should be split into 3 tokens
 - Assignment word!
-	- =abc -> WORD
-	- abc=abc -> ASSIGNMENT_WORD
-	- a"b"c=456 -> WORD (unspecified)
+	[x] =abc -> WORD
+	[x] abc=abc -> ASSIGNMENT_WORD
+	[x] a"b"c=456 -> WORD (unspecified)
+	[ ] export >a=def -> a=def will be a WORD
+		! Need to test with parser what will happen here
 */
 
 // TODO
@@ -56,6 +58,21 @@ int	which_pipe(char *data)
 		return (T_PIPE);
 }
 
+bool	is_assignment_word(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (str && !ft_isdigit(str[i]))
+	{
+		while(str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+			i++;
+		if (i != 0 && str[i] == '=')
+			return (true);
+	}
+	return (false);
+}
+
 void	get_type(t_list *lst_node)
 {
 	char	*data;
@@ -79,6 +96,8 @@ void	get_type(t_list *lst_node)
 			token->type = T_L_BRACKET;
 		else if (*data == ')')
 			token->type = T_R_BRACKET;
+		else if (is_assignment_word(data))
+			token->type = T_ASSIGNMENT_WORD;
 		else
 			token->type = T_WORD;
 		lst_node = lst_node->next;
