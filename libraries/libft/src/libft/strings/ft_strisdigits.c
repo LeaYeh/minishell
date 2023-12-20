@@ -6,20 +6,20 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:16:22 by ldulling          #+#    #+#             */
-/*   Updated: 2023/11/29 00:22:20 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:17:01 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 /**
  * The ft_strtok function checks if the string s contains digits ONLY.
  *
- * @param s The string to check.
+ * @param s    The string to check.
  *
- * @return Returns 1 if the string s containts digits only, otherwise 0.
+ * @return     Returns 1 if the string s containts digits only, otherwise 0.
+ *
  */
-
-#include "libft.h"
-
 int	ft_strisdigits(const char *s)
 {
 	const unsigned char	*casted_ptr_s;
