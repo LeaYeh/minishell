@@ -76,8 +76,6 @@ def parse_parsing_table(parsing_table: str, verbose: bool = False):
             term = line.split()
             action_table[current_state][-1] = (get_action_type(term[1], verbose), get_next_state(line, verbose), -1)
         elif line.strip() and current_state is not None:
-            if (current_state == 8):
-                print("haha")
             parts = line.split()
             token_type = map_string_to_int(parts[0], TOKEN_TYPES, verbose)
             if token_type == -1:
