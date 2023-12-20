@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/17 13:41:01 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/20 14:09:31 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@
 # define PROMPT				"\033[1;32mminishell$ \033[0m"
 // # define PROMPT				"\001\033[1;32m\002minishell$ \001\033[0m\002"
 // # define PROMPT				"minishell$ "
+
+/* Lexer */
+# define QUOTES				"'\""
+# define TOK_SYMBOLS		"<>|&()"
+# define T_UNINITIALIZED	-1		//TODO Replace with Lea's UNDEFINED_TYPE -99
 
 extern const int	g_parsing_table[][PT_COL_SIZE];
 
@@ -149,4 +154,4 @@ typedef struct s_shell
 	char			*input_line;
 }	t_shell;
 
-#endif	
+#endif
