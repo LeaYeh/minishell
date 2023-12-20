@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:54:32 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 18:02:10 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:09:34 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ bool	create_token_list(t_list **token_list, t_list **token_data_list)
 		new_nodes = ft_lstnew(token);
 		if (!new_nodes || !separate_operators(new_nodes, 0))
 			break ;
-		set_token_type(shell->token_list);
 		ft_lstadd_back(token_list, new_nodes);
 		free(ft_lstpop(token_data_list));
 	}
