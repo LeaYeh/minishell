@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/19 20:49:00 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/20 21:01:07 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool	push_state(t_stack **state_stack, int next_step)
 	*tmp = next_step;
 	node = ft_stknew((void *)tmp);
 	if (!node)
-		return (false);
+		return (free(tmp), false);
 	ft_stkpush(state_stack, node);
 	return (true);
 }
