@@ -181,3 +181,7 @@ PS: Because we use `rebase` to change the history, so it's necessary force push.
 #### Step 4
 
 Make a pull request and wait for the review and merge by your pear.
+
+### Shared Google Doc
+
+[Link](https://docs.google.com/document/d/1zbVAnrPLIJIaJ28Th6ddv0U3SJ_CSCF7k0x34StQpSE/edit)
