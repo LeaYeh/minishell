@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 21:02:22 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/20 21:05:04 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ bool	parse_reduce(
 		return (false);
 	if (!drop_num_stack(state_stack, pt_entry->num_reduced, free) || \
 		!drop_num_stack(parse_stack, pt_entry->num_reduced, free_token_node))
-		return (false);
+		return (free_token_node(reduction_node), false);
 	if (!push_token(parse_stack, reduction_node))
 		return (free_token_node(reduction_node), false);
 	printf("reduction_node->type: %d\n", reduction_node->type);
