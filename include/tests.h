@@ -6,13 +6,14 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/17 20:47:10 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/20 11:05:57 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TESTS_H
 # define TESTS_H
-# include "defines.h"
+
+#include "minishell.h"
 
 void	test_lexer(t_shell *shell);
 
