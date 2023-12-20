@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/18 21:26:31 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/19 21:13:55 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,7 @@ int		get_token_type_from_list(t_list *token_list);
 char	*get_token_data_from_list(t_list *token_list);
 void	print_state_stack(t_stack *stack);
 void	print_parse_stack(t_stack *stack);
+
+void	print_token_list(t_list *token_list);
 
 #endif

@@ -6,23 +6,17 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/12/20 15:07:48 by lyeh             ###   ########.fr       */
-=======
-/*   Updated: 2023/12/17 20:39:15 by lyeh             ###   ########.fr       */
->>>>>>> 65f58ae (Resolved merge conflict)
+/*   Updated: 2023/12/20 18:04:45 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "clean.h"
+#include "lexer.h"
 #include "parser.h"
 #include "debug.h"
-<<<<<<< HEAD
 #include "tests.h"
-=======
 #include "utils.h"
->>>>>>> 65f58ae (Resolved merge conflict)
 
 bool	ft_read_input(t_shell *shell);
 
@@ -41,13 +35,11 @@ int	main(int argc, char **argv, char **env)
 			return (ft_clean_shell(&shell), EXIT_FAILED);
 		if (ft_strlen(shell.input_line) == 1 && shell.input_line[0] == '\n')
 			continue ;
-		if (!mock_lexer(&shell))
+		if (!ft_lexer(&shell))
 			return (ft_clean_shell(&shell), EXIT_FAILED);
-		if (!ft_parse(shell.token_list))
+		if (!ft_parse(&shell.token_list))
 			return (ft_clean_shell(&shell), EXIT_FAILED);
-		ft_lstclear(&shell.token_list, free_token_node);
-		// do lexer -> tokens
-		// do parser -> ast
+		ft_clean_shell(&shell);
 		// do executor
 	}
 	return (EXIT_SUCCESS);

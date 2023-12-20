@@ -13,7 +13,7 @@
 #ifndef TESTS_H
 # define TESTS_H
 
-#include "minishell.h"
+# include "minishell.h"
 
 void	test_lexer(t_shell *shell);
 

@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 16:27:22 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/19 20:03:08 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/20 18:08:45 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,25 @@ t_pt_node	*init_pt_node(const int pt_row[])
 	return (pt_node);
 }
 
+bool	match_rule(int token_type, int action_mask, int row_index)
+{
+	if ((action_mask & A_ACCEPT) == A_ACCEPT && \
+		g_parsing_table[row_index][PT_COL_ACTION] == A_ACCEPT)
+		return (true);
+	else if ((action_mask & A_SHIFT) && \
+		g_parsing_table[row_index][PT_COL_ACTION] == A_SHIFT && \
+		g_parsing_table[row_index][PT_COL_TOKEN_TYPE] == token_type)
+		return (true);
+	else if ((action_mask & A_REDUCE) && \
+		g_parsing_table[row_index][PT_COL_ACTION] == A_REDUCE)
+		return (true);
+	else if ((action_mask & A_GOTO) && \
+		g_parsing_table[row_index][PT_COL_ACTION] == A_GOTO && \
+		g_parsing_table[row_index][PT_COL_TOKEN_TYPE] == token_type)
+		return (true);
+	return (false);
+}
+
 // | State | Token Type | Action | Next State | Number of Reduced Tokens |
 t_pt_node	*get_next_pt_entry(
 	int state, int token_type, int action_mask)
@@ -235,16 +254,7 @@ t_pt_node	*get_next_pt_entry(
 	{
 		if (g_parsing_table[i][PT_COL_STATE] == state)
 		{
-			if ((action_mask & A_SHIFT) && \
-				g_parsing_table[i][PT_COL_ACTION] == A_SHIFT && \
-				g_parsing_table[i][PT_COL_TOKEN_TYPE] == token_type)
-				break ;
-			else if ((action_mask & A_REDUCE) && \
-				g_parsing_table[i][PT_COL_ACTION] == A_REDUCE)
-				break ;
-			else if ((action_mask & A_GOTO) && \
-				g_parsing_table[i][PT_COL_ACTION] == A_GOTO && \
-				g_parsing_table[i][PT_COL_TOKEN_TYPE] == token_type)
+			if (match_rule(token_type, action_mask, i))
 				break ;
 		}
 	}

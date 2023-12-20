@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "readline.h": "c",
-        "libft.h": "c",
-        "minishell.h": "c",
-        "parser.h": "c",
-        "defines.h": "c"
-    }
-}

@@ -13,10 +13,8 @@
 #include "parser.h"
 #include "utils.h"
 
-bool	init_parse(t_list *token_list, t_list **input_buffer,
-	t_stack **state_stack, t_stack **parse_stack)
+bool	init_parse(t_stack **state_stack, t_stack **parse_stack)
 {
-	*input_buffer = token_list;
 	*parse_stack = NULL;
 	if (!push_state(state_stack, 0))
 		return (false);
@@ -26,5 +24,5 @@ bool	init_parse(t_list *token_list, t_list **input_buffer,
 void	free_parse(t_stack **state_stack, t_stack **parse_stack)
 {
 	ft_stkclear(state_stack, free);
-	ft_stkclear(parse_stack, NULL);
+	ft_stkclear(parse_stack, free_token_node);
 }

@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 15:08:15 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/20 14:08:03 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 # include "libft.h"
 # include "ft_printf.h"
 
-# define PROGRAM_NAME		"minishell"
-# define EXIT_SUCCESS		0
-# define EXIT_FAILED	    -1
+# define PROGRAM_NAME       "minishell"
+# define EXIT_SUCCESS       0
+# define EXIT_FAILED       -1
 
 # define PT_COL_SIZE        5
 # define PT_ROW_SIZE        191
@@ -40,6 +40,7 @@
 // # define BOLD_RED			"\033[1;31m"
 // # define RESET				"\033[0m"
 
+// TODO: Remove the color codes from the prompt before the evaluations
 # define PROMPT				"\033[1;32mminishell$ \033[0m"
 // # define PROMPT				"\001\033[1;32m\002minishell$ \001\033[0m\002"
 // # define PROMPT				"minishell$ "
@@ -91,6 +92,7 @@ typedef enum e_rules
 typedef enum e_token_type
 {
 	T_END = -2,
+	T_NONE = -1,
 	T_WORD = 0,
 	T_ASSIGNMENT_WORD,
 	T_RED_IN,

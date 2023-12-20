@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/19 13:50:39 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/19 20:49:00 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ bool	push_token(t_stack **parse_stack, t_token *token)
 	return (true);
 }
 
-bool	parse_shift(t_list **input_buffer,
+bool	parse_shift(t_token *input_token,
 	t_stack **state_stack, t_stack **parse_stack, int next_step)
 {
-	if (!push_token(parse_stack, (*input_buffer)->content))
-		return (false);
+	if (!push_token(parse_stack, input_token))
+		return (free_token_node(input_token), false);
 	if (!push_state(state_stack, next_step))
 		return (false);
 	printf("After shift:\n");
@@ -64,7 +64,7 @@ bool	parse_reduce(
 	if (!reduction_node)
 		return (false);
 	if (!drop_num_stack(state_stack, pt_entry->num_reduced, free) || \
-		!drop_num_stack(parse_stack, pt_entry->num_reduced, NULL))
+		!drop_num_stack(parse_stack, pt_entry->num_reduced, free_token_node))
 		return (false);
 	if (!push_token(parse_stack, reduction_node))
 		return (false);
