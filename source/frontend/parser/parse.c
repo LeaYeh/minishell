@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 18:13:36 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/20 20:43:38 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,22 @@ char	*get_error_token_data(t_list *token_list, t_stack *parse_stack)
 	return (error_token_data);
 }
 
+void	report_syntax_error(t_list *token_list, t_stack *parse_stack)
+{
+	ft_dprintf(2, "%s: syntax error near unexpected token `%s'\n",
+		PROGRAM_NAME,
+		get_error_token_data(token_list, parse_stack));
+}
 
 bool	parse(
 	t_list **token_list, t_stack **state_stack, t_stack **parse_stack)
 {
+	bool		ret;
 	t_pt_node	*pt_entry;
 
 	if (!init_parse(state_stack, parse_stack))
 		return (false);
+	ret = true;
 	while (true)
 	{
 		print_token_list(*token_list);
@@ -66,17 +74,16 @@ bool	parse(
 				A_SHIFT | A_REDUCE | A_ACCEPT);
 		if (pt_entry && pt_entry->action == A_ACCEPT)
 			break ;
-		if (!parse_step(pt_entry, token_list, state_stack, parse_stack))
+		else if (!parse_step(pt_entry, token_list, state_stack, parse_stack))
 		{
-			ft_dprintf(2, "%s: syntax error near unexpected token `%s'\n",
-				PROGRAM_NAME,
-				get_error_token_data(*token_list, *parse_stack));
-			return (false);
+			report_syntax_error(*token_list, *parse_stack);
+			ret = false;
+			break ;
 		}
 		ft_free_and_null((void **)&pt_entry);
 	}
 	ft_free_and_null((void **)&pt_entry);
-	return (true);
+	return (ret);
 }
 
 bool	ft_parse(t_list **token_list)
