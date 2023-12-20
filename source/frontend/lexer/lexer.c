@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 08:31:35 by codespace         #+#    #+#             */
-/*   Updated: 2023/12/20 12:06:41 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:01:42 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,22 @@ NOTES:
 	[x] a"b"c=456 -> WORD (unspecified)
 	[ ] export >a=def -> a=def will be a WORD?
 		! Need to test with parser what will happen here
+
+	parser branch has useful token functions in utils - USE THEM! (after parser-branch merged)
 */
 
 /* < > << >> | || && ( ) */
 
 bool	ft_lexer(t_shell *shell)
 {
-	t_list	*data_list;
+	t_list	*token_data_list;
 
 	if (!shell || !shell->input_line)
 		return (NULL);
-	data_list = NULL;
-	if (!get_data_list(&data_list, shell->input_line))
+	token_data_list = get_token_data_list(shell->input_line);
+	if (!token_data_list)
 		return (false);
-	if (!create_token_list(&shell->token_list, &data_list))
+	if (!create_token_list(&shell->token_list, &token_data_list))
 		return (false);
 	if (!add_end_node(&shell->token_list))
 		return (false);

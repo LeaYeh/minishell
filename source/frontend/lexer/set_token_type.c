@@ -1,40 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_type.c                                      :+:      :+:    :+:   */
+/*   set_token_type.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/20 10:28:00 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 10:53:19 by ldulling         ###   ########.fr       */
+/*   Created: 2023/12/21 16:20:32 by ldulling          #+#    #+#             */
+/*   Updated: 2023/12/21 16:20:36 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
 
-void	get_type(t_list *lst_node)
+void	set_token_type(t_list *lst_node)
 {
-	char	*data;
 	t_token	*token;
+	char	*token_data;
 
 	while (lst_node)
 	{
 		token = (t_token *) lst_node->content;
-		data = token->data;
-		if (*data == '<')
-			token->type = which_lesser(data);
-		else if (*data == '>')
-			token->type = which_greater(data);
-		else if (*data == '|')
-			token->type = which_pipe(data);
-		else if (ft_strcmp("&&", data) == 0)
+		token_data = token->data;
+		if (*token_data == '<')
+			token->type = which_lesser(token_data);
+		else if (*token_data == '>')
+			token->type = which_greater(token_data);
+		else if (*token_data == '|')
+			token->type = which_pipe(token_data);
+		else if (ft_strcmp("&&", token_data) == 0)
 			token->type = T_AND;
-		else if (*data == '(')
+		else if (*token_data == '(')
 			token->type = T_L_BRACKET;
-		else if (*data == ')')
+		else if (*token_data == ')')
 			token->type = T_R_BRACKET;
-		else if (is_assignment_word(data))
+		else if (is_assignment_word(token_data))
 			token->type = T_ASSIGNMENT_WORD;
 		else
 			token->type = T_WORD;
@@ -42,25 +42,25 @@ void	get_type(t_list *lst_node)
 	}
 }
 
-int	which_lesser(char *data)
+int	which_lesser(char *token_data)
 {
-	if (ft_strcmp("<<", data) == 0)
+	if (ft_strcmp("<<", token_data) == 0)
 		return (T_HERE_DOC);
 	else
 		return (T_RED_IN);
 }
 
-int	which_greater(char *data)
+int	which_greater(char *token_data)
 {
-	if (ft_strcmp(">>", data) == 0)
+	if (ft_strcmp(">>", token_data) == 0)
 		return (T_APPEND);
 	else
 		return (T_RED_OUT);
 }
 
-int	which_pipe(char *data)
+int	which_pipe(char *token_data)
 {
-	if (ft_strcmp("||", data) == 0)
+	if (ft_strcmp("||", token_data) == 0)
 		return (T_OR);
 	else
 		return (T_PIPE);
