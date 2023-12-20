@@ -7,7 +7,7 @@ CC 			:= cc
 CFLAGS 		:= -Wall -Wextra -Werror -g
 
 # TODO: need to remove forbidden wildcard
-SRC 		= $(wildcard source/*.c source/*/*.c source/*/*/*.c)
+SRC 		= $(wildcard source/*.c source/*/*.c source/*/*/*.c tests/*.c)
 OBJ 		= $(SRC:.c=.o)
 
 all:		$(NAME)
@@ -17,7 +17,7 @@ $(NAME):	$(OBJ)
 		$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) -L$(LIBFT) -lft -lreadline -o $(NAME)
 
 %.o: %.c
-		$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ 
+		$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 		$(MAKE) -C $(LIBFT) clean

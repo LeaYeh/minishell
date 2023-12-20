@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "lexer.h"
+#include "tests.h"
 
 void	test_lexer(t_shell *shell)
 {
