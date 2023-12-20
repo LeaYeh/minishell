@@ -6,28 +6,29 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:48:31 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/04 10:24:41 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:33:22 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 /**
  * The ft_strtok function breaks a string into a series of tokens using the
  * delimiter string. Each call to ft_strtok returns the next token.
  *
- * @param str   The string to be tokenized. On the first call to ft_strtok,
- *              this should be the string you want to tokenize. On subsequent
- *              calls, it should be NULL.
- *              Note: Calling ft_strtok the first time with str equal to NULL
- *              will cause a segmentation fault.
- * @param delim The delimiter string. Each character in this string is
- *              considered a valid delimiter.
+ * @param str      The string to be tokenized. On the first call to ft_strtok,
+ *                 this should be the string you want to tokenize. On subsequent
+ *                 calls, it should be NULL.
+ *                 Note: Calling ft_strtok the first time with str equal to NULL
+ *                 will cause a segmentation fault.
+ * @param delim    The delimiter string. Each character in this string is
+ *                 considered a valid delimiter.
  *
- * @return On success, it returns a pointer to the next token in the string.
- *         If there are no more tokens, it returns NULL.
+ * @return         On success, it returns a pointer to the next token in the
+ *                 string.
+ *                 If there are no more tokens, it returns NULL.
+ *
  */
-
-#include "libft.h"
-
 char	*ft_strtok(char *str, const char *delim)
 {
 	static char	*to_parse;

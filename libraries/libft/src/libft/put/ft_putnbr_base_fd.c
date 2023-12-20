@@ -6,20 +6,9 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:15 by ldulling          #+#    #+#             */
-/*   Updated: 2023/11/18 19:43:49 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:14:45 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/**
- * The ft_putnbr_base_fd function writes a long integer to the given file
- * descriptor using a specified base.
- *
- * @param n    The number to write.
- * @param base The base to use for the number representation.
- * @param fd   The file descriptor to write to.
- *
- * @return It always returns the number of characters written.
- */
 
 #include "libft.h"
 
@@ -27,6 +16,17 @@ static size_t	baselen(const char *base);
 static int		check_for_duplicate(const char *base, size_t len);
 static int		print(unsigned long u_n, const char *base, size_t len, int fd);
 
+/**
+ * The ft_putnbr_base_fd function writes a long integer to the given file
+ * descriptor using a specified base.
+ *
+ * @param n       The number to write.
+ * @param base    The base to use for the number representation.
+ * @param fd      The file descriptor to write to.
+ *
+ * @return        It always returns the number of characters written.
+ *
+ */
 int	ft_putnbr_base_fd(long n, const char *base, int fd)
 {
 	size_t			len;
