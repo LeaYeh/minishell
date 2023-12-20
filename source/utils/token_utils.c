@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 22:01:28 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/19 21:13:42 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/20 21:20:05 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ t_token	*init_token_node(int type, char *data)
 	return (token_node);
 }
 
-// TODO: Change variable name "content" to ptr
-void	free_token_node(void *content)
+void	free_token_node(void *ptr)
 {
 	t_token	*token;
 
-	token = (t_token *)content;
+	token = (t_token *)ptr;
 	if (token->data)
 		free(token->data);
 	free(token);
