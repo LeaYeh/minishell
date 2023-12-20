@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 08:31:35 by codespace         #+#    #+#             */
-/*   Updated: 2023/12/21 17:01:42 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:03:15 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ bool	ft_lexer(t_shell *shell)
 		return (false);
 	if (!create_token_list(&shell->token_list, &token_data_list))
 		return (false);
+	set_token_type(shell->token_list);
 	if (!add_end_node(&shell->token_list))
 		return (false);
 	return (true);
