@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_data.c                                         :+:      :+:    :+:   */
+/*   get_token_data_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:30:35 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 12:11:56 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:09:45 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "minishell.h"
 
-bool	get_data_list(t_list **data_list, char *input_line)
+t_list	*get_token_data_list(char *input_line)
 {
-	char	*data;
-	t_list	*new_node;
 	size_t	i;
+	t_list	*new_node;
+	char	*token_data;
+	t_list	*token_data_list;
 
+	token_data_list = NULL;
 	i = 0;
 	while (input_line[i])
 	{
@@ -26,18 +28,18 @@ bool	get_data_list(t_list **data_list, char *input_line)
 			i++;
 		if (!input_line[i])
 			break ;
-		data = get_data(input_line, &i);
-		if (!data)
-			return (ft_lstclear(data_list, free), false);
-		new_node = ft_lstnew(data);
+		token_data = get_token_data(input_line, &i);
+		if (!token_data)
+			return (ft_lstclear(&token_data_list, free), NULL);
+		new_node = ft_lstnew(token_data);
 		if (!new_node)
-			return (ft_lstclear(data_list, free), free(data), false);
-		ft_lstadd_back(data_list, new_node);
+			return (ft_lstclear(&token_data_list, free), free(token_data), NULL);
+		ft_lstadd_back(&token_data_list, new_node);
 	}
-	return (true);
+	return (token_data_list);
 }
 
-char	*get_data(char *input_line, size_t *i)
+char	*get_token_data(char *input_line, size_t *i)
 {
 	size_t	start;
 
