@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/21 12:47:10 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/21 14:20:46 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ bool	ft_parse(t_list **token_list)
 	t_stack		*state_stack;
 	t_stack		*parse_stack;
 
-	if (!init_parse(state_stack, parse_stack))
+	if (!init_parse(&state_stack, &parse_stack))
 		return (false);
 	if (!parse(token_list, &state_stack, &parse_stack))
 		return (free_parse(&state_stack, &parse_stack), false);

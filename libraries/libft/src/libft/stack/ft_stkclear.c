@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 21:03:00 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/21 13:00:37 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/21 14:23:00 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	ft_stkclear(t_stack **stk, void (*del)(void *))
 {
 	t_stack	*cur;
 
-	while (stk && *stk != NULL)
+	if (stk == NULL)
+		return ;
+	while (*stk != NULL)
 	{
 		cur = *stk;
 		*stk = (*stk)->next;
