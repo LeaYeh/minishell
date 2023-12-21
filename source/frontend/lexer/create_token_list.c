@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:54:32 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 18:09:34 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:09:21 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	create_token_list(t_list **token_list, t_list **token_data_list)
 	}
 	if (*token_data_list)
 		return (ft_lstclear(token_data_list, free), free_token_node(token), \
-				ft_lstclear(&new_nodes, free), false);
+				ft_lstclear(&new_nodes, free_token_node), false);
 	return (true);
 }
 
@@ -41,7 +41,7 @@ bool	separate_operators(t_list *lst_node, size_t i)
 {
 	char	*token_data;
 
-	token_data = ((t_token *) lst_node->content)->data;
+	token_data = get_token_data_from_list(lst_node);
 	while (token_data[i])
 	{
 		if (ft_strchr(TOK_SYMBOLS, token_data[i]))
@@ -53,7 +53,7 @@ bool	separate_operators(t_list *lst_node, size_t i)
 				if (!split_node(lst_node, i))
 					return (false);
 				lst_node = lst_node->next;
-				token_data = ((t_token *) lst_node->content)->data;
+				token_data = get_token_data_from_list(lst_node);
 				i = 0;
 			}
 		}
@@ -75,7 +75,7 @@ bool	add_end_node(t_list	**token_list)
 		return (false);
 	new_node = (ft_lstnew(token));
 	if (!new_node)
-		return (free(token), false);
+		return (free_token_node(token), false);
 	ft_lstadd_back(token_list, new_node);
 	return (true);
 }
