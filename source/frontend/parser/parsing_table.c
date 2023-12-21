@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 16:27:22 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 18:08:45 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/21 12:45:20 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,7 @@ t_pt_node	*init_pt_node(const int pt_row[])
 
 bool	match_rule(int token_type, int action_mask, int row_index)
 {
-	if ((action_mask & A_ACCEPT) == A_ACCEPT && \
+	if (action_mask == A_ACCEPT && \
 		g_parsing_table[row_index][PT_COL_ACTION] == A_ACCEPT)
 		return (true);
 	else if ((action_mask & A_SHIFT) && \
@@ -249,14 +249,15 @@ t_pt_node	*get_next_pt_entry(
 	int			i;
 	t_pt_node	*pt_entry;
 
-	i = -1;
-	while (++i < PT_ROW_SIZE)
+	i = 0;
+	while (i < PT_ROW_SIZE)
 	{
 		if (g_parsing_table[i][PT_COL_STATE] == state)
 		{
 			if (match_rule(token_type, action_mask, i))
 				break ;
 		}
+		i++;
 	}
 	if (i == PT_ROW_SIZE)
 		return (NULL);

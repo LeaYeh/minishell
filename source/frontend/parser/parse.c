@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 20:43:38 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/21 12:47:10 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ bool	parse(
 	bool		ret;
 	t_pt_node	*pt_entry;
 
-	if (!init_parse(state_stack, parse_stack))
-		return (false);
 	ret = true;
 	while (true)
 	{
@@ -91,8 +89,8 @@ bool	ft_parse(t_list **token_list)
 	t_stack		*state_stack;
 	t_stack		*parse_stack;
 
-	state_stack = NULL;
-	parse_stack = NULL;
+	if (!init_parse(state_stack, parse_stack))
+		return (false);
 	if (!parse(token_list, &state_stack, &parse_stack))
 		return (free_parse(&state_stack, &parse_stack), false);
 	printf("ACCEPT\n");
