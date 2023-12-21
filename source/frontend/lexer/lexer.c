@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 08:31:35 by codespace         #+#    #+#             */
-/*   Updated: 2023/12/21 20:09:35 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/21 21:05:23 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	ft_lexer(t_shell *shell)
 	t_list	*token_data_list;
 
 	if (!shell || !shell->input_line)
-		return (NULL);
+		return (false);
 	token_data_list = get_token_data_list(shell->input_line);
 	if (!token_data_list)
 		return (false);
