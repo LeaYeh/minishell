@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 16:27:22 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/21 12:45:20 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/21 15:49:03 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,7 @@ t_pt_node	*init_pt_node(const int pt_row[])
 
 bool	match_rule(int token_type, int action_mask, int row_index)
 {
-	if (action_mask == A_ACCEPT && \
+	if ((action_mask & A_ACCEPT) == A_ACCEPT && \
 		g_parsing_table[row_index][PT_COL_ACTION] == A_ACCEPT)
 		return (true);
 	else if ((action_mask & A_SHIFT) && \
