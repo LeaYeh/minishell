@@ -6,12 +6,11 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:30:35 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/21 17:09:45 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:28:46 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include "minishell.h"
 
 t_list	*get_token_data_list(char *input_line)
 {
@@ -33,7 +32,8 @@ t_list	*get_token_data_list(char *input_line)
 			return (ft_lstclear(&token_data_list, free), NULL);
 		new_node = ft_lstnew(token_data);
 		if (!new_node)
-			return (ft_lstclear(&token_data_list, free), free(token_data), NULL);
+			return (ft_lstclear(&token_data_list, free), free(token_data),
+				NULL);
 		ft_lstadd_back(&token_data_list, new_node);
 	}
 	return (token_data_list);

@@ -6,11 +6,10 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 16:20:32 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/21 16:20:36 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:16:16 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "lexer.h"
 
 void	set_token_type(t_list *lst_node)
