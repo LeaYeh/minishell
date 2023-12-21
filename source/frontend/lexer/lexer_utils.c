@@ -6,11 +6,10 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 10:33:59 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 17:59:25 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:15:55 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "utils.h"
 
 void	skip_operator(char *token_data, size_t *i)

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include "minishell.h"
 #include "utils.h"
 
 bool	create_token_list(t_list **token_list, t_list **token_data_list)
