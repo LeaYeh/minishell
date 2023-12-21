@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests.h                                            :+:      :+:    :+:   */
+/*   ft_stkpop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 11:05:57 by ldulling         ###   ########.fr       */
+/*   Created: 2023/12/11 21:07:28 by lyeh              #+#    #+#             */
+/*   Updated: 2023/12/11 21:08:22 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TESTS_H
-# define TESTS_H
+#include "libft.h"
 
-# include "minishell.h"
+t_stack	*ft_stkpop(t_stack **stk)
+{
+	t_stack	*top;
 
-void	test_lexer(t_shell *shell);
-
-#endif
+	if (stk != NULL && *stk != NULL)
+	{
+		top = *stk;
+		*stk = (*stk)->next;
+		top->next = NULL;
+		return (top);
+	}
+	return (NULL);
+}

@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 18:02:03 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/11 19:16:27 by lyeh             ###   ########.fr       */
+/*   Created: 2023/12/16 19:16:10 by lyeh              #+#    #+#             */
+/*   Updated: 2023/12/17 15:45:47 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
+#include "minishell.h"
+#include "parser.h"
 
-void	ft_show_env_list(t_shell *shell);
-void	ft_show_token_list(t_shell *shell);
+t_ast	*new_ast_node(int type, char *data)
+{
+	t_ast	*node;
 
-#endif
+	node = (t_ast *)malloc(sizeof(t_ast));
+	if (!node)
+		return (NULL);
+	node->type = type;
+	node->data = data;
+	node->left = NULL;
+	node->right = NULL;
+	return (node);
+}

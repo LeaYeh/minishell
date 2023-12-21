@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests.h                                            :+:      :+:    :+:   */
+/*   ft_stksize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 11:05:57 by ldulling         ###   ########.fr       */
+/*   Created: 2023/12/11 21:04:09 by lyeh              #+#    #+#             */
+/*   Updated: 2023/12/11 21:05:09 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TESTS_H
-# define TESTS_H
+#include "libft.h"
 
-# include "minishell.h"
+int	ft_stksize(t_stack *stk)
+{
+	int		n;
+	t_stack	*cur;
 
-void	test_lexer(t_shell *shell);
-
-#endif
+	if (stk == NULL)
+		return (0);
+	n = 0;
+	cur = stk;
+	while (cur != NULL)
+	{
+		cur = cur->next;
+		n++;
+	}
+	return (n);
+}

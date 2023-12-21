@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests.h                                            :+:      :+:    :+:   */
+/*   ft_stkpush.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 11:05:57 by ldulling         ###   ########.fr       */
+/*   Created: 2023/12/11 21:05:44 by lyeh              #+#    #+#             */
+/*   Updated: 2023/12/11 21:07:11 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TESTS_H
-# define TESTS_H
+#include "libft.h"
 
-# include "minishell.h"
-
-void	test_lexer(t_shell *shell);
-
-#endif
+void	ft_stkpush(t_stack **stk, t_stack *new)
+{
+	if (stk != NULL && new != NULL)
+	{
+		if (*stk == NULL)
+			*stk = new;
+		else
+		{
+			new->next = *stk;
+			*stk = new;
+		}
+	}
+	return ;
+}

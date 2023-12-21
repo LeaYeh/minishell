@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/17 20:47:04 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:04:45 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "defines.h"
 #include "clean.h"
+#include "lexer.h"
+#include "parser.h"
 #include "debug.h"
 #include "tests.h"
+#include "utils.h"
 
 bool	ft_read_input(t_shell *shell);
 
@@ -33,8 +35,11 @@ int	main(int argc, char **argv, char **env)
 			return (ft_clean_shell(&shell), EXIT_FAILED);
 		if (ft_strlen(shell.input_line) == 1 && shell.input_line[0] == '\n')
 			continue ;
-		// do lexer -> tokens
-		// do parser -> ast
+		if (!ft_lexer(&shell))
+			return (ft_clean_shell(&shell), EXIT_FAILED);
+		if (!ft_parse(&shell.token_list))
+			return (ft_clean_shell(&shell), EXIT_FAILED);
+		ft_clean_shell(&shell);
 		// do executor
 	}
 	return (EXIT_SUCCESS);

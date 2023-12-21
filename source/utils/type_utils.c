@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 19:33:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/18 21:34:44 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:21:01 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,5 @@ char	*ft_get_token_type_str(int type)
 		return ("R_BRACKET");
 	else if (type == T_END)
 		return ("END");
-	else
-		return (NULL);
+	return (NULL);
 }

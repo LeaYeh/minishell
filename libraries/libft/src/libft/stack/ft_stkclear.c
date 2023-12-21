@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_env_list.c                                    :+:      :+:    :+:   */
+/*   ft_stkclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 18:00:04 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/08 20:59:57 by lyeh             ###   ########.fr       */
+/*   Created: 2023/12/11 21:03:00 by lyeh              #+#    #+#             */
+/*   Updated: 2023/12/21 14:23:00 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_show_env_list(t_shell *shell)
+void	ft_stkclear(t_stack **stk, void (*del)(void *))
 {
-	t_list	*curr;
-	t_env	*env;
+	t_stack	*cur;
 
-	curr = shell->env_list;
-	while (curr)
+	if (stk == NULL)
+		return ;
+	while (*stk != NULL)
 	{
-		env = (t_env *)curr->content;
-		ft_printf("%s=%s\n", env->key, env->value);
-		curr = curr->next;
+		cur = *stk;
+		*stk = (*stk)->next;
+		if (*del)
+			(*del)(cur->content);
+		free(cur);
 	}
+	return ;
 }

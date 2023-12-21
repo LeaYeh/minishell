@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests.h                                            :+:      :+:    :+:   */
+/*   ft_stkdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 11:05:57 by ldulling         ###   ########.fr       */
+/*   Created: 2023/12/17 19:41:12 by lyeh              #+#    #+#             */
+/*   Updated: 2023/12/17 22:13:23 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TESTS_H
-# define TESTS_H
+#include "libft.h"
 
-# include "minishell.h"
-
-void	test_lexer(t_shell *shell);
-
-#endif
+void	ft_stkdelone(t_stack *stk, void (*del)(void *))
+{
+	if (stk != NULL)
+	{
+		if (del != NULL && stk->content != NULL)
+			(*del)(stk->content);
+		free(stk);
+	}
+	return ;
+}

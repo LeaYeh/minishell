@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/19 20:40:59 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/20 22:19:36 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ typedef struct s_list_d
 	struct s_list_d	*prev;
 	struct s_list_d	*next;
 }	t_list_d;
+
+typedef struct s_stack
+{
+	void			*content;
+	struct s_stack	*next;
+}	t_stack;
 
 /* Chars */
 int			ft_isalnum(int c);
@@ -89,6 +95,15 @@ void		ft_putnbr_fd(int n, int fd);
 size_t		ft_putnchar_fd(unsigned char c, size_t n, int fd);
 size_t		ft_putnstr_fd(const char *s, size_t n, int fd);
 void		ft_putstr_fd(char *s, int fd);
+
+/* Stack */
+void		ft_stkclear(t_stack **stk, void (*del)(void *));
+void		ft_stkdelone(t_stack *stk, void (*del)(void *));
+t_stack		*ft_stknew(void *content);
+t_stack		*ft_stkpeektop(t_stack *stk);
+t_stack		*ft_stkpop(t_stack **stk);
+void		ft_stkpush(t_stack **stk, t_stack *new);
+int			ft_stksize(t_stack *stk);
 
 /* Strings */
 char		*ft_itoa(int n);
