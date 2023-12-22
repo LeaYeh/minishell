@@ -1,20 +1,25 @@
 NAME 		:= minishell
-INCLUDES 	:= -I./include -I./libraries/libft/inc
-LIBFT 		:= ./libraries/libft
-LIBFT_LIB 	:= libft.a
 
-BUILD_DIR	:= build/
-OBJ_DIR		:= $(BUILD_DIR)_obj/
-DEP_DIR		:= $(BUILD_DIR)_dep/
+BUILD_DIR	:= build
+OBJ_DIR		:= $(BUILD_DIR)/_obj
+DEP_DIR		:= $(BUILD_DIR)/_dep
+LIB_DIR		:= libraries
 
-CC 			:= cc
-CFLAGS 		:= -Wall -Wextra -Werror -g
-MAKEFLAGS	:= -j$(nproc)
+LIBRARIES		:= $(wildcard $(LIB_DIR)/*)
+LIBRARIES_EXT	:= readline
+INCLUDES 		:= -I./include -I./$(LIBRARIES)/inc
+
+CC 			:=	cc
+CFLAGS 		:=	-Wall -Wextra -Werror -g
+LIBFLAGS	:=	$(addprefix -L,$(LIBRARIES)) \
+                $(addprefix -l,$(patsubst lib%,%,$(notdir \
+				$(LIBRARIES) $(LIBRARIES_EXT))))
+MAKEFLAGS	:=	-j$(nproc)
 
 # TODO: need to remove forbidden wildcard
 SRC 		:= $(wildcard source/*.c source/*/*.c source/*/*/*.c tests/*.c)
-OBJ 		:= $(SRC:%.c=$(OBJ_DIR)%.o)
-DEP			:= $(SRC:%.c=$(DEP_DIR)%.d)
+OBJ 		:= $(SRC:%.c=$(OBJ_DIR)/%.o)
+DEP			:= $(SRC:%.c=$(DEP_DIR)/%.d)
 
 OBJ_SUBDIRS	:= $(sort $(dir $(OBJ)))
 DEP_SUBDIRS	:= $(sort $(dir $(DEP)))
@@ -22,25 +27,25 @@ DEP_SUBDIRS	:= $(sort $(dir $(DEP)))
 all:		$(NAME)
 
 $(NAME):	$(OBJ)
-		$(MAKE) -C $(LIBFT)
-		$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) -L$(LIBFT) -lft -lreadline -o $(NAME)
+		$(MAKE) -C $(LIBRARIES)
+		$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFLAGS) -o $(NAME)
 
-$(OBJ_DIR)%.o:		%.c Makefile | $(OBJ_SUBDIRS)
+$(OBJ_DIR)/%.o:		%.c Makefile | $(OBJ_SUBDIRS)
 		$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(DEP_DIR)%.d:		%.c Makefile | $(DEP_SUBDIRS)
-		$(CC) $(CFLAGS) $(INCLUDES) -M -MP -MF $@ -MT "$(OBJ_DIR)$*.o $@" $<
+$(DEP_DIR)/%.d:		%.c Makefile | $(DEP_SUBDIRS)
+		$(CC) $(CFLAGS) $(INCLUDES) -M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
 
 $(OBJ_SUBDIRS) $(DEP_SUBDIRS):
 		mkdir -p $@
 
 clean:
-		$(MAKE) -C $(LIBFT) clean
+		$(MAKE) -C $(LIBRARIES) clean
 		rm -f $(OBJ) $(DEP)
 		-find $(OBJ_DIR) $(DEP_DIR) -type d -empty -delete
 
 fclean: 	clean
-		$(MAKE) -C $(LIBFT) fclean
+		$(MAKE) -C $(LIBRARIES) fclean
 		rm -f $(NAME)
 
 re:
