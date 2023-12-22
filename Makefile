@@ -14,7 +14,7 @@ CFLAGS 		:=	-Wall -Wextra -Werror -g
 LIBFLAGS	:=	$(addprefix -L,$(LIBRARIES)) \
 				$(addprefix -l,$(patsubst lib%,%,$(notdir \
 				$(LIBRARIES) $(LIBRARIES_EXT))))
-MAKEFLAGS	:=	-j$(nproc)
+MAKEFLAGS	:=	-j
 
 # TODO: need to remove forbidden wildcard
 SRC 		:= $(wildcard source/*.c source/*/*.c source/*/*/*.c tests/*.c)
