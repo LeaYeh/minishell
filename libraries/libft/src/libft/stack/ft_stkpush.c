@@ -6,13 +6,13 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 21:05:44 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/11 21:07:11 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/22 19:54:53 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_stkpush(t_stack **stk, t_stack *new)
+void	ft_stkpush(t_list **stk, t_list *new)
 {
 	if (stk != NULL && new != NULL)
 	{
