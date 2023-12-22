@@ -5,6 +5,7 @@ LIBFT_LIB 	:= libft.a
 
 CC 			:= cc
 CFLAGS 		:= -Wall -Wextra -Werror -g
+MAKEFLAGS	:= -j$(nproc)
 
 # TODO: need to remove forbidden wildcard
 SRC 		= $(wildcard source/*.c source/*/*.c source/*/*/*.c tests/*.c)
@@ -27,7 +28,9 @@ fclean: 	clean
 		$(MAKE) -C $(LIBFT) fclean
 		rm -f $(NAME)
 
-re: 	fclean all
+re:
+		$(MAKE) fclean
+		$(MAKE) all
 
 .PHONY: all clean fclean re
 
