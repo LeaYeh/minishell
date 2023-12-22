@@ -34,7 +34,7 @@ export 		MAKECMDGOALS
 all:		lib $(NAME)
 
 lib:
-		$(MAKE) -C $(LIBRARIES)
+	@	$(MAKE) -C $(LIBRARIES) --no-print-directory
 
 $(NAME):	$(LIBRARIES) $(OBJ)
 		$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFLAGS) -o $(NAME)
@@ -43,10 +43,10 @@ $(OBJ_DIR)/%.o:		%.c Makefile | $(OBJ_SUBDIRS)
 		$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(DEP_DIR)/%.d:		%.c Makefile | $(DEP_SUBDIRS)
-		$(CC) $(CFLAGS) $(INCLUDES) -M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
+	@	$(CC) $(CFLAGS) $(INCLUDES) -M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
 
 $(OBJ_SUBDIRS) $(DEP_SUBDIRS):
-		mkdir -p $@
+	@	mkdir -p $@
 
 clean:
 		$(MAKE) -C $(LIBRARIES) clean
