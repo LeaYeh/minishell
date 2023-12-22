@@ -3,9 +3,9 @@ INCLUDES 	:= -I./include -I./libraries/libft/inc
 LIBFT 		:= ./libraries/libft
 LIBFT_LIB 	:= libft.a
 
-B			:= build/
-O			:= $B_obj/
-D			:= $B_dep/
+BUILD_DIR	:= build/
+OBJ_DIR		:= $(BUILD_DIR)_obj/
+DEP_DIR		:= $(BUILD_DIR)_dep/
 
 CC 			:= cc
 CFLAGS 		:= -Wall -Wextra -Werror -g
@@ -13,11 +13,11 @@ MAKEFLAGS	:= -j$(nproc)
 
 # TODO: need to remove forbidden wildcard
 SRC 		:= $(wildcard source/*.c source/*/*.c source/*/*/*.c tests/*.c)
-OBJ 		:= $(SRC:%.c=$O%.o)
-DEP			:= $(SRC:%.c=$D%.d)
+OBJ 		:= $(SRC:%.c=$(OBJ_DIR)%.o)
+DEP			:= $(SRC:%.c=$(DEP_DIR)%.d)
 
-SUBDIRS_O	:= $(sort $(dir $(OBJ)))
-SUBDIRS_D	:= $(sort $(dir $(DEP)))
+OBJ_SUBDIRS	:= $(sort $(dir $(OBJ)))
+DEP_SUBDIRS	:= $(sort $(dir $(DEP)))
 
 all:		$(NAME)
 
@@ -25,19 +25,19 @@ $(NAME):	$(OBJ)
 		$(MAKE) -C $(LIBFT)
 		$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) -L$(LIBFT) -lft -lreadline -o $(NAME)
 
-$O%.o:		%.c Makefile | $(SUBDIRS_O)
+$(OBJ_DIR)%.o:		%.c Makefile | $(OBJ_SUBDIRS)
 		$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$D%.d:		%.c Makefile | $(SUBDIRS_D)
-		$(CC) $(CFLAGS) $(INCLUDES) -M -MP -MF $@ -MT "$O$*.o $@" $<
+$(DEP_DIR)%.d:		%.c Makefile | $(DEP_SUBDIRS)
+		$(CC) $(CFLAGS) $(INCLUDES) -M -MP -MF $@ -MT "$(OBJ_DIR)$*.o $@" $<
 
-$(SUBDIRS_O) $(SUBDIRS_D):
+$(OBJ_SUBDIRS) $(DEP_SUBDIRS):
 		mkdir -p $@
 
 clean:
 		$(MAKE) -C $(LIBFT) clean
 		rm -f $(OBJ) $(DEP)
-		-find $O $D -type d -empty -delete
+		-find $(OBJ_DIR) $(DEP_DIR) -type d -empty -delete
 
 fclean: 	clean
 		$(MAKE) -C $(LIBFT) fclean
@@ -50,7 +50,7 @@ re:
 .PHONY: all clean fclean re
 
 ifeq (,$(filter clean fclean re,$(MAKECMDGOALS)))
-    ifneq (,$(wildcard $O))
+    ifneq (,$(wildcard $(OBJ_DIR)))
         -include	$(DEP)
     endif
 endif
