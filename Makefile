@@ -25,10 +25,10 @@ $(NAME):	$(OBJ)
 		$(MAKE) -C $(LIBFT)
 		$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) -L$(LIBFT) -lft -lreadline -o $(NAME)
 
-$O%.o:		%.c | $(SUBDIRS_O)
+$O%.o:		%.c Makefile | $(SUBDIRS_O)
 		$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$D%.d:		%.c | $(SUBDIRS_D)
+$D%.d:		%.c Makefile | $(SUBDIRS_D)
 		$(CC) $(CFLAGS) $(INCLUDES) -M -MP -MF $@ -MT "$O$*.o $@" $<
 
 $(SUBDIRS_O) $(SUBDIRS_D):
