@@ -6,16 +6,16 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 21:05:04 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/22 20:54:32 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "utils.h"
 
-bool	push_state(t_stack **state_stack, int next_step)
+bool	push_state(t_list **state_stack, int next_step)
 {
-	t_stack	*node;
+	t_list	*node;
 	int		*tmp;
 
 	tmp = malloc(sizeof(int));
@@ -29,9 +29,9 @@ bool	push_state(t_stack **state_stack, int next_step)
 	return (true);
 }
 
-bool	push_token(t_stack **parse_stack, t_token *token)
+bool	push_token(t_list **parse_stack, t_token *token)
 {
-	t_stack	*node;
+	t_list	*node;
 
 	node = ft_stknew(token);
 	if (!node)
@@ -41,7 +41,7 @@ bool	push_token(t_stack **parse_stack, t_token *token)
 }
 
 bool	parse_shift(t_token *input_token,
-	t_stack **state_stack, t_stack **parse_stack, int next_step)
+	t_list **state_stack, t_list **parse_stack, int next_step)
 {
 	if (!push_token(parse_stack, input_token))
 		return (free_token_node(input_token), false);
@@ -56,7 +56,7 @@ bool	parse_shift(t_token *input_token,
 }
 
 bool	parse_reduce(
-	t_stack **state_stack, t_stack **parse_stack, t_pt_node *pt_entry)
+	t_list **state_stack, t_list **parse_stack, t_pt_node *pt_entry)
 {
 	t_token	*reduction_node;
 
@@ -76,7 +76,7 @@ bool	parse_reduce(
 	return (true);
 }
 
-bool	parse_goto(t_stack **state_stack, int token_type)
+bool	parse_goto(t_list **state_stack, int token_type)
 {
 	t_pt_node	*pt_entry;
 

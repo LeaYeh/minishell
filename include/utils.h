@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/19 21:13:55 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/22 20:53:30 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 # define UTILS_H
 # include "defines.h"
 
-bool	drop_num_stack(t_stack **stack, int num, void (*del)(void *));
+bool	drop_num_stack(t_list **stack, int num, void (*del)(void *));
 
 t_token	*init_token_node(int type, char *data);
 void	free_token_node(void *content);
 
 char	*ft_get_token_type_str(int type);
 
-int		get_state_from_stack(t_stack *node);
-t_token	*get_token_from_stack(t_stack *node);
+int		get_state_from_stack(t_list *node);
+t_token	*get_token_from_stack(t_list *node);
 
 int		get_token_type_from_list(t_list *token_list);
 char	*get_token_data_from_list(t_list *token_list);
-void	print_state_stack(t_stack *stack);
-void	print_parse_stack(t_stack *stack);
+void	print_state_stack(t_list *stack);
+void	print_parse_stack(t_list *stack);
 
 void	print_token_list(t_list *token_list);
 
