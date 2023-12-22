@@ -55,5 +55,9 @@ ifeq (,$(filter clean fclean re,$(MAKECMDGOALS)))
     endif
 endif
 
+# Makefile debugging
+print-%:
+	@	echo $* = $($*)
+
 # test without env value:	env -i
 # detect memory leak: 		valgrind -s --leak-check=full --show-leak-kinds=all --suppressions=./minishell.supp ./minishell
