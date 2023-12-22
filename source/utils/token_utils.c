@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 22:01:28 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 21:20:05 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/21 22:08:54 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	get_token_type_from_list(t_list *token_list)
 
 char	*get_token_data_from_list(t_list *token_list)
 {
+	if (!token_list)
+		return (NULL);
 	return (((t_token *)token_list->content)->data);
 }
 

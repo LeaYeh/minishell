@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_operation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 18:46:46 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 21:09:30 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,31 @@ bool	push_state(t_list **state_stack, int next_step)
 	return (true);
 }
 
-bool	push_token(t_list **parse_stack, t_token *token)
+// convert the token into the ast_node and push it into the parse_stack
+bool	push_node(t_list **parse_stack, t_ast *ast_node)
 {
 	t_list	*node;
 
-	node = ft_lstnew(token);
+	if (!ast_node)
+		return (false);
+	node = ft_lstnew(ast_node);
 	if (!node)
 		return (false);
 	ft_lstadd_front(parse_stack, node);
 	return (true);
 }
 
-bool	parse_shift(t_token *input_token,
+bool	parse_shift(t_token *token_node,
 	t_list **state_stack, t_list **parse_stack, int next_step)
 {
-	if (!push_token(parse_stack, input_token))
-		return (free_token_node(input_token), false);
+	t_ast	*ast_node;
+
+	ast_node = init_ast_node(token_node->type, token_node->data, NULL);
+	ft_free_and_null((void **)&token_node);
+	if (!ast_node)
+		return (false);
+	if (!push_node(parse_stack, ast_node))
+		return (free_ast_node(&ast_node), false);
 	if (!push_state(state_stack, next_step))
 		return (false);
 	printf("After shift:\n");
@@ -55,20 +64,33 @@ bool	parse_shift(t_token *input_token,
 	return (true);
 }
 
+// TODO: change the parse_stack into the stack of t_ast, and the top node should always be ´AND_OR´
+// TODO: Why it needs (void *)free_ast_node?
+// TODO: check the popped node is in correct order
 bool	parse_reduce(
 	t_list **state_stack, t_list **parse_stack, t_pt_node *pt_entry)
 {
-	t_token	*reduction_node;
+	t_list	*popped;
+	t_ast	*reduce_node;
 
-	reduction_node = init_token_node(pt_entry->next_state, NULL);
-	if (!reduction_node)
+	reduce_node = init_ast_node(pt_entry->next_state, NULL, NULL);
+	if (!reduce_node)
 		return (false);
-	if (!drop_num_stack(state_stack, pt_entry->num_reduced, free) || \
-		!drop_num_stack(parse_stack, pt_entry->num_reduced, free_token_node))
-		return (free_token_node(reduction_node), false);
-	if (!push_token(parse_stack, reduction_node))
-		return (free_token_node(reduction_node), false);
-	printf("reduction_node->type: %d\n", reduction_node->type);
+	if (!drop_num_stack(state_stack, pt_entry->num_reduced, free))
+		return (free_ast_node(&reduce_node), false);
+	popped = pop_num_stack(parse_stack, pt_entry->num_reduced);
+	if (!popped)
+		return (free_ast_node(&reduce_node), false);
+	while (popped)
+	{
+		// TODO: !!BUG!! both args of ft_lstadd_back are t_list
+		ft_lstadd_back(&reduce_node->children, popped->content);
+		drop_num_stack(&popped, 1, NULL);
+		// popped = popped->next;
+	}
+	if (!push_node(parse_stack, reduce_node))
+		return (free_ast_node(&reduce_node), false);
+	printf("reduce_node->type: %d\n", reduce_node->type);
 	printf("state_stack: ");
 	print_state_stack(*state_stack);
 	printf("parse_stack: ");

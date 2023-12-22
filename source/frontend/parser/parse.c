@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 20:58:20 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 21:08:27 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*get_error_token_data(t_list *token_list, t_list *parse_stack)
 	if (token_list)
 		error_token_data = get_token_data_from_list(token_list);
 	else
-		error_token_data = get_token_from_stack(parse_stack)->data;
+		error_token_data = get_ast_from_stack(parse_stack)->data;
 	return (error_token_data);
 }
 
@@ -70,7 +70,7 @@ bool	parse(
 				A_SHIFT | A_REDUCE | A_ACCEPT);
 		if (pt_entry && pt_entry->action == A_ACCEPT)
 			break ;
-		else if (!parse_step(pt_entry, token_list, state_stack, parse_stack))
+		if (!parse_step(pt_entry, token_list, state_stack, parse_stack))
 		{
 			report_syntax_error(*token_list, *parse_stack);
 			ret = false;
@@ -82,15 +82,42 @@ bool	parse(
 	return (ret);
 }
 
-bool	ft_parse(t_list **token_list)
+t_ast	*extract_ast_from_parse_stack(t_list **parse_stack)
+{
+	t_ast	*ast;
+	t_list	*tmp;
+
+	print_parse_stack(*parse_stack);
+	printf("nooooooo %d\n", ft_stksize(*parse_stack));
+	if (ft_stksize(*parse_stack) != 2 || \
+		get_ast_from_stack(*parse_stack)->type != T_END)
+		return (NULL);
+	printf("1\n");
+	drop_num_stack(parse_stack, 1, (void *)free_ast_node);
+	printf("2\n");
+	tmp = pop_num_stack(parse_stack, 1);
+	printf("3\n");
+	if (!tmp)
+		return (NULL);
+	ast = get_ast_from_stack(tmp);
+	printf("4\n");
+	// ast = (*parse_stack)->content;
+	// ft_free_and_null((void **)parse_stack);
+	return (ast);
+}
+
+// TODO: Should we free the token_list here?
+bool	ft_parse(t_shell *shell)
 {
 	t_list		*state_stack;
 	t_list		*parse_stack;
 
 	if (!init_parse(&state_stack, &parse_stack))
 		return (false);
-	if (!parse(token_list, &state_stack, &parse_stack))
+	if (!parse(&shell->token_list, &state_stack, &parse_stack))
 		return (free_parse(&state_stack, &parse_stack), false);
 	printf("ACCEPT\n");
+	shell->ast = extract_ast_from_parse_stack(&parse_stack);
+	ft_lstclear(&shell->token_list, free_token_node);
 	return (free_parse(&state_stack, &parse_stack), true);
 }
