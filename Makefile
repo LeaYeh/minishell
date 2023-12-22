@@ -12,7 +12,7 @@ INCLUDES 		:= -I./include -I./$(LIBRARIES)/inc
 CC 			:=	cc
 CFLAGS 		:=	-Wall -Wextra -Werror -g
 LIBFLAGS	:=	$(addprefix -L,$(LIBRARIES)) \
-                $(addprefix -l,$(patsubst lib%,%,$(notdir \
+				$(addprefix -l,$(patsubst lib%,%,$(notdir \
 				$(LIBRARIES) $(LIBRARIES_EXT))))
 MAKEFLAGS	:=	-j$(nproc)
 
@@ -24,10 +24,15 @@ DEP			:= $(SRC:%.c=$(DEP_DIR)/%.d)
 OBJ_SUBDIRS	:= $(sort $(dir $(OBJ)))
 DEP_SUBDIRS	:= $(sort $(dir $(DEP)))
 
-all:		$(NAME)
+export 		MAKECMDGOALS
+.PHONY:		all lib clean fclean re
 
-$(NAME):	$(OBJ)
+all:		lib $(NAME)
+
+lib:
 		$(MAKE) -C $(LIBRARIES)
+
+$(NAME):	$(LIBRARIES) $(OBJ)
 		$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o:		%.c Makefile | $(OBJ_SUBDIRS)
@@ -51,8 +56,6 @@ fclean: 	clean
 re:
 		$(MAKE) fclean
 		$(MAKE) all
-
-.PHONY: all clean fclean re
 
 ifeq (,$(filter clean fclean re,$(MAKECMDGOALS)))
     ifneq (,$(wildcard $(OBJ_DIR)))
