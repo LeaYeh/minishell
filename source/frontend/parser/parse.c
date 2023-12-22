@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/21 14:20:46 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/22 20:54:13 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "utils.h"
 
 bool	parse_step(t_pt_node *pt_entry,
-	t_list **token_list, t_stack **state_stack, t_stack **parse_stack)
+	t_list **token_list, t_list **state_stack, t_list **parse_stack)
 {
 	bool		ret;
 
@@ -37,7 +37,7 @@ bool	parse_step(t_pt_node *pt_entry,
 }
 
 // TODO: Need to verify if the return value always be one of the operators
-char	*get_error_token_data(t_list *token_list, t_stack *parse_stack)
+char	*get_error_token_data(t_list *token_list, t_list *parse_stack)
 {
 	char	*error_token_data;
 
@@ -49,7 +49,7 @@ char	*get_error_token_data(t_list *token_list, t_stack *parse_stack)
 	return (error_token_data);
 }
 
-void	report_syntax_error(t_list *token_list, t_stack *parse_stack)
+void	report_syntax_error(t_list *token_list, t_list *parse_stack)
 {
 	ft_dprintf(2, "%s: syntax error near unexpected token `%s'\n",
 		PROGRAM_NAME,
@@ -57,7 +57,7 @@ void	report_syntax_error(t_list *token_list, t_stack *parse_stack)
 }
 
 bool	parse(
-	t_list **token_list, t_stack **state_stack, t_stack **parse_stack)
+	t_list **token_list, t_list **state_stack, t_list **parse_stack)
 {
 	bool		ret;
 	t_pt_node	*pt_entry;
@@ -86,8 +86,8 @@ bool	parse(
 
 bool	ft_parse(t_list **token_list)
 {
-	t_stack		*state_stack;
-	t_stack		*parse_stack;
+	t_list		*state_stack;
+	t_list		*parse_stack;
 
 	if (!init_parse(&state_stack, &parse_stack))
 		return (false);
