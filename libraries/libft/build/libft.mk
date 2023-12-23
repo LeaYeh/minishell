@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2023/12/20 22:20:35 by ldulling         ###   ########.fr        #
+#    Updated: 2023/12/23 14:23:25 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,16 +59,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstpop_content.c \
 			ft_lstsize.c \
 			ft_lstsort_bubble.c \
-)
-
-#   Doubly-linked:
-SUBDIR	:=	lists/doubly_linked/
-TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
-			ft_lstadd_back_d.c \
-			ft_lstadd_front_d.c \
-			ft_lstclear_d.c \
-			ft_lstlast_d.c \
-			ft_lstnew_d.c \
+			ft_lstswap_head.c \
 )
 
 #  Memory:
