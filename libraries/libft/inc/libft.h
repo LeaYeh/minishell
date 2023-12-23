@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/23 18:20:07 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 18:21:23 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,28 +102,6 @@ void		ft_putnbr_fd(int n, int fd);
 size_t		ft_putnchar_fd(unsigned char c, size_t n, int fd);
 size_t		ft_putnstr_fd(const char *s, size_t n, int fd);
 void		ft_putstr_fd(char *s, int fd);
-
-\
-/* Stack */
-
-void		ft_stkclear(t_list **stk, void (*del)(void *));
-void		ft_stkdelone(t_list *stk, void (*del)(void *));
-t_list		*ft_stknew(void *content);
-t_list		*ft_stkpeektop(t_list *stk);
-t_list		*ft_stkpop(t_list **stk);
-void		ft_stkpush(t_list **stk, t_list *new);
-int			ft_stksize(t_list *stk);
-
-
-/* Stack */
-
-void		ft_stkclear(t_list **stk, void (*del)(void *));
-void		ft_stkdelone(t_list *stk, void (*del)(void *));
-t_list		*ft_stknew(void *content);
-t_list		*ft_stkpeektop(t_list *stk);
-t_list		*ft_stkpop(t_list **stk);
-void		ft_stkpush(t_list **stk, t_list *new);
-int			ft_stksize(t_list *stk);
 
 \
 /* Strings */

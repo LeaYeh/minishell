@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2023/12/23 14:23:25 by ldulling         ###   ########.fr        #
+#    Updated: 2023/12/23 16:09:12 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,18 +104,6 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_putnchar_fd.c \
 			ft_putnstr_fd.c \
 			ft_putstr_fd.c \
-)
-
-#   Stack:
-SUBDIR	:=	stack/
-TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
-			ft_stkclear.c \
-			ft_stkdelone.c \
-			ft_stknew.c \
-			ft_stkpeektop.c \
-			ft_stkpop.c \
-			ft_stkpush.c \
-			ft_stksize.c \
 )
 
 #  Strings:
