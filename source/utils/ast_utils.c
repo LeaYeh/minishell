@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:16:10 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/24 00:02:01 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/24 00:13:45 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	free_ast_data(void *ast)
 void	free_ast_node(void *ast)
 {
 	t_list	*child;
-	t_list	*tmp;
 
 	if (!ast)
 		return ;
@@ -48,9 +47,7 @@ void	free_ast_node(void *ast)
 	{
 		free_ast_data(child->content);
 		free_ast_node(child->content);
-		tmp = child;
-		child = child->next;
-		free(tmp);
+		free(ft_lstpop_front(&child));
 	}
 	free_ast_data(ast);
 	free(ast);

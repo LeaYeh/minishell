@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/26 18:21:34 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/26 18:29:20 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,7 @@ bool	ft_read_input(t_shell *shell)
 	char	*line;
 
 	if (shell->input_line != NULL)
-	{
-		free(shell->input_line);
-		shell->input_line = NULL;
-	}
+		ft_free_and_null((void **) &shell->input_line);
 	line = readline(PROMPT);
 	if (!line)
 		return (false);

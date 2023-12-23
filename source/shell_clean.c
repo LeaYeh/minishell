@@ -3,23 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   shell_clean.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:02:15 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/22 22:17:26 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/24 00:13:18 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils.h"
-
-void	ft_free_input_line(char **input_line)
-{
-	if (!input_line)
-		return ;
-	free(*input_line);
-	*input_line = NULL;
-}
 
 void	free_env_node(void *content)
 {
@@ -36,6 +28,6 @@ void	ft_clean_shell(t_shell *shell)
 	ft_lstclear(&shell->env_list, free_env_node);
 	ft_lstclear(&shell->token_list, free_token_node);
 	free_ast_node(shell->ast);
-	ft_free_input_line(&shell->input_line);
+	ft_free_and_null((void **) &shell->input_line);
 	exit(shell->exit_code);
 }
