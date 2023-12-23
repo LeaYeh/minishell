@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stkdelone.c                                     :+:      :+:    :+:   */
+/*   ft_lstdelone_d.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/17 19:41:12 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/17 22:13:23 by lyeh             ###   ########.fr       */
+/*   Created: 2023/09/24 16:04:26 by ldulling          #+#    #+#             */
+/*   Updated: 2023/12/23 14:16:57 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_stkdelone(t_stack *stk, void (*del)(void *))
+void	ft_lstdelone_d(t_list_d *lst, void (*del)(void *))
 {
-	if (stk != NULL)
-	{
-		if (del != NULL && stk->content != NULL)
-			(*del)(stk->content);
-		free(stk);
-	}
+	if (lst == NULL)
+		return ;
+	if (del != NULL && lst->content != NULL)
+		(*del)(lst->content);
+	free(lst);
 	return ;
 }

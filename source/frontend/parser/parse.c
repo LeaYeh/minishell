@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/21 14:20:46 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 20:58:20 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,19 @@
 #include "utils.h"
 
 bool	parse_step(t_pt_node *pt_entry,
-	t_list **token_list, t_stack **state_stack, t_stack **parse_stack)
+	t_list **token_list, t_list **state_stack, t_list **parse_stack)
 {
 	bool		ret;
 
 	ret = false;
 
 	if (pt_entry && pt_entry->action == A_SHIFT)
-		ret = parse_shift(ft_lstpop_content(token_list),
+		ret = parse_shift(ft_lstpop_front_content(token_list),
 				state_stack, parse_stack, pt_entry->next_state);
 	else if (pt_entry && pt_entry->action == A_REDUCE)
 	{
 		if (parse_reduce(state_stack, parse_stack, pt_entry) && \
-			parse_goto(state_stack,
-				get_token_from_stack(ft_stkpeektop(*parse_stack))->type))
+			parse_goto(state_stack, get_token_from_stack(*parse_stack)->type))
 			ret = true;
 	}
 	else
@@ -37,19 +36,18 @@ bool	parse_step(t_pt_node *pt_entry,
 }
 
 // TODO: Need to verify if the return value always be one of the operators
-char	*get_error_token_data(t_list *token_list, t_stack *parse_stack)
+char	*get_error_token_data(t_list *token_list, t_list *parse_stack)
 {
 	char	*error_token_data;
 
 	if (token_list)
 		error_token_data = get_token_data_from_list(token_list);
 	else
-		error_token_data = get_token_from_stack(
-				ft_stkpeektop(parse_stack))->data;
+		error_token_data = get_token_from_stack(parse_stack)->data;
 	return (error_token_data);
 }
 
-void	report_syntax_error(t_list *token_list, t_stack *parse_stack)
+void	report_syntax_error(t_list *token_list, t_list *parse_stack)
 {
 	ft_dprintf(2, "%s: syntax error near unexpected token `%s'\n",
 		PROGRAM_NAME,
@@ -57,7 +55,7 @@ void	report_syntax_error(t_list *token_list, t_stack *parse_stack)
 }
 
 bool	parse(
-	t_list **token_list, t_stack **state_stack, t_stack **parse_stack)
+	t_list **token_list, t_list **state_stack, t_list **parse_stack)
 {
 	bool		ret;
 	t_pt_node	*pt_entry;
@@ -67,7 +65,7 @@ bool	parse(
 	{
 		print_token_list(*token_list);
 		pt_entry = get_next_pt_entry(
-				get_state_from_stack(ft_stkpeektop(*state_stack)),
+				get_state_from_stack(*state_stack),
 				get_token_type_from_list(*token_list),
 				A_SHIFT | A_REDUCE | A_ACCEPT);
 		if (pt_entry && pt_entry->action == A_ACCEPT)
@@ -86,8 +84,8 @@ bool	parse(
 
 bool	ft_parse(t_list **token_list)
 {
-	t_stack		*state_stack;
-	t_stack		*parse_stack;
+	t_list		*state_stack;
+	t_list		*parse_stack;
 
 	if (!init_parse(&state_stack, &parse_stack))
 		return (false);

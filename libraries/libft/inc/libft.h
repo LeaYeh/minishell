@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 22:19:36 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 20:58:20 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,9 @@ typedef struct s_list_d
 	struct s_list_d	*next;
 }	t_list_d;
 
-typedef struct s_stack
-{
-	void			*content;
-	struct s_stack	*next;
-}	t_stack;
-
+\
 /* Chars */
+
 int			ft_isalnum(int c);
 int			ft_isalpha(int c);
 int			ft_isascii(int c);
@@ -50,7 +46,19 @@ int			ft_isspace(int c);
 int			ft_tolower(int c);
 int			ft_toupper(int c);
 
+\
+/* Lists doubly-linked */
+
+void		ft_lstadd_back_d(t_list_d **lst, t_list_d *new);
+void		ft_lstadd_front_d(t_list_d **lst, t_list_d *new);
+void		ft_lstclear_d(t_list_d **lst, void (*del)(void *));
+void		ft_lstdelone_d(t_list_d *lst, void (*del)(void *));
+t_list_d	*ft_lstlast_d(t_list_d *lst);
+t_list_d	*ft_lstnew_d(void *content);
+
+\
 /* Lists singly-linked */
+
 void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstadd_front(t_list **lst, t_list *new);
 void		ft_lstclear(t_list **lst, void (*del)(void *));
@@ -60,19 +68,15 @@ void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list		*ft_lstnew(void *content);
-t_list		*ft_lstpop(t_list **lst);
-void		*ft_lstpop_content(t_list **lst);
+t_list		*ft_lstpop_front(t_list **lst);
+void		*ft_lstpop_front_content(t_list **lst);
 int			ft_lstsize(t_list *lst);
 void		ft_lstsort_bubble(t_list **lst, void *(*cmp)(void *, void *));
+void		ft_lstswap_head(t_list **lst);
 
-/* Lists doubly-linked */
-void		ft_lstadd_back_d(t_list_d **lst, t_list_d *new);
-void		ft_lstadd_front_d(t_list_d **lst, t_list_d *new);
-void		ft_lstclear_d(t_list_d **lst, void (*del)(void *));
-t_list_d	*ft_lstlast_d(t_list_d *lst);
-t_list_d	*ft_lstnew_d(void *content);
-
+\
 /* Memory */
+
 void		ft_bzero(void *s, size_t n);
 void		*ft_calloc(size_t nmemb, size_t size);
 void		ft_free_and_null(void **ptr);
@@ -82,11 +86,14 @@ void		*ft_memcpy(void *dest, const void *src, size_t n);
 void		*ft_memmove(void *dest, const void *src, size_t n);
 void		*ft_memset(void *s, int c, size_t n);
 
+\
 /* Numbers */
+
 double		ft_atof(const char *nptr);
 int			ft_atoi(const char *nptr);
 long		ft_atol(const char *nptr);
 
+\
 /* Put */
 void		ft_putchar_fd(char c, int fd);
 void		ft_putendl_fd(char *s, int fd);
@@ -96,16 +103,9 @@ size_t		ft_putnchar_fd(unsigned char c, size_t n, int fd);
 size_t		ft_putnstr_fd(const char *s, size_t n, int fd);
 void		ft_putstr_fd(char *s, int fd);
 
-/* Stack */
-void		ft_stkclear(t_stack **stk, void (*del)(void *));
-void		ft_stkdelone(t_stack *stk, void (*del)(void *));
-t_stack		*ft_stknew(void *content);
-t_stack		*ft_stkpeektop(t_stack *stk);
-t_stack		*ft_stkpop(t_stack **stk);
-void		ft_stkpush(t_stack **stk, t_stack *new);
-int			ft_stksize(t_stack *stk);
-
+\
 /* Strings */
+
 char		*ft_itoa(int n);
 char		**ft_split(char const *s, char c);
 char		**ft_split_at_index(char *str, size_t index);

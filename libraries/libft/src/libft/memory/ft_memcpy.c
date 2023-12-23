@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:08:20 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 19:26:15 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 12:17:36 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@
  * @param dest    The memory area to copy to.
  * @param src     The memory area to copy from.
  * @param n       The number of bytes to copy.
- *                Note: Calling ft_memcpy with dest or src equal to NULL with n
- *                not 0 will cause a segmentation fault.
  *
  * @return        Returns a pointer to dest.
+ *
+ * @note          Calling ft_memcpy with dest or src equal to NULL with n not 0
+ *                will cause a segmentation fault (mirrors the behavior of the
+ *                original memcpy).
  *
  */
 void	*ft_memcpy(void *dest, const void *src, size_t n)
