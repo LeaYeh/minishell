@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parser_operation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
 /*   Updated: 2023/12/23 21:10:48 by lyeh             ###   ########.fr       */

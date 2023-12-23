@@ -14,7 +14,6 @@
 # define UTILS_H
 # include "defines.h"
 
-
 bool	drop_num_stack(t_list **stack, int num, void (*del)(void *));
 t_list	*pop_num_stack(t_list **stack, int num);
 
@@ -26,7 +25,6 @@ void	free_ast_node(t_ast *ast);
 void	free_ast_data(t_ast *ast);
 
 char	*ft_get_token_type_str(int type);
-
 
 int		get_state_from_stack(t_list *node);
 t_token	*get_token_from_stack(t_list *node);
