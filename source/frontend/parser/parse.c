@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/22 20:54:13 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 15:49:55 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ bool	parse_step(t_pt_node *pt_entry,
 	else if (pt_entry && pt_entry->action == A_REDUCE)
 	{
 		if (parse_reduce(state_stack, parse_stack, pt_entry) && \
-			parse_goto(state_stack,
-				get_token_from_stack(ft_stkpeektop(*parse_stack))->type))
+			parse_goto(state_stack, get_token_from_stack(*parse_stack)->type))
 			ret = true;
 	}
 	else
@@ -44,8 +43,7 @@ char	*get_error_token_data(t_list *token_list, t_list *parse_stack)
 	if (token_list)
 		error_token_data = get_token_data_from_list(token_list);
 	else
-		error_token_data = get_token_from_stack(
-				ft_stkpeektop(parse_stack))->data;
+		error_token_data = get_token_from_stack(parse_stack)->data;
 	return (error_token_data);
 }
 
@@ -67,7 +65,7 @@ bool	parse(
 	{
 		print_token_list(*token_list);
 		pt_entry = get_next_pt_entry(
-				get_state_from_stack(ft_stkpeektop(*state_stack)),
+				get_state_from_stack(*state_stack),
 				get_token_type_from_list(*token_list),
 				A_SHIFT | A_REDUCE | A_ACCEPT);
 		if (pt_entry && pt_entry->action == A_ACCEPT)
