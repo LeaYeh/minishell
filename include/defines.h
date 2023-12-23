@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/22 21:36:33 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 18:41:18 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,15 @@ typedef struct s_ast
 	char			*data;
 	t_list			*children;
 }	t_ast;
+
+// TODO: move this one to the test.h
+typedef struct s_relation_ast
+{
+	int				level;
+	t_ast			*parent;
+	t_ast			*current;
+	t_list			*children;
+}	t_relation_ast;
 
 typedef struct s_pt_node
 {

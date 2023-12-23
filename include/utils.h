@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/22 22:01:08 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 19:10:07 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	free_token_node(void *content);
 t_ast	*init_ast_node(int type, char *data, t_list *children);
 void	free_ast_node(t_ast *ast);
 void	free_ast_data(t_ast *ast);
-void	print_ast(t_ast *node, int depth);
 
 char	*ft_get_token_type_str(int type);
 

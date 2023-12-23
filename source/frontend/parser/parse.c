@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 21:10:44 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 19:02:55 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_ast	*extract_ast_from_parse_stack(t_list **parse_stack)
 {
 	t_ast	*ast;
 
-	print_parse_stack(*parse_stack);
 	if (ft_stksize(*parse_stack) != 2 || \
 		get_ast_from_stack(*parse_stack)->type != T_END)
 		return (NULL);
@@ -98,8 +97,8 @@ t_ast	*extract_ast_from_parse_stack(t_list **parse_stack)
 // TODO: Should we free the token_list here?
 bool	ft_parse(t_shell *shell)
 {
-	t_list		*state_stack;
-	t_list		*parse_stack;
+	t_list	*state_stack;
+	t_list	*parse_stack;
 
 	if (!init_parse(&state_stack, &parse_stack))
 		return (false);
