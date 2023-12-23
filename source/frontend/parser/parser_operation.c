@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 16:08:09 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 18:46:46 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 bool	push_state(t_list **state_stack, int next_step)
 {
 	t_list	*node;
-	int		*tmp;
+	int		*state;
 
-	tmp = malloc(sizeof(int));
-	if (!tmp)
+	state = malloc(sizeof(int));
+	if (!state)
 		return (false);
-	*tmp = next_step;
-	node = ft_lstnew((void *)tmp);
+	*state = next_step;
+	node = ft_lstnew(state);
 	if (!node)
-		return (free(tmp), false);
+		return (free(state), false);
 	ft_lstadd_front(state_stack, node);
 	return (true);
 }
