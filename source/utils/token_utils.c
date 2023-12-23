@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 22:01:28 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/21 22:08:54 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/24 00:02:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_token_node(void *ptr)
 {
 	t_token	*token;
 
-	token = (t_token *)ptr;
+	token = (t_token *) ptr;
 	if (token->data)
 		free(token->data);
 	free(token);
@@ -39,25 +39,26 @@ int	get_token_type_from_list(t_list *token_list)
 {
 	if (!token_list)
 		return (T_NONE);
-	return (((t_token *)token_list->content)->type);
+	return (((t_token *) token_list->content)->type);
 }
 
 char	*get_token_data_from_list(t_list *token_list)
 {
 	if (!token_list)
 		return (NULL);
-	return (((t_token *)token_list->content)->data);
+	return (((t_token *) token_list->content)->data);
 }
 
-void	print_token(t_token *token)
+void	print_token(void *token)
 {
 	printf("(type: %s, data: %s)\n",
-		ft_get_token_type_str(token->type), token->data);
+		ft_get_token_type_str(((t_token *) token)->type), \
+			((t_token *) token)->data);
 }
 
 void	print_token_list(t_list *token_list)
 {
 	printf("-------- TOKEN LIST --------\n");
-	ft_lstiter(token_list, (void *)print_token);
+	ft_lstiter(token_list, print_token);
 	printf("----------------------------\n\n");
 }
