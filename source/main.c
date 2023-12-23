@@ -33,14 +33,15 @@ int	main(int argc, char **argv, char **env)
 	{
 		if (!ft_read_input(&shell))
 			return (ft_clean_shell(&shell), EXIT_FAILED);
-		if (ft_strlen(shell.input_line) == 1 && shell.input_line[0] == '\n')
+		if (!shell.input_line || ft_strlen(shell.input_line) == 0 \
+			|| shell.input_line[0] == '\n')
 			continue ;
 		if (!ft_lexer(&shell))
 			return (ft_clean_shell(&shell), EXIT_FAILED);
 		if (!ft_parse(&shell))
 			return (ft_clean_shell(&shell), EXIT_FAILED);
 		print_ast_bfs(shell.ast);
-		ft_clean_shell(&shell);
+		// ft_clean_shell(&shell);
 		// do executor
 	}
 	return (EXIT_SUCCESS);
