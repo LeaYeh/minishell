@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:04:35 by ldulling          #+#    #+#             */
-/*   Updated: 2023/11/27 00:18:44 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 11:43:14 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	t_list	*new_node;
 	void	*new_content;
 
-	if (!lst || !f || !del)
+	if (lst == NULL || f == NULL || del == NULL)
 		return (NULL);
 	new_lst = NULL;
 	new_lst_tail = NULL;
