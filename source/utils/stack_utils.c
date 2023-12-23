@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 21:55:34 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 21:12:02 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 18:41:05 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_list	*pop_num_stack(t_list **stack, int num)
 		node = ft_stkpop(stack);
 		if (!node)
 			return (NULL);
-		ft_lstadd_back(&head, node);
+		ft_lstadd_front(&head, node);
 		i++;
 	}
 	return (head);
