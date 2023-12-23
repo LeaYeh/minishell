@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 15:49:55 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 20:58:20 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	parse_step(t_pt_node *pt_entry,
 	ret = false;
 
 	if (pt_entry && pt_entry->action == A_SHIFT)
-		ret = parse_shift(ft_lstpop_content(token_list),
+		ret = parse_shift(ft_lstpop_front_content(token_list),
 				state_stack, parse_stack, pt_entry->next_state);
 	else if (pt_entry && pt_entry->action == A_REDUCE)
 	{

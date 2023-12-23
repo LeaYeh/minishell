@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 21:55:34 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 15:42:41 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 20:58:20 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	drop_num_stack(t_list **stack, int num, void (*del)(void *))
 	i = 0;
 	while (i < num)
 	{
-		node = ft_lstpop(stack);
+		node = ft_lstpop_front(stack);
 		if (!node)
 			return (false);
 		ft_lstdelone(node, del);
