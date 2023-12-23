@@ -51,7 +51,12 @@ $(OBJ_SUBDIRS) $(DEP_SUBDIRS):
 clean:
 		$(MAKE) -C $(LIBRARIES) clean
 		rm -f $(OBJ) $(DEP)
-		-find $(OBJ_DIR) $(DEP_DIR) -type d -empty -delete
+ifneq (,$(wildcard $(OBJ_DIR)))
+		-find $(OBJ_DIR) -type d -empty -delete
+endif
+ifneq (,$(wildcard $(DEP_DIR)))
+		-find $(DEP_DIR) -type d -empty -delete
+endif
 
 fclean: 	clean
 		$(MAKE) -C $(LIBRARIES) fclean
