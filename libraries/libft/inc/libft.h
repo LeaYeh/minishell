@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/22 19:53:13 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 14:24:34 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,7 @@ t_list		*ft_lstpop(t_list **lst);
 void		*ft_lstpop_content(t_list **lst);
 int			ft_lstsize(t_list *lst);
 void		ft_lstsort_bubble(t_list **lst, void *(*cmp)(void *, void *));
-
-/* Lists doubly-linked */
-void		ft_lstadd_back_d(t_list_d **lst, t_list_d *new);
-void		ft_lstadd_front_d(t_list_d **lst, t_list_d *new);
-void		ft_lstclear_d(t_list_d **lst, void (*del)(void *));
-t_list_d	*ft_lstlast_d(t_list_d *lst);
-t_list_d	*ft_lstnew_d(void *content);
+void		ft_lstswap_head(t_list **lst);
 
 /* Memory */
 void		ft_bzero(void *s, size_t n);

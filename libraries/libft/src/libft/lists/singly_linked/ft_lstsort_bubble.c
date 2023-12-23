@@ -6,40 +6,28 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 21:16:52 by ldulling          #+#    #+#             */
-/*   Updated: 2023/11/27 10:36:43 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 11:55:40 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	swap_head(t_list **lst);
 static bool	bubble_sort(t_list **lst, void *(*cmp)(void *, void *));
 
 void	ft_lstsort_bubble(t_list **lst, void *(*cmp)(void *, void *))
 {
 	bool	is_sorted;
 
-	if (lst != NULL && *lst != NULL && (*lst)->next != NULL && cmp != NULL)
+	if (lst == NULL || *lst == NULL || (*lst)->next == NULL || cmp == NULL)
+		return ;
+	is_sorted = false;
+	while (is_sorted != true)
 	{
-		is_sorted = false;
-		while (is_sorted != true)
-		{
-			if (!(*cmp)((*lst)->content, (*lst)->next->content))
-				swap_head(lst);
-			is_sorted = bubble_sort(lst, cmp);
-		}
+		if (!(*cmp)((*lst)->content, (*lst)->next->content))
+			ft_lstswap_head(lst);
+		is_sorted = bubble_sort(lst, cmp);
 	}
 	return ;
-}
-
-static void	swap_head(t_list **lst)
-{
-	t_list	*tmp;
-
-	tmp = (*lst)->next;
-	(*lst)->next = tmp->next;
-	tmp->next = *lst;
-	*lst = tmp;
 }
 
 static bool	bubble_sort(t_list **lst, void *(*cmp)(void *, void *))
