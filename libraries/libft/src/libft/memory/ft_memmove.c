@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:08:23 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 19:26:52 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 12:17:54 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@
  * @param n       The number of bytes to copy.
  *
  * @return        Returns a pointer to dest.
- *                Note: Calling ft_memcpy with dest or src equal to NULL with n
- *                not 0 will cause a segmentation fault.
+ *
+ * @note          Calling ft_memcpy with dest or src equal to NULL with n not 0
+ *                will cause a segmentation fault (mirrors the behavior of the
+ *                original memmove).
  *
  */
 void	*ft_memmove(void *dest, const void *src, size_t n)
