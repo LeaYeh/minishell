@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:15:16 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 19:30:03 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 12:21:31 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@
  * longer than size.
  *
  * @param dst     The string to be appended to.
- *                Note: Calling ft_strlcat with dst equal to NULL with a size
- *                not 0 will cause a segmentation fault.
  * @param src     The string to append to dst.
- *                Note: Calling ft_strlcat with src equal to NULL will cause a
- *                segmentation fault.
  * @param size    The total size of dst, including the space for the
  *                NUL-terminator.
  *
@@ -32,6 +28,10 @@
  *                the initial length of dst plus the length of src.
  *                If the return value is >= size, the output string has been
  *                truncated.
+ *
+ * @note          Calling ft_strlcat with dst equal to NULL with a size not 0,
+ *                or with src equal to NULL will cause a segmentation fault
+ *                (mirrors the behavior of the original strlcat).
  *
  */
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
