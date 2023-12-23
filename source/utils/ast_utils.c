@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:16:10 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/21 23:06:27 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/22 23:23:22 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,24 @@ void	free_ast_data(t_ast *ast)
 }
 
 // Free all the children recursively and then free the node
-void	free_ast_node(t_ast **ast)
+void	free_ast_node(t_ast *ast)
 {
-	static int	depth = -1;
 	t_list	*child;
+	t_list	*tmp;
 
-	if (!ast || !*ast)
+	if (!ast)
 		return ;
-	printf("here %d\n", depth++);
-	child = (*ast)->children;
-	printf("here %d\n", depth);
+	child = ast->children;
 	while (child)
 	{
-		depth++;
-		free_ast_node(((t_ast **)&(child->content)));
+		free_ast_data((t_ast *)child->content);
+		free_ast_node((t_ast *)child->content);
+		tmp = child;
 		child = child->next;
+		free(tmp);
 	}
-	free_ast_data(*ast);
-	ft_free_and_null((void **)ast);
+	free_ast_data(ast);
+	free(ast);
 }
 
 void	print_ast(t_ast *node, int depth)

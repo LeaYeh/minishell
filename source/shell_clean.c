@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:02:15 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/21 22:15:52 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/22 22:17:26 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_clean_shell(t_shell *shell)
 {
 	ft_lstclear(&shell->env_list, free_env_node);
 	ft_lstclear(&shell->token_list, free_token_node);
+	free_ast_node(shell->ast);
 	ft_free_input_line(&shell->input_line);
 	exit(shell->exit_code);
 }

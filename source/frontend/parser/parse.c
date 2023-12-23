@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 21:08:27 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 21:10:44 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,24 +85,13 @@ bool	parse(
 t_ast	*extract_ast_from_parse_stack(t_list **parse_stack)
 {
 	t_ast	*ast;
-	t_list	*tmp;
 
 	print_parse_stack(*parse_stack);
-	printf("nooooooo %d\n", ft_stksize(*parse_stack));
 	if (ft_stksize(*parse_stack) != 2 || \
 		get_ast_from_stack(*parse_stack)->type != T_END)
 		return (NULL);
-	printf("1\n");
 	drop_num_stack(parse_stack, 1, (void *)free_ast_node);
-	printf("2\n");
-	tmp = pop_num_stack(parse_stack, 1);
-	printf("3\n");
-	if (!tmp)
-		return (NULL);
-	ast = get_ast_from_stack(tmp);
-	printf("4\n");
-	// ast = (*parse_stack)->content;
-	// ft_free_and_null((void **)parse_stack);
+	ast = ft_lstpop_content(parse_stack);
 	return (ast);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 21:55:34 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 21:09:55 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 21:12:02 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,17 @@ bool	drop_num_stack(t_list **stack, int num, void (*del)(void *))
 t_list	*pop_num_stack(t_list **stack, int num)
 {
 	t_list	*head;
-	t_list	*cur_node;
-	t_list	*tmp_node;
+	t_list	*node;
 	int		i;
 
 	head = NULL;
 	i = 0;
 	while (i < num)
 	{
-		tmp_node = ft_stkpop(stack);
-		if (!tmp_node)
+		node = ft_stkpop(stack);
+		if (!node)
 			return (NULL);
-		cur_node = tmp_node;
-		if (i == 0)
-			head = cur_node;
-		cur_node = cur_node->next;
+		ft_lstadd_back(&head, node);
 		i++;
 	}
 	return (head);
