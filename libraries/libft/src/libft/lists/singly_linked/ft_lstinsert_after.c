@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:04:12 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 19:09:44 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 11:39:56 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,17 @@
  */
 void	ft_lstinsert_after(t_list **lst, t_list *new)
 {
-	t_list	*last_new;
-	t_list	*old;
+	t_list	*old_next;
 
-	if (lst != NULL && new != NULL)
+	if (lst == NULL && new == NULL)
+		return ;
+	if (*lst == NULL)
+		*lst = new;
+	else
 	{
-		if (*lst == NULL)
-			*lst = new;
-		else
-		{
-			old = (*lst)->next;
-			(*lst)->next = new;
-			last_new = new;
-			while (last_new->next != NULL)
-				last_new = last_new->next;
-			last_new->next = old;
-		}
+		old_next = (*lst)->next;
+		(*lst)->next = new;
+		ft_lstlast(new)->next = old_next;
 	}
 	return ;
 }

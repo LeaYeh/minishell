@@ -43,6 +43,17 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 )
 
 #  Lists:
+#   Doubly-linked:
+SUBDIR	:=	lists/doubly_linked/
+TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+			ft_lstadd_back_d.c \
+			ft_lstadd_front_d.c \
+			ft_lstclear_d.c \
+			ft_lstdelone_d.c \
+			ft_lstlast_d.c \
+			ft_lstnew_d.c \
+)
+
 #   Singly-linked:
 SUBDIR	:=	lists/singly_linked/
 TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
