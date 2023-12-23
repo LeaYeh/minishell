@@ -27,10 +27,11 @@ DEP_SUBDIRS	:= $(sort $(dir $(DEP)))
 export 		MAKECMDGOALS
 .PHONY:		all lib clean fclean re
 
-# Needs GNU Make version 4.4
-# all:		lib .WAIT $(NAME)	(Replaces .NOTPARALLEL special target)
-.NOTPARALLEL:	lib	# temporary until update to version 4.4
+ifeq ($(firstword $(sort $(MAKE_VERSION) 4.4)),4.4)
+all:		lib .WAIT $(NAME)
 
+else
+.NOTPARALLEL:	lib
 all:		lib $(NAME)
 
 lib:
