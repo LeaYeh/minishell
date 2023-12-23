@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 14:08:03 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 18:41:18 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define PT_COL_SIZE        5
 # define PT_ROW_SIZE        191
 # define UNDEFINED_TYPE     -99
+# define UNDEFINED_STATE    -1
 
 // # define RED				"\033[0;31m"
 // # define GREEN				"\033[0;32m"
@@ -122,9 +123,17 @@ typedef struct s_ast
 {
 	int				type;
 	char			*data;
-	struct s_ast	*left;
-	struct s_ast	*right;
+	t_list			*children;
 }	t_ast;
+
+// TODO: move this one to the test.h
+typedef struct s_relation_ast
+{
+	int				level;
+	t_ast			*parent;
+	t_ast			*current;
+	t_list			*children;
+}	t_relation_ast;
 
 typedef struct s_pt_node
 {

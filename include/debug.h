@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 18:02:03 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/11 19:16:27 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 20:10:01 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 
 void	ft_show_env_list(t_shell *shell);
 void	ft_show_token_list(t_shell *shell);
+void	print_ast_bfs(t_ast *root);
 
 #endif

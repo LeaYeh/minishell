@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 18:04:45 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 20:10:15 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if (!ft_lexer(&shell))
 			return (ft_clean_shell(&shell), EXIT_FAILED);
-		if (!ft_parse(&shell.token_list))
+		if (!ft_parse(&shell))
 			return (ft_clean_shell(&shell), EXIT_FAILED);
+		print_ast_bfs(shell.ast);
 		ft_clean_shell(&shell);
 		// do executor
 	}
