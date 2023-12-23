@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:16:27 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/20 19:32:08 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 12:17:17 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
  * searched. Characters that appear after a '\0' character are not searched.
  *
  * @param big       The string to be scanned.
- *                  Note: Calling ft_strnstr with big equal to NULL with a size
- *                  not 0 will cause a segmentation fault.
  * @param little    The string to be searched within big.
  * @param len       The number of characters to be scanned in big.
  *
@@ -27,6 +25,10 @@
  *                  occurs nowhere in big, NULL is returned; otherwise a pointer
  *                  to the first character of the first occurrence of little is
  *                  returned.
+ *
+ * @note            Calling ft_strnstr with big equal to NULL with a size not 0
+ *                  will cause a segmentation fault (mirrors the behavior of the
+ *                  original strnstr).
  *
  */
 char	*ft_strnstr(const char *big, const char *little, size_t len)
