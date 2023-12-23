@@ -25,5 +25,5 @@ bool	init_parse(t_list **state_stack, t_list **parse_stack)
 void	free_parse(t_list **state_stack, t_list **parse_stack)
 {
 	ft_lstclear(state_stack, free);
-	ft_lstclear(parse_stack, free_token_node);
+	ft_lstclear(parse_stack, (void *)free_ast_node);
 }
