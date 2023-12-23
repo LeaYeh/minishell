@@ -40,7 +40,7 @@ t_list	*pop_num_stack(t_list **stack, int num)
 	i = 0;
 	while (i < num)
 	{
-		node = ft_stkpop(stack);
+		node = ft_lstpop_front(stack);
 		if (!node)
 			return (NULL);
 		ft_lstadd_front(&head, node);

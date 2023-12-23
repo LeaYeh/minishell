@@ -44,7 +44,7 @@ void	print_ast_bfs(t_ast *root)
 	cur_level = 0;
 	while (queue)
 	{
-		node = (t_relation_ast *)ft_lstpop_content(&queue);
+		node = (t_relation_ast *)ft_lstpop_front_content(&queue);
 		if (node->level != cur_level)
 		{
 			printf("\n\n%d: ", node->level);

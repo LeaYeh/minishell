@@ -86,11 +86,11 @@ t_ast	*extract_ast_from_parse_stack(t_list **parse_stack)
 {
 	t_ast	*ast;
 
-	if (ft_stksize(*parse_stack) != 2 || \
+	if (ft_lstsize(*parse_stack) != 2 || \
 		get_ast_from_stack(*parse_stack)->type != T_END)
 		return (NULL);
 	drop_num_stack(parse_stack, 1, (void *)free_ast_node);
-	ast = ft_lstpop_content(parse_stack);
+	ast = ft_lstpop_front_content(parse_stack);
 	return (ast);
 }
 
