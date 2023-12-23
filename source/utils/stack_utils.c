@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 21:55:34 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/22 20:53:49 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/23 15:42:41 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ bool	drop_num_stack(t_list **stack, int num, void (*del)(void *))
 	i = 0;
 	while (i < num)
 	{
-		node = ft_stkpop(stack);
+		node = ft_lstpop(stack);
 		if (!node)
 			return (false);
-		ft_stkdelone(node, del);
+		ft_lstdelone(node, del);
 		i++;
 	}
 	return (true);
