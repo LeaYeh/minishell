@@ -27,13 +27,9 @@ jobs:
         cp -r 42_minishell_tester $HOME
         chmod +x $HOME/42_minishell_tester/tester.sh
 
-    - name: Check memory leaks for incomming PR
+    - name: Check memory leaks and set up PR failed count
       run: |
         $HOME/42_minishell_tester/tester.sh vm
-
-    - name: Set up PR failed count
-      run: |
-        $HOME/42_minishell_tester/tester.sh m
       env:
         GH_BRANCH: "PR_FAILED_COUNT"
 
