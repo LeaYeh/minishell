@@ -29,7 +29,7 @@ jobs:
 
     - name: Check memory leaks and set up PR failed count
       run: |
-        $HOME/42_minishell_tester/tester.sh vm
+        $HOME/42_minishell_tester/tester.sh m
       env:
         GH_BRANCH: "PR_FAILED_COUNT"
 
