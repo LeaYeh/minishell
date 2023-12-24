@@ -27,6 +27,10 @@ jobs:
         cp -r 42_minishell_tester $HOME
         chmod +x $HOME/42_minishell_tester/tester.sh
 
+    - name: Check memory leaks for incomming PR
+      run: |
+        $HOME/42_minishell_tester/tester.sh vm
+
     - name: Set up PR failed count
       run: |
         $HOME/42_minishell_tester/tester.sh m
@@ -35,8 +39,8 @@ jobs:
 
     - name: Set up main failed count
       run: |
+        git pull origin main
         git checkout main
-        git pull
         $HOME/42_minishell_tester/tester.sh m
       env:
         GH_BRANCH: "MAIN_FAILED_COUNT"
