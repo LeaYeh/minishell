@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:16:10 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/24 00:13:45 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/26 19:33:45 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	free_ast_data(void *ast)
 {
 	if (!(t_ast *) ast)
 		return ;
-	if (((t_ast *) ast)->data)
-		ft_free_and_null((void **) &((t_ast *) ast)->data);
+	ft_free_and_null((void **) &((t_ast *) ast)->data);
 }
 
 // Free all the children recursively and then free the node
