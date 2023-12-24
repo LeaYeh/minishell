@@ -32,7 +32,7 @@ jobs:
         $HOME/42_minishell_tester/tester.sh m
       env:
         GH_BRANCH: "PR_FAILED_COUNT"
-  
+
     - name: Set up main failed count
       run: |
         git checkout main
