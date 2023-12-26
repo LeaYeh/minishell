@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 10:33:59 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/21 20:15:55 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/26 19:39:05 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool	split_node(t_list *lst_node1, size_t i)
 	char	**token_data_node1;
 	char	**token_data_split;
 
-	token_data_node1 = &((t_token *) lst_node1->content)->data;
+	token_data_node1 = &((t_token *)lst_node1->content)->data;
 	token_data_split = ft_split_at_index(*token_data_node1, i);
 	if (!token_data_split)
 		return (false);

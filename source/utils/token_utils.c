@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 22:01:28 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/26 19:01:48 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/26 19:39:02 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_token	*init_token_node(int type, char *data)
 {
 	t_token	*token_node;
 
-	token_node = (t_token *) malloc(sizeof(t_token));
+	token_node = (t_token *)malloc(sizeof(t_token));
 	if (!token_node)
 		return (NULL);
 	token_node->type = type;

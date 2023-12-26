@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 19:37:15 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/21 19:44:04 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/26 19:38:55 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	adjust_assignment_word_tokens(t_list *token_list)
 	prev_type = T_UNINITIALIZED;
 	while (token_list)
 	{
-		token = (t_token *) token_list->content;
+		token = (t_token *)token_list->content;
 		if (token->type == T_ASSIGNMENT_WORD)
 		{
 			if (prev_type != T_UNINITIALIZED && prev_type != T_ASSIGNMENT_WORD
