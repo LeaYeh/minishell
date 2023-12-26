@@ -6,18 +6,17 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:02:15 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/24 00:13:18 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/26 19:36:44 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils.h"
 
-void	free_env_node(void *content)
+void	free_env_node(t_env *env)
 {
-	t_env	*env;
-
-	env = (t_env *)content;
+	if (!env)
+		return ;
 	free(env->key);
 	free(env->value);
 	free(env);
@@ -25,8 +24,8 @@ void	free_env_node(void *content)
 
 void	ft_clean_shell(t_shell *shell)
 {
-	ft_lstclear(&shell->env_list, free_env_node);
-	ft_lstclear(&shell->token_list, free_token_node);
+	ft_lstclear(&shell->env_list, (void *)free_env_node);
+	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	free_ast_node(shell->ast);
 	ft_free_and_null((void **) &shell->input_line);
 	exit(shell->exit_code);

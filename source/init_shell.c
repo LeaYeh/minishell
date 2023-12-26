@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/16 17:35:45 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/26 19:35:38 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ bool	ft_setup_env(t_shell *shell, char **env)
 			break ;
 	}
 	if (env[i])
-		return (ft_lstclear(&shell->env_list, free_env_node),
+		return (ft_lstclear(&shell->env_list, (void *)free_env_node),
 			free(key), free(value), false);
 	return (true);
 }
