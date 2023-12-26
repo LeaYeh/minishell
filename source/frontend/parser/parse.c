@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/24 00:00:37 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 19:02:55 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_ast	*extract_ast_from_parse_stack(t_list **parse_stack)
 	if (ft_lstsize(*parse_stack) != 2 || \
 		get_ast_from_stack(*parse_stack)->type != T_END)
 		return (NULL);
-	drop_num_stack(parse_stack, 1, free_ast_node);
+	drop_num_stack(parse_stack, 1, (void *)free_ast_node);
 	ast = ft_lstpop_front_content(parse_stack);
 	return (ast);
 }

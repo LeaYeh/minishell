@@ -3,38 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   show_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 18:00:04 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 23:59:46 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/11 19:48:10 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 
-void	ft_print_env(void *env)
+void	ft_print_env(t_env *env)
 {
-	printf("%s=%s\n", ((t_env *) env)->key, ((t_env *) env)->value);
+	printf("%s=%s\n", env->key, env->value);
 }
 
-void	ft_print_token(void *token)
+void	ft_print_token(t_token *token)
 {
 	printf("(type: %s, data: %s)\n",
-		ft_get_token_type_str(((t_token *) token)->type), \
-			((t_token *) token)->data);
+		ft_get_token_type_str(token->type), token->data);
 }
 
 void	ft_show_token_list(t_shell *shell)
 {
 	printf("-------- TOKEN LIST --------\n");
-	ft_lstiter(shell->token_list, ft_print_token);
+	ft_lstiter(shell->token_list, (void *)ft_print_token);
 	printf("----------------------------\n\n");
 }
 
 void	ft_show_env_list(t_shell *shell)
 {
 	printf("--------- ENV LIST ---------\n");
-	ft_lstiter(shell->env_list, ft_print_env);
+	ft_lstiter(shell->env_list, (void *)ft_print_env);
 	printf("----------------------------\n\n");
 }

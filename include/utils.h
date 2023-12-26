@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 23:48:07 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/23 19:10:07 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_token	*init_token_node(int type, char *data);
 void	free_token_node(void *content);
 
 t_ast	*init_ast_node(int type, char *data, t_list *children);
-void	free_ast_node(void *ast);
-void	free_ast_data(void *ast);
+void	free_ast_node(t_ast *ast);
+void	free_ast_data(t_ast *ast);
 
 char	*ft_get_token_type_str(int type);
 
