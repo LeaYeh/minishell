@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 19:10:07 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/26 19:01:02 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	drop_num_stack(t_list **stack, int num, void (*del)(void *));
 t_list	*pop_num_stack(t_list **stack, int num);
 
 t_token	*init_token_node(int type, char *data);
-void	free_token_node(void *content);
+void	free_token_node(t_token *token);
 
 t_ast	*init_ast_node(int type, char *data, t_list *children);
 void	free_ast_node(t_ast *ast);

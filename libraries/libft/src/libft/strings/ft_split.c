@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:12:17 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/04 11:33:09 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/26 19:42:24 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**ft_split(char const *s, char c)
 	char	**str_array;
 
 	str_count = count_strings(s, c);
-	str_array = (char **) malloc((str_count + 1) * sizeof(char *));
+	str_array = (char **)malloc((str_count + 1) * sizeof(char *));
 	if (str_array == NULL)
 		return (NULL);
 	i = 0;

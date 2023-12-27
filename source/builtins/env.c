@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:07:52 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/16 17:41:52 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/26 19:33:19 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ bool	check_env_args(char **args)
 
 bool	exec_env(t_shell *shell, char **args)
 {
-	t_list	*curr;
+	t_list	*cur;
 	t_env	*env;
 
 	if (!check_env_args(args))
 		return (false);
-	curr = shell->env_list;
-	while (curr)
+	cur = shell->env_list;
+	while (cur)
 	{
-		env = (t_env *)curr->content;
+		env = (t_env *)cur->content;
 		ft_printf("%s=%s\n", env->key, env->value);
-		curr = curr->next;
+		cur = cur->next;
 	}
 	return (true);
 }

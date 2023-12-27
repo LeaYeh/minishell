@@ -12,7 +12,7 @@ void	test_lexer(t_shell *shell)
 	printf("**************\n");
 	while (cur)
 	{
-		token_node = (t_token *) cur->content;
+		token_node = (t_token *)cur->content;
 		printf("\ndata: %s\n", token_node->data);
 		printf("type: %i / %s\n", token_node->type, ft_get_token_type_str(token_node->type));
 		cur = cur->next;

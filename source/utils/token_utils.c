@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 22:01:28 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/21 22:08:54 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/26 19:39:02 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_token	*init_token_node(int type, char *data)
 {
 	t_token	*token_node;
 
-	token_node = (t_token *) malloc(sizeof(t_token));
+	token_node = (t_token *)malloc(sizeof(t_token));
 	if (!token_node)
 		return (NULL);
 	token_node->type = type;
@@ -25,13 +25,11 @@ t_token	*init_token_node(int type, char *data)
 	return (token_node);
 }
 
-void	free_token_node(void *ptr)
+void	free_token_node(t_token *token)
 {
-	t_token	*token;
-
-	token = (t_token *)ptr;
-	if (token->data)
-		free(token->data);
+	if (!token)
+		return ;
+	free(token->data);
 	free(token);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 16:20:32 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/21 20:16:16 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/26 19:38:58 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	set_token_type(t_list *lst_node)
 
 	while (lst_node)
 	{
-		token = (t_token *) lst_node->content;
+		token = (t_token *)lst_node->content;
 		token_data = token->data;
 		if (*token_data == '<')
 			token->type = which_lesser(token_data);

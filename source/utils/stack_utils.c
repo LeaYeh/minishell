@@ -51,7 +51,7 @@ t_list	*pop_num_stack(t_list **stack, int num)
 
 int	get_state_from_stack(t_list *node)
 {
-	if (!node)
+	if (!node || !node->content)
 		return (UNDEFINED_STATE);
 	return (*((int *)node->content));
 }

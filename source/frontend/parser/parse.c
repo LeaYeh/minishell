@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 19:02:55 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/26 19:29:55 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ bool	ft_parse(t_shell *shell)
 		return (free_parse(&state_stack, &parse_stack), false);
 	printf("ACCEPT\n");
 	shell->ast = extract_ast_from_parse_stack(&parse_stack);
-	ft_lstclear(&shell->token_list, free_token_node);
+	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	return (free_parse(&state_stack, &parse_stack), true);
 }
