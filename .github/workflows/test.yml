@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository to incomming PR
+    - name: Checkout repository to incoming PR
       uses: actions/checkout@v4
 
     - name: Set up build environment
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential valgrind
-  
+
     - name: Compile with Makefile
       run: make
 
