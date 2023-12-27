@@ -37,7 +37,7 @@ jobs:
       run: |
         git pull origin main
         git checkout main
-        $HOME/42_minishell_tester/tester.sh vm
+        $HOME/42_minishell_tester/tester.sh m
       env:
         GH_BRANCH: "MAIN_FAILED_COUNT"
 
