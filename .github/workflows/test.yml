@@ -1,0 +1,59 @@
+name: Build and Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository to incoming PR
+      uses: actions/checkout@v4
+
+    - name: Set up build environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential valgrind
+
+    - name: Compile with Makefile
+      run: make
+
+    - name: Set up testing framework
+      run: |
+        git clone https://github.com/LeaYeh/42_minishell_tester.git
+        cp -r 42_minishell_tester $HOME
+        chmod +x $HOME/42_minishell_tester/tester.sh
+
+    - name: Check memory leaks and set up PR failed count
+      run: |
+        $HOME/42_minishell_tester/tester.sh vm
+      env:
+        GH_BRANCH: "PR_FAILED_COUNT"
+
+    - name: Checkout main branch
+      uses: actions/checkout@v4
+      with:
+        ref: main
+
+    - name: Set up main failed count
+      run: $HOME/42_minishell_tester/tester.sh m
+      env:
+        GH_BRANCH: "MAIN_FAILED_COUNT"
+
+    - name: Compare failed count
+      run: |
+        echo "PR_FAILED_COUNT: $PR_FAILED_COUNT"
+        echo "MAIN_FAILED_COUNT: $MAIN_FAILED_COUNT"
+        if [ $PR_FAILED_COUNT -gt $MAIN_FAILED_COUNT ]; then
+          echo "PR_FAILED_COUNT is greater than MAIN_FAILED_COUNT"
+          exit 1
+        else
+          echo "PR_FAILED_COUNT is less than or equal to MAIN_FAILED_COUNT"
+          exit 0
+        fi
+      env:
+        PR_FAILED_COUNT: ${{ env.PR_FAILED_COUNT }}
+        MAIN_FAILED_COUNT: ${{ env.MAIN_FAILED_COUNT }}
