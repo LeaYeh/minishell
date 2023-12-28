@@ -6,11 +6,13 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/27 00:29:57 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/27 16:57:56 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
+ * REQUIREMENTS
+ *
  * DOLLAR SIGN:
  *
  * [ ] Only expand
@@ -40,6 +42,14 @@
  * WILDCARD:
  *
  */
+
+/*
+ * IMPLEMENTATION
+ *
+ * [ ] Need a function that replaces the part of a string specified by start and end with another given string.
+ *
+ *
+*/
 
 #include "defines.h"
 
