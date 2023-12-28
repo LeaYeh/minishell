@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 22:01:28 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/26 19:39:02 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:16:45 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,44 @@ void	free_token_node(t_token *token)
 		return ;
 	free(token->data);
 	free(token);
+}
+
+t_token	*dup_token_node(t_token *token)
+{
+	t_token	*dup_token;
+	char	*dup_data;
+
+	dup_data = NULL;
+	if (token->data)
+	{
+		dup_data = ft_strdup(token->data);
+		if (!dup_data)
+			return (NULL);
+	}
+	dup_token = init_token_node(token->type, dup_data);
+	if (!dup_token)
+		return (free(dup_data), NULL);
+	return (dup_token);
+}
+
+t_list	*dup_token_list(t_list *token_list)
+{
+	t_list	*dup_list;
+	t_token	*token;
+
+	dup_list = NULL;
+	while (token_list)
+	{
+		token = dup_token_node(token_list->content);
+		if (!token)
+		{
+			ft_lstclear(&dup_list, (void *)free_token_node);
+			return (NULL);
+		}
+		ft_lstadd_back(&dup_list, ft_lstnew(token));
+		token_list = token_list->next;
+	}
+	return (dup_list);
 }
 
 int	get_token_type_from_list(t_list *token_list)
