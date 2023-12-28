@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2023/12/23 20:58:20 by ldulling         ###   ########.fr        #
+#    Updated: 2023/12/28 19:51:22 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -124,6 +124,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_strmapi.c \
 			ft_strmatches_any.c \
 			ft_strncmp.c \
+			ft_strndup.c \
 			ft_strnstr.c \
 			ft_strrchr.c \
 			ft_strtok.c \
