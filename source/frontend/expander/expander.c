@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/02 19:17:10 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/02 19:38:34 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@
  * REQUIREMENTS
  *
  * DOLLAR SIGN:
+ *
+ * [x] Don't expand if $ is inside a single quote.
+ * 		Double quote is okay.
  *
  * [x] Don't expand if $ is inside a single quote.
  * 		Double quote is okay.
