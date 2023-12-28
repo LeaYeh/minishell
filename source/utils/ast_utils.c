@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:16:10 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/26 19:42:28 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/28 19:46:25 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "utils.h"
+#include "defines.h"
 
 t_ast	*init_ast_node(int type, char *data, t_list *children)
 {
