@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/01 14:03:52 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/01 15:17:24 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 // # define RESET				"\033[0m"
 
 // TODO: Remove the color codes from the prompt before the evaluations
+// # define PROMPT "\033[0;34m🌊>\033[0m"
 # define PROMPT				"\033[1;32mminishell$ \033[0m"
 # define HEREDOC_PROMPT		"\033[1;37m> \033[0m"
 // # define PROMPT				"\001\033[1;32m\002minishell$ \001\033[0m\002"
