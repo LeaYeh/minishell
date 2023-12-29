@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 22:01:28 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/28 20:16:45 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/28 22:20:52 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,13 @@ t_list	*dup_token_list(t_list *token_list)
 		token_list = token_list->next;
 	}
 	return (dup_list);
+}
+
+t_token	*get_token_from_list(t_list *token_list)
+{
+	if (!token_list)
+		return (NULL);
+	return ((t_token *)token_list->content);
 }
 
 int	get_token_type_from_list(t_list *token_list)

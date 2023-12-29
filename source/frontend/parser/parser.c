@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/28 22:42:06 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/29 16:07:40 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,7 @@ bool	ft_parse(t_shell *shell)
 		return (ft_lstclear(&token_list, (void *)free_token_node),
 			free_parse(&state_stack, &parse_stack), false);
 	printf("ACCEPT\n");
-	// create cmd_table list from the token_list
-	print_token_list(shell->token_list);
+	shell->cmd_table_list = build_cmd_table_list(shell->token_list);
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	return (free_parse(&state_stack, &parse_stack), true);
 }

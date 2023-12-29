@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/28 19:59:15 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/29 20:19:15 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 /* Token list utils */
 t_token		*init_token_node(int type, char *data);
 void		free_token_node(t_token *token);
+t_token		*get_token_from_list(t_list *token_list);
 int			get_token_type_from_list(t_list *token_list);
 char		*get_token_data_from_list(t_list *token_list);
 void		print_token_list(t_list *token_list);
@@ -32,12 +33,22 @@ void		free_ast_data(t_ast *ast);
 t_io_red	*init_io_red(void);
 void		free_io_red(t_io_red *io_red);
 
+/* Cmd table utils */
+t_cmd_table	*init_cmd_table(void);
+void		free_cmd_table(t_cmd_table *cmd_table);
+t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list);
+bool		append_empty_cmd_table(t_list_d **cmd_table_list);
+bool		append_cmd_table_by_scenario(
+				int token_type, t_list_d **cmd_table_list);
+
 /* Type utils */
 char		*ft_get_token_type_str(int type);
 bool		is_control_op(int token_type);
-bool		is_identifier(int token_type);
-bool		is_rule(int token_type);
-bool		is_io_redirect_op(int token_type);
+bool		is_io_red_op(int token_type);
+bool		is_word(int token_type);
+bool		is_subshell_symbol(int token_type);
+// bool		is_identifier(int token_type);
+// bool		is_rule(int token_type);
 
 /* Stack utils */
 int			get_state_from_stack(t_list *node);

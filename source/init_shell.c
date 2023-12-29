@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/26 19:35:38 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/29 21:51:38 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ bool	ft_init_shell(t_shell *shell, char **env)
 	shell->exit_code = EXIT_SUCCESS;
 	shell->env_list = NULL;
 	shell->token_list = NULL;
-	shell->ast = NULL;
+	// shell->ast = NULL;
+	shell->cmd_table_list = NULL;
 	shell->input_line = NULL;
 	if (!env && !ft_setup_default_env(shell))
 		return (false);

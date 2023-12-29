@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:57:56 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/22 21:25:26 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/29 21:12:48 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,10 @@ bool		parse_goto(t_list **state_stack, int token_type);
 bool		init_parse(t_list **state_stack, t_list **parse_stack);
 void		free_parse(t_list **state_stack, t_list **parse_stack);
 bool		ft_parse(t_shell *shell);
+
+/* Command table */
+t_list_d	*build_cmd_table_list(t_list *token_list);
+bool		handle_symbol_token(t_list **token_list, t_list_d **cmd_table_list);
+bool		handle_word_token(t_list **token_list, t_list_d **cmd_table_list);
 
 #endif

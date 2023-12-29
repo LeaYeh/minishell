@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 19:33:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 18:21:01 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/29 17:11:37 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,36 @@ char	*ft_get_token_type_str(int type)
 	else if (type == T_END)
 		return ("END");
 	return (NULL);
+}
+
+bool	is_control_op(int token_type)
+{
+	return (token_type == T_AND || token_type == T_OR || token_type == T_PIPE);
+}
+
+// bool	is_identifier(int token_type)
+// {
+// 	return (token_type < 100 && token_type >= 0);
+// }
+
+
+// bool	is_rule(int token_type)
+// {
+// 	return (token_type >= 100);
+// }
+
+bool	is_word(int token_type)
+{
+	return (token_type == T_WORD || token_type == T_ASSIGNMENT_WORD);
+}
+
+bool	is_io_red_op(int token_type)
+{
+	return (token_type == T_HERE_DOC || token_type == T_APPEND || \
+		token_type == T_RED_IN || token_type == T_RED_OUT);
+}
+
+bool	is_subshell_symbol(int token_type)
+{
+	return (token_type == T_L_BRACKET || token_type == T_R_BRACKET);
 }
