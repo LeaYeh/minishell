@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/29 21:46:10 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/29 22:18:59 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "clean.h"
 #include "lexer.h"
 #include "parser.h"
-#include "executor.h"
 #include "debug.h"
 #include "tests.h"
 #include "utils.h"
