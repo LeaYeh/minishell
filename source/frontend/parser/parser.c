@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/28 20:17:37 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/28 22:42:06 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ t_ast	*extract_ast_from_parse_stack(t_list **parse_stack)
 }
 
 // TODO: dup the token_list in parse() or init_parse()?
+// TODO: Need to refactor the code if AST is not necessary
 bool	ft_parse(t_shell *shell)
 {
 	t_list	*state_stack;
