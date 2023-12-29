@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 10:35:51 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/21 19:45:33 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/30 02:26:16 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ bool	ft_lexer(t_shell *shell);
 
 /* lexer_utils.c */
 void	skip_operator(char *token_data, size_t *i);
-void	skip_past_same_quote(char *str, size_t *i);
-bool	split_node(t_list *lst_node1, size_t i);
+bool	split_token_node(t_list *lst_node1, size_t i);
 
 /* set_token_type.c */
 void	set_token_type(t_list *lst_node);

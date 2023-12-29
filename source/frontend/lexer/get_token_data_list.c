@@ -6,11 +6,12 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:30:35 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/21 20:28:46 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/29 18:49:05 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "utils.h"
 
 t_list	*get_token_data_list(char *input_line)
 {

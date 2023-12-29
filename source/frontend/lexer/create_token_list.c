@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:54:32 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/26 19:38:49 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/30 02:24:01 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	separate_operators(t_list *lst_node, size_t i)
 				skip_operator(token_data, &i);
 			if (token_data[i])
 			{
-				if (!split_node(lst_node, i))
+				if (!split_token_node(lst_node, i))
 					return (false);
 				lst_node = lst_node->next;
 				token_data = get_token_data_from_list(lst_node);
