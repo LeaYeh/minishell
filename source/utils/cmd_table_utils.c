@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:16:11 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/29 21:44:17 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 15:12:38 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 
 void	free_cmd_table(t_cmd_table *cmd_table)
 {
-	ft_free_and_null((void **)&cmd_table->cmd_name);
+	free(cmd_table->cmd_name);
 	ft_lstclear(&cmd_table->cmd_args, free);
 	ft_lstclear(&cmd_table->assignment_list, free);
 	ft_lstclear(&cmd_table->io_red_list, (void *)free_io_red);
-	ft_free_and_null((void **)&cmd_table);
+	free(cmd_table);
 }
 
 t_cmd_table	*init_cmd_table(void)
