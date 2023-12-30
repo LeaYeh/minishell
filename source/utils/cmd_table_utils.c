@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_table_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:16:11 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 15:55:47 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 15:28:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
 		cur_type = ((t_cmd_table *)cmd_table_list->content)->type;
 		if (cur_type == C_PIPE || cur_type == C_AND || cur_type == C_OR)
 			last_simple_cmd_table = NULL;
-		if (cur_type == C_SIMPLE_CMD || cur_type == C_NONE)
+		else if (cur_type == C_SIMPLE_CMD || cur_type == C_NONE)
 			last_simple_cmd_table = cmd_table_list->content;
 		cmd_table_list = cmd_table_list->next;
 	}
