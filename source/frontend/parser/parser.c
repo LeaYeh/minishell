@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 15:58:17 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 15:20:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ bool	parse(
 			ret = false;
 			break ;
 		}
-		ft_free_and_null((void **)&pt_entry);
+		free(pt_entry);
 	}
-	ft_free_and_null((void **)&pt_entry);
+	free(pt_entry);
 	return (ret);
 }
 

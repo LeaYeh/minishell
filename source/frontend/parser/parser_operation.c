@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_operation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/26 18:43:08 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/30 15:22:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	parse_shift(t_token *token_node,
 	t_ast	*ast_node;
 
 	ast_node = init_ast_node(token_node->type, token_node->data, NULL);
-	ft_free_and_null((void **)&token_node);
+	free(token_node);
 	if (!ast_node)
 		return (false);
 	if (!push_node(parse_stack, ast_node))
