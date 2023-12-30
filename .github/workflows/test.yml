@@ -29,6 +29,8 @@ jobs:
 
     - name: Check memory leaks
       run: $HOME/42_minishell_tester/tester.sh vm
+      env:
+        GH_BRANCH: "IGNORE"
 
     - name: Set up PR failed count
       run: $HOME/42_minishell_tester/tester.sh m > pr_test_result.txt
