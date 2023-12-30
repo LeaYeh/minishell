@@ -6,25 +6,27 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 15:19:37 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/28 23:33:38 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/31 17:27:46 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
 bool	replace_part_of_str(
-			char **str, char *replacement, size_t start, size_t end)
+			char **str, char *replacement, size_t start, size_t len)
 {
+	size_t	end;
 	char	*str_new;
 
-	if (!str || !*str)
-		return (false);
+	if (!str || !*str || !replacement)
+		return (true);
 	if (start > 0)
 		str_new = join_front_and_replacement(*str, replacement, start);
 	else
 		str_new = ft_strdup(replacement);
 	if (!str_new)
 		return (false);
+	end = start + len;
 	if (end < ft_strlen(*str))
 	{
 		str_new = join_new_and_back(str_new, *str, end);
@@ -41,7 +43,7 @@ char	*join_front_and_replacement(char *str, char *replacement, size_t start)
 	char	*str_front;
 	char	*str_joined;
 
-	str_front = ft_substr(*str, 0, start);
+	str_front = ft_substr(str, 0, start);
 	if (!str_front)
 		return (NULL);
 	str_joined = ft_strjoin(str_front, replacement);

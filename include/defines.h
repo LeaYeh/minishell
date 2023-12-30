@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/01 15:17:24 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/01 15:21:18 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@
 # define QUOTES				"'\""
 # define TOK_SYMBOLS		"<>|&()"
 # define T_UNINITIALIZED	-1		//TODO Replace with Lea's UNDEFINED_TYPE -99
+
+/* Expander */
+# define OPENING_BRACE '{'
+# define CLOSING_BRACE '}'
 
 /* Error Message */
 # define ERROR_HEREDOC_UNEXPECTED_EOF	"%s: \
