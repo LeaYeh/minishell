@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 22:01:28 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/28 22:20:52 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 15:00:57 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_token	*dup_token_node(t_token *token)
 t_list	*dup_token_list(t_list *token_list)
 {
 	t_list	*dup_list;
+	t_list	*node;
 	t_token	*token;
 
 	dup_list = NULL;
@@ -65,7 +66,12 @@ t_list	*dup_token_list(t_list *token_list)
 			ft_lstclear(&dup_list, (void *)free_token_node);
 			return (NULL);
 		}
-		ft_lstadd_back(&dup_list, ft_lstnew(token));
+		node = ft_lstnew(token);
+		if (!node)
+			return (free_token_node(token),
+				ft_lstclear(&dup_list, (void *)free_token_node),
+				NULL);
+		ft_lstadd_back(&dup_list, node);
 		token_list = token_list->next;
 	}
 	return (dup_list);
