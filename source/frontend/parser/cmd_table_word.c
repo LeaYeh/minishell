@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 14:07:04 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/29 20:21:47 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 16:07:36 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ bool	fill_cmd_name(t_token *token, t_cmd_table *cmd_table)
 {
 	char	*cmd_name;
 
-	if (cmd_table->cmd_name != NULL)
-		return (false);
 	cmd_name = ft_strdup(token->data);
 	if (!cmd_name)
 		return (false);
@@ -65,15 +63,12 @@ bool	handle_word_token(t_list **token_list, t_list_d **cmd_table_list)
 	cmd_table->type = C_SIMPLE_CMD;
 	if (token->type == T_WORD)
 	{
-		if (fill_cmd_name(token, cmd_table))
-			return (true);
-		else if (fill_cmd_args(token, cmd_table))
-			return (true);
+		if (cmd_table->cmd_name == NULL)
+			return (fill_cmd_name(token, cmd_table));
+		else
+			return (fill_cmd_args(token, cmd_table));
 	}
 	else if (token->type == T_ASSIGNMENT_WORD)
-	{
-		if (fill_assignment(token, cmd_table))
-			return (true);
-	}
+		return (fill_assignment(token, cmd_table));
 	return (false);
 }

@@ -6,13 +6,13 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 14:07:59 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/29 21:40:16 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 16:00:53 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-bool	fill_bracket(t_list **token_list, t_list_d **cmd_table_list)
+void	fill_bracket(t_list **token_list, t_list_d **cmd_table_list)
 {
 	t_token		*token;
 	t_cmd_table	*cmd_table;
@@ -23,7 +23,6 @@ bool	fill_bracket(t_list **token_list, t_list_d **cmd_table_list)
 		cmd_table->type = C_SUBSHELL_START;
 	else if (token->type == T_R_BRACKET)
 		cmd_table->type = C_SUBSHELL_END;
-	return (true);
 }
 
 bool	fill_red_node(t_io_red *io_red, int type, char *data)
@@ -72,7 +71,7 @@ bool	handle_redirect(t_list **token_list, t_list_d **cmd_table_list)
 
 	cmd_table_node = ft_lstlast_d(*cmd_table_list);
 	subshell_cnt = 0;
-	while (cmd_table_node && subshell_cnt >= 0)
+	while (cmd_table_node)
 	{
 		cmd_table = cmd_table_node->content;
 		if (cmd_table->type == C_SUBSHELL_END)
@@ -122,8 +121,7 @@ bool	handle_symbol_token(t_list **token_list, t_list_d **cmd_table_list)
 	}
 	else if (is_subshell_symbol(token_type))
 	{
-		if (!fill_bracket(token_list, cmd_table_list))
-			return (false);
+		fill_bracket(token_list, cmd_table_list);
 		return (true);
 	}
 	return (false);
