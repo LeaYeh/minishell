@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/26 19:42:30 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:18:59 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ int	main(int argc, char **argv, char **env)
 			return (ft_clean_shell(&shell), EXIT_FAILED);
 		if (!ft_parse(&shell))
 			return (ft_clean_shell(&shell), EXIT_FAILED);
-
-		// Free ast after executor
-		free_ast_node(shell.ast);
-		shell.ast = NULL;
+		print_cmd_table_list(shell.cmd_table_list);
+		ft_lstclear_d(&shell.cmd_table_list, (void *)free_cmd_table);
 		// ft_clean_shell(&shell);
 		// do executor
 	}

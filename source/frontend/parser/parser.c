@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/26 19:29:55 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/30 15:20:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ bool	parse(
 	ret = true;
 	while (true)
 	{
-		print_token_list(*token_list);
 		pt_entry = get_next_pt_entry(
 				get_state_from_stack(*state_stack),
 				get_token_type_from_list(*token_list),
@@ -76,9 +75,9 @@ bool	parse(
 			ret = false;
 			break ;
 		}
-		ft_free_and_null((void **)&pt_entry);
+		free(pt_entry);
 	}
-	ft_free_and_null((void **)&pt_entry);
+	free(pt_entry);
 	return (ret);
 }
 
@@ -94,18 +93,27 @@ t_ast	*extract_ast_from_parse_stack(t_list **parse_stack)
 	return (ast);
 }
 
-// TODO: Should we free the token_list here?
+// TODO: dup the token_list in parse() or init_parse()?
+// TODO: Need to refactor the code if AST is not necessary
 bool	ft_parse(t_shell *shell)
 {
 	t_list	*state_stack;
 	t_list	*parse_stack;
+	t_list	*token_list;
 
-	if (!init_parse(&state_stack, &parse_stack))
+	token_list = dup_token_list(shell->token_list);
+	if (!token_list)
 		return (false);
-	if (!parse(&shell->token_list, &state_stack, &parse_stack))
-		return (free_parse(&state_stack, &parse_stack), false);
+	if (!init_parse(&state_stack, &parse_stack))
+		return (ft_lstclear(&token_list, (void *)free_token_node), false);
+	if (!parse(&token_list, &state_stack, &parse_stack))
+		return (ft_lstclear(&token_list, (void *)free_token_node),
+			free_parse(&state_stack, &parse_stack), false);
 	printf("ACCEPT\n");
-	shell->ast = extract_ast_from_parse_stack(&parse_stack);
+	shell->cmd_table_list = build_cmd_table_list(shell->token_list);
+	free_parse(&state_stack, &parse_stack);
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
-	return (free_parse(&state_stack, &parse_stack), true);
+	if (!shell->cmd_table_list)
+		return (false);
+	return (true);
 }

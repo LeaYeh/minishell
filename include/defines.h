@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 18:41:18 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/29 20:17:33 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,17 @@ typedef enum e_token_type
 	T_R_BRACKET
 }	t_token_type;
 
+typedef enum e_cmdtable_type
+{
+	C_NONE			= -1,
+	C_SIMPLE_CMD	= 0,
+	C_PIPE,
+	C_AND,
+	C_OR,
+	C_SUBSHELL_START,
+	C_SUBSHELL_END
+}	t_cmdtable_type;
+
 typedef struct s_env
 {
 	char			*key;
@@ -144,17 +155,28 @@ typedef struct s_pt_node
 	int				num_reduced;
 }	t_pt_node;
 
-typedef struct s_io_redirect
+typedef struct s_io_red
 {
-	char			*redir_in;
-	char			*redir_out;
-}	t_io_redirect;
+	int				type;
+	char			*in_file;
+	char			*out_file;
+	char			*here_end;
+	int				red_in;
+	int				red_out;
+}	t_io_red;
+
+// TODO: Need to record each io_redirect in a list, need to touch the filename
+// case: echo 1 | > out1 > out2 cat
+// 		- if cmd_table with no cmd_name, just touch the filename in the io_red_list
+// 		- in other cases, need execute the cmd_table with io redirect
 
 typedef struct s_cmd_table
 {
+	int				type;
 	char			*cmd_name;
-	char			*cmd_args;
-	t_io_redirect	*io_redirect;
+	t_list			*cmd_args;
+	t_list			*assignment_list;
+	t_list			*io_red_list;
 }	t_cmd_table;
 
 typedef struct s_shell
@@ -162,8 +184,8 @@ typedef struct s_shell
 	int				exit_code;
 	t_list			*env_list;
 	t_list			*token_list;
-	t_list			*final_cmd_table;
-	t_ast			*ast;
+	t_list_d		*cmd_table_list;
+	// t_ast			*ast;
 	char			*input_line;
 }	t_shell;
 
