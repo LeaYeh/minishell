@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 13:57:23 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 20:18:48 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 20:43:48 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red **io_red)
 {
 	int	fd;
 
-	(*io_red)->out_file = generate_tmp_filename(cmdtable_id);
+	(*io_red)->out_file = generate_tmp_filename(cmdtable_id, "hd");
 	if (!(*io_red)->out_file)
 		return (false);
 	fd = open((*io_red)->out_file, O_CREAT | O_RDWR | O_TRUNC, 0644);
@@ -26,7 +26,6 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red **io_red)
 		perror(PROGRAM_NAME);
 		return (ft_free_and_null((void **)&(*io_red)->out_file), false);
 	}
-	(*io_red)->red_out = fd;
 	close(fd);
 	return (true);
 }
@@ -49,7 +48,7 @@ bool	exec_heredoc(int cmdtable_id, t_io_red **io_red)
 		}
 		if (ft_strcmp(line, (*io_red)->here_end) == 0)
 			break ;
-		ft_putendl_fd(line, (*io_red)->red_out);
+		append_line_to_file(line, (*io_red)->out_file);
 		ft_free_and_null((void **)&line);
 	}
 	ft_free_and_null((void **)&line);

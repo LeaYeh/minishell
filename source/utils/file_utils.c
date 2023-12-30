@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:18:23 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 20:18:52 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 20:42:43 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,19 @@ void	remove_file(char **filename)
 {
 	unlink(*filename);
 	ft_free_and_null((void **)filename);
+}
+
+bool	append_line_to_file(char *line, char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 0644);
+	if (fd < 0)
+	{
+		perror(PROGRAM_NAME);
+		return (false);
+	}
+	ft_putendl_fd(line, fd);
+	close(fd);
+	return (true);
 }
