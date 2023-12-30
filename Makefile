@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2023/12/23 03:53:23 by ldulling         ###   ########.fr        #
+#    Updated: 2023/12/30 23:18:23 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ all				:
 					($(MAKE) --question build && echo -n $(MSG_NO_CHNG)) \
 						|| (echo -n $(MSG_START) \
 							&& ($(MAKE) build && echo -n $(MSG_SUCCESS)) \
-							|| echo -n $(MSG_FAILURE))
+							|| (echo -n $(MSG_FAILURE) && exit 42))
 
 
 #		Version check for Make
