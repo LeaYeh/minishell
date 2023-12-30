@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/29 21:51:38 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/31 17:21:00 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ bool	ft_setup_env(t_shell *shell, char **env)
 	shell->env_list = NULL;
 	key = NULL;
 	value = NULL;
-	i = -1;
-	while (env[++i])
+	i = 0;
+	while (env[i])
 	{
 		if (!extract_string(&key, env[i], "="))
 			break ;
@@ -68,6 +68,7 @@ bool	ft_setup_env(t_shell *shell, char **env)
 			break ;
 		if (!ft_append_env(shell, key, value))
 			break ;
+		i++;
 	}
 	if (env[i])
 		return (ft_lstclear(&shell->env_list, (void *)free_env_node),
