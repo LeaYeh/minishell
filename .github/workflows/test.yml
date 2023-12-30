@@ -27,9 +27,11 @@ jobs:
         cp -r 42_minishell_tester $HOME
         chmod +x $HOME/42_minishell_tester/tester.sh
 
-    - name: Check memory leaks and set up PR failed count
-      run: |
-        $HOME/42_minishell_tester/tester.sh vm
+    - name: Check memory leaks
+      run: $HOME/42_minishell_tester/tester.sh vm
+
+    - name: Set up PR failed count
+      run: $HOME/42_minishell_tester/tester.sh m > pr_test_result.txt
       env:
         GH_BRANCH: "PR_FAILED_COUNT"
 
@@ -39,9 +41,12 @@ jobs:
         ref: main
 
     - name: Set up main failed count
-      run: $HOME/42_minishell_tester/tester.sh m
+      run: $HOME/42_minishell_tester/tester.sh m > main_test_result.txt
       env:
         GH_BRANCH: "MAIN_FAILED_COUNT"
+
+    - name: Compare the difference between PR and main
+      run: diff pr_test_result.txt main_test_result.txt
 
     - name: Compare failed count
       run: |
