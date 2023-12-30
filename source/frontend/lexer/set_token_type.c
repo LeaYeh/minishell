@@ -6,11 +6,12 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 16:20:32 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/26 19:38:58 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/30 02:32:37 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "utils.h"
 
 void	set_token_type(t_list *lst_node)
 {
@@ -70,11 +71,11 @@ bool	is_assignment_word(char *str)
 	size_t	i;
 
 	i = 0;
-	if (str && !ft_isdigit(str[i]))
+	if (str && is_valid_varname_start(str[i]))
 	{
-		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+		while (is_valid_varname(str[i]))
 			i++;
-		if (i != 0 && str[i] == '=')
+		if (str[i] == '=')
 			return (true);
 	}
 	return (false);
