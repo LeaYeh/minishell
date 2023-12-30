@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 14:07:59 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 16:00:53 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 20:03:25 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ bool	fill_red_node(t_io_red *io_red, int type, char *data)
 	dup_data = ft_strdup(data);
 	if (!dup_data)
 		return (false);
+	io_red->type = type;
 	if (type == T_RED_IN)
 		io_red->in_file = dup_data;
 	else if (type == T_HERE_DOC)

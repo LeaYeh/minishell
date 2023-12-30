@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 19:44:52 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 16:02:24 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 20:02:28 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_io_red	*init_io_red(void)
 	io_red = (t_io_red *)malloc(sizeof(t_io_red));
 	if (!io_red)
 		return (NULL);
+	io_red->type = T_NONE;
 	io_red->in_file = NULL;
 	io_red->out_file = NULL;
 	io_red->here_end = NULL;
