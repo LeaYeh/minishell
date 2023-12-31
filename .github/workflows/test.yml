@@ -54,10 +54,7 @@ jobs:
         GH_BRANCH: "MAIN_FAILED_COUNT"
 
     - name: Compare the difference between PR and main
-      run: |
-        diff --side-by-side --suppress-common-lines \
-        $HOME/main_test_result.txt $HOME/pr_test_result.txt \
-        || true
+      run: diff $HOME/main_test_result.txt $HOME/pr_test_result.txt || true
 
     - name: Compare failed count
       run: |
