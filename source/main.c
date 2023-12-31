@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 20:00:15 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/01 15:22:39 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ int	main(int argc, char **argv, char **env)
 			return (ft_clean_shell(&shell), EXIT_FAILED);
 		if (!ft_parse(&shell))
 			return (ft_clean_shell(&shell), EXIT_FAILED);
+		// For testing
 		print_cmd_table_list(shell.cmd_table_list);
+		if (!print_expanded_cmd_table_list(&shell))
+			return (ft_clean_shell(&shell), 42);
 		if (!ft_execute(&shell))
 			return (ft_clean_shell(&shell), EXIT_FAILED);
 		ft_lstclear_d(&shell.cmd_table_list, (void *)free_cmd_table);
