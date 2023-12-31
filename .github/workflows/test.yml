@@ -53,10 +53,8 @@ jobs:
       env:
         GH_BRANCH: "MAIN_FAILED_COUNT"
 
-    - name: Compare the difference between PR and main
-      run: diff $HOME/main_test_result.txt $HOME/pr_test_result.txt || true
-
     - name: Compare failed count
+      id: comparison
       run: |
         echo "MAIN_FAILED_COUNT: $MAIN_FAILED_COUNT"
         echo "PR_FAILED_COUNT: $PR_FAILED_COUNT"
@@ -70,3 +68,14 @@ jobs:
       env:
         PR_FAILED_COUNT: ${{ env.PR_FAILED_COUNT }}
         MAIN_FAILED_COUNT: ${{ env.MAIN_FAILED_COUNT }}
+      continue-on-error: true
+
+      # Can fail the job
+    - name: Compare the regression between PR and main
+      if: steps.comparison.outcome == 'failure'
+      run: diff $HOME/main_test_result.txt $HOME/pr_test_result.txt
+
+      # Cannot fail the job
+    - name: Compare the improvement between PR and main
+      if: steps.comparison.outcome == 'success'
+      run: diff $HOME/main_test_result.txt $HOME/pr_test_result.txt || true
