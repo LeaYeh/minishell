@@ -58,8 +58,8 @@ jobs:
 
     - name: Compare failed count
       run: |
-        echo "PR_FAILED_COUNT: $PR_FAILED_COUNT"
         echo "MAIN_FAILED_COUNT: $MAIN_FAILED_COUNT"
+        echo "PR_FAILED_COUNT: $PR_FAILED_COUNT"
         if [ $PR_FAILED_COUNT -gt $MAIN_FAILED_COUNT ]; then
           echo "PR_FAILED_COUNT is greater than MAIN_FAILED_COUNT"
           exit 1
