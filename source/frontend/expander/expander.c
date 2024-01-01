@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/01 16:07:35 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/01 21:28:27 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,18 @@
  * [x] bash-5.1$ echo "'$USER'"
  *     'ldulling'
  *
+ * [ ] bash-5.1$ ${USER}=abc
+ *     bash: ldulling=abc: command not found
+ *
+ * [ ] bash-5.1$ echo ${?}abc${abc.}
+ *     bash: ${?}abc${abc.}: bad substitution
+ *       -> Use the original str for the error message.
+ *
+ * [ ] bash-5.1$ echo "${?}abc${abc.}"
+ *     bash: ${?}abc${abc.}: bad substitution
+ *     bash-5.1$ echo $"{?}abc${abc.}"
+ *     bash: {?}abc${abc.}: bad substitution
+ *
 */
 
 /*
@@ -51,6 +63,7 @@
  *
  * [ ] echo ${abc.$USER
  * 		At the moment it will just leave the string as is.
+ *         -> Lexer should detect syntax error.
  *
  * [ ] Where to handle the "%s: bad substitution" error message?
  *
@@ -115,6 +128,8 @@
  * TODO-LIST
  *
  * [x] Handle $<quotes>
+ * [ ] Assign NULL when executor should do nothing, and empty string for errors.
+ * [ ] Report %s: bad substitution
  *
 */
 
@@ -131,6 +146,8 @@ bool	ft_expander(char **str, t_shell *shell)
 		return (false);
 	if (!parameter_expansion(&dup, shell))
 		return (free(dup), false);
+	if (!*dup)
+		return (ft_free_and_null((void **)str), free(dup), true);
 
 	free(*str);
 	*str = dup;
