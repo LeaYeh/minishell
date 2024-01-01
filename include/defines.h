@@ -6,13 +6,16 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/29 20:17:33 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/01 14:03:52 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINES_H
 # define DEFINES_H
 
+# include <fcntl.h>
+# include <linux/limits.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -43,6 +46,7 @@
 
 // TODO: Remove the color codes from the prompt before the evaluations
 # define PROMPT				"\033[1;32mminishell$ \033[0m"
+# define HEREDOC_PROMPT		"\033[1;37m> \033[0m"
 // # define PROMPT				"\001\033[1;32m\002minishell$ \001\033[0m\002"
 // # define PROMPT				"minishell$ "
 
@@ -50,6 +54,10 @@
 # define QUOTES				"'\""
 # define TOK_SYMBOLS		"<>|&()"
 # define T_UNINITIALIZED	-1		//TODO Replace with Lea's UNDEFINED_TYPE -99
+
+/* Error Message */
+# define ERROR_HEREDOC_UNEXPECTED_EOF	"%s: \
+warning: here-document delimited by end-of-file (wanted `%s')\n"
 
 extern const int	g_parsing_table[][PT_COL_SIZE];
 
@@ -172,6 +180,7 @@ typedef struct s_io_red
 
 typedef struct s_cmd_table
 {
+	int				id;
 	int				type;
 	char			*cmd_name;
 	t_list			*cmd_args;

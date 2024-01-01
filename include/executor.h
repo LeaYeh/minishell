@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/26 15:04:52 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 19:51:35 by lyeh             ###   ########.fr       */
+/*   Created: 2023/12/26 15:05:16 by lyeh              #+#    #+#             */
+/*   Updated: 2023/12/30 19:54:06 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
-#include "debug.h"
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
-bool	ft_execute(t_shell *shell)
-{
-	if (!ft_heredoc(shell->cmd_table_list))
-		return (false);
-	return (true);
-}
+# include "defines.h"
+
+bool	ft_execute(t_shell *shell);
+bool	ft_heredoc(t_list_d *cmd_table_list);
+
+#endif

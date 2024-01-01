@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/29 22:18:59 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 20:00:15 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "clean.h"
 #include "lexer.h"
 #include "parser.h"
+#include "executor.h"
 #include "debug.h"
 #include "tests.h"
 #include "utils.h"
@@ -41,6 +42,8 @@ int	main(int argc, char **argv, char **env)
 		if (!ft_parse(&shell))
 			return (ft_clean_shell(&shell), EXIT_FAILED);
 		print_cmd_table_list(shell.cmd_table_list);
+		if (!ft_execute(&shell))
+			return (ft_clean_shell(&shell), EXIT_FAILED);
 		ft_lstclear_d(&shell.cmd_table_list, (void *)free_cmd_table);
 		// ft_clean_shell(&shell);
 		// do executor

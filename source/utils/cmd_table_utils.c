@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_table_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:16:11 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 15:28:58 by codespace        ###   ########.fr       */
+/*   Updated: 2023/12/30 18:13:35 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_cmd_table	*init_cmd_table(void)
 	cmd_table = (t_cmd_table *)malloc(sizeof(t_cmd_table));
 	if (!cmd_table)
 		return (NULL);
+	cmd_table->id = 0;
 	cmd_table->type = C_NONE;
 	cmd_table->assignment_list = NULL;
 	cmd_table->cmd_name = NULL;
@@ -41,11 +42,17 @@ t_cmd_table	*init_cmd_table(void)
 bool	append_empty_cmd_table(t_list_d **cmd_table_list)
 {
 	t_list_d	*cmd_table_node;
+	t_list_d	*last_node;
 	t_cmd_table	*cmd_table;
 
 	cmd_table = init_cmd_table();
 	if (!cmd_table)
 		return (false);
+	last_node = ft_lstlast_d(*cmd_table_list);
+	if (!last_node)
+		cmd_table->id = 0;
+	else
+		cmd_table->id = ((t_cmd_table *)last_node->content)->id + 1;
 	cmd_table_node = ft_lstnew_d(cmd_table);
 	if (!cmd_table_node)
 		return (free_cmd_table(cmd_table), false);

@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:46:53 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/29 21:12:08 by lyeh             ###   ########.fr       */
+/*   Updated: 2023/12/30 20:04:04 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	print_io_red_list(t_list *io_red_list)
 	while (node)
 	{
 		io_red = (t_io_red *)node->content;
+		printf("\ttype:    %d,\n", io_red->type);
 		printf("\tin_file: %s,\n", io_red->in_file);
 		printf("\tout_file: %s,\n", io_red->out_file);
 		printf("\there_end: %s,\n", io_red->here_end);
@@ -76,19 +77,16 @@ void	print_cmd_table_list(t_list_d *cmd_table_list)
 {
 	t_list_d	*node;
 	t_cmd_table	*cmd_table;
-	int			i;
 
 	printf("\n\n========= cmd_table_list =========\n");
 	node = cmd_table_list;
-	i = 0;
 	while (node && node->content)
 	{
-		printf("========= %d =========\n", i);
 		cmd_table = (t_cmd_table *)node->content;
+		printf("========= %d =========\n", cmd_table->id);
 		print_cmd_table(cmd_table);
 		node = node->next;
 		printf("=====================\n");
-		i++;
 	}
 	printf("===================================\n\n");
 }
