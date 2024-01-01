@@ -6,12 +6,20 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 00:34:37 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/31 22:46:24 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/01 01:06:41 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 #include "utils.h"
+
+// Currently removes the dollar sign for this test case: $"$$$$'
+// It better shouldn't.
+// TODO We have have to check for unclosed quotes somewhere
+bool	handle_dollar_quotes(char **str, size_t *i)
+{
+	return (replace_part_of_str(str, "", *i, 1));
+}
 
 void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
 {
@@ -162,13 +170,16 @@ bool	expand_parameter(char **str, size_t *i, t_shell *shell)
 		return (true);
 	}
 	offset = count_offset(&(*str)[*i]);
-	if ((*str)[*i + offset] == '?')
-		return (expand_exit_code(str, i, shell->exit_code));
-	else if (is_valid_varname_start((*str)[*i + offset]))
-		return (expand_variable(str, i, offset, shell->env_list));
-	(*i)++;
-	if ((*str)[*i])
-		(*i)++;
+	if ((*str)[*i + offset])
+	{
+		if ((*str)[*i + offset] == '?')
+			return (expand_exit_code(str, i, shell->exit_code));
+		else if (is_valid_varname_start((*str)[*i + offset]))
+			return (expand_variable(str, i, offset, shell->env_list));
+		else if (ft_strchr(QUOTES, (*str)[*i + offset]))
+			return (handle_dollar_quotes(str, i));
+	}
+	*i += offset;
 	return (true);
 }
 

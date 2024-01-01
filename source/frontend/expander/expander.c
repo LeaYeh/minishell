@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/31 22:31:15 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/01 16:06:11 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@
  *   bash-5.1$ echo '$a'
  *   $a
  *
- * - bash-5.1$ echo $"$aa"
+ * [x] bash-5.1$ echo $"$aa"
  *
- *   bash-5.1$ echo $'$aa'
- *   $aa
+ *     bash-5.1$ echo $'$aa'
+ *     $aa
  *
 */
 
@@ -48,6 +48,12 @@
  *
  * [ ] echo ${abc.$USER
  * 		At the moment it will just leave the string as is.
+ *
+ * [ ] Where to handle the "%s: bad substitution" error message?
+ *
+ * [ ] This test case is terrible, bc it changes the command table:
+ *     bash-5.1$ $abc 123
+ *     bash: 123: command not found
  *
 */
 
@@ -67,7 +73,7 @@
  *
  *   [x] If no valid name is encountered, just leave $ in the string.
  *
- * [ ] $ directly followed by any quote should just leave the quoted string with the $ removed.
+ * [x] $ directly followed by any quote should just leave the quoted string with the $ removed.
  *
  *   ( [ ] OUT OF SCOPE: $[Single quotes] allows escape sequences like \n for newline.
  * 			'\\' -> \\ ; $'\\' -> \ )
@@ -105,7 +111,7 @@
 /*
  * TODO-LIST
  *
- * [ ] Handle $<quotes>
+ * [x] Handle $<quotes>
  *
 */
 
