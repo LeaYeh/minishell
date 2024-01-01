@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:18:23 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 20:42:43 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/01 14:07:47 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*generate_tmp_filename(int cmdtable_id, char *category)
 {
 	char	*filename;
 
-	filename = (char *)malloc(sizeof(char) * 256);
+	filename = (char *)malloc(sizeof(char) * NAME_MAX);
 	if (!filename)
 		return (NULL);
 	sprintf(filename, "/tmp/%s_%s_%d-%d",
@@ -26,23 +26,26 @@ char	*generate_tmp_filename(int cmdtable_id, char *category)
 	return (filename);
 }
 
-void	remove_file(char **filename)
+bool	remove_file(char **filename)
 {
-	unlink(*filename);
+	if (unlink(*filename) == -1)
+		return (false);
 	ft_free_and_null((void **)filename);
+	return (true);
 }
 
 bool	append_line_to_file(char *line, char *filename)
 {
 	int	fd;
 
-	fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 0644);
+	fd = open(filename,
+			O_CREAT | O_RDWR | O_APPEND,
+			S_IRUSR + S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd < 0)
 	{
 		perror(PROGRAM_NAME);
 		return (false);
 	}
 	ft_putendl_fd(line, fd);
-	close(fd);
-	return (true);
+	return (close(fd) != -1);
 }

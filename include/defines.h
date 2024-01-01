@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 20:16:29 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/01 14:03:52 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define DEFINES_H
 
 # include <fcntl.h>
-# include <limits.h>
+# include <linux/limits.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>

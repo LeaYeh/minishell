@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 13:57:23 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 20:43:48 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/01 14:07:03 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,20 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red **io_red)
 	(*io_red)->out_file = generate_tmp_filename(cmdtable_id, "hd");
 	if (!(*io_red)->out_file)
 		return (false);
-	fd = open((*io_red)->out_file, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	fd = open((*io_red)->out_file,
+			O_CREAT | O_RDWR | O_TRUNC,
+			S_IRUSR + S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd < 0)
 	{
 		perror(PROGRAM_NAME);
 		return (ft_free_and_null((void **)&(*io_red)->out_file), false);
 	}
-	close(fd);
-	return (true);
+	return (close(fd) != -1);
 }
 
 bool	exec_heredoc(int cmdtable_id, t_io_red **io_red)
 {
-	char		*line;
+	char	*line;
 
 	if (!setup_tmp_hdfile(cmdtable_id, io_red))
 		return (false);
@@ -43,15 +44,15 @@ bool	exec_heredoc(int cmdtable_id, t_io_red **io_red)
 		{
 			ft_dprintf(2, ERROR_HEREDOC_UNEXPECTED_EOF,
 				PROGRAM_NAME, (*io_red)->here_end);
-			remove_file(&(*io_red)->out_file);
-			break ;
+			return (remove_file(&(*io_red)->out_file));
 		}
 		if (ft_strcmp(line, (*io_red)->here_end) == 0)
 			break ;
-		append_line_to_file(line, (*io_red)->out_file);
-		ft_free_and_null((void **)&line);
+		if (!append_line_to_file(line, (*io_red)->out_file))
+			return (remove_file(&(*io_red)->out_file), free(line), false);
+		free(line);
 	}
-	ft_free_and_null((void **)&line);
+	free(line);
 	return (true);
 }
 

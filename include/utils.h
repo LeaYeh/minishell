@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 20:44:57 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/01 13:40:10 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ bool		is_subshell_symbol(int token_type);
 
 /* File utils */
 char		*generate_tmp_filename(int cmdtable_id, char *category);
-void		remove_file(char **filename);
+bool		remove_file(char **filename);
 bool		append_line_to_file(char *line, char *filename);
 
 /* Stack utils */
