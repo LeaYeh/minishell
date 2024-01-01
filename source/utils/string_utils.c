@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 18:50:32 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/30 19:59:34 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/01 17:32:00 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,15 @@ void	skip_past_same_quote(char *str, size_t *i)
 	char	*open_quote;
 
 	open_quote = ft_strchr(QUOTES, str[*i]);
-	if (open_quote)
+	if (!open_quote || !*open_quote)
+		return ;
+	while (str[*i])
 	{
-		while (str[*i])
+		(*i)++;
+		if (str[*i] == *open_quote)
 		{
 			(*i)++;
-			if (str[*i] == *open_quote)
-			{
-				(*i)++;
-				break ;
-			}
+			break ;
 		}
 	}
 }
