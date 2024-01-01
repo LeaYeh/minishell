@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 00:34:37 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/01 01:06:41 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/01 14:58:44 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,21 @@ bool	handle_dollar_quotes(char **str, size_t *i)
 
 void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
 {
+	bool	is_in_dquote;
+
+	is_in_dquote = false;
 	while (str[*i])
 	{
-		if (str[*i] == '\'')
+		if (str[*i] == '"')
+			is_in_dquote ^= true;
+		else if (str[*i] == '\'' && !is_in_dquote)
+		{
 			skip_past_same_quote(str, i);
+			continue ;
+		}
 		else if (str[*i] == '$')
 			return ;
-		else
-			(*i)++;
+		(*i)++;
 	}
 }
 
