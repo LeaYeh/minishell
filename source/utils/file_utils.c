@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:18:23 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/01 14:07:47 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/01 14:38:01 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	append_line_to_file(char *line, char *filename)
 
 	fd = open(filename,
 			O_CREAT | O_RDWR | O_APPEND,
-			S_IRUSR + S_IWUSR | S_IRGRP | S_IROTH);
+			(S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
 	if (fd < 0)
 	{
 		perror(PROGRAM_NAME);

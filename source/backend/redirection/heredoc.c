@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 13:57:23 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/01 14:07:03 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/01 14:38:09 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red **io_red)
 		return (false);
 	fd = open((*io_red)->out_file,
 			O_CREAT | O_RDWR | O_TRUNC,
-			S_IRUSR + S_IWUSR | S_IRGRP | S_IROTH);
+			(S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
 	if (fd < 0)
 	{
 		perror(PROGRAM_NAME);
