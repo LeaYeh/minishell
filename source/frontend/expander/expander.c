@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/02 19:38:34 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/02 19:49:50 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,8 @@ bool	ft_expander(char **str, t_shell *shell)
 		return (free(dup), false);
 	if (!*dup)
 		return (ft_free_and_null((void **)str), free(dup), true);
-
+	if (!quote_removal(&dup))
+		return (free(dup), false);
 	free(*str);
 	*str = dup;
 	return (true);
