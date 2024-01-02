@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:54:32 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/02 14:13:56 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/02 14:15:34 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ bool	separate_operators(t_list *lst_node, size_t i)
 			continue ;
 		}
 		if (ft_strchr(QUOTES, token_data[i]))
-			skip_past_same_quote(token_data, &i);
-		else
-			i++;
+			skip_to_same_quote(token_data, &i);
+		i++;
 	}
 	return (true);
 }

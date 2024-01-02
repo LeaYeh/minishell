@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 18:50:32 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/02 19:26:52 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/02 19:47:58 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	is_valid_varname_start(char c)
 	return (ft_isalpha(c) || c == '_');
 }
 
-void	skip_past_same_quote(char *str, size_t *i)
+void	skip_to_same_quote(char *str, size_t *i)
 {
 	char	*open_quote;
 
@@ -55,9 +55,6 @@ void	skip_past_same_quote(char *str, size_t *i)
 	{
 		(*i)++;
 		if (str[*i] == *open_quote)
-		{
-			(*i)++;
 			break ;
-		}
 	}
 }
