@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:54:32 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/30 02:24:01 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/02 14:13:56 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,29 @@ bool	separate_operators(t_list *lst_node, size_t i)
 	{
 		if (ft_strchr(TOK_SYMBOLS, token_data[i]))
 		{
-			if (i == 0)
-				skip_operator(token_data, &i);
-			if (token_data[i])
-			{
-				if (!split_token_node(lst_node, i))
-					return (false);
-				lst_node = lst_node->next;
-				token_data = get_token_data_from_list(lst_node);
-				i = 0;
-			}
+			if (!split_and_advance_node(&lst_node, &token_data, &i))
+				return (false);
+			continue ;
 		}
-		else if (ft_strchr(QUOTES, token_data[i]))
+		if (ft_strchr(QUOTES, token_data[i]))
 			skip_past_same_quote(token_data, &i);
 		else
 			i++;
+	}
+	return (true);
+}
+
+bool	split_and_advance_node(t_list **lst_node, char **token_data, size_t *i)
+{
+	if (*i == 0)
+		skip_operator(*token_data, i);
+	if ((*token_data)[*i])
+	{
+		if (!split_token_node(*lst_node, *i))
+			return (false);
+		*lst_node = (*lst_node)->next;
+		*token_data = get_token_data_from_list(*lst_node);
+		*i = 0;
 	}
 	return (true);
 }
