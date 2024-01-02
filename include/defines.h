@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/01 15:21:18 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/01 22:31:46 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,14 @@
 # define OPENING_BRACE '{'
 # define CLOSING_BRACE '}'
 
-/* Error Message */
-# define ERROR_HEREDOC_UNEXPECTED_EOF	"%s: \
-warning: here-document delimited by end-of-file (wanted `%s')\n"
+/* Error Messages */
+// TODO Add minishell name in the front of messages
+# define ERROR_PARSER_SYNTAX				\
+"%s: syntax error near unexpected token `%s'\n"
+# define ERROR_HEREDOC_UNEXPECTED_EOF		\
+"%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
+# define ERROR_EXPANDER_BAD_SUBSTITUTION	\
+"%s: bad substitution\n"
 
 extern const int	g_parsing_table[][PT_COL_SIZE];
 

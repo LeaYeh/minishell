@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 13:57:23 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/01 14:38:09 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/01 21:54:02 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	exec_heredoc(int cmdtable_id, t_io_red **io_red)
 		line = readline(HEREDOC_PROMPT);
 		if (!line)
 		{
-			ft_dprintf(2, ERROR_HEREDOC_UNEXPECTED_EOF,
+			ft_dprintf(STDERR_FILENO, ERROR_HEREDOC_UNEXPECTED_EOF,
 				PROGRAM_NAME, (*io_red)->here_end);
 			return (remove_file(&(*io_red)->out_file));
 		}

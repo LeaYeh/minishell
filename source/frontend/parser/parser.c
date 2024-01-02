@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 15:20:18 by codespace        ###   ########.fr       */
+/*   Updated: 2024/01/01 21:56:24 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ char	*get_error_token_data(t_list *token_list, t_list *parse_stack)
 
 void	report_syntax_error(t_list *token_list, t_list *parse_stack)
 {
-	ft_dprintf(2, "%s: syntax error near unexpected token `%s'\n",
-		PROGRAM_NAME,
-		get_error_token_data(token_list, parse_stack));
+	ft_dprintf(STDERR_FILENO, ERROR_PARSER_SYNTAX,
+		PROGRAM_NAME, get_error_token_data(token_list, parse_stack));
 }
 
 bool	parse(
