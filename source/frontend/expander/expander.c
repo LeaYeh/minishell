@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/01 21:28:27 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/02 19:17:10 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
  *   bash-5.1$ e{ch,'|','|'}o
  *   > e|o e|o
  *
+ *
+ *   HERE_DOC:
+ *
  * - bash-5.1$ cat << $a
  *   > abc
  *   > $a $a
@@ -26,8 +29,7 @@
  *   123 123
  *   echo 123
  *
- * - here doc:
- *   bash-5.1$ cat << $b
+ * - bash-5.1$ cat << $b
  *   > '$a'
  *   > '$b'
  *   > $b
@@ -35,6 +37,7 @@
  *   '456'
  *   bash-5.1$ echo '$a'
  *   $a
+ *
  *
  * [x] bash-5.1$ echo $"$aa"
  *
@@ -55,6 +58,8 @@
  *     bash: ${?}abc${abc.}: bad substitution
  *     bash-5.1$ echo $"{?}abc${abc.}"
  *     bash: {?}abc${abc.}: bad substitution
+ *     bash-5.1$ $USER$"USER${abc.}abc"
+ *     bash: USER${abc.}abc: bad substitution
  *
 */
 
@@ -65,7 +70,7 @@
  * 		At the moment it will just leave the string as is.
  *         -> Lexer should detect syntax error.
  *
- * [ ] Where to handle the "%s: bad substitution" error message?
+ * [x] Where to handle the "%s: bad substitution" error message?
  *
  * [ ] This test case is terrible, bc it changes the command table:
  *     bash-5.1$ $abc 123
@@ -128,8 +133,10 @@
  * TODO-LIST
  *
  * [x] Handle $<quotes>
- * [ ] Assign NULL when executor should do nothing, and empty string for errors.
- * [ ] Report %s: bad substitution
+ * [x] Assign NULL when executor should do nothing, and empty string for errors.
+ * [x] Report %s: bad substitution
+ * [ ] Change skip_past_same_quote() to skip_to_same_quote() in bad_substitution
+ * [ ] Handle this case: "$'$USER'" -> $'ldulling'
  *
 */
 
@@ -144,6 +151,8 @@ bool	ft_expander(char **str, t_shell *shell)
 	dup = ft_strdup(*str);
 	if (!dup)
 		return (false);
+	if (bad_substitution(dup))
+		return (ft_free_and_null((void **)str), free(dup), false);
 	if (!parameter_expansion(&dup, shell))
 		return (free(dup), false);
 	if (!*dup)

@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 00:34:37 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/01 14:58:44 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/01 22:33:47 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,6 @@ size_t	count_var_len(char *str)
 		str++;
 	}
 	return (len);
-}
-
-bool	check_braces(char *str)
-{
-	if (*str == '$')
-		str++;
-	if (*str == OPENING_BRACE)
-	{
-		str++;
-		if (*str != '?' && !is_valid_varname_start(*str))
-			return (false);
-		str++;
-		if (*(str - 1) != '?')
-			while (is_valid_varname(*str))
-				str++;
-		if (*str == '?')
-			while (*str && *str != CLOSING_BRACE)
-				str++;
-		if (*str != CLOSING_BRACE)
-			return (false);
-	}
-	return (true);
 }
 
 size_t	count_replace_len(char *str)
@@ -171,11 +149,6 @@ bool	expand_parameter(char **str, size_t *i, t_shell *shell)
 {
 	size_t	offset;
 
-	if (!check_braces(&(*str)[*i]))
-	{
-		*i = ft_strlen(*str);
-		return (true);
-	}
 	offset = count_offset(&(*str)[*i]);
 	if ((*str)[*i + offset])
 	{
@@ -185,8 +158,9 @@ bool	expand_parameter(char **str, size_t *i, t_shell *shell)
 			return (expand_variable(str, i, offset, shell->env_list));
 		else if (ft_strchr(QUOTES, (*str)[*i + offset]))
 			return (handle_dollar_quotes(str, i));
+		*i += offset;
 	}
-	*i += offset;
+	(*i)++;
 	return (true);
 }
 
@@ -199,7 +173,7 @@ bool	parameter_expansion(char **str, t_shell *shell)
 	{
 		skip_to_dollar_not_in_single_quotes(*str, &i);
 		if (!(*str)[i])
-			return (true);
+			break ;
 		if (!expand_parameter(str, &i, shell))
 			return (false);
 	}
