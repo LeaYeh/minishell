@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_removal.c                                    :+:      :+:    :+:   */
+/*   expand_special_param.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/01 12:09:34 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/03 15:28:42 by ldulling         ###   ########.fr       */
+/*   Created: 2024/01/03 15:20:26 by ldulling          #+#    #+#             */
+/*   Updated: 2024/01/03 15:20:42 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-#include "utils.h"
 
-bool	quote_removal(char **str)
+bool	expand_exit_code(char **str, size_t *i, int exit_code)
 {
-	size_t	first_quote;
-	size_t	i;
+	char	*exit_code_str;
+	size_t	replace_len;
 
-	i = 0;
-	while ((*str)[i])
-	{
-		while (!ft_strchr(QUOTES, (*str)[i]))
-			i++;
-		if (!(*str)[i])
-			return (true);
-		first_quote = i;
-		if (!skip_to_same_quote(*str, &i))
-			return (true);
-		if (!replace_part_of_str(str, "", first_quote, 1))
-			return (false);
-		if (!replace_part_of_str(str, "", --i, 1))
-			return (false);
-	}
-	return (true);
+	exit_code_str = ft_itoa(exit_code);
+	if (!exit_code_str)
+		return (false);
+	replace_len = count_replace_len(&(*str)[*i]);
+	if (!replace_part_of_str(str, exit_code_str, *i, replace_len))
+		return (free(exit_code_str), false);
+	*i += ft_strlen(exit_code_str);
+	return (free(exit_code_str), true);
 }
