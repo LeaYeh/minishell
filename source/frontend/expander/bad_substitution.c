@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 20:58:09 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/02 18:21:55 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/03 02:15:50 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,20 @@
 
 bool	check_braces(char *str, size_t *i)
 {
-	if (str[*i] == '$')
-		(*i)++;
-	if (str[*i] == OPENING_BRACE)
-	{
-		(*i)++;
-		if (str[*i] != '?' && !is_valid_varname_start(str[*i]))
-			return (false);
-		(*i)++;
-		if (str[*i - 1] != '?')
-			while (is_valid_varname(str[*i]))
-				(*i)++;
-		if (str[*i] == '?')
-			while (str[*i] && str[*i] != CLOSING_BRACE)
-				(*i)++;
-		if (str[*i] != CLOSING_BRACE)
-			return (false);
-	}
+	if (str[*i] != OPENING_BRACE)
+		return (true);
+	(*i)++;
+	if (str[*i] != '?' && !is_valid_varname_start(str[*i]))
+		return (false);
+	(*i)++;
+	if (str[*i - 1] != '?')
+		while (is_valid_varname(str[*i]))
+			(*i)++;
+	if (str[*i] == '?')
+		while (str[*i] && str[*i] != CLOSING_BRACE)
+			(*i)++;
+	if (str[*i] != CLOSING_BRACE)
+		return (false);
 	return (true);
 }
 
@@ -40,7 +37,7 @@ bool	check_braces(char *str, size_t *i)
 //     [x] Move i after starting quote.
 void	prepare_error_msg(char *str, size_t *i)
 {
-	if (is_in_double_quotes(str, *i))
+	if (is_open_pair('"', GET))
 	{
 		*ft_strchr(&str[*i], '"') = '\0';
 		while (str[*i - 1] != '"')
@@ -60,13 +57,13 @@ bool	bad_substitution(char *str)
 		skip_to_dollar_not_in_single_quotes(str, &i);
 		if (!str[i])
 			return (false);
+		i++;
 		if (!check_braces(str, &i))
 		{
 			prepare_error_msg(str, &i);
 			ft_dprintf(STDERR_FILENO, ERROR_EXPANDER_BAD_SUBSTITUTION, &str[i]);
 			return (true);
 		}
-		i++;
 	}
 	return (false);
 }

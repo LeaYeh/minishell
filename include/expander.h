@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 23:25:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/02 19:28:39 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/03 01:41:59 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include "defines.h"
 
+# define GET	0
+# define TOGGLE	1
+# define RESET	2
+
 /* bad_substitution.c */
 bool	bad_substitution(char *str);
 
@@ -22,8 +26,15 @@ bool	bad_substitution(char *str);
 bool	ft_expander(char **str, t_shell *shell);
 void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i);
 
+/* expander_utils.c */
+void	free_and_reset(char *dup);
+bool	is_open_pair(unsigned char c, int operation);
+
 /* parameter_expansion.c */
 bool	parameter_expansion(char **str, t_shell *shell);
+
+/* quote_removal.c */
+bool	quote_removal(char **str);
 
 /* replace_part_of_str.c */
 bool	replace_part_of_str(

@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/02 19:49:50 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/03 14:41:09 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@
  * [x] bash-5.1$ echo "'$USER'"
  *     'ldulling'
  *
- * [ ] bash-5.1$ ${USER}=abc
+ * [x] bash-5.1$ ${USER}=abc
  *     bash: ldulling=abc: command not found
  *
- * [ ] bash-5.1$ echo ${?}abc${abc.}
+ * [x] bash-5.1$ echo ${?}abc${abc.}
  *     bash: ${?}abc${abc.}: bad substitution
  *       -> Use the original str for the error message.
  *
- * [ ] bash-5.1$ echo "${?}abc${abc.}"
+ * [x] bash-5.1$ echo "${?}abc${abc.}"
  *     bash: ${?}abc${abc.}: bad substitution
  *     bash-5.1$ echo $"{?}abc${abc.}"
  *     bash: {?}abc${abc.}: bad substitution
@@ -138,8 +138,7 @@
  * [x] Handle $<quotes>
  * [x] Assign NULL when executor should do nothing, and empty string for errors.
  * [x] Report %s: bad substitution
- * [ ] Change skip_past_same_quote() to skip_to_same_quote() in bad_substitution
- * [ ] Handle this case: "$'$USER'" -> $'ldulling'
+ * [x] Handle this case: "$'$USER'" -> $'ldulling'
  *
 */
 
@@ -155,14 +154,14 @@ bool	ft_expander(char **str, t_shell *shell)
 	if (!dup)
 		return (false);
 	if (bad_substitution(dup))
-		return (ft_free_and_null((void **)str), free(dup), false);
+		return (ft_free_and_null((void **)str), free_and_reset(dup), false);
 	if (!parameter_expansion(&dup, shell))
-		return (free(dup), false);
+		return (free_and_reset(dup), false);
 	if (!*dup)
-		return (ft_free_and_null((void **)str), free(dup), true);
+		return (ft_free_and_null((void **)str), free_and_reset(dup), true);
 	if (!quote_removal(&dup))
-		return (free(dup), false);
-	free(*str);
+		return (free_and_reset(dup), false);
+	free_and_reset(*str);
 	*str = dup;
 	return (true);
 }

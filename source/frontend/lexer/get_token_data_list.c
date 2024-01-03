@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:30:35 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/02 13:04:54 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/02 21:07:33 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ char	*get_token_data(char *input_line, size_t *i)
 	start = *i;
 	while (input_line[*i] && !ft_strchr(WHITESPACE, input_line[*i]))
 	{
-		if (ft_strchr(QUOTES, input_line[*i]))
-			skip_to_same_quote(input_line, i);
+		if (ft_strchr(QUOTES, input_line[*i])
+			&& !skip_to_same_quote(input_line, i))
+			break ;
 		(*i)++;
 	}
 	return (ft_substr(input_line, start, *i - start));

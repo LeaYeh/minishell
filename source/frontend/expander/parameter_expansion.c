@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 00:34:37 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/02 19:41:28 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/03 01:42:57 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,24 @@
 // TODO We have have to check for unclosed quotes somewhere
 bool	handle_dollar_quotes(char **str, size_t *i)
 {
-	return (replace_part_of_str(str, "", *i, 1));
+	if (!is_open_pair('"', GET))
+		return (replace_part_of_str(str, "", *i, 1));
+	else
+		(*i)++;
+	return (true);
 }
 
 void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
 {
-	bool	is_in_dquote;
-
-	is_in_dquote = false;
 	while (str[*i])
 	{
-		if (str[*i] == '"')
-			is_in_dquote ^= true;
-		else if (str[*i] == '\'' && !is_in_dquote)
-		{
-			skip_past_same_quote(str, i);
-			continue ;
-		}
-		else if (str[*i] == '$')
+		if (str[*i] == '$')
 			return ;
+		else if (str[*i] == '"')
+			is_open_pair('"', TOGGLE);
+		else if (str[*i] == '\'' && !is_open_pair('"', GET))
+			if (!skip_to_same_quote(str, i))
+				return ;
 		(*i)++;
 	}
 }

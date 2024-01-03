@@ -1,37 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_removal.c                                    :+:      :+:    :+:   */
+/*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/01 12:09:34 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/02 21:09:03 by ldulling         ###   ########.fr       */
+/*   Created: 2024/01/03 01:01:07 by ldulling          #+#    #+#             */
+/*   Updated: 2024/01/03 01:42:15 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-#include "utils.h"
 
-bool	quote_removal(char **str)
+void	free_and_reset(char *dup)
 {
-	size_t 	first_quote;
-	size_t	i;
+	free(dup);
+	is_open_pair('"', RESET);
+}
 
-	i = 0;
-	while ((*str)[i])
-	{
-		while (!ft_strchr(QUOTES, (*str)[i]))
-			i++;
-		if (!(*str)[i])
-			return (true);
-		first_quote = i;
-		if (!skip_to_same_quote(*str, &i))
-			return (true);
-		if (!replace_part_of_str(str, "", first_quote, 1))
-			return (false);
-		if (!replace_part_of_str(str, "", --i, 1))
-			return (false);
-	}
-	return (true);
+bool	is_open_pair(unsigned char c, int operation)
+{
+	static bool	is_open_pair[UCHAR_MAX];
+
+	if (operation == TOGGLE)
+		is_open_pair[c] ^= true;
+	else if (operation == RESET)
+		is_open_pair[c] = false;
+	return (is_open_pair[c]);
 }
