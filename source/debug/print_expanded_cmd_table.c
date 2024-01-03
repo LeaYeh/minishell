@@ -6,21 +6,21 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:40:56 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/02 19:36:48 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/03 16:17:22 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug.h"
 #include "expander.h"
 
-bool	expand_cmd_name(t_cmd_table *cmd_table, t_shell *shell)
+static bool	expand_cmd_name(t_cmd_table *cmd_table, t_shell *shell)
 {
 	if (!ft_expander(&cmd_table->cmd_name, shell))
 		return (false);
 	return (true);
 }
 
-bool	expand_cmd_args(t_cmd_table *cmd_table, t_shell *shell)
+static bool	expand_cmd_args(t_cmd_table *cmd_table, t_shell *shell)
 {
 	t_list	*node;
 
@@ -34,7 +34,7 @@ bool	expand_cmd_args(t_cmd_table *cmd_table, t_shell *shell)
 	return (true);
 }
 
-bool	expand_assignment_list(t_cmd_table *cmd_table, t_shell *shell)
+static bool	expand_assignment_list(t_cmd_table *cmd_table, t_shell *shell)
 {
 	t_list	*node;
 
@@ -48,7 +48,7 @@ bool	expand_assignment_list(t_cmd_table *cmd_table, t_shell *shell)
 	return (true);
 }
 
-bool	expand_io_red_list(t_cmd_table *cmd_table, t_shell *shell)
+static bool	expand_io_red_list(t_cmd_table *cmd_table, t_shell *shell)
 {
 	t_list	*node;
 
@@ -66,7 +66,7 @@ bool	expand_io_red_list(t_cmd_table *cmd_table, t_shell *shell)
 	return (true);
 }
 
-bool	expand_cmd_table(t_cmd_table *cmd_table, t_shell *shell)
+static bool	expand_cmd_table(t_cmd_table *cmd_table, t_shell *shell)
 {
 	if (!expand_cmd_name(cmd_table, shell))
 		return (false);
