@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 01:01:07 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/03 15:23:14 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/04 13:49:13 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ size_t	count_replace_len(char *str)
 	return (replace_len);
 }
 
-void	free_and_reset(char *dup)
+void	free_and_reset(char *str)
 {
-	free(dup);
+	free(str);
 	is_open_pair('"', RESET);
 }
 

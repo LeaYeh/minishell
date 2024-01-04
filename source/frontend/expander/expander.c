@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/03 14:41:09 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/04 13:51:34 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,18 +150,19 @@ bool	ft_expander(char **str, t_shell *shell)
 
 	if (!str || !*str)
 		return (true);
+	if (bad_substitution(*str))
+		return (false);
 	dup = ft_strdup(*str);
+	ft_free_and_null((void **)str);
 	if (!dup)
 		return (false);
-	if (bad_substitution(dup))
-		return (ft_free_and_null((void **)str), free_and_reset(dup), false);
 	if (!parameter_expansion(&dup, shell))
 		return (free_and_reset(dup), false);
 	if (!*dup)
-		return (ft_free_and_null((void **)str), free_and_reset(dup), true);
+		return (free_and_reset(dup), true);
 	if (!quote_removal(&dup))
 		return (free_and_reset(dup), false);
-	free_and_reset(*str);
+	free_and_reset(NULL);
 	*str = dup;
 	return (true);
 }

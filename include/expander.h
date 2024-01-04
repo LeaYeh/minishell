@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 23:25:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/04 13:22:48 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/04 13:49:26 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	ft_expander(char **str, t_shell *shell);
 /* expander_utils.c */
 size_t	count_offset(char *str);
 size_t	count_replace_len(char *str);
-void	free_and_reset(char *dup);
+void	free_and_reset(char *str);
 bool	is_open_pair(unsigned char c, int operation);
 void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i);
 
