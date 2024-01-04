@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 23:25:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/03 15:26:43 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/04 13:22:48 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 
 # include "defines.h"
 
-# define GET	0
-# define TOGGLE	1
-# define RESET	2
+enum e_is_open_pair_operations
+{
+	GET = 0,
+	TOGGLE,
+	RESET
+};
 
 /* bad_substitution.c */
 bool	bad_substitution(char *str);
