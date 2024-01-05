@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/29 21:51:38 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/05 16:38:21 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ bool	ft_append_env(t_shell *shell, char *key, char *value)
 	env_node->value = value;
 	lst_node = ft_lstnew(env_node);
 	if (!lst_node)
-		return (false);
+		return (free_env_node(env_node), false);
 	ft_lstadd_back(&shell->env_list, lst_node);
 	return (true);
 }
 
+// TODO: Not implemented yet
 bool	ft_setup_default_env(t_shell *shell)
 {
 	shell->env_list = NULL;
@@ -59,8 +60,8 @@ bool	ft_setup_env(t_shell *shell, char **env)
 	shell->env_list = NULL;
 	key = NULL;
 	value = NULL;
-	i = -1;
-	while (env[++i])
+	i = 0;
+	while (env[i])
 	{
 		if (!extract_string(&key, env[i], "="))
 			break ;
@@ -68,6 +69,7 @@ bool	ft_setup_env(t_shell *shell, char **env)
 			break ;
 		if (!ft_append_env(shell, key, value))
 			break ;
+		i++;
 	}
 	if (env[i])
 		return (ft_lstclear(&shell->env_list, (void *)free_env_node),

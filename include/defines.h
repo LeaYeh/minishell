@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/01 14:03:52 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/05 16:03:15 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,18 @@
 # include "ft_printf.h"
 
 # define PROGRAM_NAME       "minishell"
-# define EXIT_SUCCESS       0
-# define EXIT_FAILED       -1
 
+/* Error codes */
+# define EXIT_SUCCESS       0
+# define GENERAL_ERROR      1
+# define MISUSE_BUILTIN     2
+# define CMD_EXEC_FAILED    126
+# define CMD_NOT_FOUND      127
+# define TERM_BY_SIGNAL     128
+# define UNEXPECT_EXIT      128
+# define EXIT_SIGTERM       130
+
+/* Parsing Table */
 # define PT_COL_SIZE        5
 # define PT_ROW_SIZE        191
 # define UNDEFINED_TYPE     -99
@@ -153,6 +162,13 @@ typedef struct s_relation_ast
 	t_ast			*current;
 	t_list			*children;
 }	t_relation_ast;
+
+typedef struct s_parser_data
+{
+	t_list			*token_list;
+	t_list			*state_stack;
+	t_list			*parse_stack;
+}	t_parser_data;
 
 typedef struct s_pt_node
 {

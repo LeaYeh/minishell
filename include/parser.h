@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:57:56 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/29 21:12:48 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/05 18:02:43 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define PARSER_H
 # include "defines.h"
 
-t_pt_node	*get_next_pt_entry(int state, int token_type, int action);
-
+bool		set_next_pt_entry(t_pt_node **pt_entry,
+				int state, int token_type, int action_mask);
 bool		push_state(t_list **state_stack, int next_step);
 bool		push_token(t_list **parse_stack, t_ast *ast_node);
 bool		parse_shift(t_token *input_token,
@@ -24,9 +24,9 @@ bool		parse_reduce(t_list **state_stack,
 				t_list **parse_stack, t_pt_node *pt_entry);
 bool		parse_goto(t_list **state_stack, int token_type);
 
-bool		init_parse(t_list **state_stack, t_list **parse_stack);
-void		free_parse(t_list **state_stack, t_list **parse_stack);
-bool		ft_parse(t_shell *shell);
+bool		init_parser_data(t_parser_data *parser_data, t_list *token_list);
+void		free_parser_data(t_parser_data *parser_data);
+bool		ft_parser(t_shell *shell);
 
 /* Command table */
 t_list_d	*build_cmd_table_list(t_list *token_list);

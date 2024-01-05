@@ -66,7 +66,7 @@ void	ft_exec_env(t_shell *shell, char **args)
 	if (!exec_env(shell, args))
 	{
 		free_str_array(args);
-		shell->exit_code = EXIT_FAILED;
+		shell->exit_code = GENERAL_ERROR;
 		ft_clean_shell(shell);
 	}
 	else
