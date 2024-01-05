@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/06 20:25:35 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:45:17 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ int	main(int argc, char **argv, char **env)
 
 	((void)argc, (void)argv);
 	if (!ft_init_shell(&shell, env))
+<<<<<<< HEAD
 		ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
+=======
+		return (GENERAL_ERROR);
+>>>>>>> 269fb07 (refactor: Change parser interface to diff between parsing and general error)
 	// init signal handler
 	// return correct exit code
 	while (true)
