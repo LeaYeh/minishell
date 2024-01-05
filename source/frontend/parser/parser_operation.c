@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_operation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 15:22:01 by codespace        ###   ########.fr       */
+/*   Updated: 2024/01/05 18:05:46 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,12 @@ bool	parse_goto(t_list **state_stack, int token_type)
 {
 	t_pt_node	*pt_entry;
 
-	pt_entry = get_next_pt_entry(
+	pt_entry = NULL;
+	if (!set_next_pt_entry(&pt_entry,
 			get_state_from_stack(*state_stack),
 			token_type,
-			A_GOTO);
+			A_GOTO))
+		return (false);
 	if (!pt_entry)
 		return (false);
 	if (!push_state(state_stack, pt_entry->next_state))

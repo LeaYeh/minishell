@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/02 19:36:17 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:06:59 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,25 @@ int	main(int argc, char **argv, char **env)
 
 	((void)argc, (void)argv);
 	if (!ft_init_shell(&shell, env))
-		return (EXIT_FAILED);
+		return (GENERAL_ERROR);
 	// init signal handler
 	// return correct exit code
 	while (true)
 	{
 		if (!ft_read_input(&shell))
-			return (ft_clean_shell(&shell), EXIT_FAILED);
+			ft_clean_and_exit_shell(&shell, EXIT_SUCCESS);
 		if (!shell.input_line || ft_strlen(shell.input_line) == 0 \
 			|| shell.input_line[0] == '\n')
 			continue ;
-		if (!ft_lexer(&shell))
-			return (ft_clean_shell(&shell), EXIT_FAILED);
-		if (!ft_parse(&shell))
-			return (ft_clean_shell(&shell), EXIT_FAILED);
-		// For testing
+		if (!ft_lexer(&shell) || !ft_parser(&shell))
+			ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
 		print_cmd_table_list(shell.cmd_table_list);
 		if (!print_expanded_cmd_table_list(&shell))
 			return (ft_clean_shell(&shell), 42);
 		if (!ft_execute(&shell))
-			return (ft_clean_shell(&shell), EXIT_FAILED);
+			return (ft_clean_shell(&shell), GENERAL_ERROR);
 		ft_lstclear_d(&shell.cmd_table_list, (void *)free_cmd_table);
-		// ft_clean_shell(&shell);
-		// do executor
+		ft_clean_shell(&shell);
 	}
 	return (EXIT_SUCCESS);
 }

@@ -6,11 +6,12 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 16:27:22 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/21 15:49:03 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/05 18:01:49 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "clean.h"
 
 // | State | Token Type | Action | Next State | Number of Reduced Tokens |
 const int	g_parsing_table[][5] = {\
@@ -243,11 +244,10 @@ bool	match_rule(int token_type, int action_mask, int row_index)
 }
 
 // | State | Token Type | Action | Next State | Number of Reduced Tokens |
-t_pt_node	*get_next_pt_entry(
-	int state, int token_type, int action_mask)
+bool	set_next_pt_entry(
+	t_pt_node **pt_entry, int state, int token_type, int action_mask)
 {
-	int			i;
-	t_pt_node	*pt_entry;
+	int		i;
 
 	i = 0;
 	while (i < PT_ROW_SIZE)
@@ -260,7 +260,9 @@ t_pt_node	*get_next_pt_entry(
 		i++;
 	}
 	if (i == PT_ROW_SIZE)
-		return (NULL);
-	pt_entry = init_pt_node(g_parsing_table[i]);
-	return (pt_entry);
+		return (true);
+	*pt_entry = init_pt_node(g_parsing_table[i]);
+	if (!*pt_entry)
+		return (false);
+	return (true);
 }
