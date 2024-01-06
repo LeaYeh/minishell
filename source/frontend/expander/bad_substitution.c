@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 20:58:09 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/03 02:15:50 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/04 15:23:21 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ bool	check_braces(char *str, size_t *i)
 	return (true);
 }
 
-// [x] Check if inside double quotes.
-// 	   [x] Nul-terminate on ending quote.
-//     [x] Move i after starting quote.
 void	prepare_error_msg(char *str, size_t *i)
 {
 	if (is_open_pair('"', GET))

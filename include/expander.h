@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 23:25:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/04 13:49:26 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/06 01:11:29 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ enum e_is_open_pair_operations
 /* bad_substitution.c */
 bool	bad_substitution(char *str);
 
+/* create_expanded_list.c */
+bool	create_expanded_list(t_list **lst, char *dup);
+
 /* expand_special_param.c */
 bool	expand_exit_code(char **str, size_t *i, int exit_code);
 
@@ -34,12 +37,12 @@ size_t	count_var_len(char *str);
 char	*get_replacement(char *var, t_list *env_list);
 
 /* expander.c */
-bool	ft_expander(char **str, t_shell *shell);
+bool	ft_expander(char **str, t_list **lst, t_shell *shell);
 
 /* expander_utils.c */
 size_t	count_offset(char *str);
 size_t	count_replace_len(char *str);
-void	free_and_reset(char *str);
+void	free_and_reset(char *dup, char **str);
 bool	is_open_pair(unsigned char c, int operation);
 void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i);
 
