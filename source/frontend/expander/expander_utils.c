@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 01:01:07 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/06 00:21:46 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:25:26 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,13 @@ size_t	count_replace_len(char *str)
 
 void	free_and_reset(char *dup, char **str)
 {
+	unsigned char	c;
+
 	free(dup);
 	ft_free_and_null((void **)str);
-	is_open_pair('"', RESET);
+	c = 0;
+	while (c < UCHAR_MAX)
+		is_open_pair(c++, RESET);
 }
 
 bool	is_open_pair(unsigned char c, int operation)
