@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/01 14:03:52 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/06 13:16:53 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,31 @@
 # define UNDEFINED_TYPE     -99
 # define UNDEFINED_STATE    -1
 
-// # define RED				"\033[0;31m"
-// # define GREEN				"\033[0;32m"
-// # define YELLOW				"\033[0;33m"
-// # define BLUE				"\033[0;34m"
-// # define MAGENTA			"\033[0;35m"
-// # define CYAN				"\033[0;36m"
-// # define WHITE				"\033[0;37m"
-// # define BOLD_RED			"\033[1;31m"
-// # define RESET				"\033[0m"
+# define STY_BLD				"\e[1m"
+# define STY_UND				"\e[4m"
+# define STY_RED				"\e[31m"
+# define STY_GRN				"\e[32m"
+# define STY_YEL				"\e[33m"
+# define STY_BLU				"\e[34m"
+# define STY_MAG				"\e[35m"
+# define STY_CYN				"\e[36m"
+# define STY_WHT				"\e[37m"
+# define STY_GRY				"\e[90m"
+# define STY_HWHT				"\e[97m"
+# define STY_BLKB				"\e[41m"
+# define STY_REDB				"\e[41m"
+# define STY_GRNB				"\e[42m"
+# define STY_YELB				"\e[43m"
+# define STY_BLUB				"\e[44m"
+# define STY_MAGB				"\e[45m"
+# define STY_CYNB				"\e[46m"
+# define STY_WHTB				"\e[47m"
+# define STY_GRYB				"\e[100m"
+# define STY_HWHTB				"\e[107m"
+# define STY_RES				"\e[0m"
 
 // TODO: Remove the color codes from the prompt before the evaluations
+// # define PROMPT "\033[0;34m🌊>\033[0m"
 # define PROMPT				"\033[1;32mminishell$ \033[0m"
 # define HEREDOC_PROMPT		"\033[1;37m> \033[0m"
 // # define PROMPT				"\001\033[1;32m\002minishell$ \001\033[0m\002"
@@ -55,9 +69,18 @@
 # define TOK_SYMBOLS		"<>|&()"
 # define T_UNINITIALIZED	-1		//TODO Replace with Lea's UNDEFINED_TYPE -99
 
-/* Error Message */
-# define ERROR_HEREDOC_UNEXPECTED_EOF	"%s: \
-warning: here-document delimited by end-of-file (wanted `%s')\n"
+/* Expander */
+# define OPENING_BRACE '{'
+# define CLOSING_BRACE '}'
+
+/* Error Messages */
+// TODO Add minishell name in the front of messages
+# define ERROR_PARSER_SYNTAX				\
+"%s: syntax error near unexpected token `%s'\n"
+# define ERROR_HEREDOC_UNEXPECTED_EOF		\
+"%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
+# define ERROR_EXPANDER_BAD_SUBSTITUTION	\
+"%s: bad substitution\n"
 
 extern const int	g_parsing_table[][PT_COL_SIZE];
 

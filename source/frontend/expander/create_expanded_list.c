@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   create_expanded_list.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 18:02:03 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/31 18:33:47 by ldulling         ###   ########.fr       */
+/*   Created: 2024/01/04 14:07:52 by ldulling          #+#    #+#             */
+/*   Updated: 2024/01/06 01:10:57 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
+#include "expander.h"
 
-# include "defines.h"
+bool	create_expanded_list(t_list **lst, char *dup)
+{
+	t_list	*node;
 
-void	ft_show_env_list(t_shell *shell);
-void	ft_show_token_list(t_shell *shell);
-void	print_ast_bfs(t_ast *root);
-void	print_cmd_table_list(t_list_d *cmd_table_list);
-void	print_cmd_table(t_cmd_table *cmd_table);
-
-/* Expander */
-bool	print_expanded_cmd_table_list(t_shell *shell);
-
-#endif
+	node = ft_lstnew(dup);
+	if (!node)
+		return (false);
+	ft_lstadd_back(lst, node);
+	return (true);
+}

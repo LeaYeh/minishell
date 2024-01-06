@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/01 13:40:10 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/03 14:29:24 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,10 @@ void		print_state_stack(t_list *stack);
 void		print_parse_stack(t_list *stack);
 bool		drop_num_stack(t_list **stack, int num, void (*del)(void *));
 t_list		*pop_num_stack(t_list **stack, int num);
+
+/* String utils */
+bool	is_valid_varname(char c);
+bool	is_valid_varname_start(char c);
+bool	skip_to_same_quote(char *str, size_t *i);
 
 #endif

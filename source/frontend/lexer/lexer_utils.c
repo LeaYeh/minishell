@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 10:33:59 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/28 23:41:42 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/12/31 17:15:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,7 @@ void	skip_operator(char *token_data, size_t *i)
 		(*i)++;
 }
 
-void	skip_past_same_quote(char *str, size_t *i)
-{
-	char	*open_quote;
-
-	open_quote = ft_strchr(QUOTES, str[*i]);
-	if (open_quote)
-	{
-		while (str[*i])
-		{
-			(*i)++;
-			if (str[*i] == *open_quote)
-			{
-				(*i)++;
-				break ;
-			}
-		}
-	}
-}
-
-bool	split_node(t_list *lst_node1, size_t i)
+bool	split_token_node(t_list *lst_node1, size_t i)
 {
 	t_list	*lst_node2;
 	t_token	*new_token;
