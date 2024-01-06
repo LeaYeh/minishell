@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2023/12/30 23:18:23 by ldulling         ###   ########.fr        #
+#    Updated: 2024/01/06 13:17:59 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,11 +148,11 @@ endif
 
 # **************************** CUSTOM MESSAGES ******************************* #
 
-MSG_START		:=	"\033[3mBuilding \033[1;34mCrash \033[0m"
-MSG_PROGRESS	:=	"\033[3m🌊\033[0m"
-MSG_SUCCESS		:=	"\033[1;3;36m\nDONE!\n\033[0m"
-MSG_NO_CHNG		:=	"\033[3;37mEverything up-to-date!\n\033[0m"
-MSG_FAILURE		:=	"\033[1;3;31mBUILD FAILED!\n\033[0m"
+MSG_START		:=	"\e[3mBuilding \e[1;34mCrash \e[0m"
+MSG_PROGRESS	:=	"\e[3m🌊\e[0m"
+MSG_SUCCESS		:=	"\e[1;3;36m\nDONE!\n\e[0m"
+MSG_NO_CHNG		:=	"\e[3;37mEverything up-to-date!\n\e[0m"
+MSG_FAILURE		:=	"\e[1;3;31mBUILD FAILED!\n\e[0m"
 
 
 # *************************** MAKEFILE DEBUGGING ***************************** #
