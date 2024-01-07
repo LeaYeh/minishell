@@ -13,31 +13,28 @@
 #include "lexer.h"
 #include "utils.h"
 
-t_list	*get_token_data_list(char *input_line)
+bool	create_token_data_list(t_list **token_data_list, char *input_line)
 {
 	size_t	i;
 	t_list	*new_node;
 	char	*token_data;
-	t_list	*token_data_list;
 
-	token_data_list = NULL;
 	i = 0;
 	while (input_line[i])
 	{
-		while (input_line[i] && ft_strchr(WHITESPACE, input_line[i]))
+		while (ft_strchr(WHITESPACE, input_line[i]) && input_line[i])
 			i++;
 		if (!input_line[i])
 			break ;
 		token_data = get_token_data(input_line, &i);
 		if (!token_data)
-			return (ft_lstclear(&token_data_list, free), NULL);
+			return (false);
 		new_node = ft_lstnew(token_data);
 		if (!new_node)
-			return (ft_lstclear(&token_data_list, free), free(token_data),
-				NULL);
-		ft_lstadd_back(&token_data_list, new_node);
+			return (free(token_data), false);
+		ft_lstadd_back(token_data_list, new_node);
 	}
-	return (token_data_list);
+	return (true);
 }
 
 char	*get_token_data(char *input_line, size_t *i)
