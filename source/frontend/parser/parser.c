@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/06 20:22:08 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/07 14:12:24 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,22 @@ bool	parse(t_shell *shell, t_parser_data *parser_data)
 				get_state_from_stack(parser_data->state_stack),
 				get_token_type_from_list(parser_data->token_list),
 				A_SHIFT | A_REDUCE | A_ACCEPT))
+		{
+			free_parser_data(parser_data);
 			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+		}
 		if (!pt_entry)
 			return (report_syntax_error(parser_data), false);
 		if (pt_entry->action == A_ACCEPT)
-			break ;
+			return (free(pt_entry), true);
 		if (!parse_step(parser_data, pt_entry))
 		{
 			free(pt_entry);
+			free_parser_data(parser_data);
 			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
 		}
 		ft_free_and_null((void **)&pt_entry);
 	}
-	return (free(pt_entry), true);
 }
 
 t_ast	*extract_ast_from_parse_stack(t_list **parse_stack)
