@@ -31,7 +31,7 @@ bool	create_token_list(t_list **token_list, t_list **token_data_list)
 		free(ft_lstpop_front(token_data_list));
 	}
 	if (*token_data_list)
-		return (ft_lstclear(token_data_list, free), free_token_node(token), \
+		return (free_token_node(token), \
 				ft_lstclear(&new_nodes, (void *)free_token_node), false);
 	return (true);
 }

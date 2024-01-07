@@ -6,26 +6,33 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 08:31:35 by codespace         #+#    #+#             */
-/*   Updated: 2023/12/21 21:05:23 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/07 14:09:24 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "clean.h"
 
 bool	ft_lexer(t_shell *shell)
 {
 	t_list	*token_data_list;
 
-	if (!shell || !shell->input_line)
-		return (false);
-	token_data_list = get_token_data_list(shell->input_line);
+	token_data_list = NULL;
+	if (!create_token_data_list(&token_data_list, shell->input_line))
+	{
+		ft_lstclear(&token_data_list, free);
+		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+	}
 	if (!token_data_list)
 		return (false);
 	if (!create_token_list(&shell->token_list, &token_data_list))
-		return (false);
+	{
+		ft_lstclear(&token_data_list, free);
+		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+	}
 	set_token_type(shell->token_list);
 	finetune_token_list(shell->token_list);
 	if (!add_end_node(&shell->token_list))
-		return (false);
+		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
 	return (true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:06:22 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/26 19:09:26 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/05 16:26:06 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CLEAN_H
 
 void	ft_clean_shell(t_shell *shell);
+void	ft_clean_and_exit_shell(t_shell *shell, int exit_code);
 void	free_env_node(t_env *env);
 
 #endif

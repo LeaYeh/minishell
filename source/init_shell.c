@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/31 17:21:00 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/06 17:50:12 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ bool	ft_append_env(t_shell *shell, char *key, char *value)
 	env_node->value = value;
 	lst_node = ft_lstnew(env_node);
 	if (!lst_node)
-		return (false);
+		return (free_env_node(env_node), false);
 	ft_lstadd_back(&shell->env_list, lst_node);
 	return (true);
 }
 
+// TODO: Not implemented yet
 bool	ft_setup_default_env(t_shell *shell)
 {
 	shell->env_list = NULL;

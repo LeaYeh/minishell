@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/02 19:36:17 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:25:35 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,24 @@ int	main(int argc, char **argv, char **env)
 
 	((void)argc, (void)argv);
 	if (!ft_init_shell(&shell, env))
-		return (EXIT_FAILED);
+		ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
 	// init signal handler
 	// return correct exit code
 	while (true)
 	{
 		if (!ft_read_input(&shell))
-			return (ft_clean_shell(&shell), EXIT_FAILED);
-		if (!shell.input_line || ft_strlen(shell.input_line) == 0 \
-			|| shell.input_line[0] == '\n')
-			continue ;
-		if (!ft_lexer(&shell))
-			return (ft_clean_shell(&shell), EXIT_FAILED);
-		if (!ft_parse(&shell))
-			return (ft_clean_shell(&shell), EXIT_FAILED);
-		// For testing
+			ft_clean_and_exit_shell(&shell, EXIT_SUCCESS);
+		if (!ft_lexer(&shell) || !ft_parser(&shell))
+		{
+			ft_clean_shell(&shell);
+			continue;
+		}
 		print_cmd_table_list(shell.cmd_table_list);
 		if (!print_expanded_cmd_table_list(&shell))
-			return (ft_clean_shell(&shell), 42);
+			ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
 		if (!ft_execute(&shell))
-			return (ft_clean_shell(&shell), EXIT_FAILED);
-		ft_lstclear_d(&shell.cmd_table_list, (void *)free_cmd_table);
-		// ft_clean_shell(&shell);
-		// do executor
+			ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
+		ft_clean_shell(&shell);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -58,7 +53,6 @@ bool	ft_read_input(t_shell *shell)
 {
 	char	*line;
 
-	ft_free_and_null((void **)&shell->input_line);
 	line = readline(PROMPT);
 	if (!line)
 		return (false);

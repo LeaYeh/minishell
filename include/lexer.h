@@ -15,6 +15,10 @@
 
 # include "defines.h"
 
+/* create_token_data_list.c */
+bool	create_token_data_list(t_list **token_data_list, char *input_line);
+char	*get_token_data(char *input_line, size_t *i);
+
 /* create_token_list.c */
 bool	create_token_list(t_list **token_list, t_list **token_data_list);
 bool	separate_operators(t_list *lst_node, size_t i);
@@ -24,10 +28,6 @@ bool	add_end_node(t_list	**token_list);
 /* finetune_token_list.c */
 void	finetune_token_list(t_list *token_list);
 void	adjust_assignment_word_tokens(t_list *token_list);
-
-/* get_token_data_list.c */
-t_list	*get_token_data_list(char *input_line);
-char	*get_token_data(char *input_line, size_t *i);
 
 /* lexer.c */
 bool	ft_lexer(t_shell *shell);
