@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/06 18:47:39 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:22:08 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,12 @@ bool	ft_parser(t_shell *shell)
 	if (!init_parser_data(&parser_data, shell->token_list))
 		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
 	if (!parse(shell, &parser_data))
-		return (free_parser_data(&parser_data), true);
+		return (free_parser_data(&parser_data), false);
+	free_parser_data(&parser_data);
 	printf("ACCEPT\n");
 	shell->cmd_table_list = build_cmd_table_list(shell->token_list);
-	free_parser_data(&parser_data);
-	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	if (!shell->cmd_table_list)
-		return (false);
+		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	return (true);
 }
