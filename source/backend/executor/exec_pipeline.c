@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:12 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/07 22:06:39 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/07 22:59:57 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void	handle_multi_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	t_cmd_table	*cmd_table;
 
 	cmd_table = (*cmd_table_node)->content;
-	while (cmd_table->type != C_SUBSHELL_END && \
-		cmd_table->type != C_AND && cmd_table->type != C_OR)
+	// while (cmd_table->type != C_SUBSHELL_END && \
+	// 	cmd_table->type != C_AND && cmd_table->type != C_OR)
+	while (cmd_table->type != C_PIPE)
 	{
 		if (cmd_table->type == C_SIMPLE_CMD)
 			handle_simple_cmd(shell, *cmd_table_node);

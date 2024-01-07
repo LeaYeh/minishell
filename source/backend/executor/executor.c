@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:04:52 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/07 17:27:15 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/07 23:02:32 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,11 @@ void	handle_process(t_shell *shell, t_list_d **cmd_table_node)
 		cmd_table = (*cmd_table_node)->content;
 		if (cmd_table->type == C_SUBSHELL_END)
 			ft_clean_and_exit_shell(shell, shell->exit_code);
-		// if (cmd_table->type == C_SUBSHELL_START)
-		// 	handle_subshell(shell, cmd_table_node);
 		// I think C_AND and C_OR should be separated so they can return a bool
 		// They also need to handle the following case: (echo 1) && echo 2
-		// else if (is_first_simple_cmd(*cmd_table_node) || \
-		// 	(cmd_table->type == C_AND || cmd_table->type == C_OR))
-		else if (cmd_table->type == C_SIMPLE_CMD || \
-			cmd_table->type == C_AND || cmd_table->type == C_OR)
+		// else if (cmd_table->type == C_SIMPLE_CMD || \
+		// 	cmd_table->type == C_AND || cmd_table->type == C_OR)
+		else if (cmd_table->type != C_PIPE)
 			handle_pipeline(shell, cmd_table_node);
 		else
 			*cmd_table_node = (*cmd_table_node)->next;
