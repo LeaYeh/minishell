@@ -6,12 +6,29 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:25:20 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/29 20:20:34 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/06 19:47:28 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "utils.h"
+
+void	fill_subshell_level(t_list_d *cmd_table_list)
+{
+	t_cmd_table	*cmd_table;
+	int			level;
+
+	level = 0;
+	while (cmd_table_list)
+	{
+		cmd_table = cmd_table_list->content;
+		if (cmd_table->type == C_SUBSHELL_START)
+			cmd_table->subshell_level = level++;
+		else if (cmd_table->type == C_SUBSHELL_END)
+			cmd_table->subshell_level = --level;
+		cmd_table_list = cmd_table_list->next;
+	}
+}
 
 bool	handle_current_token(t_list **token_list, t_list_d **cmd_table_list)
 {
@@ -49,5 +66,6 @@ t_list_d	*build_cmd_table_list(t_list *token_list)
 				ft_lstclear_d(&cmd_table_list, (void *)free_cmd_table), NULL);
 		token_list = token_list->next;
 	}
+	fill_subshell_level(cmd_table_list);
 	return (cmd_table_list);
 }

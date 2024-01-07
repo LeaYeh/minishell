@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:57:56 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/05 18:02:43 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/06 19:49:24 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ bool		ft_parser(t_shell *shell);
 t_list_d	*build_cmd_table_list(t_list *token_list);
 bool		handle_symbol_token(t_list **token_list, t_list_d **cmd_table_list);
 bool		handle_word_token(t_list **token_list, t_list_d **cmd_table_list);
+void		fill_subshell_level(t_list_d *cmd_table_list);
 
 #endif

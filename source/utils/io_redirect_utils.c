@@ -6,11 +6,12 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 19:44:52 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 20:02:28 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/06 20:23:24 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
+#include "utils.h"
 
 t_io_red	*init_io_red(void)
 {
@@ -33,5 +34,7 @@ void	free_io_red(t_io_red *io_red)
 	free(io_red->in_file);
 	free(io_red->out_file);
 	free(io_red->here_end);
+	safe_close(&io_red->red_in);
+	safe_close(&io_red->red_out);
 	free(io_red);
 }

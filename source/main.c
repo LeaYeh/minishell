@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/05 19:22:30 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/05 22:35:56 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@
 
 bool	ft_read_input(t_shell *shell);
 
+// If general error occurs, exit entire shell
+// if syntax error occurs, continue to next input
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	shell;
 
 	((void)argc, (void)argv);
+	// handle ctrl-C and ctrl-D and ignore ctrl-/
 	if (!ft_init_shell(&shell, env))
 		return (GENERAL_ERROR);
 	// init signal handler
@@ -39,7 +42,8 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if (!ft_lexer(&shell) || !ft_parser(&shell))
 			ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
-		print_cmd_table_list(shell.cmd_table_list);
+		if (shell.cmd_table_list)
+			ft_executor(&shell);
 		ft_clean_shell(&shell);
 	}
 	return (EXIT_SUCCESS);

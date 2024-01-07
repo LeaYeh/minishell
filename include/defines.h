@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/05 16:03:15 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/07 15:53:43 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <fcntl.h>
 # include <linux/limits.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -67,6 +68,10 @@
 /* Error Message */
 # define ERROR_HEREDOC_UNEXPECTED_EOF	"%s: \
 warning: here-document delimited by end-of-file (wanted `%s')\n"
+
+// TODO: Replace with OS error message
+# define ERROR_REMOVE_FILE 			"%s: \
+warning: failed to remove file `%s'\n"
 
 extern const int	g_parsing_table[][PT_COL_SIZE];
 
@@ -193,10 +198,15 @@ typedef struct s_io_red
 // case: echo 1 | > out1 > out2 cat
 // 		- if cmd_table with no cmd_name, just touch the filename in the io_red_list
 // 		- in other cases, need execute the cmd_table with io redirect
-
 typedef struct s_cmd_table
 {
 	int				id;
+	int				subshell_level;
+	int				subshell_pid;
+	int				simple_cmd_pid;
+	int				pipe_fd[2];
+	int				pipe_read_fd;
+	int				pipe_write_fd;
 	int				type;
 	char			*cmd_name;
 	t_list			*cmd_args;
@@ -206,6 +216,7 @@ typedef struct s_cmd_table
 
 typedef struct s_shell
 {
+	int				exit_status;
 	int				exit_code;
 	t_list			*env_list;
 	t_list			*token_list;
