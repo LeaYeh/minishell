@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:30:35 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/07 16:47:16 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/07 23:12:43 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ t_cmd_table	*init_cmd_table(void)
 	cmd_table->subshell_pid = -1;
 	// cmd_table->pipeline_pid = -1;
 	cmd_table->simple_cmd_pid = -1;
+	cmd_table->pipe_fd[0] = -1;
+	cmd_table->pipe_fd[1] = -1;
 	cmd_table->pipe_read_fd = -1;
 	cmd_table->pipe_write_fd = -1;
 	cmd_table->type = C_NONE;
