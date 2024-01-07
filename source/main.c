@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **env)
 
 	((void)argc, (void)argv);
 	if (!ft_init_shell(&shell, env))
-		return (GENERAL_ERROR);
+		ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
 	// init signal handler
 	// return correct exit code
 	while (true)
@@ -41,10 +41,9 @@ int	main(int argc, char **argv, char **env)
 		}
 		print_cmd_table_list(shell.cmd_table_list);
 		if (!print_expanded_cmd_table_list(&shell))
-			return (ft_clean_shell(&shell), 42);
+			ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
 		if (!ft_execute(&shell))
-			return (ft_clean_shell(&shell), GENERAL_ERROR);
-		ft_lstclear_d(&shell.cmd_table_list, (void *)free_cmd_table);
+			ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
 		ft_clean_shell(&shell);
 	}
 	return (EXIT_SUCCESS);
@@ -54,7 +53,6 @@ bool	ft_read_input(t_shell *shell)
 {
 	char	*line;
 
-	ft_free_and_null((void **)&shell->input_line);
 	line = readline(PROMPT);
 	if (!line)
 		return (false);
