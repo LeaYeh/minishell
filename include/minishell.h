@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:43:22 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/20 10:52:12 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/05 19:10:25 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ bool	mock_lexer(t_shell *shell);
 
 char	*ft_get_token_type_str(int type);
 
-void	ft_exec_env(t_shell *shell, char **args);
+void	ft_exec_env(t_shell *shell);
 
 #endif

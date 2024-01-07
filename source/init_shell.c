@@ -79,6 +79,7 @@ bool	ft_setup_env(t_shell *shell, char **env)
 
 bool	ft_init_shell(t_shell *shell, char **env)
 {
+	shell->exit_status = 0;
 	shell->exit_code = EXIT_SUCCESS;
 	shell->env_list = NULL;
 	shell->token_list = NULL;

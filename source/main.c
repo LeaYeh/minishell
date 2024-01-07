@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/12 14:45:17 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/12 14:46:41 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,16 @@
 
 bool	ft_read_input(t_shell *shell);
 
+// If general error occurs, exit entire shell
+// if syntax error occurs, continue to next input
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	shell;
 
 	((void)argc, (void)argv);
+	// handle ctrl-C and ctrl-D and ignore ctrl-/
 	if (!ft_init_shell(&shell, env))
-<<<<<<< HEAD
 		ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
-=======
-		return (GENERAL_ERROR);
->>>>>>> 269fb07 (refactor: Change parser interface to diff between parsing and general error)
 	// init signal handler
 	// return correct exit code
 	while (true)

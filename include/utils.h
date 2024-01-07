@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/03 14:29:24 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:47:39 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,18 @@ t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list);
 bool		append_empty_cmd_table(t_list_d **cmd_table_list);
 bool		append_cmd_table_by_scenario(
 				int token_type, t_list_d **cmd_table_list);
+int			get_cmd_table_type_from_list(t_list_d *cmd_table_list);
+bool		is_first_simple_cmd(t_list_d *cmd_table_node);
+bool		is_last_simple_cmd(t_list_d *cmd_table_node);
+bool		is_control_op_cmd_table(int cmd_table_type);
+
+void		move_past_subshell(t_list_d **cmd_table_node);
+void		broadcast_subshell_pid(t_list_d *cmd_table_node, int pid);
+void		move_to_end_of_pipeline(t_list_d **cmd_table_node);
+
+/* Process utils */
+void		wait_process(t_shell *shell, int pid);
+int			status(int wstatus);
 
 /* Type utils */
 char		*ft_get_token_type_str(int type);
@@ -52,8 +64,9 @@ bool		is_subshell_symbol(int token_type);
 
 /* File utils */
 char		*generate_tmp_filename(int cmdtable_id, char *category);
-bool		remove_file(char **filename);
+void		remove_file(char **filename);
 bool		append_line_to_file(char *line, char *filename);
+void		safe_close(int *fd);
 
 /* Stack utils */
 int			get_state_from_stack(t_list *node);
