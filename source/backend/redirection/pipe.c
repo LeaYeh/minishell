@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 20:18:11 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/07 22:49:32 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/08 15:28:15 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 void	close_cmd_table_pipe(t_cmd_table *cmd_table_node)
 {
-	safe_close(cmd_table_node->pipe_read_fd);
-	safe_close(cmd_table_node->pipe_write_fd);
-	safe_close(cmd_table_node->pipe_fd[0]);
-	safe_close(cmd_table_node->pipe_fd[1]);
+	safe_close(&cmd_table_node->pipe_read_fd);
+	safe_close(&cmd_table_node->pipe_write_fd);
+	safe_close(&cmd_table_node->pipe_fd[0]);
+	safe_close(&cmd_table_node->pipe_fd[1]);
 }
 
 bool	create_pipe(t_cmd_table *cmd_table_node)
@@ -108,7 +108,7 @@ bool	setup_normal_pipe(t_list_d *cmd_table_node)
 			return (false);
 		target_list = NULL;
 		if (!set_normal_pipe_target(&target_list, cmd_table_node))
-			return (ft_lstclear(&target_list, free_cmd_table), false);
+			return (ft_lstclear(&target_list, (void *)free_cmd_table), false);
 		while (target_list)
 		{
 			target_cmd_table = target_list->content;
