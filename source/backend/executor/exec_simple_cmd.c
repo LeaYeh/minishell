@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/07 21:54:08 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/08 16:39:40 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,51 @@ void	exec_simple_cmd(t_shell *shell, t_list_d *cmd_table_node)
 	exit(0);
 }
 
-// before fork, setup pipes for current simple cmd and next simple cmd
-// setup_pipe(cmd_table_node, get_next_simple_cmd_node(cmd_table_node));
-// TODO: When to close pipe? in parent
-// 		-> after fork in parent, close write end of pipe
+// TODO: Meed to handle the pipe redirct in first subshell process
+// TODO: And all the process need to close all the unuse read end -> how
+
 void	handle_simple_cmd(t_shell *shell, t_list_d *cmd_table_node)
 {
 	t_cmd_table	*cmd_table;
 
 	cmd_table = cmd_table_node->content;
-	if (cmd_table->subshell_level > 0)
-		if (!setup_subshell_pipe(cmd_table_node))
-			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
 	if (!is_last_simple_cmd(cmd_table_node))
 	{
-		if (!setup_normal_pipe(cmd_table_node))
-			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
 		cmd_table->simple_cmd_pid = fork();
 		if (cmd_table->simple_cmd_pid == -1)
 			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
 		else if (cmd_table->simple_cmd_pid == 0)
 			exec_simple_cmd(shell, cmd_table_node);
-		// TODO: close pipe in parent
-		// else
-		// 	close_pipe(cmd_table_node);
 	}
 	else
 		exec_simple_cmd(shell, cmd_table_node);
 }
+
+// before fork, setup pipes for current simple cmd and next simple cmd
+// setup_pipe(cmd_table_node, get_next_simple_cmd_node(cmd_table_node));
+// TODO: When to close pipe? in parent
+// 		-> after fork in parent, close write end of pipe
+// void	handle_simple_cmd(t_shell *shell, t_list_d *cmd_table_node)
+// {
+// 	t_cmd_table	*cmd_table;
+
+// 	cmd_table = cmd_table_node->content;
+// 	if (cmd_table->subshell_level > 0)
+// 		if (!setup_subshell_pipe(cmd_table_node))
+// 			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+// 	if (!is_last_simple_cmd(cmd_table_node))
+// 	{
+// 		if (!setup_normal_pipe(cmd_table_node))
+// 			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+// 		cmd_table->simple_cmd_pid = fork();
+// 		if (cmd_table->simple_cmd_pid == -1)
+// 			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+// 		else if (cmd_table->simple_cmd_pid == 0)
+// 			exec_simple_cmd(shell, cmd_table_node);
+// 		// TODO: close pipe in parent
+// 		// else
+// 		// 	close_pipe(cmd_table_node);
+// 	}
+// 	else
+// 		exec_simple_cmd(shell, cmd_table_node);
+// }

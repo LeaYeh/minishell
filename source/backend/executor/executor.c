@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:04:52 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/07 23:02:32 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/08 18:35:37 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,13 @@ void	ft_executor(t_shell *shell)
 {
 	int		pid;
 
+	if (!ft_heredoc(shell->cmd_table_list))
+		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
 	pid = fork();
 	if (pid == -1)
 		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
 	else if (pid == 0)
-	{
-		if (!ft_heredoc(shell->cmd_table_list))
-			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
 		handle_process(shell, &shell->cmd_table_list);
-	}
 	else
 		wait_process(shell, pid);
 	// ft_clean_shell(shell, EXIT_SUCCESS);
