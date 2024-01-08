@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:30:35 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/07 23:12:43 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/09 16:53:18 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ t_cmd_table	*init_cmd_table(void)
 	cmd_table->cmd_args = NULL;
 	cmd_table->io_red_list = NULL;
 	return (cmd_table);
+}
+
+t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node)
+{
+	if (!cmd_table_node || !cmd_table_node->content)
+		return (NULL);
+	return (cmd_table_node->content);
 }
 
 bool	append_cmd_table_by_scenario(int token_type, t_list_d **cmd_table_list)
@@ -84,7 +91,7 @@ bool	append_empty_cmd_table(t_list_d **cmd_table_list)
 	return (true);
 }
 
-void	move_past_subshell(t_list_d **cmd_table_node)
+void	move_to_end_of_subshell(t_list_d **cmd_table_node)
 {
 	int	subshell_count;
 	int	cmd_table_type;
@@ -99,6 +106,12 @@ void	move_past_subshell(t_list_d **cmd_table_node)
 		else if (cmd_table_type == C_SUBSHELL_END)
 			subshell_count--;
 	}
+}
+
+void	move_past_subshell(t_list_d **cmd_table_node)
+{
+	move_to_end_of_subshell(cmd_table_node);
+	if (*cmd_table_node)
 	*cmd_table_node = (*cmd_table_node)->next;
 }
 
@@ -106,6 +119,8 @@ void	broadcast_subshell_pid(t_list_d *cmd_table_node, int pid)
 {
 	t_cmd_table	*cmd_table;
 
+	if (!cmd_table_node)
+		return ;
 	while (cmd_table_node)
 	{
 		cmd_table = cmd_table_node->content;
@@ -133,4 +148,11 @@ void	move_to_end_of_pipeline(t_list_d **cmd_table_node)
 			return ;
 		cmd_table = (*cmd_table_node)->content;
 	}
+}
+
+void	move_past_pipeline(t_list_d **cmd_table_node)
+{
+	move_to_end_of_pipeline(cmd_table_node);
+	if (*cmd_table_node)
+		*cmd_table_node = (*cmd_table_node)->next;
 }

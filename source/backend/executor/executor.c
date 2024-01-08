@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:04:52 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/08 18:35:37 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/09 16:49:49 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,70 +15,43 @@
 #include "clean.h"
 #include "utils.h"
 
-void	handle_process(t_shell *shell, t_list_d **cmd_table_node)
+// how to make sure the parent process waiting for the last child process?
+// 	-> by broadcast pid and wait at the correct position!
+// 
+// who will fork new process? -> handle_subshell and handle_pipeline will always fork
+// 	- when the handle_subshell exit?
+// 		-> after the parent move_past_subshell?
+// 	- when the handle_pipeline exit?
+// 		-> after the parent move_past_pipeline?
+void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
 {
 	t_cmd_table	*cmd_table;
 
-	while (*cmd_table_node)
+	while (cmd_table_node)
 	{
-		cmd_table = (*cmd_table_node)->content;
+		cmd_table = cmd_table_node->content;
 		if (cmd_table->type == C_SUBSHELL_END)
 			ft_clean_and_exit_shell(shell, shell->exit_code);
-		// I think C_AND and C_OR should be separated so they can return a bool
-		// They also need to handle the following case: (echo 1) && echo 2
-		// else if (cmd_table->type == C_SIMPLE_CMD || \
-		// 	cmd_table->type == C_AND || cmd_table->type == C_OR)
-		else if (cmd_table->type != C_PIPE)
-			handle_pipeline(shell, cmd_table_node);
-		else
-			*cmd_table_node = (*cmd_table_node)->next;
-		// We always move past the pipeline.
-		// So maybe we don't need to check if is_first_simple_cmd.
-		// else if (cmd_table->type == C_PIPE)
-		// 	*cmd_table_node = (*cmd_table_node)->next;
-		// else
-		// 	handle_pipeline(shell, cmd_table_node);
+		else if (cmd_table->type == C_SUBSHELL_START)
+			handle_subshell(shell, &cmd_table_node);
+		else if (is_control_op_cmd_table(cmd_table->type))
+			handle_control_op(shell, &cmd_table_node);
+		else if (cmd_table->type == C_SIMPLE_CMD)
+		{
+			if (is_builtin(cmd_table) && !is_scmd_in_pipeline(cmd_table_node))
+				shell->exit_code = handle_builtin(shell, &cmd_table_node);
+			else
+				handle_pipeline(shell, &cmd_table_node);	
+		}
+		else // it should not happen -> general error
+			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
 	}
 }
 
-// void	handle_process(t_shell *shell, t_list_d **cmd_table_node)
-// {
-// 	t_cmd_table	*cmd_table;
-
-// 	while (*cmd_table_node)
-// 	{
-// 		cmd_table = (*cmd_table_node)->content;
-// 		if (cmd_table->type == C_SUBSHELL_END || \
-// 				cmd_table->type == C_AND || cmd_table->type == C_OR)
-// 			ft_clean_and_exit_shell(shell, shell->exit_code);
-// 		if (cmd_table->type == C_SUBSHELL_START)
-// 		{
-// 			handle_subshell(shell, cmd_table_node);
-// 			move_past_subshell(cmd_table_node);
-// 		}
-// 		else if (is_first_simple_cmd(*cmd_table_node))
-// 			handle_pipeline(shell, cmd_table_node);
-// 		else
-// 			*cmd_table_node = (*cmd_table_node)->next;
-// 	}
-// }
-
-// TODO: exit code =??? when here doc fails
-// ignore ctrl-D
-// fork? (maybe move the fork from handle_all_cmd_table to here)
-// activate signal listener in the child process
+// TODO: activate signal listener in the child process
 void	ft_executor(t_shell *shell)
 {
-	int		pid;
-
 	if (!ft_heredoc(shell->cmd_table_list))
 		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
-	pid = fork();
-	if (pid == -1)
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
-	else if (pid == 0)
-		handle_process(shell, &shell->cmd_table_list);
-	else
-		wait_process(shell, pid);
-	// ft_clean_shell(shell, EXIT_SUCCESS);
+	handle_process(shell, shell->cmd_table_list);
 }

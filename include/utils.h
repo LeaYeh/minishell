@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/12 14:47:39 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/09 16:49:46 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,19 @@ t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list);
 bool		append_empty_cmd_table(t_list_d **cmd_table_list);
 bool		append_cmd_table_by_scenario(
 				int token_type, t_list_d **cmd_table_list);
+t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node);
 int			get_cmd_table_type_from_list(t_list_d *cmd_table_list);
 bool		is_first_simple_cmd(t_list_d *cmd_table_node);
 bool		is_last_simple_cmd(t_list_d *cmd_table_node);
 bool		is_control_op_cmd_table(int cmd_table_type);
+bool		is_builtin(t_cmd_table *cmd_table);
+bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);
 
-void		move_past_subshell(t_list_d **cmd_table_node);
 void		broadcast_subshell_pid(t_list_d *cmd_table_node, int pid);
+void		move_to_end_of_subshell(t_list_d **cmd_table_node);
+void		move_past_subshell(t_list_d **cmd_table_node);
 void		move_to_end_of_pipeline(t_list_d **cmd_table_node);
+void		move_past_pipeline(t_list_d **cmd_table_node);
 
 /* Process utils */
 void		wait_process(t_shell *shell, int pid);

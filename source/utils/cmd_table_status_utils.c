@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:33:43 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/07 22:17:49 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/08 18:58:44 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	get_cmd_table_type_from_list(t_list_d *cmd_table_list)
 
 // before AMD, OR and SUBSHELL_START no more simple cmd
 // is_first_simple_cmd in a pipeline
-bool	is_first_simple_cmd(t_list_d *cmd_table_node)
+bool	is_first_scmd_in_pipeline(t_list_d *cmd_table_node)
 {
 	int	cmd_table_type;
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_subshell.c                                    :+:      :+:    :+:   */
+/*   handle_subshell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:51:03 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/07 23:15:44 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/09 01:38:36 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "utils.h"
 #include "clean.h"
 
+// 
 void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 {
 	t_cmd_table	*cmd_table;
@@ -26,12 +27,12 @@ void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 	else if (cmd_table->subshell_pid == 0)
 	{
 		*cmd_table_node = (*cmd_table_node)->next;
-		handle_process(shell, cmd_table_node);
+		handle_process(shell, *cmd_table_node);
 	}
 	else
 	{
-		// move_to_end_of_pipeline(cmd_table_node);
-		move_past_subshell(cmd_table_node);
+		// move_past_subshell(cmd_table_node);
+		move_to_end_of_subshell(cmd_table_node);
 		broadcast_subshell_pid(*cmd_table_node, cmd_table->subshell_pid);
 	}
 }
