@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:12 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/08 23:21:56 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/09 20:08:22 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,43 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	t_cmd_table	*cmd_table;
 
 	cmd_table = (*cmd_table_node)->content;
-	while (cmd_table->type != C_AND && cmd_table->type != C_OR)
+	while (cmd_table->type != C_AND && cmd_table->type != C_OR && \
+		cmd_table->type != C_SUBSHELL_END)
 	{
 		if (cmd_table->type == C_SUBSHELL_START)
 			handle_subshell(shell, cmd_table_node);
 		else if (cmd_table->type == C_SIMPLE_CMD)
 			handle_simple_cmd(shell, cmd_table_node);
-		else if (cmd_table->type == C_PIPE || cmd_table->type == C_SUBSHELL_END)
+		else if (cmd_table->type == C_PIPE)
 			*cmd_table_node = (*cmd_table_node)->next;
 		// *cmd_table_node = (*cmd_table_node)->next;
 		if (*cmd_table_node == NULL)
 			break ;
 		cmd_table = (*cmd_table_node)->content;
 	}
-	// ft_clean_and_exit_shell(shell, shell->exit_code);
+}
+
+void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
+{
+	t_cmd_table	*cmd_table;
+
+	if (!*cmd_table_node)
+	{
+		wait_process(shell, shell->subshell_pid);
+		if (shell->subshell_pid != -1)
+			ft_clean_and_exit_shell(shell, shell->exit_code);
+	}
+	else
+	{
+		cmd_table = (*cmd_table_node)->content;
+		if (is_control_op_cmd_table(cmd_table->type))
+			handle_control_op(shell, cmd_table_node);
+		else if (cmd_table->type == C_SUBSHELL_END)
+		{
+			wait_process(shell, shell->subshell_pid);
+			ft_clean_and_exit_shell(shell, shell->exit_code);
+		}
+	}
 }
 
 // TODO: need to stop before next && or || or )
@@ -60,21 +83,12 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	t_cmd_table	*cmd_table;
 
 	cmd_table = (*cmd_table_node)->content;
-	cmd_table->subshell_pid = fork();
-	if (cmd_table->subshell_pid == -1)
+	shell->subshell_pid = fork();
+	if (shell->subshell_pid == -1)
 		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
-	else if (cmd_table->subshell_pid == 0)
+	else if (shell->subshell_pid == 0)
 		exec_pipeline(shell, cmd_table_node);
 	else
-	{
 		move_to_end_of_pipeline(cmd_table_node);
-		// if no more cmd node, 
-		// 		need to wait the pipeline pid
-		// else
-		// 		wait the pipeline pid in handle_control_op
-		if (*cmd_table_node)
-			broadcast_subshell_pid(*cmd_table_node, cmd_table->subshell_pid);
-		else
-			wait_process(shell, cmd_table->subshell_pid);
-	}
+	handle_end_of_pipeline(shell, cmd_table_node);
 }

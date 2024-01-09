@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/09 17:16:01 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/09 20:09:16 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	t_cmd_table	*cmd_table;
 
 	cmd_table = (*cmd_table_node)->content;
-	cmd_table->simple_cmd_pid = fork();
-	if (cmd_table->simple_cmd_pid == -1)
+	shell->subshell_pid = fork();
+	if (shell->subshell_pid == -1)
 		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
-	else if (cmd_table->simple_cmd_pid == 0)
+	else if (shell->subshell_pid == 0)
 		exec_simple_cmd(shell, *cmd_table_node);
 	else
 	{
+		// if (is_last_simple_cmd(cmd_table_node))
+		// 	wait_process(shell, shell->subshell_pid);
 		*cmd_table_node = (*cmd_table_node)->next;
-		if (!*cmd_table_node)
-			wait_process(shell, cmd_table->simple_cmd_pid);
 	}
 }
 

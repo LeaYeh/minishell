@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/12 14:48:02 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/09 18:46:04 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,8 @@ typedef struct s_cmd_table
 {
 	int				id;
 	int				subshell_level;
-	int				subshell_pid;
-	int				simple_cmd_pid;
+	// int				subshell_pid;
+	// int				simple_cmd_pid;
 	int				pipe_fd[2];
 	int				pipe_read_fd;
 	int				pipe_write_fd;
@@ -239,6 +239,8 @@ typedef struct s_cmd_table
 
 typedef struct s_shell
 {
+	int				pid;
+	int				subshell_pid;
 	int				exit_status;
 	int				exit_code;
 	t_list			*env_list;
