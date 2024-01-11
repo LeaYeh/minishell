@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/12 14:46:41 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/10 23:58:08 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	main(int argc, char **argv, char **env)
 	if (!ft_init_shell(&shell, env))
 		ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
 	// init signal handler
-	// return correct exit code
 	while (true)
 	{
 		if (!ft_read_input(&shell))
@@ -47,7 +46,11 @@ int	main(int argc, char **argv, char **env)
 			ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
 		if (!ft_execute(&shell))
 			ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
-		ft_clean_shell(&shell);
+		if (shell.cmd_table_list)
+			ft_executor(&shell);
+		// reset_shell
+		// reset_core_module_variable
+		// reset_submodule_variable(shell)
 	}
 	return (EXIT_SUCCESS);
 }

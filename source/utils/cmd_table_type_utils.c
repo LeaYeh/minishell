@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:27:56 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/09 16:49:34 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/10 18:46:00 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,4 @@ bool	is_scmd_in_pipeline(t_list_d *cmd_table_node)
 			return (true);
 	}
 	return (false);
-}
+}			

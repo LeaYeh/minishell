@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/09 18:46:04 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/10 18:06:12 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,7 @@ typedef struct s_shell
 {
 	int				pid;
 	int				subshell_pid;
+	int				subshell_level;
 	int				exit_status;
 	int				exit_code;
 	t_list			*env_list;

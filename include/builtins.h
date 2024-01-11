@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 15:43:22 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 17:33:25 by lyeh             ###   ########.fr       */
+/*   Created: 2024/01/10 18:22:38 by lyeh              #+#    #+#             */
+/*   Updated: 2024/01/10 18:24:16 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef BUILTINS_H
+# define BUILTINS_H
+
 # include "defines.h"
 
-bool	ft_init_shell(t_shell *shell, char **env);
-bool	mock_lexer(t_shell *shell);
-
-char	*ft_get_token_type_str(int type);
-
-int 	ft_exec_env(t_shell *shell);
+int	ft_exec_env(t_shell *shell);
 
 #endif

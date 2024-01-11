@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:30:35 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/09 19:17:47 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/11 00:10:48 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ t_cmd_table	*init_cmd_table(void)
 		return (NULL);
 	cmd_table->id = 0;
 	cmd_table->subshell_level = 0;
-	// cmd_table->subshell_pid = -1;
-	// // cmd_table->pipeline_pid = -1;
-	// cmd_table->simple_cmd_pid = -1;
 	cmd_table->pipe_fd[0] = -1;
 	cmd_table->pipe_fd[1] = -1;
 	cmd_table->pipe_read_fd = -1;
@@ -114,23 +111,6 @@ void	move_past_subshell(t_list_d **cmd_table_node)
 	if (*cmd_table_node)
 	*cmd_table_node = (*cmd_table_node)->next;
 }
-
-// void	broadcast_subshell_pid(t_list_d *cmd_table_node, int pid)
-// {
-// 	t_cmd_table	*cmd_table;
-
-// 	if (!cmd_table_node)
-// 		return ;
-// 	while (cmd_table_node)
-// 	{
-// 		cmd_table = cmd_table_node->content;
-// 		if (is_control_op_cmd_table(cmd_table->type))
-// 			break ;
-// 		cmd_table_node = cmd_table_node->next;
-// 	}
-// 	if (cmd_table->type == C_AND || cmd_table->type == C_OR)
-// 		shell->subshell_pid = pid;
-// }
 
 void	move_to_end_of_pipeline(t_list_d **cmd_table_node)
 {

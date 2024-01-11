@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:05:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/09 01:33:51 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/10 18:36:05 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node);
 void    handle_control_op(t_shell *shell, t_list_d **cmd_table_node);
 void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_list);
 void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_list);
-int	    handle_builtin(t_shell *shell, t_list_d **cmd_table_node);
+void    handle_builtin(t_shell *shell, t_list_d **cmd_table_node);
 
 /* Redirection - Pipe */
 bool	setup_subshell_pipe(t_list_d *cmd_table_node);
