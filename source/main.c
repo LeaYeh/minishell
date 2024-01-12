@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **env)
 			ft_clean_and_exit_shell(&shell, EXIT_SUCCESS, NULL);
 		if (!ft_lexer(&shell) || !ft_parser(&shell))
 		{
-			ft_clean_shell(&shell);
+			reset_submodule_variable(&shell);
 			continue;
 		}
 		print_cmd_table_list(shell.cmd_table_list);
@@ -46,9 +46,7 @@ int	main(int argc, char **argv, char **env)
 			ft_clean_and_exit_shell(&shell, GENERAL_ERROR, "expansion malloc failed");
 		if (shell.cmd_table_list)
 			ft_executor(&shell);
-		// reset_shell
-		// reset_core_module_variable
-		// reset_submodule_variable(shell)
+		reset_submodule_variable(&shell);
 	}
 	return (EXIT_SUCCESS);
 }
