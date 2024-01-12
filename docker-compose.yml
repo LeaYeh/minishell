@@ -5,13 +5,5 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./.git:/app/.git
-      - ./source:/app/source
-      - ./include:/app/include
-      - ./libraries:/app/libraries
-      - ./build:/app/build
-      - ./doc:/app/doc
-      - ./Makefile:/app/Makefile
-      - ./.gitignore:/app/.gitignore
-      - ./minishell.supp:/app/minishell.supp
+      - .:/app
     command: ["zsh", "-c", "tail -f /dev/null"]
