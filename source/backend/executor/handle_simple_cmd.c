@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 17:36:39 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/11 21:24:42 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,18 @@
 #include "defines.h"
 #include "utils.h"
 #include "clean.h"
+#include "debug.h"
+
+void	exec_external_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
+{
+	// TODO: need to bind the fds to stdin and stdout, if bind failed then exit
+	if (!check_executable(final_cmd_table->cmd_name))
+		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+	execve(final_cmd_table->cmd_name, final_cmd_table->cmd_args,
+			final_cmd_table->envp);
+	free_final_cmd_table(&final_cmd_table); // should not reach here, but still need to close the fds
+	ft_clean_and_exit_shell(shell, CMD_EXEC_FAILED, NULL);
+}
 
 /*
 1. [ ] do expansions
@@ -30,6 +42,19 @@
 	* A redirection error causes the command to exit with a non-zero status.
 4. [ ] do command
 */
+void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
+{
+	t_final_cmd_table	*final_cmd_table;
+
+	final_cmd_table = get_final_cmd_table(shell, cmd_table);
+	if (!final_cmd_table)
+	{
+		shell->exit_code = GENERAL_ERROR;
+		return ;
+	}
+	exec_external_cmd(shell, final_cmd_table);
+}
+
 void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 {
 	t_cmd_table	*cmd_table;
@@ -41,12 +66,7 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	if (is_builtin(cmd_table))
 		handle_builtin(shell, cmd_table_node);
 	else
-	{
-		// bind fd
-		// check cmd error
-		// execev
-		// close fd
-	}
+		handle_external_cmd(shell, cmd_table);
 	exit(shell->exit_code);
 }
 
@@ -56,7 +76,8 @@ void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 {
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+		ft_clean_and_exit_shell(
+			shell, GENERAL_ERROR, "handle_simple_cmd, fork failed");
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;

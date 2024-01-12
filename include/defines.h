@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/10 18:06:12 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/11 20:28:15 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define DEFINES_H
 
 # include <fcntl.h>
-# include <sys/syslimits.h>
+# include <linux/limits.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -236,6 +236,13 @@ typedef struct s_cmd_table
 	t_list			*assignment_list;
 	t_list			*io_red_list;
 }	t_cmd_table;
+
+typedef struct s_final_cmd_table
+{
+	char			*cmd_name;
+	char			**cmd_args;
+	char			**envp;
+}	t_final_cmd_table;
 
 typedef struct s_shell
 {

@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/09 16:49:46 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/11 21:34:53 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,18 @@ void		move_to_end_of_subshell(t_list_d **cmd_table_node);
 void		move_past_subshell(t_list_d **cmd_table_node);
 void		move_to_end_of_pipeline(t_list_d **cmd_table_node);
 void		move_past_pipeline(t_list_d **cmd_table_node);
+
+/* Final cmd table utils */
+t_final_cmd_table	*init_final_cmd_table(
+				t_shell *shell, t_cmd_table *cmd_table);
+void				free_final_cmd_table(t_final_cmd_table **final_cmd_table);
+t_final_cmd_table	*get_final_cmd_table(t_shell *shell,
+						t_cmd_table *cmd_table);
+
+/* Array utils */
+void		free_array(char **array, int len);
+int			get_array_len(void **arr);
+char		**convert_list_to_string_array(t_list *list);
 
 /* Process utils */
 void		wait_process(t_shell *shell, int pid);
