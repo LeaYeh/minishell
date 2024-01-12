@@ -19,7 +19,7 @@ void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 {
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+		ft_clean_and_exit_shell(shell, GENERAL_ERROR, "subshell fork failed");
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;
@@ -35,7 +35,7 @@ void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 		{
 			wait_process(shell, shell->subshell_pid);
 			if (shell->subshell_level != 0)
-				ft_clean_and_exit_shell(shell, shell->exit_code);
+				ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 		}
 	}
 }

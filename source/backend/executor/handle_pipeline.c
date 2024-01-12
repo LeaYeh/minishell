@@ -51,7 +51,7 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		cmd_table = (*cmd_table_node)->content;
 	}
 	wait_process(shell, shell->subshell_pid);
-	ft_clean_and_exit_shell(shell, shell->exit_code);
+	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
 void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
@@ -65,7 +65,7 @@ void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	{
 		wait_process(shell, shell->subshell_pid);
 		if (shell->subshell_level != 0)
-			ft_clean_and_exit_shell(shell, shell->exit_code);
+			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 	}
 }
 
@@ -74,7 +74,8 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+		ft_clean_and_exit_shell(
+			shell, GENERAL_ERROR, "handle_pipeline, fork failed");
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;

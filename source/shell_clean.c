@@ -33,6 +33,8 @@ void	ft_clean_shell(t_shell *shell)
 
 void	ft_clean_and_exit_shell(t_shell *shell, int exit_code)
 {
+	if (msg)
+		ft_dprintf(STDERR_FILENO, STY_YEL "%s\n" STY_RES, msg);
 	ft_clean_shell(shell);
 	exit(exit_code);
 }

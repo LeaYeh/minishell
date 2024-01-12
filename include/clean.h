@@ -14,7 +14,7 @@
 # define CLEAN_H
 
 void	ft_clean_shell(t_shell *shell);
-void	ft_clean_and_exit_shell(t_shell *shell, int exit_code);
+void	ft_clean_and_exit_shell(t_shell *shell, int exit_code, char *msg);
 void	free_env_node(t_env *env);
 
 #endif

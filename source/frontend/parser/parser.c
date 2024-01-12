@@ -52,12 +52,7 @@ void	report_syntax_error(t_parser_data *parser_data)
 	ft_dprintf(STDERR_FILENO, ERROR_PARSER_SYNTAX,
 		PROGRAM_NAME,
 		get_error_token_data(
-<<<<<<< HEAD
-			parser_data->token_list,
-			parser_data->parse_stack));
-=======
 			parser_data->token_list, parser_data->parse_stack));
->>>>>>> 269fb07 (refactor: Change parser interface to diff between parsing and general error)
 }
 
 bool	parse(t_shell *shell, t_parser_data *parser_data)
@@ -71,10 +66,10 @@ bool	parse(t_shell *shell, t_parser_data *parser_data)
 				get_state_from_stack(parser_data->state_stack),
 				get_token_type_from_list(parser_data->token_list),
 				A_SHIFT | A_REDUCE | A_ACCEPT))
-<<<<<<< HEAD
 		{
 			free_parser_data(parser_data);
-			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+			ft_clean_and_exit_shell(
+				shell, GENERAL_ERROR, "parser malloc failed");
 		}
 		if (!pt_entry)
 			return (report_syntax_error(parser_data), false);
@@ -84,25 +79,11 @@ bool	parse(t_shell *shell, t_parser_data *parser_data)
 		{
 			free(pt_entry);
 			free_parser_data(parser_data);
-			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+			ft_clean_and_exit_shell(
+				shell, GENERAL_ERROR, "parser malloc failed");
 		}
 		ft_free_and_null((void **)&pt_entry);
 	}
-=======
-			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
-		if (!pt_entry)
-			return (report_syntax_error(parser_data), false);
-		if (pt_entry->action == A_ACCEPT)
-			break ;
-		if (!parse_step(parser_data, pt_entry))
-		{
-			free(pt_entry);
-			ft_clean_and_exit_shell(shell, GENERAL_ERROR);
-		}
-		ft_free_and_null((void **)&pt_entry);
-	}
-	return (free(pt_entry), true);
->>>>>>> 269fb07 (refactor: Change parser interface to diff between parsing and general error)
 }
 
 t_ast	*extract_ast_from_parse_stack(t_list **parse_stack)
@@ -124,22 +105,15 @@ bool	ft_parser(t_shell *shell)
 	t_parser_data	parser_data;
 
 	if (!init_parser_data(&parser_data, shell->token_list))
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+		ft_clean_and_exit_shell(shell, GENERAL_ERROR, "parser malloc failed");
 	if (!parse(shell, &parser_data))
-<<<<<<< HEAD
 		return (free_parser_data(&parser_data), false);
 	free_parser_data(&parser_data);
 	printf("ACCEPT\n");
 	shell->cmd_table_list = build_cmd_table_list(shell->token_list);
-=======
-		return (free_parser_data(&parser_data), true);
-	printf("ACCEPT\n");
-	shell->cmd_table_list = build_cmd_table_list(shell->token_list);
-	free_parser_data(&parser_data);
-	ft_lstclear(&shell->token_list, (void *)free_token_node);
->>>>>>> 269fb07 (refactor: Change parser interface to diff between parsing and general error)
 	if (!shell->cmd_table_list)
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR);
+		ft_clean_and_exit_shell(
+			shell, GENERAL_ERROR, "build cmd table malloc failed");
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	return (true);
 }

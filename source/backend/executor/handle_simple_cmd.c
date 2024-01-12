@@ -35,6 +35,9 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	t_cmd_table	*cmd_table;
 
 	cmd_table = get_cmd_table_from_list(*cmd_table_node);
+	if (cmd_table->type != C_SIMPLE_CMD)
+		ft_clean_and_exit_shell(
+			shell, GENERAL_ERROR, "exec simple cmd, not simple cmd");
 	if (is_builtin(cmd_table))
 		handle_builtin(shell, cmd_table_node);
 	else
