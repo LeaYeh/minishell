@@ -80,7 +80,7 @@ char	*get_exec_path(char *cmd_name, char **envp)
 	all_path = get_all_path(envp);
 	if (!all_path)
 		return (NULL);
-	i = 0;	
+	i = 0;
 	while (all_path[i])
 	{
 		sprintf(exec_path, "%s/%s", all_path[i], cmd_name);
@@ -88,9 +88,9 @@ char	*get_exec_path(char *cmd_name, char **envp)
 			break ;
 		i++;
 	}
-	if (i == get_array_len(all_path))
-		return (free_array(all_path), ft_strdup(cmd_name));
-	return (free_array(all_path), ft_strdup(exec_path));
+	if (i == get_array_len((void **)all_path))
+		return (free_array(all_path, -1), ft_strdup(cmd_name));
+	return (free_array(all_path, -1), ft_strdup(exec_path));
 }
 
 // char	*get_exec_path(char *cmd_name, char **envp)
