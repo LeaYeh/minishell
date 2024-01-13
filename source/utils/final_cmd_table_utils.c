@@ -18,12 +18,15 @@ bool	setup_cmd_name(t_final_cmd_table *final_cmd_table, t_cmd_table *cmd_table)
 {
 	char	*exec_path;
 
-	final_cmd_table->cmd_name = cmd_table->cmd_name;
-	if (!final_cmd_table->cmd_name || is_builtin(cmd_table))
+	final_cmd_table->cmd_name = ft_strdup(cmd_table->cmd_name);
+	if (!final_cmd_table->cmd_name)
+		return (false);
+	if (is_builtin(cmd_table))
 		return (true);
 	exec_path = get_exec_path(final_cmd_table->cmd_name, final_cmd_table->envp);
 	if (!exec_path)
 		return (false);
+	free(final_cmd_table->cmd_name);
 	final_cmd_table->cmd_name = exec_path;
 	return (true);
 }

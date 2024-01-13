@@ -42,5 +42,6 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 	if (!final_cmd_table)
 		return ;
 	exec_builtin_cmd(shell, final_cmd_table);
+	free_final_cmd_table(&final_cmd_table);
 	*cmd_table_node = (*cmd_table_node)->next;
 }
