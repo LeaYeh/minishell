@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 21:34:53 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/14 17:21:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ bool		append_cmd_table_by_scenario(
 				int token_type, t_list_d **cmd_table_list);
 t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node);
 int			get_cmd_table_type_from_list(t_list_d *cmd_table_list);
-bool		is_first_simple_cmd(t_list_d *cmd_table_node);
-bool		is_last_simple_cmd(t_list_d *cmd_table_node);
 bool		is_control_op_cmd_table(int cmd_table_type);
 bool		is_builtin(t_cmd_table *cmd_table);
 bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);

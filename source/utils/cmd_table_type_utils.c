@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_table_type_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:27:56 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/10 18:46:00 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/14 15:09:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
 #include "utils.h"
+
+int	get_cmd_table_type_from_list(t_list_d *cmd_table_list)
+{
+	t_cmd_table	*cmd_table;
+
+	if (!cmd_table_list || !cmd_table_list->content)
+		return (C_NONE);
+	cmd_table = cmd_table_list->content;
+	return (cmd_table->type);
+}
 
 bool	is_control_op_cmd_table(int cmd_table_type)
 {
@@ -45,4 +55,4 @@ bool	is_scmd_in_pipeline(t_list_d *cmd_table_node)
 			return (true);
 	}
 	return (false);
-}			
+}

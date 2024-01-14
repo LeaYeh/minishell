@@ -3,34 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   handle_pipeline.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:12 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 17:39:07 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/14 16:59:19 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 #include "utils.h"
 #include "clean.h"
-
-// look further and check if no more && or || is found
-bool	is_last_pipeline(t_list_d *cmd_table_node)
-{
-	t_cmd_table	*cmd_table;
-
-	cmd_table_node = cmd_table_node->next;
-	while (cmd_table_node)
-	{
-		cmd_table = cmd_table_node->content;
-		if (cmd_table->type == C_SUBSHELL_START)
-			move_past_subshell(&cmd_table_node);
-		if (cmd_table->type == C_AND || cmd_table->type == C_OR)
-			return (false);
-		cmd_table_node = cmd_table_node->next;
-	}
-	return (true);
-}
 
 void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
