@@ -16,21 +16,19 @@
 
 void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
-	t_cmd_table	*cmd_table;
+	int	cmd_table_type;
 
-	cmd_table = (*cmd_table_node)->content;
-	while (cmd_table->type != C_AND && cmd_table->type != C_OR && \
-		cmd_table->type != C_SUBSHELL_END)
+	cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
+	while (cmd_table_type != C_AND && cmd_table_type != C_OR && \
+		cmd_table_type != C_SUBSHELL_END && cmd_table_type != C_NONE)
 	{
-		if (cmd_table->type == C_SUBSHELL_START)
+		if (cmd_table_type == C_SUBSHELL_START)
 			handle_subshell(shell, cmd_table_node);
-		else if (cmd_table->type == C_SIMPLE_CMD)
+		else if (cmd_table_type == C_SIMPLE_CMD)
 			handle_simple_cmd(shell, cmd_table_node);
-		else if (cmd_table->type == C_PIPE)
+		else if (cmd_table_type == C_PIPE)
 			*cmd_table_node = (*cmd_table_node)->next;
-		if (*cmd_table_node == NULL)
-			break ;
-		cmd_table = (*cmd_table_node)->content;
+		cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
 	}
 	wait_process(shell, shell->subshell_pid);
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
