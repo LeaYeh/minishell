@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:30:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/05 19:39:07 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/14 19:44:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ int	handle_exit_status(int wstatus)
 // if critical error, exit current process and propagate for whole shell
 void	wait_process(t_shell *shell, int pid)
 {
-	waitpid(pid, &shell->exit_status, 0);
+	if (waitpid(pid, &shell->exit_status, 0) == -1)
+	{
+		shell->exit_code = UNEXPECT_EXIT;
+		return (perror(PROGRAM_NAME));
+	}
 	shell->exit_code = handle_exit_status(shell->exit_status);
 	if (shell->exit_code == GENERAL_ERROR)
 		ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
