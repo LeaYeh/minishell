@@ -83,7 +83,7 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	}
 	else
 	{
-		move_to_end_of_pipeline(cmd_table_node);
+		move_past_pipeline(cmd_table_node);
 		handle_end_of_pipeline(shell, cmd_table_node);
 	}
 }

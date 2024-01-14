@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_table_operation_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:30:35 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 00:10:48 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/14 15:20:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,53 +86,4 @@ bool	append_empty_cmd_table(t_list_d **cmd_table_list)
 		return (free_cmd_table(cmd_table), false);
 	ft_lstadd_back_d(cmd_table_list, cmd_table_node);
 	return (true);
-}
-
-void	move_to_end_of_subshell(t_list_d **cmd_table_node)
-{
-	int	subshell_count;
-	int	cmd_table_type;
-
-	subshell_count = 1;
-	while (subshell_count > 0)
-	{
-		*cmd_table_node = (*cmd_table_node)->next;
-		cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
-		if (cmd_table_type == C_SUBSHELL_START)
-			subshell_count++;
-		else if (cmd_table_type == C_SUBSHELL_END)
-			subshell_count--;
-	}
-}
-
-void	move_past_subshell(t_list_d **cmd_table_node)
-{
-	move_to_end_of_subshell(cmd_table_node);
-	if (*cmd_table_node)
-	*cmd_table_node = (*cmd_table_node)->next;
-}
-
-void	move_to_end_of_pipeline(t_list_d **cmd_table_node)
-{
-	t_cmd_table	*cmd_table;
-
-	cmd_table = (*cmd_table_node)->content;
-	while (cmd_table->type != C_SUBSHELL_END && \
-		cmd_table->type != C_AND && cmd_table->type != C_OR)
-	{
-		if (cmd_table->type == C_SUBSHELL_START)
-			move_past_subshell(cmd_table_node);
-		else
-			*cmd_table_node = (*cmd_table_node)->next;
-		if (*cmd_table_node == NULL)
-			return ;
-		cmd_table = (*cmd_table_node)->content;
-	}
-}
-
-void	move_past_pipeline(t_list_d **cmd_table_node)
-{
-	move_to_end_of_pipeline(cmd_table_node);
-	if (*cmd_table_node)
-		*cmd_table_node = (*cmd_table_node)->next;
 }

@@ -47,11 +47,7 @@ bool		is_last_simple_cmd(t_list_d *cmd_table_node);
 bool		is_control_op_cmd_table(int cmd_table_type);
 bool		is_builtin(t_cmd_table *cmd_table);
 bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);
-
-void		broadcast_subshell_pid(t_list_d *cmd_table_node, int pid);
-void		move_to_end_of_subshell(t_list_d **cmd_table_node);
 void		move_past_subshell(t_list_d **cmd_table_node);
-void		move_to_end_of_pipeline(t_list_d **cmd_table_node);
 void		move_past_pipeline(t_list_d **cmd_table_node);
 
 /* Final cmd table utils */
