@@ -12,6 +12,16 @@ jobs:
     steps:
     - name: Checkout repository to incoming PR
       uses: actions/checkout@v4
+    
+    - name: Clean the storage
+      run: |
+        rm -rf $HOME/42_minishell_tester
+        rm -rf $HOME/pr_test_result*.txt
+        rm -rf $HOME/main_test_result*.txt
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /opt/ghc
+        sudo rm -rf "/usr/local/share/boost"
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
     - name: Set up build environment
       run: |
