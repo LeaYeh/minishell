@@ -19,12 +19,12 @@ char	*extract_env(char **envp, char *key)
 	int		env_len;
 	char	*path;
 
-	path = NULL;
+	if (!key || !envp)
+		return (NULL);
 	env_len = ft_strlen(key);
-	if (!env_len || !envp)
-		return (path);
+	path = NULL;
 	i = 0;
-	while (envp && envp[i])
+	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], key, env_len) == 0)
 		{
@@ -40,11 +40,17 @@ char	*get_base_filename(char	*full_name)
 {
 	char	*ret;
 	char	**tmp;
+	int		array_len;
 
 	tmp = ft_split(full_name, '/');
 	if (!tmp)
 		return (NULL);
-	ret = ft_strdup(tmp[get_array_len((void **)tmp) - 1]);
+	array_len = get_array_len((void **)tmp);
+	if (array_len > 0)
+		ret = ft_strdup(tmp[array_len - 1]);
+	else
+		ret = NULL;
+	free_array(tmp);
 	return (ret);
 }
 
@@ -75,7 +81,7 @@ char	*get_exec_path(char *cmd_name, char **envp)
 	if (!all_path)
 		return (NULL);
 	i = 0;	
-	while (all_path && all_path[i])
+	while (all_path[i])
 	{
 		sprintf(exec_path, "%s/%s", all_path[i], cmd_name);
 		if (access(exec_path, F_OK) == 0)
@@ -83,8 +89,8 @@ char	*get_exec_path(char *cmd_name, char **envp)
 		i++;
 	}
 	if (i == get_array_len((void **)all_path))
-		return (free_array(all_path, -1), ft_strdup(cmd_name));
-	return (free_array(all_path, -1), ft_strdup(exec_path));
+		return (free_array(all_path), ft_strdup(cmd_name));
+	return (free_array(all_path), ft_strdup(exec_path));
 }
 
 // char	*get_exec_path(char *cmd_name, char **envp)

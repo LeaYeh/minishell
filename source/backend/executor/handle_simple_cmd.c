@@ -48,10 +48,8 @@ void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 
 	final_cmd_table = get_final_cmd_table(shell, cmd_table);
 	if (!final_cmd_table)
-	{
-		shell->exit_code = GENERAL_ERROR;
-		return ;
-	}
+		ft_clean_and_exit_shell(shell,
+			GENERAL_ERROR, "handle_external_cmd, get_final_cmd_table failed");
 	exec_external_cmd(shell, final_cmd_table);
 }
 

@@ -46,7 +46,7 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 	int		i;
 
 	final_cmd_table->envp = NULL;
-	if (!env_list || ft_lstsize(env_list) == 0)
+	if (ft_lstsize(env_list) == 0)
 		return (true);
 	final_cmd_table->envp = ft_calloc(ft_lstsize(env_list) + 1, sizeof(char *));
 	if (!final_cmd_table->envp)
@@ -58,12 +58,10 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 		sprintf(tmp, "%s=%s", env_node->key, env_node->value);
 		final_cmd_table->envp[i] = ft_strdup(tmp);
 		if (!final_cmd_table->envp[i])
-			return (free_array(final_cmd_table->envp, i), false);
+			return (free_array(final_cmd_table->envp), false);
 		env_list = env_list->next;
 		i++;
 	}
-	if (!final_cmd_table->envp)
-		return (false);
 	return (true);
 }
 
@@ -85,9 +83,9 @@ t_final_cmd_table	*init_final_cmd_table(
 
 void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
 {
-	free_array((*final_cmd_table)->envp, -1);
+	free_array((*final_cmd_table)->envp);
 	free((*final_cmd_table)->cmd_name);
-	free_array((*final_cmd_table)->cmd_args, -1);
+	free_array((*final_cmd_table)->cmd_args);
 	ft_free_and_null((void **)final_cmd_table);
 }
 

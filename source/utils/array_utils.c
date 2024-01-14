@@ -16,22 +16,18 @@ int	get_array_len(char **arr)
 {
 	int	i;
 
+	if (!arr)
+		return (0);
 	i = 0;
-	while (arr && arr[i])
+	while (arr[i])
 		i++;
 	return (i);
 }
 
-void	free_array(char **array, int len)
+void	free_array(char **array)
 {
 	int	i;
 
-	if (array == NULL)
-		return ;
-	if (len == -1)
-		len = get_array_len(array);
-	if (len == 0)
-		return ;
 	i = 0;
 	while (array[i])
 	{
@@ -48,11 +44,13 @@ char	**convert_list_to_string_array(t_list *list)
 
 	i = 0;
 	str_array = ft_calloc(ft_lstsize(list) + 1, sizeof(char *));
+	if (!str_array)
+		return (NULL);
 	while (list)
 	{
 		str_array[i] = ft_strdup(list->content);
 		if (!str_array[i])
-			return (free_array(str_array, -1), NULL);
+			return (free_array(str_array), NULL);
 		list = list->next;
 		i++;
 	}
