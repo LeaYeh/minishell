@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 13:57:23 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 18:59:40 by codespace        ###   ########.fr       */
+/*   Updated: 2024/01/14 19:28:47 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ bool	handle_heredoc(int cmdtable_id, t_list *io_red_list)
 	return (true);
 }
 
+// If the heredoc delimiter has quotes,
+//     1. the here-document lines shall not undergo expansion
+//     2. the delimiter will remove the quotes
 bool	ft_heredoc(t_list_d *cmd_table_list)
 {
 	t_cmd_table	*cur_cmd_table;
