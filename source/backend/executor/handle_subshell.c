@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_subshell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:51:03 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 17:36:17 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/14 16:39:46 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,5 @@ void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 		handle_process(shell, *cmd_table_node);
 	}
 	else
-	{
-		move_to_end_of_subshell(cmd_table_node);
-		if (get_cmd_table_type_from_list((*cmd_table_node)->next) == C_PIPE)
-			*cmd_table_node = (*cmd_table_node)->next;
-		else
-		{
-			wait_process(shell, shell->subshell_pid);
-			if (shell->subshell_level != 0)
-				ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
-		}
-	}
+		move_past_subshell(cmd_table_node);
 }
