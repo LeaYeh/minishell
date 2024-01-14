@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 17:21:03 by codespace        ###   ########.fr       */
+/*   Updated: 2024/01/14 18:59:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ bool		is_subshell_symbol(int token_type);
 
 /* File utils */
 char		*generate_tmp_filename(int cmdtable_id, char *category);
-void		remove_file(char **filename);
+void		remove_file(char *filename);
 bool		append_line_to_file(char *line, char *filename);
 void		safe_close(int *fd);
 
