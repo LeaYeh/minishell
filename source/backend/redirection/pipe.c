@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 20:18:11 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/08 15:28:15 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/14 19:32:55 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ bool	setup_normal_pipe(t_list_d *cmd_table_node)
 	cmd_table_node = cmd_table_node->next;
 	if (get_cmd_table_type_from_list(cmd_table_node) == C_PIPE)
 	{
-		if (create_pipe(cur_cmd_table))
+		if (!create_pipe(cur_cmd_table))
 			return (false);
 		target_list = NULL;
 		if (!set_normal_pipe_target(&target_list, cmd_table_node))
