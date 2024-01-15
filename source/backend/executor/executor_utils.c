@@ -88,9 +88,9 @@ char	*get_exec_path(char *cmd_name, char **envp)
 			break ;
 		i++;
 	}
-	if (i == get_array_len((void **)all_path))
-		return (free_array(all_path, -1), ft_strdup(cmd_name));
-	return (free_array(all_path, -1), ft_strdup(exec_path));
+	if (i == get_array_len(all_path))
+		return (free_array(all_path), ft_strdup(cmd_name));
+	return (free_array(all_path), ft_strdup(exec_path));
 }
 
 // char	*get_exec_path(char *cmd_name, char **envp)

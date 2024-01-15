@@ -56,7 +56,7 @@ t_final_cmd_table	*get_final_cmd_table(t_shell *shell,
 						t_cmd_table *cmd_table);
 
 /* Array utils */
-void		free_array(char **array, int len);
+void		free_array(char **array);
 int			get_array_len(char **arr);
 char		**convert_list_to_string_array(t_list *list);
 
