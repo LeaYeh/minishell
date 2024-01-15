@@ -14,16 +14,19 @@
 #include "defines.h"
 #include "utils.h"
 
-bool	setup_cmd_name(t_final_cmd_table *final_cmd_table, char *cmd_name)
+bool	setup_cmd_name(t_final_cmd_table *final_cmd_table, t_cmd_table *cmd_table)
 {
 	char	*exec_path;
 
-	final_cmd_table->cmd_name = cmd_name;
+	final_cmd_table->cmd_name = ft_strdup(cmd_table->cmd_name);
 	if (!final_cmd_table->cmd_name)
+		return (false);
+	if (is_builtin(cmd_table))
 		return (true);
-	exec_path = get_exec_path(cmd_name, final_cmd_table->envp);
+	exec_path = get_exec_path(final_cmd_table->cmd_name, final_cmd_table->envp);
 	if (!exec_path)
 		return (false);
+	free(final_cmd_table->cmd_name);
 	final_cmd_table->cmd_name = exec_path;
 	return (true);
 }
@@ -75,7 +78,7 @@ t_final_cmd_table	*init_final_cmd_table(
 	if (!final_cmd_table)
 		return (NULL);
 	if (!setup_env(final_cmd_table, shell->env_list) || \
-		!setup_cmd_name(final_cmd_table, cmd_table->cmd_name) || \
+		!setup_cmd_name(final_cmd_table, cmd_table) || \
 		!setup_cmd_args(final_cmd_table, cmd_table->cmd_args))
 		return (free_final_cmd_table(&final_cmd_table), NULL);
 	return (final_cmd_table);

@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 20:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 21:35:45 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/15 16:10:18 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_base_filename(char	*full_name)
 	tmp = ft_split(full_name, '/');
 	if (!tmp)
 		return (NULL);
-	array_len = get_array_len((void **)tmp);
+	array_len = get_array_len(tmp);
 	if (array_len > 0)
 		ret = ft_strdup(tmp[array_len - 1]);
 	else
@@ -88,7 +88,7 @@ char	*get_exec_path(char *cmd_name, char **envp)
 			break ;
 		i++;
 	}
-	if (i == get_array_len((void **)all_path))
+	if (i == get_array_len(all_path))
 		return (free_array(all_path), ft_strdup(cmd_name));
 	return (free_array(all_path), ft_strdup(exec_path));
 }

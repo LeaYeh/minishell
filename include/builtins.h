@@ -16,5 +16,6 @@
 # include "defines.h"
 
 int	ft_exec_env(t_shell *shell);
+int	ft_exec_echo(char **args);
 
 #endif
