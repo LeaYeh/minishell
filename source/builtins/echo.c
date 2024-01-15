@@ -19,13 +19,13 @@ int	ft_exec_echo(char **args)
 	i = 0;
 	while (args[i])
 	{
-		if (i == 1 && is_newline_option(args[i]))
+		if (i == 0 && is_newline_option(args[i]))
 		{
 			end_with_newline = false;
 			i++;
-			continue;
+			continue ;
 		}
-		if (i != 0)
+		if ((end_with_newline && i != 0) || (!end_with_newline && i != 1))
 			printf(" ");
 		printf("%s", args[i++]);
 	}
