@@ -8,14 +8,6 @@ bool	is_newline_option(char *str)
 	return (false);
 }
 
-void	echo_string(char *str, bool end_with_newline)
-{
-	if (end_with_newline)
-		printf("%s\n", str);
-	else
-		printf("%s", str);
-}
-
 int	ft_exec_echo(char **args)
 {
 	int		i;
@@ -27,13 +19,17 @@ int	ft_exec_echo(char **args)
 	i = 0;
 	while (args[i])
 	{
-		if (is_newline_option(args[i]))
+		if (i == 1 && is_newline_option(args[i]))
 		{
 			end_with_newline = false;
 			i++;
 			continue;
 		}
-		echo_string(args[i++], end_with_newline);
+		if (i != 0)
+			printf(" ");
+		printf("%s", args[i++]);
 	}
+	if (end_with_newline)
+		printf("\n");
 	return (EXIT_SUCCESS);
 }

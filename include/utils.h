@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/15 17:06:57 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/15 16:15:32 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_final_cmd_table	*get_final_cmd_table(t_shell *shell,
 						t_cmd_table *cmd_table);
 
 /* Array utils */
-void		free_array(char **array, int len);
+void		free_array(char **array);
 int			get_array_len(char **arr);
 char		**convert_list_to_string_array(t_list *list);
 
