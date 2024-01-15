@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/06 20:25:35 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/10 23:58:08 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,32 @@
 
 bool	ft_read_input(t_shell *shell);
 
+// If general error occurs, exit entire shell
+// if syntax error occurs, continue to next input
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	shell;
 
 	((void)argc, (void)argv);
+	// handle ctrl-C and ctrl-D and ignore ctrl-/
 	if (!ft_init_shell(&shell, env))
-		ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
+		ft_clean_and_exit_shell(&shell, GENERAL_ERROR, "init shell failed");
 	// init signal handler
-	// return correct exit code
 	while (true)
 	{
 		if (!ft_read_input(&shell))
-			ft_clean_and_exit_shell(&shell, EXIT_SUCCESS);
+			ft_clean_and_exit_shell(&shell, EXIT_SUCCESS, NULL);
 		if (!ft_lexer(&shell) || !ft_parser(&shell))
 		{
-			ft_clean_shell(&shell);
+			reset_submodule_variable(&shell);
 			continue;
 		}
 		print_cmd_table_list(shell.cmd_table_list);
 		if (!print_expanded_cmd_table_list(&shell))
-			ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
-		if (!ft_execute(&shell))
-			ft_clean_and_exit_shell(&shell, GENERAL_ERROR);
-		ft_clean_shell(&shell);
+			ft_clean_and_exit_shell(&shell, GENERAL_ERROR, "expansion malloc failed");
+		if (shell.cmd_table_list)
+			ft_executor(&shell);
+		reset_submodule_variable(&shell);
 	}
 	return (EXIT_SUCCESS);
 }

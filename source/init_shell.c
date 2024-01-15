@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/06 17:50:12 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/10 18:07:06 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,10 @@ bool	ft_setup_env(t_shell *shell, char **env)
 
 bool	ft_init_shell(t_shell *shell, char **env)
 {
+	shell->pid = getpid();
+	shell->subshell_pid = -1;
+	shell->subshell_level = 0;
+	shell->exit_status = 0;
 	shell->exit_code = EXIT_SUCCESS;
 	shell->env_list = NULL;
 	shell->token_list = NULL;

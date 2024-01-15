@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/03 14:29:24 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/14 18:59:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,29 @@ t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list);
 bool		append_empty_cmd_table(t_list_d **cmd_table_list);
 bool		append_cmd_table_by_scenario(
 				int token_type, t_list_d **cmd_table_list);
+t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node);
+int			get_cmd_table_type_from_list(t_list_d *cmd_table_list);
+bool		is_control_op_cmd_table(int cmd_table_type);
+bool		is_builtin(t_cmd_table *cmd_table);
+bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);
+void		move_past_subshell(t_list_d **cmd_table_node);
+void		move_past_pipeline(t_list_d **cmd_table_node);
+
+/* Final cmd table utils */
+t_final_cmd_table	*init_final_cmd_table(
+				t_shell *shell, t_cmd_table *cmd_table);
+void				free_final_cmd_table(t_final_cmd_table **final_cmd_table);
+t_final_cmd_table	*get_final_cmd_table(t_shell *shell,
+						t_cmd_table *cmd_table);
+
+/* Array utils */
+void		free_array(char **array);
+int			get_array_len(void **arr);
+char		**convert_list_to_string_array(t_list *list);
+
+/* Process utils */
+void		wait_process(t_shell *shell, int pid);
+int			status(int wstatus);
 
 /* Type utils */
 char		*ft_get_token_type_str(int type);
@@ -52,8 +75,9 @@ bool		is_subshell_symbol(int token_type);
 
 /* File utils */
 char		*generate_tmp_filename(int cmdtable_id, char *category);
-bool		remove_file(char **filename);
+void		remove_file(char *filename);
 bool		append_line_to_file(char *line, char *filename);
+void		safe_close(int *fd);
 
 /* Stack utils */
 int			get_state_from_stack(t_list *node);

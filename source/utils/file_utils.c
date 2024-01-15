@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:18:23 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/01 14:38:01 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/14 18:59:19 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,10 @@ char	*generate_tmp_filename(int cmdtable_id, char *category)
 	return (filename);
 }
 
-bool	remove_file(char **filename)
+void	remove_file(char *filename)
 {
-	if (unlink(*filename) == -1)
-		return (false);
-	ft_free_and_null((void **)filename);
-	return (true);
+	if (unlink(filename) == -1)
+		ft_dprintf(2, ERROR_REMOVE_FILE, PROGRAM_NAME, filename);
 }
 
 bool	append_line_to_file(char *line, char *filename)
@@ -48,4 +46,11 @@ bool	append_line_to_file(char *line, char *filename)
 	}
 	ft_putendl_fd(line, fd);
 	return (close(fd) != -1);
+}
+
+void	safe_close(int *fd)
+{
+	if (*fd != -1)
+		close(*fd);
+	*fd = -1;
 }

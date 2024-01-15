@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 13:57:23 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/01 21:54:02 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/14 19:28:47 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red **io_red)
 	fd = open((*io_red)->out_file,
 			O_CREAT | O_RDWR | O_TRUNC,
 			(S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
-	if (fd < 0)
+	if (fd < 0 || close(fd) == -1)
 	{
 		perror(PROGRAM_NAME);
 		return (ft_free_and_null((void **)&(*io_red)->out_file), false);
 	}
-	return (close(fd) != -1);
+	return (true);
 }
 
 bool	exec_heredoc(int cmdtable_id, t_io_red **io_red)
@@ -44,12 +44,12 @@ bool	exec_heredoc(int cmdtable_id, t_io_red **io_red)
 		{
 			ft_dprintf(STDERR_FILENO, ERROR_HEREDOC_UNEXPECTED_EOF,
 				PROGRAM_NAME, (*io_red)->here_end);
-			return (remove_file(&(*io_red)->out_file));
+			return (remove_file((*io_red)->out_file), true);
 		}
 		if (ft_strcmp(line, (*io_red)->here_end) == 0)
 			break ;
 		if (!append_line_to_file(line, (*io_red)->out_file))
-			return (remove_file(&(*io_red)->out_file), free(line), false);
+			return (remove_file((*io_red)->out_file), free(line), false);
 		free(line);
 	}
 	free(line);
@@ -70,6 +70,9 @@ bool	handle_heredoc(int cmdtable_id, t_list *io_red_list)
 	return (true);
 }
 
+// If the heredoc delimiter has quotes,
+//     1. the here-document lines shall not undergo expansion
+//     2. the delimiter will remove the quotes
 bool	ft_heredoc(t_list_d *cmd_table_list)
 {
 	t_cmd_table	*cur_cmd_table;
