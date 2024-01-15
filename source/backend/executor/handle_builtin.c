@@ -23,7 +23,7 @@ void	exec_builtin_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
 	else if (ft_strcmp(final_cmd_table->cmd_name, "echo") == 0)
 		shell->exit_code = ft_exec_echo(final_cmd_table->cmd_args);
 	else if (ft_strcmp(final_cmd_table->cmd_name, "pwd") == 0)
-		shell->exit_code = 123;
+		shell->exit_code = ft_exec_pwd();
 	else if (ft_strcmp(final_cmd_table->cmd_name, "cd") == 0)
 		shell->exit_code = 123;
 	else if (ft_strcmp(final_cmd_table->cmd_name, "export") == 0)

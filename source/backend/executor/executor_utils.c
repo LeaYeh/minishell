@@ -80,7 +80,7 @@ char	*get_exec_path(char *cmd_name, char **envp)
 	all_path = get_all_path(envp);
 	if (!all_path)
 		return (NULL);
-	i = 0;	
+	i = 0;
 	while (all_path[i])
 	{
 		sprintf(exec_path, "%s/%s", all_path[i], cmd_name);
