@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 19:29:29 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/15 19:03:52 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 		handle_builtin(shell, cmd_table_node);
 	else
 		handle_external_cmd(shell, cmd_table);
-	exit(shell->exit_code);
+	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
 // TODO: Need to handle the pipe redirct in first subshell process
