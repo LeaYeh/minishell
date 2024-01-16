@@ -14,7 +14,7 @@
 #include "clean.h"
 
 // | State | Token Type | Action | Next State | Number of Reduced Tokens |
-const int	g_parsing_table[][5] = {\
+static int	parsing_table[][5] = {\
 	{0, 0, 1, 1, -1}, \
 	{0, 1, 1, 2, -1}, \
 	{0, 2, 1, 3, -1}, \
@@ -227,18 +227,18 @@ t_pt_node	*init_pt_node(const int pt_row[])
 bool	match_rule(int token_type, int action_mask, int row_index)
 {
 	if ((action_mask & A_ACCEPT) == A_ACCEPT && \
-		g_parsing_table[row_index][PT_COL_ACTION] == A_ACCEPT)
+		parsing_table[row_index][PT_COL_ACTION] == A_ACCEPT)
 		return (true);
 	else if ((action_mask & A_SHIFT) && \
-		g_parsing_table[row_index][PT_COL_ACTION] == A_SHIFT && \
-		g_parsing_table[row_index][PT_COL_TOKEN_TYPE] == token_type)
+		parsing_table[row_index][PT_COL_ACTION] == A_SHIFT && \
+		parsing_table[row_index][PT_COL_TOKEN_TYPE] == token_type)
 		return (true);
 	else if ((action_mask & A_REDUCE) && \
-		g_parsing_table[row_index][PT_COL_ACTION] == A_REDUCE)
+		parsing_table[row_index][PT_COL_ACTION] == A_REDUCE)
 		return (true);
 	else if ((action_mask & A_GOTO) && \
-		g_parsing_table[row_index][PT_COL_ACTION] == A_GOTO && \
-		g_parsing_table[row_index][PT_COL_TOKEN_TYPE] == token_type)
+		parsing_table[row_index][PT_COL_ACTION] == A_GOTO && \
+		parsing_table[row_index][PT_COL_TOKEN_TYPE] == token_type)
 		return (true);
 	return (false);
 }
@@ -252,7 +252,7 @@ bool	set_next_pt_entry(
 	i = 0;
 	while (i < PT_ROW_SIZE)
 	{
-		if (g_parsing_table[i][PT_COL_STATE] == state)
+		if (parsing_table[i][PT_COL_STATE] == state)
 		{
 			if (match_rule(token_type, action_mask, i))
 				break ;
@@ -261,7 +261,7 @@ bool	set_next_pt_entry(
 	}
 	if (i == PT_ROW_SIZE)
 		return (true);
-	*pt_entry = init_pt_node(g_parsing_table[i]);
+	*pt_entry = init_pt_node(parsing_table[i]);
 	if (!*pt_entry)
 		return (false);
 	return (true);

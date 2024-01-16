@@ -96,8 +96,6 @@
 # define ERROR_REMOVE_FILE 			"%s: \
 warning: failed to remove file `%s'\n"
 
-extern const int	g_parsing_table[][PT_COL_SIZE];
-
 typedef enum e_pt_col
 {
 	PT_COL_STATE = 0,

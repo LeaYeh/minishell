@@ -88,7 +88,7 @@ def parse_parsing_table(parsing_table: str, verbose: bool = False):
 
 
 def action_table_to_c_array(action_table):
-    c_array = "const int\tg_parsing_table[][5] = {\\\n"
+    c_array = "static int\tparsing_table[][5] = {\\\n"
     for state, actions in action_table.items():
         for symbol, (action_type, next_state, num_reduced_tokens) in actions.items():
             c_array += f"\t{{{state}, {symbol}, {action_type}, {next_state}, {num_reduced_tokens}}}, \\\n"
