@@ -29,8 +29,10 @@
 # define PROGRAM_NAME       "minishell"
 
 /* Error codes */
+# define SUCCESS            0
 # define EXIT_SUCCESS       0
 # define GENERAL_ERROR      1
+# define EXPAND_ERROR       2
 # define MISUSE_BUILTIN     2
 # define CMD_EXEC_FAILED    126
 # define CMD_NOT_FOUND      127
