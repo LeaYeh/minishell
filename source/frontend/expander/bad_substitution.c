@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 20:58:09 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/04 15:23:21 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/17 22:30:35 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ bool	check_braces(char *str, size_t *i)
 
 void	prepare_error_msg(char *str, size_t *i)
 {
+	char	*occurrence;
+
 	if (is_open_pair('"', GET))
 	{
-		*ft_strchr(&str[*i], '"') = '\0';
+		occurrence = ft_strchr(&str[*i], '"');
+		if (occurrence)
+			*occurrence = '\0';
 		while (str[*i - 1] != '"')
 			(*i)--;
 	}

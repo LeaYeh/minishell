@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/06 12:44:57 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/17 22:31:19 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ bool	ft_expander(char **str, t_list **lst, t_shell *shell)
 	if (!str || !*str)
 		return (true);
 	if (bad_substitution(*str))
-		return (false);
+		return (free_and_reset(NULL, NULL), false);
 	dup = ft_strdup(*str);
 	if (!dup)
 		return (free_and_reset(dup, str), false);
