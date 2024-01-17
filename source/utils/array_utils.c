@@ -36,7 +36,7 @@ void	free_array(char **array)
 		free(array[i]);
 		i++;
 	}
-	ft_free_and_null((void **)&array);
+	free(array);
 }
 
 char	**convert_list_to_string_array(t_list *list)
@@ -50,11 +50,38 @@ char	**convert_list_to_string_array(t_list *list)
 		return (NULL);
 	while (list)
 	{
-		str_array[i] = ft_strdup(list->content);
-		if (!str_array[i])
-			return (free_array(str_array), NULL);
+		if (list->content != NULL)
+		{
+			str_array[i] = ft_strdup(list->content);
+			if (!str_array[i])
+				return (free_array(str_array), NULL);
+			i++;
+		}
 		list = list->next;
-		i++;
 	}
 	return (str_array);
+}
+
+bool	append_string_array(char ***array, char *str)
+{
+	char	**tmp;
+	int		i;
+
+	tmp = *array;
+	*array = ft_calloc(get_array_len(tmp) + 2, sizeof(char *));
+	if (!*array)
+		return (false);
+	i = 0;
+	while (tmp && tmp[i])
+	{
+		(*array)[i] = ft_strdup(tmp[i]);
+		if (!(*array)[i])
+			return (free_array(tmp), false);
+		i++;
+	}
+	(*array)[i] = ft_strdup(str);
+	if (!(*array)[i])
+		return (free_array(tmp), false);
+	free_array(tmp);
+	return (true);
 }

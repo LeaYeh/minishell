@@ -43,7 +43,7 @@ bool		append_cmd_table_by_scenario(
 t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node);
 int			get_cmd_table_type_from_list(t_list_d *cmd_table_list);
 bool		is_control_op_cmd_table(int cmd_table_type);
-bool		is_builtin(t_cmd_table *cmd_table);
+bool		is_builtin(char *cmd_name);
 bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);
 void		move_past_subshell(t_list_d **cmd_table_node);
 void		move_past_pipeline(t_list_d **cmd_table_node);
@@ -59,6 +59,7 @@ t_final_cmd_table	*get_final_cmd_table(t_shell *shell,
 void		free_array(char **array);
 int			get_array_len(char **arr);
 char		**convert_list_to_string_array(t_list *list);
+bool		append_string_array(char ***array, char *str);
 
 /* Process utils */
 void		wait_process(t_shell *shell, int pid);

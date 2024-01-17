@@ -14,14 +14,17 @@
 #include "defines.h"
 #include "utils.h"
 
-bool	setup_cmd_name(t_final_cmd_table *final_cmd_table, t_cmd_table *cmd_table)
+bool	setup_cmd_name(
+	t_final_cmd_table *final_cmd_table, t_cmd_table *cmd_table)
 {
 	char	*exec_path;
 
+	if (!cmd_table->cmd_name)
+		return (true);
 	final_cmd_table->cmd_name = ft_strdup(cmd_table->cmd_name);
 	if (!final_cmd_table->cmd_name)
 		return (false);
-	if (is_builtin(cmd_table))
+	if (is_builtin(final_cmd_table->cmd_name))
 		return (true);
 	exec_path = get_exec_path(final_cmd_table->cmd_name, final_cmd_table->envp);
 	if (!exec_path)
@@ -38,6 +41,19 @@ bool	setup_cmd_args(t_final_cmd_table *final_cmd_table, t_list *args_list)
 		return (true);
 	final_cmd_table->cmd_args = convert_list_to_string_array(args_list);
 	if (!final_cmd_table->cmd_args)
+		return (false);
+	return (true);
+}
+
+bool	setup_assignment(
+	t_final_cmd_table *final_cmd_table, t_list *assignment_list)
+{
+	final_cmd_table->assignment_array = NULL;
+	if (!assignment_list || ft_lstsize(assignment_list) == 0)
+		return (true);
+	final_cmd_table->assignment_array = \
+		convert_list_to_string_array(assignment_list);
+	if (!final_cmd_table->assignment_array)
 		return (false);
 	return (true);
 }
@@ -79,7 +95,8 @@ t_final_cmd_table	*init_final_cmd_table(
 		return (NULL);
 	if (!setup_env(final_cmd_table, shell->env_list) || \
 		!setup_cmd_name(final_cmd_table, cmd_table) || \
-		!setup_cmd_args(final_cmd_table, cmd_table->cmd_args))
+		!setup_cmd_args(final_cmd_table, cmd_table->cmd_args) || \
+		!setup_assignment(final_cmd_table, cmd_table->assignment_list))
 		return (free_final_cmd_table(&final_cmd_table), NULL);
 	return (final_cmd_table);
 }
@@ -89,6 +106,7 @@ void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
 	free_array((*final_cmd_table)->envp);
 	free((*final_cmd_table)->cmd_name);
 	free_array((*final_cmd_table)->cmd_args);
+	free_array((*final_cmd_table)->assignment_array);
 	ft_free_and_null((void **)final_cmd_table);
 }
 
@@ -101,7 +119,11 @@ t_final_cmd_table	*get_final_cmd_table(
 	final_cmd_table = init_final_cmd_table(shell, cmd_table);
 	if (!final_cmd_table)
 		return (NULL);
-	// do expansions
+	// TODO: expand assignment array
+	if (!expand_final_cmd_table(shell, final_cmd_table))
+		return (free_final_cmd_table(&final_cmd_table), NULL);
+	if (final_cmd_table->cmd_name == NULL && final_cmd_table->assignment_array)
+		handle_assignment(shell, final_cmd_table);
 	// do assginments
 	// do redirections
 	return (final_cmd_table);

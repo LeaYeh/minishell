@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/15 19:03:52 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/14 17:01:31 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,6 @@
 #include "utils.h"
 #include "clean.h"
 #include "debug.h"
-
-void	exec_external_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
-{
-	// TODO: need to bind the fds to stdin and stdout, if bind failed then exit
-	if (!check_executable(final_cmd_table->cmd_name))
-	{
-		free_final_cmd_table(&final_cmd_table);
-		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
-	}
-	execve(final_cmd_table->cmd_name, final_cmd_table->cmd_args,
-			final_cmd_table->envp);
-	free_final_cmd_table(&final_cmd_table); // should not reach here, but still need to close the fds
-	ft_clean_and_exit_shell(shell, CMD_EXEC_FAILED, NULL);
-}
 
 /*
 1. [ ] do expansions
@@ -45,29 +31,24 @@ void	exec_external_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
 	* A redirection error causes the command to exit with a non-zero status.
 4. [ ] do command
 */
-void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
-{
-	t_final_cmd_table	*final_cmd_table;
-
-	final_cmd_table = get_final_cmd_table(shell, cmd_table);
-	if (!final_cmd_table)
-		ft_clean_and_exit_shell(shell,
-			GENERAL_ERROR, "handle_external_cmd, get_final_cmd_table failed");
-	exec_external_cmd(shell, final_cmd_table);
-}
-
 void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 {
-	t_cmd_table	*cmd_table;
+	t_cmd_table			*cmd_table;
+	t_final_cmd_table	*final_cmd_table;
 
 	cmd_table = get_cmd_table_from_list(*cmd_table_node);
-	if (cmd_table->type != C_SIMPLE_CMD)
+	final_cmd_table = get_final_cmd_table(shell, cmd_table);
+	print_final_cmd_table(final_cmd_table);
+	if (!final_cmd_table)
 		ft_clean_and_exit_shell(
-			shell, GENERAL_ERROR, "exec simple cmd, not simple cmd");
-	if (is_builtin(cmd_table))
-		handle_builtin(shell, cmd_table_node);
+			shell, GENERAL_ERROR, "get_final_cmd_table failed");
+	if (final_cmd_table->cmd_name == NULL)
+		printf("\n");
+	else if (is_builtin(final_cmd_table->cmd_name))
+		handle_builtin(shell, cmd_table_node, final_cmd_table);
 	else
-		handle_external_cmd(shell, cmd_table);
+		handle_external_cmd(shell, final_cmd_table);
+	free_final_cmd_table(&final_cmd_table);
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 

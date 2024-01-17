@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 20:28:15 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/14 18:47:38 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,7 @@ typedef struct s_final_cmd_table
 {
 	char			*cmd_name;
 	char			**cmd_args;
+	char			**assignment_array;
 	char			**envp;
 }	t_final_cmd_table;
 
