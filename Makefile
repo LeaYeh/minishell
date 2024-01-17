@@ -46,7 +46,7 @@ MAKEFLAGS		:=	-j -s
 #	Files
 
 # TODO: need to remove forbidden wildcard
-SRC 			:=	$(wildcard source/*.c source/*/*.c source/*/*/*.c tests/*.c)
+SRC 			:=	$(wildcard source/*.c source/*/*.c source/*/*/*.c source/*/*/*/*.c tests/*.c)
 OBJ 			:=	$(SRC:%.c=$(OBJ_DIR)/%.o)
 DEP				:=	$(SRC:%.c=$(DEP_DIR)/%.d)
 
