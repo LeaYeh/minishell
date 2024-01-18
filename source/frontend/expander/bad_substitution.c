@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 20:58:09 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/17 22:30:35 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:11:23 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,17 @@ bool	bad_substitution(char *str)
 	{
 		skip_to_dollar_not_in_single_quotes(str, &i);
 		if (!str[i])
-			return (false);
+			break ;
 		i++;
 		if (!check_braces(str, &i))
 		{
 			prepare_error_msg(str, &i);
-			ft_dprintf(STDERR_FILENO, ERROR_EXPANDER_BAD_SUBSTITUTION, &str[i]);
+			ft_dprintf(STDERR_FILENO, ERROR_EXPANDER_BAD_SUBSTITUTION,
+				PROGRAM_NAME, &str[i]);
+			is_open_pair('"', RESET);
 			return (true);
 		}
 	}
+	is_open_pair('"', RESET);
 	return (false);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 20:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/15 16:10:18 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 23:11:12 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*get_base_filename(char	*full_name)
 		ret = ft_strdup(tmp[array_len - 1]);
 	else
 		ret = NULL;
-	free_array(tmp);
+	free_array(&tmp);
 	return (ret);
 }
 
@@ -89,8 +89,8 @@ char	*get_exec_path(char *cmd_name, char **envp)
 		i++;
 	}
 	if (i == get_array_len(all_path))
-		return (free_array(all_path), ft_strdup(cmd_name));
-	return (free_array(all_path), ft_strdup(exec_path));
+		return (free_array(&all_path), ft_strdup(cmd_name));
+	return (free_array(&all_path), ft_strdup(exec_path));
 }
 
 // char	*get_exec_path(char *cmd_name, char **envp)
@@ -116,6 +116,6 @@ char	*get_exec_path(char *cmd_name, char **envp)
 // 		ft_free_and_null((void **)&exec_path);
 // 		i++;
 // 	}
-// 	free_array(all_path, -1);
+// 	free_array(&all_path, -1);
 // 	return (exec_path);
 // }

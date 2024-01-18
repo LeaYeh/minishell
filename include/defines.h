@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 01:38:04 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 23:46:08 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@
 # define SUCCESS            0
 # define EXIT_SUCCESS       0
 # define GENERAL_ERROR      1
-# define EXPAND_ERROR       2
+# define BAD_SUBSTITUTION   2
+// # define EXPAND_ERROR       2
 # define MISUSE_BUILTIN     2
 # define CMD_EXEC_FAILED    126
 # define CMD_NOT_FOUND      127
@@ -92,7 +93,7 @@
 # define ERROR_HEREDOC_UNEXPECTED_EOF		\
 "%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_EXPANDER_BAD_SUBSTITUTION	\
-"%s: bad substitution\n"
+"%s: %s: bad substitution\n"
 
 // TODO: Replace with OS error message
 # define ERROR_REMOVE_FILE 			"%s: \

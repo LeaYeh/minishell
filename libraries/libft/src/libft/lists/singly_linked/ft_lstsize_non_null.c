@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 01:52:32 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/18 01:55:35 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:14:02 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	ft_lstsize_non_null(t_list *lst)
 	int		n;
 	t_list	*cur;
 
-	if (lst == NULL)
-		return (0);
 	n = 0;
 	cur = lst;
 	while (cur != NULL)

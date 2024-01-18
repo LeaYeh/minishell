@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:05:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 21:14:13 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 23:16:07 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@ bool	check_file(char *filename, int o_flag, int permission);
 
 /* Utils */
 char	*get_exec_path(char *cmd_name, char **envp);
-
-/* Expand cmd info utils */
-int		set_expanded_cmd_info(t_shell *shell,
-			t_final_cmd_table *final_cmd_table, char ***expanded_array);
 
 /* Final cmd table utils */
 bool	expand_final_cmd_table(

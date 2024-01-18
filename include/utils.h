@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/17 18:36:53 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 23:09:50 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_final_cmd_table	*get_final_cmd_table(t_shell *shell,
 						t_cmd_table *cmd_table);
 
 /* Array utils */
-void		free_array(char **array);
+void		free_array(char ***array);
 int			get_array_len(char **arr);
 char		**convert_list_to_string_array(t_list *list);
 char		**append_string_array(char **array, char *str);

@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/17 22:31:19 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:41:10 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,27 +144,24 @@
 
 #include "expander.h"
 
-bool	ft_expander(char **str, t_list **lst, t_shell *shell)
+int	ft_expander(char *str, t_list **lst, t_shell *shell)
 {
 	char	*dup;
-	t_list	*lst_new;
 
-	if (!str || !*str)
-		return (true);
-	if (bad_substitution(*str))
-		return (free_and_reset(NULL, NULL), false);
-	dup = ft_strdup(*str);
+	if (!str)
+		return (SUCCESS);
+	if (bad_substitution(str))
+		return (BAD_SUBSTITUTION);
+	dup = ft_strdup(str);
 	if (!dup)
-		return (free_and_reset(dup, str), false);
+		return (GENERAL_ERROR);
 	if (!parameter_expansion(&dup, shell))
-		return (free_and_reset(dup, str), false);
+		return (free(dup), GENERAL_ERROR);
 	if (!*dup)
-		return (free_and_reset(dup, NULL), true);
+		return (free(dup), SUCCESS);
 	if (!quote_removal(&dup))
-		return (free_and_reset(dup, str), false);
-	lst_new = NULL;
-	if (!create_expanded_list(&lst_new, dup))
-		return (ft_lstclear(&lst_new, free), free_and_reset(dup, str), false);
-	ft_lstinsert_after(lst, lst_new);
-	return (free_and_reset(NULL, NULL), true);
+		return (free(dup), GENERAL_ERROR);
+	if (!ft_lstnew_back(lst, dup))
+		return (free(dup), GENERAL_ERROR);
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 01:01:07 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/06 14:25:26 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:08:42 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,19 @@ size_t	count_replace_len(char *str)
 	return (replace_len);
 }
 
-void	free_and_reset(char *dup, char **str)
-{
-	unsigned char	c;
-
-	free(dup);
-	ft_free_and_null((void **)str);
-	c = 0;
-	while (c < UCHAR_MAX)
-		is_open_pair(c++, RESET);
-}
-
 bool	is_open_pair(unsigned char c, int operation)
 {
 	static bool	is_open_pair[UCHAR_MAX];
 
-	if (operation == TOGGLE)
+	if (operation == GET)
+		return (is_open_pair[c]);
+	else if (operation == TOGGLE)
 		is_open_pair[c] ^= true;
 	else if (operation == RESET)
 		is_open_pair[c] = false;
+	else if (operation == CLEAN)
+		while (c < UCHAR_MAX)
+			is_open_pair[c++] = false;
 	return (is_open_pair[c]);
 }
 
