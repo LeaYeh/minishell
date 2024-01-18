@@ -26,7 +26,8 @@
 # include "libft.h"
 # include "ft_printf.h"
 
-# define PROGRAM_NAME       "minishell"
+// # define PROGRAM_NAME       "🌊rash"
+# define PROGRAM_NAME       "\e[1;34m🌊rash\e[0m"
 
 /* Error codes */
 # define SUCCESS            0
@@ -71,9 +72,9 @@
 # define STY_RES				"\e[0m"
 
 // TODO: Remove the color codes from the prompt before the evaluations
-// # define PROMPT "\033[0;34m🌊>\033[0m"
-# define PROMPT				"\033[1;32mminishell$ \033[0m"
-# define HEREDOC_PROMPT		"\033[1;37m> \033[0m"
+# define PROMPT "\e[1;34m🌊rash$ \e[0m"
+// # define PROMPT				"\e[1;32mminishell$ \e[0m"
+# define HEREDOC_PROMPT		"\e[1;37m> \e[0m"
 // # define PROMPT				"\001\033[1;32m\002minishell$ \001\033[0m\002"
 // # define PROMPT				"minishell$ "
 

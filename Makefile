@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/01/06 13:17:59 by ldulling         ###   ########.fr        #
+#    Updated: 2024/01/18 23:33:23 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,7 +148,7 @@ endif
 
 # **************************** CUSTOM MESSAGES ******************************* #
 
-MSG_START		:=	"\e[3mBuilding \e[1;34mCrash \e[0m"
+MSG_START		:=	"\e[3mBuilding \e[1;34m🌊rash \e[0;3m... \e[0m"
 MSG_PROGRESS	:=	"\e[3m🌊\e[0m"
 MSG_SUCCESS		:=	"\e[1;3;36m\nDONE!\n\e[0m"
 MSG_NO_CHNG		:=	"\e[3;37mEverything up-to-date!\n\e[0m"
@@ -167,3 +167,4 @@ print-%			:
 
 # test without env value:	env -i
 # detect memory leak: 		valgrind -s --leak-check=full --show-leak-kinds=all --suppressions=./minishell.supp ./minishell
+# valgrind -s --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=./minishell.supp ./minishell
