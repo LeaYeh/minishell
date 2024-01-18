@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_operation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/05 18:05:46 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 04:49:10 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	push_state(t_list **state_stack, int next_step)
 	t_list	*node;
 	int		*state;
 
-	state = malloc(sizeof(int));
+	state = (int *)malloc(sizeof(int));
 	if (!state)
 		return (false);
 	*state = next_step;

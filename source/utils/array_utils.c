@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 18:59:32 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 01:52:07 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 04:49:32 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**convert_list_to_string_array(t_list *list)
 	int		i;
 
 	i = 0;
-	str_array = malloc((ft_lstsize_non_null(list) + 1) * sizeof(char *));
+	str_array = (char **)malloc((ft_lstsize_non_null(list) + 1) * sizeof(char *));
 	if (!str_array)
 		return (NULL);
 	while (list)
