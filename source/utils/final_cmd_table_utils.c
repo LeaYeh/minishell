@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 20:02:02 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 03:50:08 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 04:53:39 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 	final_cmd_table->envp = NULL;
 	if (!env_list)
 		return (true);
-	final_cmd_table->envp = malloc(ft_lstsize((env_list) + 1) * sizeof(char *));
+	final_cmd_table->envp = (char **)malloc((ft_lstsize(env_list) + 1) * sizeof(char *));
 	if (!final_cmd_table->envp)
 		return (false);
 	i = 0;
 	while (env_list)
 	{
 		env_node = (t_env *)env_list->content;
-		sprintf(tmp, "%s=%s", env_node->key, env_node->value);
+		sprintf(tmp, "%s=%s", env_node->key, env_node->value);	// This is really dangerous, bc the user could set a very long key or value.
 		final_cmd_table->envp[i] = ft_strdup(tmp);
 		if (!final_cmd_table->envp[i])
 			return (free_array(final_cmd_table->envp), false);
