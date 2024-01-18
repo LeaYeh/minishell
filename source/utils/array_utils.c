@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 18:59:32 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/15 12:24:30 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:52:07 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**convert_list_to_string_array(t_list *list)
 	int		i;
 
 	i = 0;
-	str_array = ft_calloc(ft_lstsize(list) + 1, sizeof(char *));
+	str_array = malloc((ft_lstsize_non_null(list) + 1) * sizeof(char *));
 	if (!str_array)
 		return (NULL);
 	while (list)
@@ -59,29 +59,35 @@ char	**convert_list_to_string_array(t_list *list)
 		}
 		list = list->next;
 	}
+	str_array[i] = NULL;
 	return (str_array);
 }
 
-bool	append_string_array(char ***array, char *str)
+char	**append_string_array(char **array, char *str)
 {
-	char	**tmp;
+	char	**new_array;
 	int		i;
 
-	tmp = *array;
-	*array = ft_calloc(get_array_len(tmp) + 2, sizeof(char *));
-	if (!*array)
-		return (false);
+	new_array = (char **)malloc((get_array_len(array) + (str != NULL) + 1) *
+		sizeof(char *));
+	if (!new_array)
+		return (free_array(array), NULL);
 	i = 0;
-	while (tmp && tmp[i])
+	while (array && array[i])
 	{
-		(*array)[i] = ft_strdup(tmp[i]);
-		if (!(*array)[i])
-			return (free_array(tmp), false);
+		new_array[i] = ft_strdup(array[i]);
+		if (!new_array[i])
+			return (free_array(new_array), free_array(array), NULL);
 		i++;
 	}
-	(*array)[i] = ft_strdup(str);
-	if (!(*array)[i])
-		return (free_array(tmp), false);
-	free_array(tmp);
-	return (true);
+	free_array(array);
+	if (str)
+	{
+		new_array[i] = ft_strdup(str);
+		if (!new_array[i])
+			return (free(new_array), NULL);
+		i++;
+	}
+	new_array[i] = NULL;
+	return (new_array);
 }

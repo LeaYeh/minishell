@@ -23,24 +23,30 @@ char	**combine_cmd_info(char *cmd_name, char **cmd_args)
 {
 	char	**cmd_info_array;
 	int		i;
+	int		j;
 
-	cmd_info_array = ft_calloc(get_array_len(cmd_args) + 2, sizeof(char *));
+	cmd_info_array = (char **)malloc((get_array_len(cmd_args) +
+		(cmd_name != NULL) + 1) * sizeof(char *));
 	if (!cmd_info_array)
 		return (NULL);
+	i = 0;
 	if (cmd_name)
 	{
-		cmd_info_array[0] = ft_strdup(cmd_name);
-		if (!cmd_info_array[0])
+		cmd_info_array[i] = ft_strdup(cmd_name);
+		if (!cmd_info_array[i])
 			return (free(cmd_info_array), NULL);
-	}
-	i = 0;
-	while (cmd_args && cmd_args[i])
-	{
-		cmd_info_array[i + 1] = ft_strdup(cmd_args[i]);
-		if (!cmd_info_array[i + 1])
-			return (free_array(cmd_info_array), NULL);
 		i++;
 	}
+	j = 0;
+	while (cmd_args && cmd_args[j])
+	{
+		cmd_info_array[i] = ft_strdup(cmd_args[j]);
+		if (!cmd_info_array[i])
+			return (free_array(cmd_info_array), NULL);
+		i++;
+		j++;
+	}
+	cmd_info_array[i] = NULL;
 	return (cmd_info_array);
 }
 
@@ -83,14 +89,15 @@ int	set_expanded_cmd_info(
 	t_list	*expanded_list;
 	int		i;
 
-	expanded_list = NULL;
 	cmd_info_array = combine_cmd_info(
 			final_cmd_table->cmd_name, final_cmd_table->cmd_args);
 	if (!cmd_info_array)
 		return (GENERAL_ERROR);
+	expanded_list = NULL;
 	i = 0;
 	while (cmd_info_array[i])
 	{
+		// This is unsafe bc if ft_expander sets member in cmd_info_array to NULL, nothing after it will be freed anymore.
 		if (!ft_expander(&cmd_info_array[i], &expanded_list, shell) || \
 			!append_expanded_array(expanded_array, expanded_list))
 			return (

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd_info.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 17:59:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 20:23:12 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/17 21:37:46 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ bool	setup_expanded_cmd_args(
 	i = 1;
 	while (expanded_array[i])
 	{
-		if (!append_string_array(&final_cmd_table->cmd_args, expanded_array[i]))
+		final_cmd_table->cmd_args = append_string_array(
+			final_cmd_table->cmd_args, expanded_array[i]);
+		if (!final_cmd_table->cmd_args)
 			return (false);
 		i++;
 	}
@@ -53,7 +55,7 @@ bool	setup_expanded_cmd_info(
 	shell->exit_code = set_expanded_cmd_info(
 			shell, final_cmd_table, &expanded_array);
 	if (shell->exit_code == GENERAL_ERROR)
-		return (false);
+		return (free_array(expanded_array), false);
 	if (!setup_expanded_cmd_name(final_cmd_table, expanded_array) || \
 		!setup_expanded_cmd_args(final_cmd_table, expanded_array))
 	{
