@@ -2,13 +2,11 @@
 #include "utils.h"
 #include "clean.h"
 
+// TODO: Add the assignments to the local shell variables list
+// TODO: Also add flags if a variable is exported or not
 void	handle_assignment(t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
-	final_cmd_table->cmd_name = ft_strdup("set");
-	if (!final_cmd_table->cmd_name)
-	{
-		free_final_cmd_table(&final_cmd_table);
-		ft_clean_and_exit_shell(
-			shell, GENERAL_ERROR, "handle_assignment failed");
-	}
+	(void)shell;
+	(void)final_cmd_table;
+	printf("handle_assignment\n");
 }

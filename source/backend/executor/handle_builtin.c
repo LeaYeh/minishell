@@ -30,8 +30,6 @@ void	exec_builtin_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
 		shell->exit_code = 123;
 	else if (ft_strcmp(final_cmd_table->cmd_name, "exit") == 0)
 		shell->exit_code = 123;
-	else if (ft_strcmp(final_cmd_table->cmd_name, "set") == 0)
-		shell->exit_code = 123;
 }
 
 void	handle_builtin(t_shell *shell,

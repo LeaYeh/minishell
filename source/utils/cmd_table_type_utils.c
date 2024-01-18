@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_table_type_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:27:56 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 15:09:04 by codespace        ###   ########.fr       */
+/*   Updated: 2024/01/18 03:32:11 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ bool	is_builtin(char *cmd_name)
 		ft_strcmp(cmd_name, "export") == 0 || \
 		ft_strcmp(cmd_name, "cd") == 0 || \
 		ft_strcmp(cmd_name, "pwd") == 0 || \
-		ft_strcmp(cmd_name, "exit") == 0 || \
-		ft_strcmp(cmd_name, "set") == 0)
+		ft_strcmp(cmd_name, "exit") == 0)
 		return (true);
 	return (false);
 }
