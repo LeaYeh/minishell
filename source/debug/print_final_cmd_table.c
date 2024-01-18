@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   print_final_cmd_table.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:17:36 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 21:21:18 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 03:21:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
 // #include "utils.h"
 
-void	print_cmd_args_array(char **cmd_args)
+void	print_simple_cmd_array(char **simple_cmd)
 {
 	int	i;
 
 	i = 0;
-	printf("cmd_args: ");
-	while (cmd_args && cmd_args[i])
+	printf("simple_cmd:       ");
+	while (simple_cmd && simple_cmd[i])
 	{
-		printf("%s -> ", cmd_args[i]);
+		printf("%s -> ", simple_cmd[i]);
 		i++;
 	}
 	printf("(NULL)\n");
@@ -44,8 +44,7 @@ void	print_assignment_array(char **assignment_array)
 void	print_final_cmd_table(t_final_cmd_table *final_cmd_table)
 {
 	printf("\n\n========= final cmd table =========\n");
-	printf("cmd_name: %s\n", final_cmd_table->cmd_name);
-	print_cmd_args_array(final_cmd_table->cmd_args);
+	print_simple_cmd_array(final_cmd_table->simple_cmd);
 	print_assignment_array(final_cmd_table->assignment_array);
 	printf("===================================\n\n");
 }

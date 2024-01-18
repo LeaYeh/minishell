@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:04:52 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 17:33:35 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 02:07:27 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
 	if (!final_cmd_table)
 		ft_clean_and_exit_shell(
 			shell, GENERAL_ERROR, "final cmd table malloc failed");
-	if (is_builtin(final_cmd_table->cmd_name) && \
+	if (is_builtin(final_cmd_table->simple_cmd[0]) && \
 		!is_scmd_in_pipeline(*cmd_table_node))
 	{
 		handle_builtin(shell, cmd_table_node, final_cmd_table);

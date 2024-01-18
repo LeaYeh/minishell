@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_simple_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 17:01:31 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 01:30:13 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	if (!final_cmd_table)
 		ft_clean_and_exit_shell(
 			shell, GENERAL_ERROR, "get_final_cmd_table failed");
-	if (final_cmd_table->cmd_name == NULL)
+	if (final_cmd_table->simple_cmd[0] == NULL)
 		printf("\n");
-	else if (is_builtin(final_cmd_table->cmd_name))
+	else if (is_builtin(final_cmd_table->simple_cmd[0]))
 		handle_builtin(shell, cmd_table_node, final_cmd_table);
 	else
 		handle_external_cmd(shell, final_cmd_table);

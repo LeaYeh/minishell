@@ -51,6 +51,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstclear_d.c \
 			ft_lstdelone_d.c \
 			ft_lstlast_d.c \
+			ft_lstnew_back_d.c \
 			ft_lstnew_d.c \
 )
 

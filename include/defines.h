@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 18:47:38 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 01:38:04 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,16 +233,15 @@ typedef struct s_cmd_table
 	int				pipe_read_fd;
 	int				pipe_write_fd;
 	int				type;
-	char			*cmd_name;
-	t_list			*cmd_args;
+	t_list			*simple_cmd_list;
 	t_list			*assignment_list;
 	t_list			*io_red_list;
 }	t_cmd_table;
 
 typedef struct s_final_cmd_table
 {
-	char			*cmd_name;
-	char			**cmd_args;
+	char			**simple_cmd;
+	char			*exec_path;
 	char			**assignment_array;
 	char			**envp;
 }	t_final_cmd_table;

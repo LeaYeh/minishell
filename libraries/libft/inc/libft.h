@@ -54,6 +54,7 @@ void		ft_lstadd_front_d(t_list_d **lst, t_list_d *new);
 void		ft_lstclear_d(t_list_d **lst, void (*del)(void *));
 void		ft_lstdelone_d(t_list_d *lst, void (*del)(void *));
 t_list_d	*ft_lstlast_d(t_list_d *lst);
+bool		ft_lstnew_back_d(t_list_d **lst, void *content);
 t_list_d	*ft_lstnew_d(void *content);
 
 \

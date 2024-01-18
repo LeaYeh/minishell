@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_table_operation_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:30:35 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 15:20:48 by codespace        ###   ########.fr       */
+/*   Updated: 2024/01/18 03:08:55 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 void	free_cmd_table(t_cmd_table *cmd_table)
 {
-	free(cmd_table->cmd_name);
-	ft_lstclear(&cmd_table->cmd_args, free);
+	ft_lstclear(&cmd_table->simple_cmd_list, free);
 	ft_lstclear(&cmd_table->assignment_list, free);
 	ft_lstclear(&cmd_table->io_red_list, (void *)free_io_red);
 	free(cmd_table);
@@ -37,8 +36,7 @@ t_cmd_table	*init_cmd_table(void)
 	cmd_table->pipe_write_fd = -1;
 	cmd_table->type = C_NONE;
 	cmd_table->assignment_list = NULL;
-	cmd_table->cmd_name = NULL;
-	cmd_table->cmd_args = NULL;
+	cmd_table->simple_cmd_list = NULL;
 	cmd_table->io_red_list = NULL;
 	return (cmd_table);
 }
@@ -69,7 +67,6 @@ bool	append_cmd_table_by_scenario(int token_type, t_list_d **cmd_table_list)
 
 bool	append_empty_cmd_table(t_list_d **cmd_table_list)
 {
-	t_list_d	*cmd_table_node;
 	t_list_d	*last_node;
 	t_cmd_table	*cmd_table;
 
@@ -81,9 +78,7 @@ bool	append_empty_cmd_table(t_list_d **cmd_table_list)
 		cmd_table->id = 0;
 	else
 		cmd_table->id = ((t_cmd_table *)last_node->content)->id + 1;
-	cmd_table_node = ft_lstnew_d(cmd_table);
-	if (!cmd_table_node)
+	if (!ft_lstnew_back_d(cmd_table_list, cmd_table))
 		return (free_cmd_table(cmd_table), false);
-	ft_lstadd_back_d(cmd_table_list, cmd_table_node);
 	return (true);
 }

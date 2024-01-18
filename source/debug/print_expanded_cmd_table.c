@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:40:56 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/06 13:16:28 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 03:21:05 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,12 @@ bool	expand_and_print(char **str, t_shell *shell)
 	return (true);
 }
 
-bool	print_expanded_cmd_name(t_cmd_table *cmd_table, t_shell *shell)
-{
-	printf("cmd_name:        ");
-	if (!expand_and_print(&cmd_table->cmd_name, shell))
-		return (false);
-	printf("\n");
-	return (true);
-}
-
-bool	print_expanded_cmd_args(t_cmd_table *cmd_table, t_shell *shell)
+bool	print_expanded_simple_cmd_list(t_cmd_table *cmd_table, t_shell *shell)
 {
 	t_list	*node;
 
-	printf("cmd_args:        ");
-	node = cmd_table->cmd_args;
+	printf("simple_cmd:      ");
+	node = cmd_table->simple_cmd_list;
 	while (node)
 	{
 		if (!expand_and_print((char **)&node->content, shell))
@@ -126,9 +117,7 @@ bool	print_expanded_cmd_table(t_cmd_table *cmd_table, t_shell *shell)
 	printf(STY_BLD STY_GRN "AFTER EXPANSION:\n" STY_RES);
 	printf(STY_GRN "========= %d =========\n" STY_RES, cmd_table->id);
 	printf("type:            %d\n", cmd_table->type);
-	if (!print_expanded_cmd_name(cmd_table, shell))
-		return (false);
-	if (!print_expanded_cmd_args(cmd_table, shell))
+	if (!print_expanded_simple_cmd_list(cmd_table, shell))
 		return (false);
 	if (!print_expanded_assignment_list(cmd_table, shell))
 		return (false);
