@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/10 23:58:08 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 16:20:38 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int	main(int argc, char **argv, char **env)
 	while (true)
 	{
 		if (!ft_read_input(&shell))
+		{
+			printf("\n");
 			ft_clean_and_exit_shell(&shell, EXIT_SUCCESS, NULL);
+		}
 		if (!ft_lexer(&shell) || !ft_parser(&shell))
 		{
 			reset_submodule_variable(&shell);
