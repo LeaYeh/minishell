@@ -29,12 +29,13 @@ int	handle_exit_status(int wstatus)
 // if critical error, exit current process and propagate for whole shell
 void	wait_process(t_shell *shell, int pid)
 {
+	printf("wait_process, exit_code: %d\n", shell->exit_code);
 	if (waitpid(pid, &shell->exit_status, 0) == -1)
 	{
 		shell->exit_code = UNEXPECT_EXIT;
 		return (perror(PROGRAM_NAME));
 	}
 	shell->exit_code = handle_exit_status(shell->exit_status);
-	if (shell->exit_code == GENERAL_ERROR)
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
+	if (shell->exit_code == INTERNAL_ERROR && shell->subshell_level != 0)
+		ft_clean_and_exit_shell(shell, shell->exit_code, "propagration exit");
 }

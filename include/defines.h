@@ -15,6 +15,8 @@
 
 # include <fcntl.h>
 # include <linux/limits.h>
+# include <limits.h>
+# include <sysexits.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -36,10 +38,11 @@
 # define BAD_SUBSTITUTION   2
 // # define EXPAND_ERROR       2
 # define MISUSE_BUILTIN     2
+# define INTERNAL_ERROR     42
 # define CMD_EXEC_FAILED    126
 # define CMD_NOT_FOUND      127
-# define TERM_BY_SIGNAL     128
 # define UNEXPECT_EXIT      128
+# define TERM_BY_SIGNAL     128
 # define EXIT_SIGTERM       130
 
 /* Parsing Table */
@@ -94,7 +97,11 @@
 # define ERROR_HEREDOC_UNEXPECTED_EOF		\
 "%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_EXPANDER_BAD_SUBSTITUTION	\
-"%s: %s: bad substitution\n"
+"%s: bad substitution\n"
+# define ERROR_EXIT_TOO_MANY_ARGS			\
+"%s: %s: too many arguments\n"
+# define ERROR_EXIT_NUMERIC_ARG				\
+"%s: %s: %s: numeric argument required\n"
 
 // TODO: Replace with OS error message
 # define ERROR_REMOVE_FILE 			"%s: \
