@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 20:02:02 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 23:52:07 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:21:29 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ t_final_cmd_table	*get_final_cmd_table(
 	// TODO: expand assignment array
 	if (!expand_final_cmd_table(shell, final_cmd_table))
 		return (free_final_cmd_table(&final_cmd_table), NULL);
+	// TODO: exec_path should be assigned AFTER expansion
 	if (final_cmd_table->simple_cmd[0] == NULL && final_cmd_table->assignment_array)
 		handle_assignment(shell, final_cmd_table);
 	print_final_cmd_table(final_cmd_table);

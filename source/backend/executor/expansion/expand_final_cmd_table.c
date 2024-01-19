@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 17:59:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 23:20:28 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/20 00:22:45 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,13 @@ int	expand_array(t_shell *shell, char ***array)
 	{
 		ret = ft_expander((*array)[i], &expanded_list, shell);
 		if (ret != SUCCESS)
-			return (ft_lstclear(&expanded_list, free), ret);
+		{
+			ft_lstclear(&expanded_list, free);
+			if (ret == GENERAL_ERROR)
+				return (ret);
+			else if (ret == BAD_SUBSTITUTION)
+				break ;
+		}
 		i++;
 	}
 	free_array(array);
@@ -40,7 +46,7 @@ int	expand_array(t_shell *shell, char ***array)
 bool	expand_simple_cmd(
 	t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
-	int		ret;
+	int	ret;
 
 	ret = expand_array(shell, &final_cmd_table->simple_cmd);
 	if (ret == GENERAL_ERROR)
