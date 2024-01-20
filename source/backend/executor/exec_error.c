@@ -12,16 +12,18 @@
 
 #include "defines.h"
 
-bool	check_executable(char *filename)
+bool	check_executable(t_shell *shell, char *filename)
 {
 	if (access(filename, F_OK) != 0)
 	{
+		shell->exit_code = CMD_NOT_FOUND;
 		ft_dprintf(2, "%s: %s: command not found\n",
 			PROGRAM_NAME, filename);
 		return (false);
 	}
 	else if (access(filename, X_OK) != 0)
 	{
+		shell->exit_code = CMD_EXEC_FAILED;
 		ft_dprintf(2, "%s: %s: ", PROGRAM_NAME, filename);
 		perror("");
 		return (false);

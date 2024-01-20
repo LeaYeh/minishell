@@ -30,7 +30,7 @@ void	handle_builtin(t_shell *shell,
 			t_list_d **cmd_table_node, t_final_cmd_table *final_cmd_table);
 
 /* Error checker */
-bool	check_executable(char *filename);
+bool	check_executable(t_shell *shell, char *filename);
 bool	check_file(char *filename, int o_flag, int permission);
 
 /* Utils */

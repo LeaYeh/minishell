@@ -5,7 +5,7 @@
 void	handle_external_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
 	// TODO: need to bind the fds to stdin and stdout, if bind failed then exit
-	if (!check_executable(final_cmd_table->exec_path))
+	if (!check_executable(shell, final_cmd_table->exec_path))
 	{
 		free_final_cmd_table(&final_cmd_table);
 		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
