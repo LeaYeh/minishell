@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/18 16:41:10 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/20 02:29:25 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@
  * [x] Assign NULL when executor should do nothing, and empty string for errors.
  * [x] Report %s: bad substitution
  * [x] Handle this case: "$'$USER'" -> $'ldulling'
+ * [ ] Word Splitting
  *
 */
 
@@ -161,6 +162,8 @@ int	ft_expander(char *str, t_list **lst, t_shell *shell)
 		return (free(dup), SUCCESS);
 	if (!quote_removal(&dup))
 		return (free(dup), GENERAL_ERROR);
+	// TODO: Potentially split into multiple nodes by whitespace here.
+	// The keyword in the bash manual is "Word Splitting".
 	if (!ft_lstnew_back(lst, dup))
 		return (free(dup), GENERAL_ERROR);
 	return (SUCCESS);

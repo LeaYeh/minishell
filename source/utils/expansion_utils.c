@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_final_cmd_table.c                           :+:      :+:    :+:   */
+/*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/14 17:59:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/20 00:22:45 by ldulling         ###   ########.fr       */
+/*   Created: 2024/01/20 01:17:55 by ldulling          #+#    #+#             */
+/*   Updated: 2024/01/20 01:23:59 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "executor.h"
 #include "expander.h"
 #include "utils.h"
+
+int	expand_list(t_shell *shell, t_list *list, t_list **expanded_list)
+{
+	int		ret;
+
+	ret = SUCCESS;
+	while (list && ret == SUCCESS)
+	{
+		ret = ft_expander(list->content, expanded_list, shell);
+		list = list->next;
+	}
+	return (ret);
+}
 
 int	expand_array(t_shell *shell, char ***array)
 {
@@ -40,30 +52,5 @@ int	expand_array(t_shell *shell, char ***array)
 	ft_lstclear(&expanded_list, free);
 	if (!*array)
 		return (GENERAL_ERROR);
-	return (SUCCESS);
-}
-
-bool	expand_simple_cmd(
-	t_shell *shell, t_final_cmd_table *final_cmd_table)
-{
-	int	ret;
-
-	ret = expand_array(shell, &final_cmd_table->simple_cmd);
-	if (ret == GENERAL_ERROR)
-		return (false);
-	return (true);
-}
-
-// if true...
-// 		string=string, *list = one element list (except wildcard)
-// if false...
-// 		general error, string=NULL, *list = NULL
-// 		expander error, string=string, *list = NULL
-bool	expand_final_cmd_table(
-	t_shell *shell, t_final_cmd_table *final_cmd_table)
-{
-	// TODO: Still need to handle impact of expander error on process execution
-	if (!expand_simple_cmd(shell, final_cmd_table))
-		return (false);
-	return (true);
+	return (ret);
 }

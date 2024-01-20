@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 23:09:50 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/20 01:19:35 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ t_final_cmd_table	*init_final_cmd_table(
 void				free_final_cmd_table(t_final_cmd_table **final_cmd_table);
 t_final_cmd_table	*get_final_cmd_table(t_shell *shell,
 						t_cmd_table *cmd_table);
+
+/* Expansion utils */
+int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list);
+int			expand_array(t_shell *shell, char ***array);
 
 /* Array utils */
 void		free_array(char ***array);

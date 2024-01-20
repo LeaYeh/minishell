@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 20:02:02 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/19 17:21:29 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/20 02:20:56 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,25 @@
 #include "utils.h"
 #include "debug.h"
 
-bool	setup_simple_cmd(t_final_cmd_table *final_cmd_table, t_list *simple_cmd_list)
+bool	setup_simple_cmd(
+			t_shell *shell,
+			t_final_cmd_table *final_cmd_table,
+			t_list *simple_cmd_list)
 {
+	int		ret;
+	t_list	*expanded_list;
+
 	final_cmd_table->simple_cmd = NULL;
 	if (!simple_cmd_list)
 		return (true);
-	final_cmd_table->simple_cmd = convert_list_to_string_array(simple_cmd_list);
+	expanded_list = NULL;
+	ret = expand_list(shell, simple_cmd_list, &expanded_list);
+	if (ret == GENERAL_ERROR)
+		return (ft_lstclear(&expanded_list, free), false);
+	else if (ret == BAD_SUBSTITUTION)
+		ft_lstclear(&expanded_list, free);
+	final_cmd_table->simple_cmd = convert_list_to_string_array(expanded_list);
+	ft_lstclear(&expanded_list, free);
 	if (!final_cmd_table->simple_cmd)
 		return (false);
 	return (true);
@@ -29,7 +42,7 @@ bool	setup_simple_cmd(t_final_cmd_table *final_cmd_table, t_list *simple_cmd_lis
 bool	setup_exec_path(t_final_cmd_table *final_cmd_table)
 {
 	if (is_builtin(final_cmd_table->simple_cmd[0]) || \
-		!final_cmd_table->simple_cmd[0]) // What if it will expand to nothing and only the next word is a builtin?
+		!final_cmd_table->simple_cmd[0]) //? What if it will expand to nothing and only the next word is a builtin?
 	{
 		final_cmd_table->exec_path = NULL;
 		return (true);
@@ -42,7 +55,8 @@ bool	setup_exec_path(t_final_cmd_table *final_cmd_table)
 }
 
 bool	setup_assignment(
-	t_final_cmd_table *final_cmd_table, t_list *assignment_list)
+			t_final_cmd_table *final_cmd_table,
+			t_list *assignment_list)
 {
 	final_cmd_table->assignment_array = NULL;
 	if (!assignment_list)
@@ -92,7 +106,7 @@ t_final_cmd_table	*init_final_cmd_table(
 	if (!final_cmd_table)
 		return (NULL);
 	if (!setup_env(final_cmd_table, shell->env_list) || \
-		!setup_simple_cmd(final_cmd_table, cmd_table->simple_cmd_list) || \
+		!setup_simple_cmd(shell, final_cmd_table, cmd_table->simple_cmd_list) || \
 		!setup_exec_path(final_cmd_table) || \
 		!setup_assignment(final_cmd_table, cmd_table->assignment_list))
 		return (free_final_cmd_table(&final_cmd_table), NULL);
@@ -108,23 +122,17 @@ void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
 	ft_free_and_null((void **)final_cmd_table);
 }
 
-t_final_cmd_table	*get_final_cmd_table(
-						t_shell *shell,
-						t_cmd_table *cmd_table)
+t_final_cmd_table	*get_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 {
 	t_final_cmd_table	*final_cmd_table;
 
-	// Maybe expansion should happen before the init of the rest of the final_cmd_table
 	final_cmd_table = init_final_cmd_table(shell, cmd_table);
 	if (!final_cmd_table)
 		return (NULL);
 	// TODO: expand assignment array
-	if (!expand_final_cmd_table(shell, final_cmd_table))
-		return (free_final_cmd_table(&final_cmd_table), NULL);
-	// TODO: exec_path should be assigned AFTER expansion
 	if (final_cmd_table->simple_cmd[0] == NULL && final_cmd_table->assignment_array)
 		handle_assignment(shell, final_cmd_table);
-	print_final_cmd_table(final_cmd_table);
+	// print_final_cmd_table(final_cmd_table);
 	// do assginments
 	// do redirections
 	return (final_cmd_table);

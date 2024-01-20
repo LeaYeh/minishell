@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:04:52 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 02:07:27 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/19 22:48:58 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
 	if (is_builtin(final_cmd_table->simple_cmd[0]) && \
 		!is_scmd_in_pipeline(*cmd_table_node))
 	{
+		print_final_cmd_table(final_cmd_table);
 		handle_builtin(shell, cmd_table_node, final_cmd_table);
 		free_final_cmd_table(&final_cmd_table);
 	}
