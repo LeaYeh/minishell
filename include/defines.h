@@ -34,6 +34,7 @@
 /* Error codes */
 # define SUCCESS            0
 # define EXIT_SUCCESS       0
+
 # define BAD_SUBSTITUTION   2
 # define MISUSE_BUILTIN     2
 # define CMD_EXEC_FAILED    126
@@ -41,8 +42,8 @@
 # define UNEXPECT_EXIT      128
 # define TERM_BY_SIGNAL     128
 # define EXIT_SIGTERM       130
-# define PREPROCESS_ERROR   160
-# define SUBSHELL_ERROR     161
+# define PREPROCESS_ERROR   195
+# define SUBSHELL_ERROR     196
 
 /* Parsing Table */
 # define PT_COL_SIZE        5
