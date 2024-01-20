@@ -155,16 +155,16 @@ int	ft_expander(char *str, t_list **lst, t_shell *shell)
 		return (BAD_SUBSTITUTION);
 	dup = ft_strdup(str);
 	if (!dup)
-		return (GENERAL_ERROR);
+		return (SUBSHELL_ERROR);
 	if (!parameter_expansion(&dup, shell))
-		return (free(dup), GENERAL_ERROR);
+		return (free(dup), SUBSHELL_ERROR);
 	if (!*dup)
 		return (free(dup), SUCCESS);
 	if (!quote_removal(&dup))
-		return (free(dup), GENERAL_ERROR);
+		return (free(dup), SUBSHELL_ERROR);
 	// TODO: Potentially split into multiple nodes by whitespace here.
 	// The keyword in the bash manual is "Word Splitting".
 	if (!ft_lstnew_back(lst, dup))
-		return (free(dup), GENERAL_ERROR);
+		return (free(dup), SUBSHELL_ERROR);
 	return (SUCCESS);
 }
