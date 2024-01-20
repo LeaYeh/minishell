@@ -29,7 +29,7 @@ void	exec_builtin_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "export") == 0)
 		shell->exit_code = 123;
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") == 0)
-		shell->exit_code = 123;
+		exec_exit(shell, final_cmd_table);
 }
 
 void	handle_builtin(t_shell *shell,

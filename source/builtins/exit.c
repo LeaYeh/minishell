@@ -2,89 +2,45 @@
 #include "utils.h"
 #include "clean.h"
 
-bool	is_sign(char c)
+void	handle_too_many_args(t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
-	if (c == '+' || c == '-')
-		return (true);
-	return (false);
-}
-
-bool	valid_number(char *str)
-{
-	int	i;
-
-	if (!str)
-		return (false);
-	i = 0;
-	while (str[i])
+	if (shell->subshell_level == 0)
+		printf("exit\n");
+	ft_dprintf(2, ERROR_EXIT_TOO_MANY_ARGS, PROGRAM_NAME, "exit");
+	if (shell->subshell_level != 0)
 	{
-		if (ft_isdigit(str[i]) || \
-			(ft_strlen(str) > 1 && i == 0 && is_sign(str[i])))
-			i++;
-		else
-			return (false);
+		free_final_cmd_table(&final_cmd_table);
+		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 	}
-	return (true);
 }
 
-bool	is_overflow(char *str)
+void	handle_general_exit(t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
-	if ((long long)ft_atof(str) > LLONG_MAX || \
-		(long long)ft_atof(str) < LLONG_MIN)
-		return (true);
-	return (false);
-}
-
-int	get_args_error(char **args)
-{
-	int	type;
-	int	i;
-
-	if (!args)
-		return (NO_ARGS);
-	type = NORM_ARGS;
-	if (!valid_number(args[0]) || is_overflow(args[0]))
-		type = NOT_NUMERIC;
-	if (get_array_len(args) > 1)
-	{
-		type = TOO_MANY_ARGS;
-		i = 1;
-		while (args[i])
-		{
-			if (!valid_number(args[i]) || is_overflow(args[i]))
-			{
-				type = NOT_NUMERIC;
-				break ;
-			}
-			i++;
-		}
-	}
-	return (type);
+	if (shell->subshell_level == 0)
+		printf("exit\n");
+	if (shell->exit_code == NOT_NUMERIC)
+		ft_dprintf(2, ERROR_EXIT_NUMERIC_ARG,
+			PROGRAM_NAME, "exit", final_cmd_table->simple_cmd[1]);
+	free_final_cmd_table(&final_cmd_table);
+	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
 void	exec_exit(t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
 	int		args_error;
-	int		exit_code;
 	char	**args;
 
-	args = final_cmd_table->cmd_args;
+	args = &final_cmd_table->simple_cmd[1];
 	args_error = get_args_error(args);
-	if (args_error == NORM_ARGS)
-		exit_code = ((long long)ft_atof(args[0])) % 256;
+	if (args_error == NO_ARGS)
+		shell->exit_code = SUCCESS;
+	else if (args_error == NORM_ARGS)
+		shell->exit_code = ((long long)ft_atof(args[0])) % 256;
 	else
-		exit_code = args_error;
-	printf("args_error: %d\n", args_error);
-	printf("exit_code: %d\n", exit_code);
-	printf("exit\n");
+		shell->exit_code = args_error;
 	if (args_error != TOO_MANY_ARGS)
-	{
-		if (args_error == NOT_NUMERIC)
-			ft_dprintf(2,
-				ERROR_EXIT_NUMERIC_ARG, PROGRAM_NAME, "exit", args[0]);
-		free_final_cmd_table(&final_cmd_table);
-		ft_clean_and_exit_shell(shell, exit_code, "triggered exit");
-	}
+		handle_general_exit(shell, final_cmd_table);
 	else
-		ft_dprintf(2, ERROR_EXIT_TOO_MANY_ARGS, PROGRAM_NAME, "exit");
+		handle_too_many_args(shell, final_cmd_table);
+
 }
