@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_cmd_table.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:46:53 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/30 20:04:04 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 03:20:40 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	print_io_red_list(t_list *io_red_list)
 	printf("(NULL)\n");
 }
 
-void	print_cmd_args_list(t_list *cmd_args)
+void	print_simple_cmd_list(t_list *simple_cmd_list)
 {
 	t_list	*node;
 
-	printf("cmd_args:        ");
-	node = cmd_args;
+	printf("simple_cmd:      ");
+	node = simple_cmd_list;
 	while (node && node->content)
 	{
 		printf("%s -> ", (char *)node->content);
@@ -67,8 +67,7 @@ void	print_assignment_list(t_list *assignment_list)
 void	print_cmd_table(t_cmd_table *cmd_table)
 {
 	printf("type:            %d\n", cmd_table->type);
-	printf("cmd_name:        %s\n", cmd_table->cmd_name);
-	print_cmd_args_list(cmd_table->cmd_args);
+	print_simple_cmd_list(cmd_table->simple_cmd_list);
 	print_assignment_list(cmd_table->assignment_list);
 	print_io_red_list(cmd_table->io_red_list);
 }

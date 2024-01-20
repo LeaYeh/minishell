@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/06 20:33:10 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 01:54:09 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void		ft_lstadd_front_d(t_list_d **lst, t_list_d *new);
 void		ft_lstclear_d(t_list_d **lst, void (*del)(void *));
 void		ft_lstdelone_d(t_list_d *lst, void (*del)(void *));
 t_list_d	*ft_lstlast_d(t_list_d *lst);
+bool		ft_lstnew_back_d(t_list_d **lst, void *content);
 t_list_d	*ft_lstnew_d(void *content);
 
 \
@@ -72,6 +73,7 @@ bool		ft_lstnew_back(t_list **lst, void *content);
 t_list		*ft_lstpop_front(t_list **lst);
 void		*ft_lstpop_front_content(t_list **lst);
 int			ft_lstsize(t_list *lst);
+int			ft_lstsize_non_null(t_list *lst);
 void		ft_lstsort_bubble(t_list **lst, void *(*cmp)(void *, void *));
 void		ft_lstswap_head(t_list **lst);
 

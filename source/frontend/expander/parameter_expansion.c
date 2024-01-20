@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 00:34:37 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/03 15:21:48 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:18:30 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ bool	parameter_expansion(char **str, t_shell *shell)
 		if (!(*str)[i])
 			break ;
 		if (!expand_parameter(str, &i, shell))
-			return (false);
+			return (is_open_pair('"', RESET), false);
 	}
+	is_open_pair('"', RESET);
 	return (true);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:05:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 21:14:13 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/20 01:27:52 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,16 @@ bool	ft_heredoc(t_list_d *cmd_table_list);
 
 void	handle_process(t_shell *shell, t_list_d *cmd_table_node);
 void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node);
-void    handle_control_op(t_shell *shell, t_list_d **cmd_table_node);
+void	handle_control_op(t_shell *shell, t_list_d **cmd_table_node);
 void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_list);
 void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_list);
-void    handle_builtin(t_shell *shell, t_list_d **cmd_table_node);
+void	handle_assignment(t_shell *shell, t_final_cmd_table *final_cmd_table);
+void	handle_external_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table);
+void	handle_builtin(t_shell *shell,
+			t_list_d **cmd_table_node, t_final_cmd_table *final_cmd_table);
 
 /* Error checker */
-bool	check_executable(char *filename);
+bool	check_executable(t_shell *shell, char *filename);
 bool	check_file(char *filename, int o_flag, int permission);
 
 /* Utils */

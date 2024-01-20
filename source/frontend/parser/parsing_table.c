@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_table.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 16:27:22 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/05 18:01:49 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 04:49:22 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ t_pt_node	*init_pt_node(const int pt_row[])
 {
 	t_pt_node	*pt_node;
 
-	pt_node = malloc(sizeof(t_pt_node));
+	pt_node = (t_pt_node *)malloc(sizeof(t_pt_node));
 	if (!pt_node)
 		return (NULL);
 	pt_node->state = pt_row[PT_COL_STATE];

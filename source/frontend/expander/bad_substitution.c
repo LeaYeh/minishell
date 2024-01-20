@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 20:58:09 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/04 15:23:21 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:11:23 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ bool	check_braces(char *str, size_t *i)
 
 void	prepare_error_msg(char *str, size_t *i)
 {
+	char	*occurrence;
+
 	if (is_open_pair('"', GET))
 	{
-		*ft_strchr(&str[*i], '"') = '\0';
+		occurrence = ft_strchr(&str[*i], '"');
+		if (occurrence)
+			*occurrence = '\0';
 		while (str[*i - 1] != '"')
 			(*i)--;
 	}
@@ -53,14 +57,17 @@ bool	bad_substitution(char *str)
 	{
 		skip_to_dollar_not_in_single_quotes(str, &i);
 		if (!str[i])
-			return (false);
+			break ;
 		i++;
 		if (!check_braces(str, &i))
 		{
 			prepare_error_msg(str, &i);
-			ft_dprintf(STDERR_FILENO, ERROR_EXPANDER_BAD_SUBSTITUTION, &str[i]);
+			ft_dprintf(STDERR_FILENO, ERROR_EXPANDER_BAD_SUBSTITUTION,
+				PROGRAM_NAME, &str[i]);
+			is_open_pair('"', RESET);
 			return (true);
 		}
 	}
+	is_open_pair('"', RESET);
 	return (false);
 }

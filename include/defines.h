@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 20:28:15 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 23:46:08 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,15 @@
 # include "libft.h"
 # include "ft_printf.h"
 
-# define PROGRAM_NAME       "minishell"
+// # define PROGRAM_NAME       "🌊rash"
+# define PROGRAM_NAME       "\e[1;34m🌊rash\e[0m"
 
 /* Error codes */
+# define SUCCESS            0
 # define EXIT_SUCCESS       0
 # define GENERAL_ERROR      1
+# define BAD_SUBSTITUTION   2
+// # define EXPAND_ERROR       2
 # define MISUSE_BUILTIN     2
 # define CMD_EXEC_FAILED    126
 # define CMD_NOT_FOUND      127
@@ -68,9 +72,9 @@
 # define STY_RES				"\e[0m"
 
 // TODO: Remove the color codes from the prompt before the evaluations
-// # define PROMPT "\033[0;34m🌊>\033[0m"
-# define PROMPT				"\033[1;32mminishell$ \033[0m"
-# define HEREDOC_PROMPT		"\033[1;37m> \033[0m"
+# define PROMPT "\e[1;34m🌊rash$ \e[0m"
+// # define PROMPT				"\e[1;32mminishell$ \e[0m"
+# define HEREDOC_PROMPT		"\e[1;37m> \e[0m"
 // # define PROMPT				"\001\033[1;32m\002minishell$ \001\033[0m\002"
 // # define PROMPT				"minishell$ "
 
@@ -90,7 +94,7 @@
 # define ERROR_HEREDOC_UNEXPECTED_EOF		\
 "%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_EXPANDER_BAD_SUBSTITUTION	\
-"%s: bad substitution\n"
+"%s: %s: bad substitution\n"
 
 // TODO: Replace with OS error message
 # define ERROR_REMOVE_FILE 			"%s: \
@@ -231,16 +235,16 @@ typedef struct s_cmd_table
 	int				pipe_read_fd;
 	int				pipe_write_fd;
 	int				type;
-	char			*cmd_name;
-	t_list			*cmd_args;
+	t_list			*simple_cmd_list;
 	t_list			*assignment_list;
 	t_list			*io_red_list;
 }	t_cmd_table;
 
 typedef struct s_final_cmd_table
 {
-	char			*cmd_name;
-	char			**cmd_args;
+	char			**simple_cmd;
+	char			*exec_path;
+	char			**assignment_array;
 	char			**envp;
 }	t_final_cmd_table;
 

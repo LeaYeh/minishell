@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/15 16:15:32 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/20 01:19:35 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ bool		append_cmd_table_by_scenario(
 t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node);
 int			get_cmd_table_type_from_list(t_list_d *cmd_table_list);
 bool		is_control_op_cmd_table(int cmd_table_type);
-bool		is_builtin(t_cmd_table *cmd_table);
+bool		is_builtin(char *cmd_name);
 bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);
 void		move_past_subshell(t_list_d **cmd_table_node);
 void		move_past_pipeline(t_list_d **cmd_table_node);
@@ -55,10 +55,15 @@ void				free_final_cmd_table(t_final_cmd_table **final_cmd_table);
 t_final_cmd_table	*get_final_cmd_table(t_shell *shell,
 						t_cmd_table *cmd_table);
 
+/* Expansion utils */
+int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list);
+int			expand_array(t_shell *shell, char ***array);
+
 /* Array utils */
-void		free_array(char **array);
+void		free_array(char ***array);
 int			get_array_len(char **arr);
 char		**convert_list_to_string_array(t_list *list);
+char		**append_string_array(char **array, char *str);
 
 /* Process utils */
 void		wait_process(t_shell *shell, int pid);

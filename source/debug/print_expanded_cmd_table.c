@@ -6,29 +6,26 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:40:56 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/06 13:16:28 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:41:46 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug.h"
 #include "expander.h"
 
-bool	expand_and_print(char **str, t_shell *shell)
+bool	expand_and_print(char *str, t_shell *shell)
 {
 	t_list	*expanded_list;
 	t_list	*cur;
+	int		ret;
 
 	expanded_list = NULL;
-	if (!ft_expander(str, &expanded_list, shell))
-	{
-		if (!*str)
-		{
-			printf("%s", *str);
-			return (false);
-		}
-		printf(STY_RED "Expander error." STY_RES);
-	}
-	if (!expanded_list)
+	ret = ft_expander(str, &expanded_list, shell);
+	if (ret == GENERAL_ERROR)
+		return (printf("malloc failed in expander"), false);
+	if (ret == BAD_SUBSTITUTION)
+		printf(STY_RED "Bad substitution." STY_RES);
+	else if (!expanded_list)
 		return (printf("(NULL)"), true);
 	cur = expanded_list;
 	while (cur)
@@ -41,24 +38,15 @@ bool	expand_and_print(char **str, t_shell *shell)
 	return (true);
 }
 
-bool	print_expanded_cmd_name(t_cmd_table *cmd_table, t_shell *shell)
-{
-	printf("cmd_name:        ");
-	if (!expand_and_print(&cmd_table->cmd_name, shell))
-		return (false);
-	printf("\n");
-	return (true);
-}
-
-bool	print_expanded_cmd_args(t_cmd_table *cmd_table, t_shell *shell)
+bool	print_expanded_simple_cmd_list(t_cmd_table *cmd_table, t_shell *shell)
 {
 	t_list	*node;
 
-	printf("cmd_args:        ");
-	node = cmd_table->cmd_args;
+	printf("simple_cmd:      ");
+	node = cmd_table->simple_cmd_list;
 	while (node)
 	{
-		if (!expand_and_print((char **)&node->content, shell))
+		if (!expand_and_print(node->content, shell))
 			return (false);
 		printf(" -> ");
 		node = node->next;
@@ -75,7 +63,7 @@ bool	print_expanded_assignment_list(t_cmd_table *cmd_table, t_shell *shell)
 	node = cmd_table->assignment_list;
 	while (node)
 	{
-		if (!expand_and_print((char **)&node->content, shell))
+		if (!expand_and_print(node->content, shell))
 			return (false);
 		printf(" -> ");
 		node = node->next;
@@ -97,13 +85,13 @@ bool	print_expanded_io_red_list(t_cmd_table *cmd_table, t_shell *shell)
 		io_red = (t_io_red *)node->content;
 		printf("\ttype:     %d", io_red->type);
 		printf("\n\tin_file:  ");
-		if (!expand_and_print(&io_red->in_file, shell))
+		if (!expand_and_print(io_red->in_file, shell))
 			return (false);
 		printf("\n\tout_file: ");
-		if (!expand_and_print(&io_red->out_file, shell))
+		if (!expand_and_print(io_red->out_file, shell))
 			return (false);
 		printf("\n\there_end: ");
-		if (!expand_and_print(&io_red->here_end, shell))
+		if (!expand_and_print(io_red->here_end, shell))
 			return (false);
 		printf("\n\tred_in:  %d", io_red->red_in);
 		printf("\n\tred_out: %d", io_red->red_out);
@@ -126,9 +114,7 @@ bool	print_expanded_cmd_table(t_cmd_table *cmd_table, t_shell *shell)
 	printf(STY_BLD STY_GRN "AFTER EXPANSION:\n" STY_RES);
 	printf(STY_GRN "========= %d =========\n" STY_RES, cmd_table->id);
 	printf("type:            %d\n", cmd_table->type);
-	if (!print_expanded_cmd_name(cmd_table, shell))
-		return (false);
-	if (!print_expanded_cmd_args(cmd_table, shell))
+	if (!print_expanded_simple_cmd_list(cmd_table, shell))
 		return (false);
 	if (!print_expanded_assignment_list(cmd_table, shell))
 		return (false);

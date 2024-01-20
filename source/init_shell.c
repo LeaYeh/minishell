@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/10 18:07:06 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/18 04:50:02 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,14 @@
 bool	ft_append_env(t_shell *shell, char *key, char *value)
 {
 	t_env	*env_node;
-	t_list	*lst_node;
 
 	env_node = (t_env *)malloc(sizeof(t_env));
 	if (!env_node)
 		return (false);
 	env_node->key = key;
 	env_node->value = value;
-	lst_node = ft_lstnew(env_node);
-	if (!lst_node)
+	if (!ft_lstnew_back(&shell->env_list, env_node))
 		return (free_env_node(env_node), false);
-	ft_lstadd_back(&shell->env_list, lst_node);
 	return (true);
 }
 
