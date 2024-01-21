@@ -30,7 +30,7 @@ void	exec_exit(t_shell *shell, t_final_cmd_table *final_cmd_table)
 	if (args_error == NO_ARGS)
 		shell->exit_code = SUCCESS;
 	else if (args_error == NORM_ARGS)
-		shell->exit_code = ((long long)ft_atof(args[0])) % 256;
+		shell->exit_code = (ft_atol(args[0])) % 256;
 	else
 		shell->exit_code = args_error;
 	handle_exit(shell, final_cmd_table, args_error);
