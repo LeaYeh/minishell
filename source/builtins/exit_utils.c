@@ -33,11 +33,11 @@ bool	is_atol_overflow(char *str)
 	int		i;
 	char	*long_max;
 
+	i = 0;
 	if (str[i] == '-')
 		long_max = "9223372036854775808";
 	else
 		long_max = "9223372036854775807";
-	i = 0;
 	if (is_sign(str[i]))
 		i++;
 	while (str[i] == '0')
