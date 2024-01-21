@@ -13,7 +13,7 @@ bool	valid_number(char *str)
 {
 	int	i;
 
-	if (!str || ft_strlen(str) > 19)
+	if (!str)
 		return (false);
 	i = 0;
 	if (ft_strlen(str) > 1 && is_sign(str[i]))
@@ -28,12 +28,24 @@ bool	valid_number(char *str)
 	return (true);
 }
 
-bool	is_overflow(char *str)
+bool	is_atol_overflow(char *str)
 {
-	if (ft_atof(str) > (double)LLONG_MAX || \
-		ft_atof(str) < (double)LLONG_MIN)
-		return (true);
-	return (false);
+	int		i;
+	char	*long_max;
+
+	if (str[i] == '-')
+		long_max = "9223372036854775808";
+	else
+		long_max = "9223372036854775807";
+	i = 0;
+	if (is_sign(str[i]))
+		i++;
+	while (str[i] == '0')
+		i++;
+	if (ft_strlen(&str[i]) < ft_strlen(long_max) || \
+		ft_strcmp(&str[i], long_max) <= 0)
+		return (false);
+	return (true);
 }
 
 int	get_args_error(char **args)
@@ -44,7 +56,7 @@ int	get_args_error(char **args)
 	if (!*args)
 		return (NO_ARGS);
 	type = NORM_ARGS;
-	if (!valid_number(args[0]) || is_overflow(args[0]))
+	if (!valid_number(args[0]) || is_atol_overflow(args[0]))
 		type = NOT_NUMERIC;
 	else if (get_array_len(args) > 1)
 	{
