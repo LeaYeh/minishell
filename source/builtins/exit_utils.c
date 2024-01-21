@@ -13,7 +13,7 @@ bool	valid_number(char *str)
 {
 	int	i;
 
-	if (!str)
+	if (!str || ft_strlen(str) > 19)
 		return (false);
 	i = 0;
 	if (ft_strlen(str) > 1 && is_sign(str[i]))
@@ -30,8 +30,8 @@ bool	valid_number(char *str)
 
 bool	is_overflow(char *str)
 {
-	if ((long long)ft_atof(str) > LLONG_MAX || \
-		(long long)ft_atof(str) < LLONG_MIN)
+	if (ft_atof(str) > (double)LLONG_MAX || \
+		ft_atof(str) < (double)LLONG_MIN)
 		return (true);
 	return (false);
 }
