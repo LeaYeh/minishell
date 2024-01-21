@@ -21,18 +21,18 @@ bool	ft_lexer(t_shell *shell)
 	if (!create_token_data_list(&token_data_list, shell->input_line))
 	{
 		ft_lstclear(&token_data_list, free);
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR, "lexer malloc failed");
+		ft_clean_and_exit_shell(shell, PREPROCESS_ERROR, "lexer malloc failed");
 	}
 	if (!token_data_list)
 		return (false);
 	if (!create_token_list(&shell->token_list, &token_data_list))
 	{
 		ft_lstclear(&token_data_list, free);
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR, "lexer malloc failed");
+		ft_clean_and_exit_shell(shell, PREPROCESS_ERROR, "lexer malloc failed");
 	}
 	set_token_type(shell->token_list);
 	finetune_token_list(shell->token_list);
 	if (!add_end_node(&shell->token_list))
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR, "lexer malloc failed");
+		ft_clean_and_exit_shell(shell, PREPROCESS_ERROR, "lexer malloc failed");
 	return (true);
 }

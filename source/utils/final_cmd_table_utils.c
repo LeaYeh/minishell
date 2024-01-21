@@ -28,7 +28,7 @@ bool	setup_simple_cmd(
 		return (true);
 	expanded_list = NULL;
 	ret = expand_list(shell, simple_cmd_list, &expanded_list);
-	if (ret == GENERAL_ERROR)
+	if (ret == SUBSHELL_ERROR)
 		return (ft_lstclear(&expanded_list, free), false);
 	else if (ret == BAD_SUBSTITUTION)
 		ft_lstclear(&expanded_list, free);

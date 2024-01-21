@@ -40,7 +40,7 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	final_cmd_table = get_final_cmd_table(shell, cmd_table);
 	if (!final_cmd_table)
 		ft_clean_and_exit_shell(
-			shell, GENERAL_ERROR, "get_final_cmd_table failed");
+			shell, SUBSHELL_ERROR, "get_final_cmd_table failed");
 	print_final_cmd_table(final_cmd_table);
 	if (final_cmd_table->simple_cmd[0] == NULL)
 		printf("\n");
@@ -59,7 +59,7 @@ void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
 		ft_clean_and_exit_shell(
-			shell, GENERAL_ERROR, "handle_simple_cmd, fork failed");
+			shell, SUBSHELL_ERROR, "handle_simple_cmd, fork failed");
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;

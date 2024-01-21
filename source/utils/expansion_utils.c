@@ -40,7 +40,7 @@ int	expand_array(t_shell *shell, char ***array)
 		if (ret != SUCCESS)
 		{
 			ft_lstclear(&expanded_list, free);
-			if (ret == GENERAL_ERROR)
+			if (ret == SUBSHELL_ERROR)
 				return (ret);
 			else if (ret == BAD_SUBSTITUTION)
 				break ;
@@ -51,6 +51,6 @@ int	expand_array(t_shell *shell, char ***array)
 	*array = convert_list_to_string_array(expanded_list);
 	ft_lstclear(&expanded_list, free);
 	if (!*array)
-		return (GENERAL_ERROR);
+		return (SUBSHELL_ERROR);
 	return (ret);
 }

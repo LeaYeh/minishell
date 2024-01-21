@@ -69,7 +69,7 @@ bool	parse(t_shell *shell, t_parser_data *parser_data)
 		{
 			free_parser_data(parser_data);
 			ft_clean_and_exit_shell(
-				shell, GENERAL_ERROR, "parser malloc failed");
+				shell, PREPROCESS_ERROR, "parser malloc failed");
 		}
 		if (!pt_entry)
 			return (report_syntax_error(parser_data), false);
@@ -80,7 +80,7 @@ bool	parse(t_shell *shell, t_parser_data *parser_data)
 			free(pt_entry);
 			free_parser_data(parser_data);
 			ft_clean_and_exit_shell(
-				shell, GENERAL_ERROR, "parser malloc failed");
+				shell, PREPROCESS_ERROR, "parser malloc failed");
 		}
 		ft_free_and_null((void **)&pt_entry);
 	}
@@ -105,7 +105,8 @@ bool	ft_parser(t_shell *shell)
 	t_parser_data	parser_data;
 
 	if (!init_parser_data(&parser_data, shell->token_list))
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR, "parser malloc failed");
+		ft_clean_and_exit_shell(
+			shell, PREPROCESS_ERROR, "parser malloc failed");
 	if (!parse(shell, &parser_data))
 		return (free_parser_data(&parser_data), false);
 	free_parser_data(&parser_data);
@@ -113,7 +114,7 @@ bool	ft_parser(t_shell *shell)
 	shell->cmd_table_list = build_cmd_table_list(shell->token_list);
 	if (!shell->cmd_table_list)
 		ft_clean_and_exit_shell(
-			shell, GENERAL_ERROR, "build cmd table malloc failed");
+			shell, PREPROCESS_ERROR, "build cmd table malloc failed");
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	return (true);
 }

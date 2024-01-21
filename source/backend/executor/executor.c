@@ -23,7 +23,7 @@ void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
 	final_cmd_table = get_final_cmd_table(shell, (*cmd_table_node)->content);
 	if (!final_cmd_table)
 		ft_clean_and_exit_shell(
-			shell, GENERAL_ERROR, "final cmd table malloc failed");
+			shell, PREPROCESS_ERROR, "final cmd table malloc failed");
 	if (is_builtin(final_cmd_table->simple_cmd[0]) && \
 		!is_scmd_in_pipeline(*cmd_table_node))
 	{
@@ -54,8 +54,8 @@ void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
 		else if (cmd_table->type == C_SUBSHELL_START)
 			handle_pipeline(shell, &cmd_table_node);
 		else
-			ft_clean_and_exit_shell(
-				shell, GENERAL_ERROR, "handle process, unknown command type");
+			ft_clean_and_exit_shell(shell,
+				PREPROCESS_ERROR, "handle process, unknown command type");
 	}
 }
 
@@ -63,6 +63,7 @@ void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
 void	ft_executor(t_shell *shell)
 {
 	if (!ft_heredoc(shell->cmd_table_list))
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR, "heredoc malloc failed");
+		ft_clean_and_exit_shell(
+			shell, PREPROCESS_ERROR, "heredoc malloc failed");
 	handle_process(shell, shell->cmd_table_list);
 }
