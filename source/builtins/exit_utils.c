@@ -41,7 +41,7 @@ int	get_args_error(char **args)
 	int	type;
 	// int	i;
 
-	if (args && !*args)
+	if (!*args)
 		return (NO_ARGS);
 	type = NORM_ARGS;
 	if (!valid_number(args[0]) || is_overflow(args[0]))
