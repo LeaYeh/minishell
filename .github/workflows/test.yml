@@ -73,7 +73,7 @@ jobs:
       # Can fail the job
     - name: Show the regressions between PR and main
       if: steps.comparison.outcome == 'failure'
-      run: diff $HOME/main_test_result.txt $HOME/pr_test_result.txt || true
+      run: diff $HOME/main_test_result.txt $HOME/pr_test_result.txt
 
       # Cannot fail the job
     - name: Show the improvements between PR and main
