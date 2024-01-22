@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "clean.h"
+#include "utils.h"
 
 bool	ft_append_env(t_shell *shell, char *key, char *value)
 {
@@ -79,6 +80,8 @@ bool	ft_init_shell(t_shell *shell, char **env)
 	shell->pid = getpid();
 	shell->subshell_pid = -1;
 	shell->subshell_level = 0;
+	init_pipe(&shell->old_pipe);
+	init_pipe(&shell->new_pipe);
 	shell->exit_status = 0;
 	shell->exit_code = EXIT_SUCCESS;
 	shell->env_list = NULL;

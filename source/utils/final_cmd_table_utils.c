@@ -96,6 +96,25 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 	return (true);
 }
 
+bool	setup_fd(t_shell *shell, t_final_cmd_table *final_cmd_table, t_cmd_table *cmd_table)
+{
+	final_cmd_table->read_fd = STDIN_FILENO;
+	final_cmd_table->write_fd = STDOUT_FILENO;
+	// do pipe redirection
+	if (*shell->old_pipe.read_fd != -1)
+		final_cmd_table->read_fd = *shell->old_pipe.read_fd;
+	if (*shell->old_pipe.write_fd != -1)
+		final_cmd_table->write_fd = *shell->old_pipe.write_fd;
+
+	printf("cmd: %s\n", final_cmd_table->simple_cmd[0]);
+	printf("old_pipe read_fd: %d, write_fd: %d\n", *shell->old_pipe.read_fd, *shell->old_pipe.write_fd);
+	printf("new_pipe read_fd: %d, write_fd: %d\n", *shell->new_pipe.read_fd, *shell->new_pipe.write_fd);
+	printf("final_cmd_table read_fd: %d, write_fd: %d\n", final_cmd_table->read_fd, final_cmd_table->write_fd);
+	// do io redirection
+	(void)cmd_table;
+	return (true);
+}
+
 t_final_cmd_table	*init_final_cmd_table(
 						t_shell *shell,
 						t_cmd_table *cmd_table)
@@ -106,7 +125,9 @@ t_final_cmd_table	*init_final_cmd_table(
 	if (!final_cmd_table)
 		return (NULL);
 	if (!setup_env(final_cmd_table, shell->env_list) || \
-		!setup_simple_cmd(shell, final_cmd_table, cmd_table->simple_cmd_list) || \
+		!setup_simple_cmd(
+			shell, final_cmd_table, cmd_table->simple_cmd_list) || \
+		!setup_fd(shell, final_cmd_table, cmd_table) || \
 		!setup_exec_path(final_cmd_table) || \
 		!setup_assignment(final_cmd_table, cmd_table->assignment_list))
 		return (free_final_cmd_table(&final_cmd_table), NULL);
@@ -132,8 +153,6 @@ t_final_cmd_table	*get_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 	// TODO: expand assignment array
 	if (final_cmd_table->simple_cmd[0] == NULL && final_cmd_table->assignment_array)
 		handle_assignment(shell, final_cmd_table);
-	// print_final_cmd_table(final_cmd_table);
-	// do assginments
 	// do redirections
 	return (final_cmd_table);
 }

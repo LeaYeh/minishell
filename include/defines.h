@@ -34,7 +34,7 @@
 /* Error codes */
 # define SUCCESS            0
 # define EXIT_SUCCESS       0
-
+# define GENERAL_ERROR      1
 # define BAD_SUBSTITUTION   2
 # define MISUSE_BUILTIN     2
 # define CMD_EXEC_FAILED    126
@@ -223,8 +223,6 @@ typedef struct s_io_red
 	char			*in_file;
 	char			*out_file;
 	char			*here_end;
-	int				red_in;
-	int				red_out;
 }	t_io_red;
 
 // TODO: Need to record each io_redirect in a list, need to touch the filename
@@ -235,11 +233,8 @@ typedef struct s_cmd_table
 {
 	int				id;
 	int				subshell_level;
-	// int				subshell_pid;
-	// int				simple_cmd_pid;
-	int				pipe_fd[2];
-	int				pipe_read_fd;
-	int				pipe_write_fd;
+	int				read_fd;
+	int				write_fd;
 	int				type;
 	t_list			*simple_cmd_list;
 	t_list			*assignment_list;
@@ -252,13 +247,39 @@ typedef struct s_final_cmd_table
 	char			*exec_path;
 	char			**assignment_array;
 	char			**envp;
+	int				read_fd;
+	int				write_fd;
 }	t_final_cmd_table;
 
+typedef struct s_pipe
+{
+	// int				from_cmd_id;
+	int				pipe_fd[2];
+	int				*read_fd;
+	int				*write_fd;
+}	t_pipe;
+
+/*
+When the moment I need to assign in handle_scmd
+
+1. first cmd_table
+cmd_table->write_fd: new_write
+cmd_table->read_fd: old_read
+
+old_pipe: read=-1, write=fd
+new_pipe: read=fd, write=fd
+
+2. last cmd_table
+
+3. middle cmd_table
+*/
 typedef struct s_shell
 {
 	int				pid;
 	int				subshell_pid;
 	int				subshell_level;
+	t_pipe			old_pipe;
+	t_pipe			new_pipe;
 	int				exit_status;
 	int				exit_code;
 	t_list			*env_list;

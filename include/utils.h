@@ -59,6 +59,10 @@ t_final_cmd_table	*get_final_cmd_table(t_shell *shell,
 int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list);
 int			expand_array(t_shell *shell, char ***array);
 
+/* Pipe utils */
+void		init_pipe(t_pipe *pipe);
+void		reset_pipe_fd(t_pipe *pipe);
+
 /* Array utils */
 void		free_array(char ***array);
 int			get_array_len(char **arr);

@@ -28,8 +28,6 @@ void	print_io_red_list(t_list *io_red_list)
 		printf("\tin_file: %s,\n", io_red->in_file);
 		printf("\tout_file: %s,\n", io_red->out_file);
 		printf("\there_end: %s,\n", io_red->here_end);
-		printf("\tred_in: %d,\n", io_red->red_in);
-		printf("\tred_out: %d,\n", io_red->red_out);
 		printf("-----------------\n");
 		node = node->next;
 	}

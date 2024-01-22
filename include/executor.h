@@ -36,8 +36,14 @@ bool	check_file(char *filename, int o_flag, int permission);
 /* Utils */
 char	*get_exec_path(char *cmd_name, char **envp);
 
+/* Redirection */
+void	bind_to_stdio(t_shell *shell, t_final_cmd_table *final_cmd_table);
+
 /* Redirection - Pipe */
-bool	setup_subshell_pipe(t_list_d *cmd_table_node);
-bool	setup_normal_pipe(t_list_d *cmd_table_node);
+bool	need_pipe(t_list_d *cmd_table_node);
+bool	create_pipe(t_pipe *_pipe);
+void	safe_close_pipe(t_pipe *pipe);
+void	safe_move_nonempty_pipe(t_pipe *from, t_pipe *to);
+void	replace_pipe_end(int *from_end, int *to_end);
 
 #endif

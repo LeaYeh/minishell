@@ -36,6 +36,8 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	t_cmd_table			*cmd_table;
 	t_final_cmd_table	*final_cmd_table;
 
+	safe_close(shell->new_pipe.read_fd);
+	replace_pipe_end(shell->new_pipe.write_fd, shell->old_pipe.write_fd);
 	cmd_table = get_cmd_table_from_list(*cmd_table_node);
 	final_cmd_table = get_final_cmd_table(shell, cmd_table);
 	if (!final_cmd_table)

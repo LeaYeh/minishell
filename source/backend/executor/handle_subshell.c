@@ -22,6 +22,9 @@ void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 		ft_clean_and_exit_shell(shell, SUBSHELL_ERROR, "subshell fork failed");
 	else if (shell->subshell_pid == 0)
 	{
+		// do T0
+		safe_close(shell->new_pipe.read_fd);
+		replace_pipe_end(shell->new_pipe.write_fd, shell->old_pipe.write_fd);
 		shell->subshell_level += 1;
 		*cmd_table_node = (*cmd_table_node)->next;
 		handle_process(shell, *cmd_table_node);

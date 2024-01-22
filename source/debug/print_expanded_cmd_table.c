@@ -93,8 +93,6 @@ bool	print_expanded_io_red_list(t_cmd_table *cmd_table, t_shell *shell)
 		printf("\n\there_end: ");
 		if (!expand_and_print(io_red->here_end, shell))
 			return (false);
-		printf("\n\tred_in:  %d", io_red->red_in);
-		printf("\n\tred_out: %d", io_red->red_out);
 		printf("\n-----------------\n");
 		node = node->next;
 	}

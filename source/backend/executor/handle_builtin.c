@@ -13,9 +13,11 @@
 #include "executor.h"
 #include "builtins.h"
 #include "utils.h"
+#include "clean.h"
 
 void	exec_builtin_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
+	bind_to_stdio(shell, final_cmd_table);
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "env") == 0)
 		shell->exit_code = ft_exec_env(shell);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "unset") == 0)
