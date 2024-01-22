@@ -43,7 +43,7 @@ void	rm_dot_cmpnts(t_list_d **cmpnt_list)
 	while (cur)
 	{
 		if (ft_strcmp(cur->content, ".") == 0)
-			ft_lstdrop_node_d(cmpnt_list, &cur, NULL);
+			ft_lstdrop_node_d(cmpnt_list, &cur, free);
 		else
 			cur = cur->next;
 	}
@@ -75,8 +75,8 @@ bool	rm_dotdot_cmptnts(t_list_d **cmpnt_list, char *og_path)
 			if (!check_directory(cleaned_path, og_path))
 				return (free(cleaned_path), true);
 			free(cleaned_path);
-			ft_lstdrop_node_d(cmpnt_list, &cur, NULL);
-			ft_lstdrop_node_d(cmpnt_list, &prev, NULL);
+			ft_lstdrop_node_d(cmpnt_list, &cur, free);
+			ft_lstdrop_node_d(cmpnt_list, &prev, free);
 		}
 		else
 			cur = cur->next;

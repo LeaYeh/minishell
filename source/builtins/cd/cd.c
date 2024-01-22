@@ -105,36 +105,37 @@ int	ft_exec_cd(char **args, t_list **env_list)
 	// pwd = ft_strdup(pwd);
 	// if (!pwd)
 	// 	return (free(curpath), GENERAL_ERROR);
-	if (!is_absolute_path(curpath))
-		if (!convert_relative_to_absolute_path(&curpath, pwd))
-			return (free(curpath), GENERAL_ERROR);
 
 	t_list_d	*cmpnt_list;
-	char		*tokenized_path;
+	t_list_d	*tmp_list;
 
-	tokenized_path = ft_strdup(curpath);
-	if (!tokenized_path)
-		return (free(curpath), free(pwd), GENERAL_ERROR);
+	cmpnt_list = NULL;
+	if (!is_absolute_path(curpath))
+	{
+		cmpnt_list = create_component_list(pwd);
+		if (!cmpnt_list)
+			return (GENERAL_ERROR);
+	}
+	tmp_list = create_component_list(curpath);
 	free(curpath);
-	cmpnt_list = create_component_list(tokenized_path);
-	if (!cmpnt_list)
-		return (free(pwd), free(tokenized_path), GENERAL_ERROR);
+	if (!tmp_list)
+		return (ft_lstclear_d(&cmpnt_list, free), GENERAL_ERROR);
+	ft_lstadd_back_d(&cmpnt_list, tmp_list);
 
 	// Step 8
 	// if (!remove_dotslash(&curpath))
 	// 	return (free(curpath), free(pwd), free(tokenized_path), ft_lstclear_d(cmpnt_list, NULL), GENERAL_ERROR);
 	rm_dot_cmpnts(&cmpnt_list);
 	if (!rm_dotdot_cmptnts(&cmpnt_list, directory))
-		return (ft_lstclear_d(&cmpnt_list, NULL), free(tokenized_path), GENERAL_ERROR);
+		return (ft_lstclear_d(&cmpnt_list, free), GENERAL_ERROR);
 	if (!cmpnt_list)
-		return (free(tokenized_path), EXIT_SUCCESS);
+		return (EXIT_SUCCESS);
 
 	// Step 9
 	// Convert curpath to relative pathname
 	char	*final_path;
 	final_path = convert_cmpnt_list_to_path(cmpnt_list);
-	ft_lstclear_d(&cmpnt_list, NULL);
-	free(tokenized_path);
+	ft_lstclear_d(&cmpnt_list, free);
 	if (!final_path)
 		return (GENERAL_ERROR);
 	char	*new_pwd;
