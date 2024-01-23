@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_subshell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:51:03 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/23 03:29:25 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:22:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 	{
 		shell->subshell_level += 1;
 		// do T0
-		safe_close_pipes_child(&shell->new_pipe, &shell->old_pipe);
+		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
 		*cmd_table_node = (*cmd_table_node)->next;
 		handle_process(shell, *cmd_table_node);
 	}
