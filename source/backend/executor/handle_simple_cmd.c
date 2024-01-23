@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/19 22:26:46 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/23 02:36:41 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	t_cmd_table			*cmd_table;
 	t_final_cmd_table	*final_cmd_table;
 
-	safe_close(shell->new_pipe.read_fd);
-	replace_pipe_end(shell->new_pipe.write_fd, shell->old_pipe.write_fd);
 	cmd_table = get_cmd_table_from_list(*cmd_table_node);
 	final_cmd_table = get_final_cmd_table(shell, cmd_table);
 	if (!final_cmd_table)
@@ -65,6 +63,9 @@ void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;
+		// do T0
+		safe_close(shell->new_pipe.read_fd);
+		replace_pipe_end(shell->new_pipe.write_fd, shell->old_pipe.write_fd);
 		exec_simple_cmd(shell, cmd_table_node);
 	}
 	else

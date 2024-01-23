@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_pipeline.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:12 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 16:59:19 by codespace        ###   ########.fr       */
+/*   Updated: 2024/01/23 02:45:04 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
 	int	cmd_table_type;
 
-	// do T0
-	safe_close(shell->new_pipe.read_fd);
-	replace_pipe_end(shell->new_pipe.write_fd, shell->old_pipe.write_fd);
 	// safe_move_nonempty_pipe(&shell->new_pipe, &shell->old_pipe);
 	cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
 	while (cmd_table_type != C_AND && cmd_table_type != C_OR && \
@@ -84,6 +81,9 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;
+		// do T0
+		safe_close(shell->new_pipe.read_fd);
+		replace_pipe_end(shell->new_pipe.write_fd, shell->old_pipe.write_fd);
 		exec_pipeline(shell, cmd_table_node);
 	}
 	else
