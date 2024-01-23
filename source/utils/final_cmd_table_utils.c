@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 20:02:02 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/20 02:20:56 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/23 04:06:48 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,8 @@ t_final_cmd_table	*init_final_cmd_table(
 	if (!setup_env(final_cmd_table, shell->env_list) || \
 		!setup_simple_cmd(
 			shell, final_cmd_table, cmd_table->simple_cmd_list) || \
-		!setup_fd(shell, final_cmd_table, cmd_table) || \
 		!setup_exec_path(final_cmd_table) || \
+		!setup_fd(shell, final_cmd_table, cmd_table) || \
 		!setup_assignment(final_cmd_table, cmd_table->assignment_list))
 		return (free_final_cmd_table(&final_cmd_table), NULL);
 	return (final_cmd_table);

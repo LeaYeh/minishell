@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:05:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/23 02:13:05 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/23 03:43:17 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ bool	bind_to_stdio(t_shell *shell, t_final_cmd_table *final_cmd_table);
 
 /* Redirection - Pipe */
 bool	need_pipe(t_list_d *cmd_table_node);
-bool	create_pipe(t_pipe *_pipe);
+bool	create_pipe(t_pipe *new_pipe);
 void	safe_close_pipe(t_pipe *pipe);
 void	safe_close_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe);
 void	safe_close_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe);
 void	safe_close_all_pipes(t_pipe *new_pipe, t_pipe *old_pipe);
+// void	safe_move_nonempty_pipe(t_pipe *from, t_pipe *to);
 void	replace_pipe_end(int *from_end, int *to_end);
 
 #endif
