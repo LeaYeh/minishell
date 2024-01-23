@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:12 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/23 02:45:04 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/23 03:44:12 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 			else if (cmd_table_type == C_SIMPLE_CMD)
 				handle_simple_cmd(shell, cmd_table_node);
 			// do T2.1
-			safe_close(shell->new_pipe.write_fd);
-			replace_pipe_end(shell->new_pipe.read_fd, shell->old_pipe.read_fd);
+			safe_close_pipes_parent(&shell->new_pipe, &shell->old_pipe);
 		}
 		else if (cmd_table_type == C_PIPE)
 			// do close old_read?
@@ -47,8 +46,7 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	// do T2.2
 	// do close old_read?
 	// Close both new and old pipe.
-	safe_close_pipe(&shell->new_pipe);
-	safe_close_pipe(&shell->old_pipe);
+	safe_close_all_pipes(&shell->new_pipe, &shell->old_pipe);
 	wait_process(shell, shell->subshell_pid);
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
@@ -63,8 +61,7 @@ void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	else
 	{
 		// do T2.2
-		safe_close_pipe(&shell->new_pipe);
-		safe_close_pipe(&shell->old_pipe);
+		safe_close_all_pipes(&shell->new_pipe, &shell->old_pipe);
 		wait_process(shell, shell->subshell_pid);
 		if (shell->subshell_level != 0)
 			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
@@ -82,8 +79,7 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	{
 		shell->subshell_level += 1;
 		// do T0
-		safe_close(shell->new_pipe.read_fd);
-		replace_pipe_end(shell->new_pipe.write_fd, shell->old_pipe.write_fd);
+		safe_close_pipes_child(&shell->new_pipe, &shell->old_pipe);
 		exec_pipeline(shell, cmd_table_node);
 	}
 	else

@@ -31,6 +31,24 @@ void	replace_pipe_end(int *from_end, int *to_end)
 	*from_end = -1;
 }
 
+void	safe_close_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe)
+{
+	safe_close(new_pipe->write_fd);
+	replace_pipe_end(new_pipe->read_fd, old_pipe->read_fd);
+}
+
+void	safe_close_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe)
+{
+	safe_close(new_pipe->read_fd);
+	replace_pipe_end(new_pipe->write_fd, old_pipe->write_fd);
+}
+
+void	safe_close_all_pipes(t_pipe *new_pipe, t_pipe *old_pipe)
+{
+	safe_close_pipe(old_pipe);
+	safe_close_pipe(new_pipe);
+}
+
 void	safe_move_nonempty_pipe(t_pipe *from, t_pipe *to)
 {
 	if (*to->read_fd != -1 || *to->write_fd != -1)
