@@ -43,7 +43,9 @@ bool	bind_to_stdio(t_shell *shell, t_final_cmd_table *final_cmd_table);
 bool	need_pipe(t_list_d *cmd_table_node);
 bool	create_pipe(t_pipe *_pipe);
 void	safe_close_pipe(t_pipe *pipe);
-void	safe_move_nonempty_pipe(t_pipe *from, t_pipe *to);
+void	safe_close_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe);
+void	safe_close_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe);
+void	safe_close_all_pipes(t_pipe *new_pipe, t_pipe *old_pipe);
 void	replace_pipe_end(int *from_end, int *to_end);
 
 #endif

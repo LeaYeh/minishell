@@ -14,7 +14,6 @@ bool	bind_to_stdio(t_shell *shell, t_final_cmd_table *final_cmd_table)
 	}
 	else
 		ret = true;
-	safe_close_pipe(&shell->new_pipe);
-	safe_close_pipe(&shell->old_pipe);
+	safe_close_all_pipes(&shell->new_pipe, &shell->old_pipe);
 	return (ret);
 }
