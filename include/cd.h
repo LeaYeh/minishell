@@ -29,7 +29,7 @@ size_t get_path_len_from_cmpnt_node(t_list_d *cmpnt_list, t_list_d *cmpnt_node);
 char *convert_cmpnt_list_to_path(t_list_d *cmpnt_list);
 char *convert_cmpnt_node_to_path(t_list_d *cmpnt_list, t_list_d *cmpnt_node);
 char *get_ptr_to_last_cmpnt(char *path);
-bool rm_dotdot_cmptnts(t_list_d **cmpnt_list, char *og_path);
+int rm_dotdot_cmptnts(t_list_d **cmpnt_list, char *og_path);
 void rm_dot_cmpnts(t_list_d **cmpnt_list);
 bool reduce_multi_slash(char **str, size_t index);
 bool convert_relative_to_absolute_path(char **curpath, char *pwd);

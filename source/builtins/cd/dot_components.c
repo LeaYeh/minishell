@@ -53,33 +53,32 @@ void	rm_dot_cmpnts(t_list_d **cmpnt_list)
 // Have one malloced string and store pointers to the end of each component.
 // When I need the path, replace the char the ptr points to with \0, check the path, then revert again.
 // I have to create a new string out of the cmpnt_list for that, otherwise there could be multiple slashes in the original string.
-bool	rm_dotdot_cmptnts(t_list_d **cmpnt_list, char *og_path)
+int	rm_dotdot_cmptnts(t_list_d **cmpnt_list, char *og_path)
 {
-	t_list_d	*cur;
 	char		*cleaned_path;
+	t_list_d	*cur;
 	t_list_d	*prev;
 
 	if (!*cmpnt_list)
-		return (true);
+		return (SUCCESS);
 	cur = (*cmpnt_list)->next;
 	while (cur)
 	{
 		prev = cur->prev;
-		if (prev && ft_strcmp(cur->content, "..") == 0 && \
-			ft_strcmp(prev->content, "..") != 0 && \
-			ft_strcmp(prev->content, "") != 0)
+		if (prev && ft_strcmp(cur->content, "..") == 0)
 		{
 			cleaned_path = convert_cmpnt_node_to_path(*cmpnt_list, prev);
 			if (!cleaned_path)
-				return (false);
+				return (GENERAL_ERROR);
 			if (!check_directory(cleaned_path, og_path))
-				return (free(cleaned_path), true);
+				return (printf("check_directory not valid\n"), free(cleaned_path), MISUSE_BUILTIN);	//? How to communicate this non-critical error?
 			free(cleaned_path);
 			ft_lstdrop_node_d(cmpnt_list, &cur, free);
-			ft_lstdrop_node_d(cmpnt_list, &prev, free);
+			if (prev->prev)
+				ft_lstdrop_node_d(cmpnt_list, &prev, free);
 		}
 		else
 			cur = cur->next;
 	}
-	return (true);
+	return (SUCCESS);
 }

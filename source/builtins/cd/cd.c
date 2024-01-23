@@ -29,7 +29,6 @@
  * 		[x] a. Delete dot components and ALL their slash characters following them.
  * 		[x] b. For all dot-dot components that are not preceded by root or dot-dot:
  * 			[x] i. If the preceding component is not a directory (like a file), display `%s: Not a directory`, and stop.
- * 					(However, I don't understand yet when it should be this error msg, or `%s: No such file or directory`)
  * 			[x] ii. Simplify dot-dots by deleting them if they have a preceding component.
  *
  * [ ] 9. PATH_MAX considerations and conversion
@@ -52,8 +51,7 @@
  * ERRORS:
  *
  * [x] ˋbash: cd: too many argumentsˋ - If more than one argument.
- *
- * [ ] ˋbash: cd: <argument>: No such file or directoryˋ
+ * [x] ˋbash: cd: <argument>: No such file or directoryˋ
 */
 
 #include "cd.h"
@@ -81,8 +79,9 @@ int	ft_exec_cd(char **args, t_list **env_list)
 	}
 	else
 		directory = args[1];
-	if (!*directory)	// Should probably better resolve during the flow
-		return (EXIT_SUCCESS);	//TODO: Test if it should still update the env variables.
+	//! BUG: If the argument is "" (empty string), it still does sth bc it should move PWD to OLDPWD (PWD will stay the same bc the directory won't be changed).
+	// if (!*directory)	// Should probably better resolve during the flow
+	// 	return (EXIT_SUCCESS);	//TODO: Test if it should still update the env variables.
 
 	// Step 3 and 4
 	if (directory[0] == '/' || is_dot_component(directory))
@@ -99,7 +98,8 @@ int	ft_exec_cd(char **args, t_list **env_list)
 		return (GENERAL_ERROR);
 
 	// Step 7
-	pwd = get_value_from_env(*env_list, "PWD");
+	// pwd = get_value_from_env(*env_list, "PWD");
+	pwd = getcwd(NULL, 0);
 	if (!pwd)	// In my tests so far it seems to get it from getcwd(). F.e. if I modify PWD manually to anything else, it still gets the current directory.
 		return (free(curpath), MISUSE_BUILTIN); //! How to differentiate in builtins between malloc errors and more harmless errors?
 	// pwd = ft_strdup(pwd);
@@ -114,22 +114,21 @@ int	ft_exec_cd(char **args, t_list **env_list)
 	{
 		cmpnt_list = create_component_list(pwd);
 		if (!cmpnt_list)
-			return (GENERAL_ERROR);
+			return (free(pwd), GENERAL_ERROR);
 	}
 	tmp_list = create_component_list(curpath);
 	free(curpath);
 	if (!tmp_list)
-		return (ft_lstclear_d(&cmpnt_list, free), GENERAL_ERROR);
+		return (ft_lstclear_d(&cmpnt_list, free), free(pwd), GENERAL_ERROR);
 	ft_lstadd_back_d(&cmpnt_list, tmp_list);
 
 	// Step 8
 	// if (!remove_dotslash(&curpath))
 	// 	return (free(curpath), free(pwd), free(tokenized_path), ft_lstclear_d(cmpnt_list, NULL), GENERAL_ERROR);
 	rm_dot_cmpnts(&cmpnt_list);
-	if (!rm_dotdot_cmptnts(&cmpnt_list, directory))
-		return (ft_lstclear_d(&cmpnt_list, free), GENERAL_ERROR);
-	if (!cmpnt_list)
-		return (EXIT_SUCCESS);
+	int ret = rm_dotdot_cmptnts(&cmpnt_list, directory);
+	if (ret != SUCCESS)
+		return (ft_lstclear_d(&cmpnt_list, free), free(pwd), ret);
 
 	// Step 9
 	// Convert curpath to relative pathname
@@ -137,22 +136,24 @@ int	ft_exec_cd(char **args, t_list **env_list)
 	final_path = convert_cmpnt_list_to_path(cmpnt_list);
 	ft_lstclear_d(&cmpnt_list, free);
 	if (!final_path)
-		return (GENERAL_ERROR);
+		return (free(pwd), GENERAL_ERROR);
 	char	*new_pwd;
 	new_pwd = ft_strdup(final_path);
 	if (!new_pwd)
-		return (free(final_path), GENERAL_ERROR);
+		return (free(final_path), free(pwd), GENERAL_ERROR);
 	if (is_absolute_path(pwd) && is_absolute_path(final_path))
 	{
 		final_path = try_to_convert_absolute_to_relative_path(final_path, pwd);
 		if (!final_path)
-			return (free(new_pwd), GENERAL_ERROR);
+			return (free(new_pwd), free(pwd), GENERAL_ERROR);
 	}
+	free(pwd);
 
 	// Step 10
+	printf("final_path: %s\n", final_path);
 	if (*final_path)
 		if (chdir(final_path) == -1)
-			perror(PROGRAM_NAME ": cd: chdir: ");	//? Not sure if "chdir: " or not.
+			return (ft_dprintf(STDERR_FILENO, "%s: cd: %s: ", PROGRAM_NAME, directory), perror(NULL), free(new_pwd), free(final_path), MISUSE_BUILTIN);	//? Not sure if "chdir: " or not.
 	free(final_path);
 
 	// Update PWD and OLDPWD

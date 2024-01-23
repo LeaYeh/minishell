@@ -33,12 +33,9 @@ bool	check_directory(char *cleaned_path, char *og_path)
 		stat(cleaned_path, &path_stat);
 		if (S_ISDIR(path_stat.st_mode))
 			return (true);
-		ft_dprintf(2, "%s: cd: %s: Not a directory\n", \
-		PROGRAM_NAME, og_path);	//TODO: Try to replace with perror()
 	}
-	else
-		ft_dprintf(2, "%s: cd: %s: No such file or directory\n", \
-		PROGRAM_NAME, og_path);	//TODO: Try to replace with perror()
+	ft_dprintf(2, "%s: cd: %s: ", PROGRAM_NAME, og_path);
+	perror(NULL);
 	return (false);
 }
 
