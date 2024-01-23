@@ -4,8 +4,8 @@
 
 void	handle_external_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
-	bind_to_stdio(shell, final_cmd_table);
-	if (!check_executable(shell, final_cmd_table->exec_path))
+	if (!bind_to_stdio(shell, final_cmd_table) || \
+		!check_executable(shell, final_cmd_table->exec_path))
 	{
 		free_final_cmd_table(&final_cmd_table);
 		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
