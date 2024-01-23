@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/20 01:19:35 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/23 03:33:57 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int			expand_array(t_shell *shell, char ***array);
 
 /* Pipe utils */
 void		init_pipe(t_pipe *pipe);
-void		reset_pipe_fd(t_pipe *pipe);
 
 /* Array utils */
 void		free_array(char ***array);

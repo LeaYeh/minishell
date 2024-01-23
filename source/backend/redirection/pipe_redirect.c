@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   pipe_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 20:18:11 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 19:32:55 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/23 03:41:19 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	safe_close_pipe(t_pipe *pipe)
 {
 	safe_close(pipe->read_fd);
 	safe_close(pipe->write_fd);
-	*pipe->read_fd = -1;
-	*pipe->write_fd = -1;
 }
 
 void	replace_pipe_end(int *from_end, int *to_end)
@@ -49,21 +47,21 @@ void	safe_close_all_pipes(t_pipe *new_pipe, t_pipe *old_pipe)
 	safe_close_pipe(new_pipe);
 }
 
-void	safe_move_nonempty_pipe(t_pipe *from, t_pipe *to)
-{
-	if (*to->read_fd != -1 || *to->write_fd != -1)
-		printf("Warning: Pipe is not empty\n");
-	if (*from->read_fd != -1 && *to->read_fd != -1)
-	{
-		*to->read_fd = *from->read_fd;
-		*from->read_fd = -1;
-	}
-	if (*from->write_fd != -1 && *to->write_fd != -1)
-	{
-		*to->write_fd = *from->write_fd;
-		*from->write_fd = -1;
-	}
-}
+// void	safe_move_nonempty_pipe(t_pipe *from, t_pipe *to)
+// {
+// 	if (*to->read_fd != -1 || *to->write_fd != -1)
+// 		printf("Warning: Pipe is not empty\n");
+// 	if (*from->read_fd != -1 && *to->read_fd != -1)
+// 	{
+// 		*to->read_fd = *from->read_fd;
+// 		*from->read_fd = -1;
+// 	}
+// 	if (*from->write_fd != -1 && *to->write_fd != -1)
+// 	{
+// 		*to->write_fd = *from->write_fd;
+// 		*from->write_fd = -1;
+// 	}
+// }
 
 bool	need_pipe(t_list_d *cmd_table_node)
 {
@@ -76,14 +74,14 @@ bool	need_pipe(t_list_d *cmd_table_node)
 	return (false);
 }
 
-bool	create_pipe(t_pipe *_pipe)
+bool	create_pipe(t_pipe *new_pipe)
 {
-	if (_pipe->pipe_fd[0] != -1 || _pipe->pipe_fd[1] != -1)
+	if (new_pipe->pipe_fd[0] != -1 || new_pipe->pipe_fd[1] != -1)
 	{
 		printf("Warning: Pipe is not empty\n");
-		reset_pipe_fd(_pipe);
+		safe_close_pipe(new_pipe);
 	}
-	if (pipe(_pipe->pipe_fd) == -1)
+	if (pipe(new_pipe->pipe_fd) == -1)
 		return (false);
 	return (true);
 }
