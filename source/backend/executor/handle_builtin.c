@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 01:10:43 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/23 02:14:51 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/23 02:49:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@
 
 void	exec_builtin_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
-	if (!bind_to_stdio(shell, final_cmd_table))
-	{
-		free_final_cmd_table(&final_cmd_table);
-		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
-	}
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "env") == 0)
 		shell->exit_code = ft_exec_env(shell);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "unset") == 0)
@@ -42,6 +37,11 @@ void	handle_builtin(t_shell *shell,
 			t_list_d **cmd_table_node, t_final_cmd_table *final_cmd_table)
 {
 	shell->subshell_pid = 0;
+	if (!bind_to_stdio(shell, final_cmd_table))
+	{
+		free_final_cmd_table(&final_cmd_table);
+		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+	}
 	exec_builtin_cmd(shell, final_cmd_table);
 	*cmd_table_node = (*cmd_table_node)->next;
 }
