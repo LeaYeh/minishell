@@ -45,7 +45,7 @@ bool	create_pipe(t_pipe *new_pipe);
 void	safe_close_pipe(t_pipe *pipe);
 void	handle_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe);
 void	handle_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe);
-void	safe_close_all_pipes(t_pipe *new_pipe, t_pipe *old_pipe);
+void	safe_close_all_pipes(t_shell *shell);
 // void	safe_move_nonempty_pipe(t_pipe *from, t_pipe *to);
 void	replace_pipe_end(int *from_end, int *to_end);
 

@@ -46,7 +46,7 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	// do T2.2
 	// do close old_read?
 	// Close both new and old pipe.
-	safe_close_all_pipes(&shell->new_pipe, &shell->old_pipe);
+	safe_close_all_pipes(shell);
 	wait_process(shell, shell->subshell_pid);
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
@@ -61,7 +61,7 @@ void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	else
 	{
 		// do T2.2
-		safe_close_all_pipes(&shell->new_pipe, &shell->old_pipe);
+		safe_close_all_pipes(shell);
 		wait_process(shell, shell->subshell_pid);
 		if (shell->subshell_level != 0)
 			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);

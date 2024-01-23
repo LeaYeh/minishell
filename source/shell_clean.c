@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "utils.h"
+#include "executor.h"
 
 void	free_env_node(t_env *env)
 {
@@ -44,5 +45,6 @@ void	ft_clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)
 	if (msg)
 		ft_dprintf(STDERR_FILENO, STY_YEL "%s\n" STY_RES, msg);
 	ft_clean_shell(shell);
+	safe_close_all_pipes(shell);
 	exit(exit_code);
 }

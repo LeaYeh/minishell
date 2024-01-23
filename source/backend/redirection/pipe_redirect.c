@@ -41,10 +41,10 @@ void	handle_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe)
 	replace_pipe_end(new_pipe->write_fd, old_pipe->write_fd);
 }
 
-void	safe_close_all_pipes(t_pipe *new_pipe, t_pipe *old_pipe)
+void	safe_close_all_pipes(t_shell *shell)
 {
-	safe_close_pipe(old_pipe);
-	safe_close_pipe(new_pipe);
+	safe_close_pipe(&shell->old_pipe);
+	safe_close_pipe(&shell->new_pipe);
 }
 
 // void	safe_move_nonempty_pipe(t_pipe *from, t_pipe *to)
