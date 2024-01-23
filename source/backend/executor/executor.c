@@ -27,7 +27,6 @@ void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
 	if (is_builtin(final_cmd_table->simple_cmd[0]) && \
 		!is_scmd_in_pipeline(*cmd_table_node))
 	{
-		print_final_cmd_table(final_cmd_table);
 		handle_builtin(shell, cmd_table_node, final_cmd_table);
 		free_final_cmd_table(&final_cmd_table);
 	}

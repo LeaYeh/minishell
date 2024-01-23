@@ -70,7 +70,7 @@ bool	need_pipe(t_list_d *cmd_table_node)
 	else if (get_cmd_table_type_from_list(cmd_table_node) == C_SIMPLE_CMD)
 		cmd_table_node = cmd_table_node->next;
 	if (get_cmd_table_type_from_list(cmd_table_node) == C_PIPE)
-		return (printf("need pipe\n"), true);
+		return (true);
 	return (false);
 }
 

@@ -106,10 +106,10 @@ bool	setup_fd(t_shell *shell, t_final_cmd_table *final_cmd_table, t_cmd_table *c
 	if (*shell->old_pipe.write_fd != -1)
 		final_cmd_table->write_fd = *shell->old_pipe.write_fd;
 
-	printf("cmd: %s\n", final_cmd_table->simple_cmd[0]);
-	printf("old_pipe read_fd: %d, write_fd: %d\n", *shell->old_pipe.read_fd, *shell->old_pipe.write_fd);
-	printf("new_pipe read_fd: %d, write_fd: %d\n", *shell->new_pipe.read_fd, *shell->new_pipe.write_fd);
-	printf("final_cmd_table read_fd: %d, write_fd: %d\n", final_cmd_table->read_fd, final_cmd_table->write_fd);
+	// printf("cmd: %s\n", final_cmd_table->simple_cmd[0]);
+	// printf("old_pipe read_fd: %d, write_fd: %d\n", *shell->old_pipe.read_fd, *shell->old_pipe.write_fd);
+	// printf("new_pipe read_fd: %d, write_fd: %d\n", *shell->new_pipe.read_fd, *shell->new_pipe.write_fd);
+	// printf("final_cmd_table read_fd: %d, write_fd: %d\n", final_cmd_table->read_fd, final_cmd_table->write_fd);
 	// do io redirection
 	(void)cmd_table;
 	return (true);

@@ -150,6 +150,6 @@ bool	print_expanded_cmd_table_list(t_shell *shell)
 			print_operator_cmd_table(cmd_table);
 		node = node->next;
 	}
-	printf(STY_BLD STY_BLU "====================================\n\n" STY_RES);
+	printf(STY_BLD STY_BLU "====================================" STY_RES "\n");
 	return (true);
 }

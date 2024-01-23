@@ -41,7 +41,6 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	if (!final_cmd_table)
 		ft_clean_and_exit_shell(
 			shell, SUBSHELL_ERROR, "get_final_cmd_table failed");
-	print_final_cmd_table(final_cmd_table);
 	if (final_cmd_table->simple_cmd[0] == NULL)
 		printf("\n");
 	else if (is_builtin(final_cmd_table->simple_cmd[0]))
