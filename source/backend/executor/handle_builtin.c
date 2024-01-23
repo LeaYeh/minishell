@@ -6,13 +6,14 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 01:10:43 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 03:34:52 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/23 02:49:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 #include "builtins.h"
 #include "utils.h"
+#include "clean.h"
 
 void	exec_builtin_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
@@ -36,6 +37,11 @@ void	handle_builtin(t_shell *shell,
 			t_list_d **cmd_table_node, t_final_cmd_table *final_cmd_table)
 {
 	shell->subshell_pid = 0;
+	if (!bind_to_stdio(shell, final_cmd_table))
+	{
+		free_final_cmd_table(&final_cmd_table);
+		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+	}
 	exec_builtin_cmd(shell, final_cmd_table);
 	*cmd_table_node = (*cmd_table_node)->next;
 }

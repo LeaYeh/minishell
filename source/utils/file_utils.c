@@ -50,7 +50,9 @@ bool	append_line_to_file(char *line, char *filename)
 
 void	safe_close(int *fd)
 {
-	if (*fd  > 2)
+	if (*fd > 2)
+	{
 		close(*fd);
-	*fd = -1;
+		*fd = -1;
+	}
 }

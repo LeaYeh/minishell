@@ -28,7 +28,7 @@ int	handle_exit_status(int wstatus)
 
 void	wait_process(t_shell *shell, int pid)
 {
-	printf("wait_process, exit_code: %d\n", shell->exit_code);
+	// printf("wait_process, exit_code: %d\n", shell->exit_code);
 	if (waitpid(pid, &shell->exit_status, 0) == -1)
 	{
 		shell->exit_code = UNEXPECT_EXIT;

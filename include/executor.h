@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:05:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/20 01:27:52 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:22:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,17 @@ bool	check_file(char *filename, int o_flag, int permission);
 /* Utils */
 char	*get_exec_path(char *cmd_name, char **envp);
 
+/* Redirection */
+bool	bind_to_stdio(t_shell *shell, t_final_cmd_table *final_cmd_table);
+
 /* Redirection - Pipe */
-bool	setup_subshell_pipe(t_list_d *cmd_table_node);
-bool	setup_normal_pipe(t_list_d *cmd_table_node);
+bool	need_pipe(t_list_d *cmd_table_node);
+bool	create_pipe(t_pipe *new_pipe);
+void	safe_close_pipe(t_pipe *pipe);
+void	handle_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe);
+void	handle_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe);
+void	safe_close_all_pipes(t_shell *shell);
+// void	safe_move_nonempty_pipe(t_pipe *from, t_pipe *to);
+void	replace_pipe_end(int *from_end, int *to_end);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_simple_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/19 22:26:46 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:22:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	if (!final_cmd_table)
 		ft_clean_and_exit_shell(
 			shell, SUBSHELL_ERROR, "get_final_cmd_table failed");
-	print_final_cmd_table(final_cmd_table);
 	if (final_cmd_table->simple_cmd[0] == NULL)
 		printf("\n");
 	else if (is_builtin(final_cmd_table->simple_cmd[0]))
@@ -63,6 +62,8 @@ void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;
+		// do T0
+		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
 		exec_simple_cmd(shell, cmd_table_node);
 	}
 	else

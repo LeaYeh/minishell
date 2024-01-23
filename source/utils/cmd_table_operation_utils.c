@@ -30,10 +30,6 @@ t_cmd_table	*init_cmd_table(void)
 		return (NULL);
 	cmd_table->id = 0;
 	cmd_table->subshell_level = 0;
-	cmd_table->pipe_fd[0] = -1;
-	cmd_table->pipe_fd[1] = -1;
-	cmd_table->pipe_read_fd = -1;
-	cmd_table->pipe_write_fd = -1;
 	cmd_table->type = C_NONE;
 	cmd_table->assignment_list = NULL;
 	cmd_table->simple_cmd_list = NULL;

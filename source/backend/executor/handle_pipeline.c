@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:12 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 16:59:19 by codespace        ###   ########.fr       */
+/*   Updated: 2024/01/23 16:22:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,35 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
 	int	cmd_table_type;
 
+	// safe_move_nonempty_pipe(&shell->new_pipe, &shell->old_pipe);
 	cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
 	while (cmd_table_type != C_AND && cmd_table_type != C_OR && \
 		cmd_table_type != C_SUBSHELL_END && cmd_table_type != C_NONE)
 	{
-		if (cmd_table_type == C_SUBSHELL_START)
-			handle_subshell(shell, cmd_table_node);
-		else if (cmd_table_type == C_SIMPLE_CMD)
-			handle_simple_cmd(shell, cmd_table_node);
+		if (cmd_table_type == C_SUBSHELL_START || \
+			cmd_table_type == C_SIMPLE_CMD)
+		{
+			// do T1, handle_pipe
+			if (need_pipe(*cmd_table_node) && !create_pipe(&shell->new_pipe))
+				ft_clean_and_exit_shell(
+					shell, SUBSHELL_ERROR, "exec_pipeline, create pipe failed");
+			if (cmd_table_type == C_SUBSHELL_START)
+				handle_subshell(shell, cmd_table_node);
+			else if (cmd_table_type == C_SIMPLE_CMD)
+				handle_simple_cmd(shell, cmd_table_node);
+			// do T2.1
+			handle_pipes_parent(&shell->new_pipe, &shell->old_pipe);
+		}
 		else if (cmd_table_type == C_PIPE)
+			// do close old_read?
 			*cmd_table_node = (*cmd_table_node)->next;
 		cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
 	}
+	// wait for the last scmd or subshell in the pipeline
+	// do T2.2
+	// do close old_read?
+	// Close both new and old pipe.
+	safe_close_all_pipes(shell);
 	wait_process(shell, shell->subshell_pid);
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
@@ -43,6 +60,8 @@ void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		handle_control_op(shell, cmd_table_node);
 	else
 	{
+		// do T2.2
+		safe_close_all_pipes(shell);
 		wait_process(shell, shell->subshell_pid);
 		if (shell->subshell_level != 0)
 			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
@@ -59,6 +78,8 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;
+		// do T0
+		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
 		exec_pipeline(shell, cmd_table_node);
 	}
 	else
