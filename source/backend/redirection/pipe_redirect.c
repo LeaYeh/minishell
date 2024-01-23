@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 20:18:11 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/23 03:41:19 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:22:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	replace_pipe_end(int *from_end, int *to_end)
 	*from_end = -1;
 }
 
-void	safe_close_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe)
+void	handle_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe)
 {
 	safe_close(new_pipe->write_fd);
 	replace_pipe_end(new_pipe->read_fd, old_pipe->read_fd);
 }
 
-void	safe_close_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe)
+void	handle_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe)
 {
 	safe_close(new_pipe->read_fd);
 	replace_pipe_end(new_pipe->write_fd, old_pipe->write_fd);
