@@ -30,18 +30,3 @@ bool	check_executable(t_shell *shell, char *filename)
 	}
 	return (true);
 }
-
-bool	check_file(char *filename, int o_flag, int permission)
-{
-	int	fd;
-
-	fd = open(filename, o_flag, permission);
-	if (fd == -1)
-	{
-		ft_dprintf(2, "%s: %s: ", PROGRAM_NAME, filename);
-		perror("");
-		return (false);
-	}
-	close(fd);
-	return (true);
-}

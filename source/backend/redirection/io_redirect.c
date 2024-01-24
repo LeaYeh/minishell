@@ -18,12 +18,11 @@ bool	handle_red_in(t_final_cmd_table *final_cmd_table, char *filename)
 {
 	int	fd;
 
-	// printf("handle_red_in filename: %s\n", filename);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
-		// printf("filename: %s\n", filename);
-		perror(PROGRAM_NAME);
+		ft_dprintf(2, "%s: %s: ", PROGRAM_NAME, filename);
+		perror("");
 		return (false);
 	}
 	replace_fd(&fd, &final_cmd_table->read_fd);
@@ -35,12 +34,11 @@ bool	handle_red_out(
 {
 	int	fd;
 
-	// printf("handle_red_out filename: %s\n", filename);
 	fd = open(filename, o_flags, (S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
 	if (fd < 0)
 	{
-		// printf("filename: %s\n", filename);
-		perror(PROGRAM_NAME);
+		ft_dprintf(2, "%s: %s: ", PROGRAM_NAME, filename);
+		perror("");
 		return (false);
 	}
 	replace_fd(&fd, &final_cmd_table->write_fd);
