@@ -20,7 +20,7 @@ void	safe_close_pipe(t_pipe *pipe)
 	safe_close(pipe->write_fd);
 }
 
-void	replace_pipe_end(int *from_end, int *to_end)
+void	replace_fd(int *from_end, int *to_end)
 {
 	if (*from_end == -1)
 		return ;
@@ -32,13 +32,13 @@ void	replace_pipe_end(int *from_end, int *to_end)
 void	handle_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe)
 {
 	safe_close(new_pipe->write_fd);
-	replace_pipe_end(new_pipe->read_fd, old_pipe->read_fd);
+	replace_fd(new_pipe->read_fd, old_pipe->read_fd);
 }
 
 void	handle_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe)
 {
 	safe_close(new_pipe->read_fd);
-	replace_pipe_end(new_pipe->write_fd, old_pipe->write_fd);
+	replace_fd(new_pipe->write_fd, old_pipe->write_fd);
 }
 
 void	safe_close_all_pipes(t_shell *shell)

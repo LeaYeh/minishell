@@ -19,6 +19,7 @@
 # include <sysexits.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <errno.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -44,6 +45,7 @@
 # define EXIT_SIGTERM       130
 # define PREPROCESS_ERROR   195
 # define SUBSHELL_ERROR     196
+# define IO_RED_ERROR       197
 
 /* Parsing Table */
 # define PT_COL_SIZE        5

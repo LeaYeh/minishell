@@ -32,6 +32,7 @@ void		free_ast_data(t_ast *ast);
 /* Redirect utils */
 t_io_red	*init_io_red(void);
 void		free_io_red(t_io_red *io_red);
+int			get_redirect_type_from_list(t_list *io_red_list);
 
 /* Cmd table utils */
 t_cmd_table	*init_cmd_table(void);

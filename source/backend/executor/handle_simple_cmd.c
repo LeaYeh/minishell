@@ -33,21 +33,20 @@
 */
 void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 {
-	t_cmd_table			*cmd_table;
-	t_final_cmd_table	*final_cmd_table;
+	t_cmd_table	*cmd_table;
+	char		*cmd_name;
 
 	cmd_table = get_cmd_table_from_list(*cmd_table_node);
-	final_cmd_table = get_final_cmd_table(shell, cmd_table);
-	if (!final_cmd_table)
+	if (!cmd_table)
 		ft_clean_and_exit_shell(
-			shell, SUBSHELL_ERROR, "get_final_cmd_table failed");
-	if (final_cmd_table->simple_cmd[0] == NULL)
+			shell, SUBSHELL_ERROR, "get_cmd_table_from_list failed");
+	cmd_name = cmd_table->simple_cmd_list->content;
+	if (cmd_name == NULL)
 		printf("\n");
-	else if (is_builtin(final_cmd_table->simple_cmd[0]))
-		handle_builtin(shell, cmd_table_node, final_cmd_table);
+	else if (is_builtin(cmd_name))
+		handle_builtin(shell, cmd_table_node);
 	else
-		handle_external_cmd(shell, final_cmd_table);
-	free_final_cmd_table(&final_cmd_table);
+		handle_external_cmd(shell, cmd_table);
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 

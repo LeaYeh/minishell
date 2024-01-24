@@ -33,10 +33,13 @@ void	exec_builtin_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
 		exec_exit(shell, final_cmd_table);
 }
 
-void	handle_builtin(t_shell *shell,
-			t_list_d **cmd_table_node, t_final_cmd_table *final_cmd_table)
+void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 {
-	shell->subshell_pid = 0;
+	t_final_cmd_table	*final_cmd_table;
+
+	final_cmd_table = get_final_cmd_table(shell, (*cmd_table_node)->content);
+	if (!final_cmd_table)
+		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 	if (!bind_to_stdio(shell, final_cmd_table))
 	{
 		free_final_cmd_table(&final_cmd_table);
