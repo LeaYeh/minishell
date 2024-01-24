@@ -45,13 +45,27 @@
  * [ ] Test cd with symbolic links, especially for step 8.b.i.
  * [ ] Implement `cd -` (change to previous directory - get the value from OLDPWD).
  *     If OLDPWD is not set, print "<PROGRAM_NAME>: cd: OLDPWD not set".
+ * [ ] Test inside a directory that then got deleted from another shell.
 */
 
 /*
- * ERRORS:
+ * ERROR MESSAGES:
  *
  * [x] ˋbash: cd: too many argumentsˋ - If more than one argument.
  * [x] ˋbash: cd: <argument>: No such file or directoryˋ
+*/
+
+/*
+ * BUGS:
+ *
+// //  * [x] We decided to leave it like that, bash non-POSIX also does it this way, and it makes more sense and seems safer from a security perspective.
+//  *     If the current directory got all its permissions removed and the argument is for a subdirectory, the error message is incorrect:
+//  *     It should be:	"cd: <subdir-name>: Not a directory".
+//  *     But it is:		"cd: <subdir-name>: Permission denied".
+ *
+// //  * [x] If the current directory got all its permissions removed and the argument is "" (an empty string), the error message is incorrect:
+//  *     It should be:	"cd: : Permission denied".
+//  *     But it is:		"cd: : No such file or directory".
 */
 
 #include "cd.h"
@@ -79,7 +93,7 @@ int	ft_exec_cd(char **args, t_list **env_list)
 	}
 	else
 		directory = args[1];
-	//! BUG: If the argument is "" (empty string), it still does sth bc it should move PWD to OLDPWD (PWD will stay the same bc the directory won't be changed).
+	// - BUG(solved): If the argument is "" (empty string), it still does sth bc it should move PWD to OLDPWD (PWD will stay the same bc the directory won't be changed).
 	// if (!*directory)	// Should probably better resolve during the flow
 	// 	return (EXIT_SUCCESS);	//TODO: Test if it should still update the env variables.
 
@@ -114,14 +128,16 @@ int	ft_exec_cd(char **args, t_list **env_list)
 	{
 		cmpnt_list = create_component_list(pwd);
 		if (!cmpnt_list)
-			return (free(pwd), GENERAL_ERROR);
+			return (free(pwd), free(curpath), GENERAL_ERROR);
 	}
-	tmp_list = create_component_list(curpath);
+	if (*curpath)
+	{
+		tmp_list = create_component_list(curpath);
+		if (!tmp_list)
+			return (ft_lstclear_d(&cmpnt_list, free), free(pwd), free(curpath), GENERAL_ERROR);
+		ft_lstadd_back_d(&cmpnt_list, tmp_list);
+	}
 	free(curpath);
-	if (!tmp_list)
-		return (ft_lstclear_d(&cmpnt_list, free), free(pwd), GENERAL_ERROR);
-	ft_lstadd_back_d(&cmpnt_list, tmp_list);
-
 	// Step 8
 	// if (!remove_dotslash(&curpath))
 	// 	return (free(curpath), free(pwd), free(tokenized_path), ft_lstclear_d(cmpnt_list, NULL), GENERAL_ERROR);
@@ -148,12 +164,19 @@ int	ft_exec_cd(char **args, t_list **env_list)
 			return (free(new_pwd), free(pwd), GENERAL_ERROR);
 	}
 	free(pwd);
+	if (!*final_path)
+	{
+		free(final_path);
+		final_path = ft_strdup(".");
+		if (!final_path)
+			return (free(new_pwd), GENERAL_ERROR);
+	}
 
 	// Step 10
 	printf("final_path: %s\n", final_path);
-	if (*final_path)
+	// if (*final_path)
 		if (chdir(final_path) == -1)
-			return (ft_dprintf(STDERR_FILENO, "%s: cd: %s: ", PROGRAM_NAME, directory), perror(NULL), free(new_pwd), free(final_path), MISUSE_BUILTIN);	//? Not sure if "chdir: " or not.
+			return (ft_dprintf(STDERR_FILENO, "%s: cd: %s: ", PROGRAM_NAME, directory), perror(NULL), free(new_pwd), free(final_path), MISUSE_BUILTIN);
 	free(final_path);
 
 	// Update PWD and OLDPWD

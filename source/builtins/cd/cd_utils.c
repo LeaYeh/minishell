@@ -75,6 +75,10 @@ char	*try_to_convert_absolute_to_relative_path(char *abs_path, char *pwd)
 		ft_strncmp(abs_path, pwd, pwd_len) != 0 || \
 		(abs_path[pwd_len] != '/' && abs_path[pwd_len] != '\0'))
 		return (abs_path);
-	rel_path = ft_substr(abs_path, pwd_len + 1, abs_path_len - pwd_len);
+	// Else if they are equal, return "."
+	// else if (abs_path_len == pwd_len)
+	// 	rel_path = ft_strdup(".");
+	else
+		rel_path = ft_substr(abs_path, pwd_len + 1, abs_path_len - pwd_len);
 	return (free(abs_path), rel_path);
 }
