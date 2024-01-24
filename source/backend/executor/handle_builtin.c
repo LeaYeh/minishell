@@ -38,14 +38,17 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 	t_final_cmd_table	*final_cmd_table;
 
 	final_cmd_table = get_final_cmd_table(shell, (*cmd_table_node)->content);
-	if (!final_cmd_table)
-		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
-	if (!bind_to_stdio(shell, final_cmd_table))
+	if (final_cmd_table)
 	{
+		if (!bind_to_stdio(shell, final_cmd_table))
+		{
+			free_final_cmd_table(&final_cmd_table);
+			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+		}
+		exec_builtin_cmd(shell, final_cmd_table);
 		free_final_cmd_table(&final_cmd_table);
-		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 	}
-	exec_builtin_cmd(shell, final_cmd_table);
-	free_final_cmd_table(&final_cmd_table);
+	else if (shell->exit_code == SUBSHELL_ERROR)
+		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 	*cmd_table_node = (*cmd_table_node)->next;
 }

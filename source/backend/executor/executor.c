@@ -16,9 +16,21 @@
 #include "utils.h"
 #include "debug.h"
 
+void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
+{
+	t_cmd_table	*cmd_table;
+
+	cmd_table = (*cmd_table_node)->content;
+	if (is_builtin(get_cmd_name_from_list(cmd_table->simple_cmd_list)) && \
+		!is_scmd_in_pipeline(*cmd_table_node))
+		handle_builtin(shell, cmd_table_node);
+	else
+		handle_pipeline(shell, cmd_table_node);
+}
+
 void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
 {
-	t_cmd_table			*cmd_table;
+	t_cmd_table	*cmd_table;
 
 	while (cmd_table_node)
 	{
@@ -28,13 +40,7 @@ void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
 		else if (is_control_op_cmd_table(cmd_table->type))
 			handle_control_op(shell, &cmd_table_node);
 		else if (cmd_table->type == C_SIMPLE_CMD)
-		{
-			if (is_builtin(cmd_table->simple_cmd_list->content) && \
-				!is_scmd_in_pipeline(cmd_table_node))
-				handle_builtin(shell, &cmd_table_node);
-			else
-				handle_pipeline(shell, &cmd_table_node);
-		}
+			handle_cmd_execution(shell, &cmd_table_node);
 		else if (cmd_table->type == C_SUBSHELL_START)
 			handle_pipeline(shell, &cmd_table_node);
 		else

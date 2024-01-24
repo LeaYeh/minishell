@@ -18,7 +18,6 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
 	int	cmd_table_type;
 
-	// safe_move_nonempty_pipe(&shell->new_pipe, &shell->old_pipe);
 	cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
 	while (cmd_table_type != C_AND && cmd_table_type != C_OR && \
 		cmd_table_type != C_SUBSHELL_END && cmd_table_type != C_NONE)

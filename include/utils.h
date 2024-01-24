@@ -43,6 +43,7 @@ bool		append_cmd_table_by_scenario(
 				int token_type, t_list_d **cmd_table_list);
 t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node);
 int			get_cmd_table_type_from_list(t_list_d *cmd_table_list);
+char		*get_cmd_name_from_list(t_list *simple_cmd_list);
 bool		is_control_op_cmd_table(int cmd_table_type);
 bool		is_builtin(char *cmd_name);
 bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);

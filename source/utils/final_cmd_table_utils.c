@@ -117,23 +117,24 @@ bool	setup_fd(
 	{
 		if (!handle_io_redirect(final_cmd_table, cmd_table->io_red_list))
 		{
-			shell->exit_code = IO_RED_ERROR;
+			shell->exit_code = GENERAL_ERROR;
 			return (false);
 		}
 	}
 	return (true);
 }
 
-bool	setup_final_cmd_table(
-	t_shell *shell, t_cmd_table *cmd_table, t_final_cmd_table *final_cmd_table)
+int	setup_final_cmd_table(
+	t_shell *shell, t_cmd_table *cmd_table, t_final_cmd_table **final_cmd_table)
 {
-	if (!setup_env(final_cmd_table, shell->env_list) || \
-		!setup_simple_cmd(final_cmd_table, cmd_table->simple_cmd_list) || \
-		!setup_exec_path(final_cmd_table) || \
-		!setup_fd(shell, final_cmd_table, cmd_table) || \
-		!setup_assignment_array(final_cmd_table, cmd_table->assignment_list))
-		return (false);
-	return (true);
+	if (!setup_env(*final_cmd_table, shell->env_list) || \
+		!setup_simple_cmd(*final_cmd_table, cmd_table->simple_cmd_list) || \
+		!setup_exec_path(*final_cmd_table) || \
+		!setup_assignment_array(*final_cmd_table, cmd_table->assignment_list))
+		return (free_final_cmd_table(final_cmd_table), SUBSHELL_ERROR);
+	if (!setup_fd(shell, *final_cmd_table, cmd_table))
+		return (free_final_cmd_table(final_cmd_table), GENERAL_ERROR);
+	return (SUCCESS);
 }
 
 void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
@@ -154,10 +155,8 @@ t_final_cmd_table	*get_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 	final_cmd_table = ft_calloc(1, sizeof(t_final_cmd_table));
 	if (!final_cmd_table)
 		return (NULL);
-	if (!setup_final_cmd_table(shell, cmd_table, final_cmd_table))
-		return (free_final_cmd_table(&final_cmd_table), NULL);
-
-	// if (final_cmd_table->simple_cmd[0] == NULL && 
+	shell->exit_code = setup_final_cmd_table(shell, cmd_table, &final_cmd_table);
+	// if (final_cmd_table->simple_cmd[0] == NULL &&
 	// 	final_cmd_table->assignment_array)
 	// 	handle_assignment(shell, final_cmd_table);
 	return (final_cmd_table);

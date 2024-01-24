@@ -40,7 +40,7 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	if (!cmd_table)
 		ft_clean_and_exit_shell(
 			shell, SUBSHELL_ERROR, "get_cmd_table_from_list failed");
-	cmd_name = cmd_table->simple_cmd_list->content;
+	cmd_name = get_cmd_name_from_list(cmd_table->simple_cmd_list);
 	if (cmd_name == NULL)
 		printf("\n");
 	else if (is_builtin(cmd_name))
