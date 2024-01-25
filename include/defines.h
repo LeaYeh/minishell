@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 23:46:08 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:24:17 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,13 +277,14 @@ new_pipe: read=fd, write=fd
 */
 typedef struct s_shell
 {
-	int				pid;
-	int				subshell_pid;
+	pid_t			pid;
+	pid_t			subshell_pid;
 	int				subshell_level;
 	t_pipe			old_pipe;
 	t_pipe			new_pipe;
 	int				exit_status;
 	int				exit_code;
+	t_list			*child_pid_list;
 	t_list			*env_list;
 	t_list			*token_list;
 	t_list_d		*cmd_table_list;

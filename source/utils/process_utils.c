@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:30:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 19:44:22 by codespace        ###   ########.fr       */
+/*   Updated: 2024/01/25 16:25:25 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ int	handle_exit_status(int wstatus)
 	return (UNEXPECT_EXIT);
 }
 
-void	wait_process(t_shell *shell, int pid)
+void	wait_process(t_shell *shell, pid_t pid)
 {
-	// printf("wait_process, exit_code: %d\n", shell->exit_code);
 	if (waitpid(pid, &shell->exit_status, 0) == -1)
 	{
 		shell->exit_code = UNEXPECT_EXIT;

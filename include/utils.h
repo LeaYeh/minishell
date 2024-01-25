@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/23 03:33:57 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:25:19 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char		**convert_list_to_string_array(t_list *list);
 char		**append_string_array(char **array, char *str);
 
 /* Process utils */
-void		wait_process(t_shell *shell, int pid);
+void		wait_process(t_shell *shell, pid_t pid);
 int			status(int wstatus);
 
 /* Type utils */
