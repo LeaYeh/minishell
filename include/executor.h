@@ -39,7 +39,9 @@ bool	check_file(char *filename, int o_flag, int permission);
 char	*get_exec_path(char *cmd_name, char **envp);
 
 /* Redirection */
-bool	bind_to_stdio(t_shell *shell, t_final_cmd_table *final_cmd_table);
+bool	restore_std_io(int saved_std_io[2]);
+bool	save_std_io(int saved_std_io[2]);
+bool	redirect_io(t_shell *shell, t_final_cmd_table *final_cmd_table);
 bool	handle_io_redirect(
 			t_final_cmd_table *final_cmd_table, t_list *io_red_node);
 

@@ -33,6 +33,27 @@ void	exec_builtin_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table)
 		exec_exit(shell, final_cmd_table);
 }
 
+void	safe_redirect_io_and_exec_builtin(
+	t_shell *shell, t_final_cmd_table *final_cmd_table)
+{
+	int	saved_std_io[2];
+
+	if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") != 0)
+	{
+		if (!save_std_io(saved_std_io) || \
+			!redirect_io(shell, final_cmd_table))
+			shell->exit_code = SUBSHELL_ERROR;
+		else
+			exec_builtin_cmd(shell, final_cmd_table);
+		if (!restore_std_io(saved_std_io))
+			shell->exit_code = SUBSHELL_ERROR;
+		safe_close(&saved_std_io[0]);
+		safe_close(&saved_std_io[1]);
+	}
+	else
+		exec_exit(shell, final_cmd_table);
+}
+
 void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 {
 	t_final_cmd_table	*final_cmd_table;
@@ -40,15 +61,20 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 	final_cmd_table = get_final_cmd_table(shell, (*cmd_table_node)->content);
 	if (final_cmd_table)
 	{
-		if (!bind_to_stdio(shell, final_cmd_table))
+		if (shell->subshell_level == 0)
+			safe_redirect_io_and_exec_builtin(shell, final_cmd_table);
+		else
 		{
-			free_final_cmd_table(&final_cmd_table);
-			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+			if (!redirect_io(shell, final_cmd_table))
+			{
+				free_final_cmd_table(&final_cmd_table);
+				ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+			}
+			exec_builtin_cmd(shell, final_cmd_table);
 		}
-		exec_builtin_cmd(shell, final_cmd_table);
 		free_final_cmd_table(&final_cmd_table);
 	}
-	else if (shell->exit_code == SUBSHELL_ERROR)
-		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+	if (shell->exit_code == SUBSHELL_ERROR)
+		ft_clean_and_exit_shell(shell, shell->exit_code, "subshell error");
 	*cmd_table_node = (*cmd_table_node)->next;
 }

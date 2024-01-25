@@ -62,7 +62,6 @@ bool	ft_read_input(t_shell *shell)
 	line = readline(PROMPT);
 	if (!line)
 		return (false);
-	printf("haha123\n");
 	shell->input_line = line;
 	add_history(shell->input_line);
 	return (true);

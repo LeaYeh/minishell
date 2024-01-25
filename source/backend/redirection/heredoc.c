@@ -44,7 +44,7 @@ bool	exec_heredoc(int cmdtable_id, t_io_red **io_red)
 		{
 			ft_dprintf(STDERR_FILENO, ERROR_HEREDOC_UNEXPECTED_EOF,
 				PROGRAM_NAME, (*io_red)->here_end);
-			return (remove_file((*io_red)->in_file), true);
+			return (true);
 		}
 		if (ft_strcmp(line, (*io_red)->here_end) == 0)
 			break ;
