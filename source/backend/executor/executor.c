@@ -55,19 +55,21 @@ bool	pre_expand_simple_cmd(t_shell *shell, t_list_d *cmd_table_node)
 	t_list		*expanded_list;
 	int			ret;
 
-	expanded_list = NULL;
 	while (cmd_table_node)
 	{
-		cmd_table = cmd_table_node->content;
-		if (!cmd_table->simple_cmd_list)
-			return (true);
-		ret = expand_list(shell, cmd_table->simple_cmd_list, &expanded_list);
-		if (ret == SUBSHELL_ERROR)
-			return (ft_lstclear(&expanded_list, free), false);
-		else if (ret == BAD_SUBSTITUTION)
-			ft_lstclear(&expanded_list, free);
-		ft_lstclear(&cmd_table->simple_cmd_list, free);
-		cmd_table->simple_cmd_list = expanded_list;
+		expanded_list = NULL;
+		if (get_cmd_table_type_from_list(cmd_table_node) == C_SIMPLE_CMD)
+		{
+			cmd_table = cmd_table_node->content;
+			ret = expand_list(
+					shell, cmd_table->simple_cmd_list, &expanded_list);
+			if (ret == SUBSHELL_ERROR)
+				return (ft_lstclear(&expanded_list, free), false);
+			else if (ret == BAD_SUBSTITUTION)
+				ft_lstclear(&expanded_list, free);
+			ft_lstclear(&cmd_table->simple_cmd_list, free);
+			cmd_table->simple_cmd_list = expanded_list;
+		}
 		cmd_table_node = cmd_table_node->next;
 	}
 	return (true);

@@ -84,6 +84,7 @@ bool	ft_init_shell(t_shell *shell, char **env)
 	init_pipe(&shell->new_pipe);
 	shell->exit_status = 0;
 	shell->exit_code = EXIT_SUCCESS;
+	shell->child_pid_list = NULL;
 	shell->env_list = NULL;
 	shell->token_list = NULL;
 	// shell->ast = NULL;

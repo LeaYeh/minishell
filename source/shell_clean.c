@@ -25,6 +25,7 @@ void	free_env_node(t_env *env)
 
 void	ft_clean_shell(t_shell *shell)
 {
+	ft_lstclear(&shell->child_pid_list, free);
 	ft_lstclear(&shell->env_list, (void *)free_env_node);
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
