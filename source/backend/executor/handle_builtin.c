@@ -31,7 +31,7 @@ void	exec_builtin_cmd(t_shell *shell)
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "pwd") == 0)
 		shell->exit_code = ft_exec_pwd();
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "cd") == 0)
-		shell->exit_code = ft_exec_cd(final_cmd_table->simple_cmd,
+		shell->exit_code = exec_cd(final_cmd_table->simple_cmd,
 				&shell->env_list);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "export") == 0)
 		shell->exit_code = 123;

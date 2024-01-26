@@ -13,6 +13,7 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
+# include <errno.h>
 # include <fcntl.h>
 # include <linux/limits.h>
 # include <limits.h>

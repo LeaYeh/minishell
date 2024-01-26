@@ -14,25 +14,6 @@
 #include "clean.h"
 #include "minishell.h"
 
-char	*get_value_from_env(t_list *env_list, char *key)
-{
-	t_env	*env_node;
-	char	*value;
-
-	value = NULL;
-	while (env_list)
-	{
-		env_node = env_list->content;
-		if (ft_strcmp(env_node->key, key) == 0)
-		{
-			value = env_node->value;
-			break ;
-		}
-		env_list = env_list->next;
-	}
-	return (value);
-}
-
 t_env	*find_env_node(t_list *env_list, char *key, char *value)
 {
 	t_env	*env_node;
@@ -59,17 +40,24 @@ t_env	*find_env_node(t_list *env_list, char *key, char *value)
 	return (NULL);
 }
 
-char	*replace_env_value(t_list *env_list, char *key, char *value)
+// Almost the same function as get_replacement() from expander
+char	*get_value_from_env(t_list *env_list, char *key)
 {
 	t_env	*env_node;
-	char	*old_value;
+	char	*value;
 
-	env_node = find_env_node(env_list, key, NULL);
-	if (!env_node)
-		return (NULL);
-	old_value = env_node->value;
-	env_node->value = value;
-	return (old_value);
+	value = NULL;
+	while (env_list)
+	{
+		env_node = env_list->content;
+		if (ft_strcmp(env_node->key, key) == 0)
+		{
+			value = env_node->value;
+			break ;
+		}
+		env_list = env_list->next;
+	}
+	return (value);
 }
 
 void	remove_env_node(t_list **env_list, char *key, char *value)
@@ -88,35 +76,15 @@ void	remove_env_node(t_list **env_list, char *key, char *value)
 	}
 }
 
-bool	update_pwd_env(t_list **env_list, char *new_pwd)
+char	*replace_env_value(t_list *env_list, char *key, char *value)
 {
-	char	*key;
-	char	*old_pwd;
-	char	*tmp;
+	t_env	*env_node;
+	char	*old_value;
 
-	old_pwd = replace_env_value(*env_list, "PWD", new_pwd);
-	if (old_pwd)
-	{
-		tmp = replace_env_value(*env_list, "OLDPWD", old_pwd);
-		if (!tmp)
-		{
-			key = ft_strdup("OLDPWD");
-			if (!key)
-				return (free(old_pwd), false);
-			if (!ft_append_env(env_list, key, old_pwd))
-				return (free(key), free(old_pwd), false);
-		}
-		else
-			free(tmp);
-	}
-	else
-	{
-		key = ft_strdup("PWD");
-		if (!key)
-			return (false);
-		if (!ft_append_env(env_list, key, new_pwd))
-			return (free(key), false);
-		remove_env_node(env_list, "OLDPWD", NULL);
-	}
-	return (true);
+	env_node = find_env_node(env_list, key, NULL);
+	if (!env_node)
+		return (NULL);
+	old_value = env_node->value;
+	env_node->value = value;
+	return (old_value);
 }

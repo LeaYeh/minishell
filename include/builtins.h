@@ -27,7 +27,7 @@ int		ft_exec_env(t_shell *shell);
 int		ft_exec_echo(char **args);
 int		ft_exec_pwd(void);
 void	exec_exit(t_shell *shell);
-int		ft_exec_cd(char **args, t_list **env_list);
+int		exec_cd(char **args, t_list **env_list);
 
 int		get_args_error(char **args);
 
