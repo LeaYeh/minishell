@@ -16,15 +16,17 @@ bool	check_dir(char *dir, char *target_dir)
 {
 	struct stat	path_stat;
 
+	printf("dir: %s\n", dir);
+	printf("target_dir: %s\n", target_dir);
 	if (access(dir, F_OK) != -1)
 	{
 		stat(dir, &path_stat);
 		if (S_ISDIR(path_stat.st_mode))
 			return (true);
 	}
-	printf("haha\n");
 	ft_dprintf(2, "%s: cd: %s: ", PROGRAM_NAME, target_dir);
-	perror(NULL);
+	perror("check_dir");
+	(void)dir;
 	return (false);
 }
 
@@ -41,5 +43,5 @@ bool	ensure_path_not_empty(char **final_path)
 
 bool	is_abs_path(char *path)
 {
-	return (path[0] == '/');
+	return (path && path[0] == '/');
 }

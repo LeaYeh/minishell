@@ -7,8 +7,10 @@ int	ft_exec_pwd(void)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
+		printf("errno %d\n", errno);
+		printf("EFAULT %d\n", EINVAL);
 		ft_dprintf(2, "%s: %s: ", PROGRAM_NAME, "pwd");
-		perror("");
+		perror(NULL);
 		return (CMD_EXEC_FAILED);
 	}
 	printf("%s\n", pwd);

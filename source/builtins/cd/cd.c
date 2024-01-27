@@ -41,11 +41,11 @@
  *
  * [x] Implement `cd -` (change to previous directory - get the value from OLDPWD).
  *     If OLDPWD is not set, print "<PROGRAM_NAME>: cd: OLDPWD not set".
- * [ ] Permission checks!
+ * [x] Permission checks!
  * [ ] Add ft_strstr to libft.
  * [ ] Move replace_part_of_str() to libft.
- * [ ] Test cd with symbolic links, especially for step 8.b.i.
- * [ ] Test inside a directory that then got deleted from another shell.
+ * [x] Test cd with symbolic links, especially for step 8.b.i.
+ * [x] Test inside a directory that then got deleted from another shell.
 */
 
 /*
@@ -62,12 +62,12 @@
 //  *     If the current directory got all its permissions removed and the argument is for a subdirectory, the error message is incorrect:
 //  *     It should be:	"cd: <subdir-name>: Not a directory".
 //  *     But it is:		"cd: <subdir-name>: Permission denied".
- *
+// *
 // //  * [x] If the current directory got all its permissions removed and the argument is "" (an empty string), the error message is incorrect:
 //  *     It should be:	"cd: : Permission denied".
 //  *     But it is:		"cd: : No such file or directory".
- *
- * [ ] If inside a directory that gets deleted, my cd never recovers bc it always tries to get the pwd from getcwd().
+// *
+//  *     [x] If inside a directory that gets deleted, my cd never recovers bc it always tries to get the pwd from getcwd().
 */
 
 /*
@@ -89,10 +89,9 @@ int	exec_cd(char **args, t_list **env_list)
 
 	target_dir = get_target_dir(args, *env_list);
 	if (!target_dir)
-		return (MISUSE_BUILTIN);
-	if (!is_abs_path(target_dir) && !is_dot_cmpnt(target_dir))
+		return (printf("no target_dir"), MISUSE_BUILTIN);
+	// if (!is_abs_path(target_dir) && !is_dot_cmpnt(target_dir))
 		// Do step 5 - check CDPATH env variable
-		(void)NULL;
 	ret = set_final_path(&final_path, &new_pwd, target_dir);
 	if (ret != SUCCESS)
 		return (ret);

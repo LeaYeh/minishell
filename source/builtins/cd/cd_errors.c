@@ -15,7 +15,7 @@
 int	handle_chdir_error(int error, char *target_dir)
 {
 	ft_dprintf(STDERR_FILENO, "%s: cd: %s: ", PROGRAM_NAME, target_dir);
-	perror(NULL);
+	perror("handle_chdir_error");
 	if (error == EIO || error == ENOMEM)
 		return (GENERAL_ERROR);
 	return (MISUSE_BUILTIN);
@@ -29,8 +29,7 @@ int	handle_getcwd_error(int error, char *target_dir)
 		perror(NULL);
 		return (GENERAL_ERROR);
 	}
-	printf("handle_getcwd_error\n");
 	ft_dprintf(STDERR_FILENO, "%s: cd: %s: ", PROGRAM_NAME, target_dir);
-	perror(NULL);
+	perror("handle_getcwd_error");
 	return (MISUSE_BUILTIN);
 }
