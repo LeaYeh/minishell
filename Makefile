@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/01/18 23:33:23 by ldulling         ###   ########.fr        #
+#    Updated: 2024/01/20 18:39:24 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -132,7 +132,7 @@ $(DEP_SUBDIRS)	:
 #	Cleaning
 
 clean:
-					$(MAKE) -C $(LIBRARIES)
+					$(MAKE) clean -C $(LIBRARIES)
 					rm -f $(OBJ) $(DEP)
 ifneq (,$(wildcard $(OBJ_DIR)))
 					-find $(OBJ_DIR) -type d -empty -delete
@@ -142,7 +142,7 @@ ifneq (,$(wildcard $(DEP_DIR)))
 endif
 
 fclean			:	clean
-					$(MAKE) -C $(LIBRARIES)
+					$(MAKE) fclean -C $(LIBRARIES)
 					rm -f $(NAME)
 
 re				:
@@ -180,5 +180,5 @@ print-%			:
 # ********************************* NOTES ************************************ #
 
 # test without env value:	env -i
-# detect memory leak: 		valgrind -s --leak-check=full --show-leak-kinds=all --suppressions=./minishell.supp ./minishell
-# valgrind -s --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=./minishell.supp ./minishell
+# detect memory leak: 		valgrind -s --leak-check=full --show-leak-kinds=all --suppressions=/nfs/homes/ldulling/Common_Core/Projects/08-minishell.worktrees/feat-builtin-cd/minishell.supp ./minishell
+# valgrind -s --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=/nfs/homes/ldulling/Common_Core/Projects/08-minishell.worktrees/feat-builtin-cd/minishell.supp ./minishell
