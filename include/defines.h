@@ -119,7 +119,10 @@
 "%s: %s: too many arguments\n"
 # define ERROR_EXIT_NUMERIC_ARG				\
 "%s: %s: %s: numeric argument required\n"
-
+# define ERROR_CD_HOME_NOT_SET				\
+"%s: cd: HOME not set\n"
+# define ERROR_CD_TOO_MANY_ARGS				\
+"%s: cd: too many arguments\n"
 // TODO: Replace with OS error message
 # define ERROR_REMOVE_FILE					\
 "%s: warning: failed to remove file `%s'\n"

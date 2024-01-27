@@ -88,6 +88,14 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 	while (env_list)
 	{
 		env_node = (t_env *)env_list->content;
+		// ft_printf("i: %d\n", i);
+		// if (i == 70)
+		// {
+		// 	ft_printf("key: %s\n", env_node->key);
+		// 	ft_printf("key printed\n");
+		// 	ft_printf("value: %s\n", env_node->value);
+		// 	ft_printf("value printed\n");
+		// }
 		sprintf(tmp, "%s=%s", env_node->key, env_node->value);	// TODO: This is really dangerous, bc the user could set a very long key or value and go beyond the memory of size PATH_MAX.
 		final_cmd_table->envp[i] = ft_strdup(tmp);
 		if (!final_cmd_table->envp[i])

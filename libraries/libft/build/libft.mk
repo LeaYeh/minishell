@@ -133,6 +133,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_strncmp.c \
 			ft_strnstr.c \
 			ft_strrchr.c \
+			ft_strreplc_sequence.c \
 			ft_strtok.c \
 			ft_strtrim.c \
 			ft_substr.c \
