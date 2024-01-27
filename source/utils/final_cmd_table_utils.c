@@ -14,30 +14,7 @@
 #include "defines.h"
 #include "utils.h"
 #include "debug.h"
-
-// bool	setup_simple_cmd(
-// 			t_shell *shell,
-// 			t_final_cmd_table *final_cmd_table,
-// 			t_list *simple_cmd_list)
-// {
-// 	int		ret;
-// 	t_list	*expanded_list;
-
-// 	final_cmd_table->simple_cmd = NULL;
-// 	if (!simple_cmd_list)
-// 		return (true);
-// 	expanded_list = NULL;
-// 	ret = expand_list(shell, simple_cmd_list, &expanded_list);
-// 	if (ret == SUBSHELL_ERROR)
-// 		return (ft_lstclear(&expanded_list, free), false);
-// 	else if (ret == BAD_SUBSTITUTION)
-// 		ft_lstclear(&expanded_list, free);
-// 	final_cmd_table->simple_cmd = convert_list_to_string_array(expanded_list);
-// 	ft_lstclear(&expanded_list, free);
-// 	if (!final_cmd_table->simple_cmd)
-// 		return (false);
-// 	return (true);
-// }
+#include "signals.h"
 
 bool	setup_simple_cmd(t_final_cmd_table *final_cmd_table, t_list *simple_cmd_list)
 {
@@ -151,11 +128,15 @@ void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
 t_final_cmd_table	*get_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 {
 	t_final_cmd_table	*final_cmd_table;
+	int					ret;
 
 	final_cmd_table = ft_calloc(1, sizeof(t_final_cmd_table));
 	if (!final_cmd_table)
 		return (NULL);
-	shell->exit_code = setup_final_cmd_table(shell, cmd_table, &final_cmd_table);
+	ret = setup_final_cmd_table(shell, cmd_table, &final_cmd_table);
+	if (ret == SUBSHELL_ERROR)
+		raise_internal_error(shell, "setup_final_cmd_table failed");
+	shell->exit_code = ret;
 	// if (final_cmd_table->simple_cmd[0] == NULL &&
 	// 	final_cmd_table->assignment_array)
 	// 	handle_assignment(shell, final_cmd_table);

@@ -8,6 +8,7 @@ void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 {
 	t_final_cmd_table	*final_cmd_table;
 
+	// setup_signal(shell, SIGABRT, SIG_IGNORE);
 	final_cmd_table = get_final_cmd_table(shell, cmd_table);
 	if (!final_cmd_table)
 		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);

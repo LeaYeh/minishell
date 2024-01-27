@@ -125,6 +125,7 @@ typedef enum e_state
 {
 	SIG_HEREDOC = 0,
 	SIG_STD,
+	SIG_SUBSHELL,
 	SIG_DEFAULT,
 	SIG_IGNORE
 }	t_state;
@@ -296,19 +297,20 @@ new_pipe: read=fd, write=fd
 */
 typedef struct s_shell
 {
-	pid_t			pid;
-	pid_t			subshell_pid;
-	int				subshell_level;
-	t_pipe			old_pipe;
-	t_pipe			new_pipe;
-	int				exit_status;
-	int				exit_code;
-	t_list			*child_pid_list;
-	t_list			*env_list;
-	t_list			*token_list;
-	t_list_d		*cmd_table_list;
+	pid_t				pid;
+	pid_t				subshell_pid;
+	int					subshell_level;
+	t_pipe				old_pipe;
+	t_pipe				new_pipe;
+	int					exit_status;
+	int					exit_code;
+	char				*input_line;
+	t_list				*child_pid_list;
+	t_list				*env_list;
+	t_list				*token_list;
+	t_list_d			*cmd_table_list;
+	// t_final_cmd_table	*final_cmd_table;
 	// t_ast			*ast;
-	char			*input_line;
 }	t_shell;
 
 #endif

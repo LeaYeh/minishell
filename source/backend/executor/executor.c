@@ -45,8 +45,7 @@ void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
 		else if (cmd_table->type == C_SUBSHELL_START)
 			handle_pipeline(shell, &cmd_table_node);
 		else
-			ft_clean_and_exit_shell(shell,
-				PREPROCESS_ERROR, "handle process, unknown command type");
+			raise_internal_error(shell, "handle process, unknown command type");
 	}
 }
 
@@ -85,12 +84,10 @@ void	ft_executor(t_shell *shell)
 	heredoc_status = ft_heredoc(shell);
 	setup_signal(shell, SIGINT, SIG_STD);
 	if (heredoc_status == HEREDOC_ERROR)
-		ft_clean_and_exit_shell(
-			shell, PREPROCESS_ERROR, "heredoc failed");
+		raise_internal_error(shell, "heredoc internal error");
 	else if (heredoc_status == HEREDOC_ABORT)
 		return ;
 	if (!pre_expand_simple_cmd(shell, shell->cmd_table_list))
-		ft_clean_and_exit_shell(
-			shell, PREPROCESS_ERROR, "expend malloc failed");
+		raise_internal_error(shell, "expand internal error");
 	handle_process(shell, shell->cmd_table_list);
 }

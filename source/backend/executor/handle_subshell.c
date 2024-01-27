@@ -14,12 +14,13 @@
 #include "defines.h"
 #include "utils.h"
 #include "clean.h"
+#include "signals.h"
 
 void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 {
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
-		ft_clean_and_exit_shell(shell, SUBSHELL_ERROR, "subshell fork failed");
+		raise_internal_error(shell, "subshell fork failed");
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;

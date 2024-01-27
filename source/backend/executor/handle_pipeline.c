@@ -68,14 +68,14 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		{
 			// do T1, handle_pipe
 			if (need_pipe(*cmd_table_node) && !create_pipe(&shell->new_pipe))
-				ft_clean_and_exit_shell(shell, SUBSHELL_ERROR, "pipe failed");
+				raise_internal_error(shell, "create pipe failed");
 			if (cmd_table_type == C_SUBSHELL_START)
 				handle_subshell(shell, cmd_table_node);
 			else if (cmd_table_type == C_SIMPLE_CMD)
 				handle_simple_cmd(shell, cmd_table_node);
 			// do T2.1
 			if (!insert_child_pid_list(shell, shell->subshell_pid))
-				ft_clean_and_exit_shell(shell, SUBSHELL_ERROR, "malloc failed");
+				raise_internal_error(shell, "malloc failed");
 			handle_pipes_parent(&shell->new_pipe, &shell->old_pipe);
 		}
 		cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
@@ -109,8 +109,7 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	setup_signal(shell, SIGINT, SIG_IGNORE);
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
-		ft_clean_and_exit_shell(
-			shell, SUBSHELL_ERROR, "handle_pipeline, fork failed");
+		raise_internal_error(shell, "handle_pipeline fork failed");
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;

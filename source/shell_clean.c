@@ -36,6 +36,7 @@ void	ft_clean_shell(t_shell *shell)
 void	reset_submodule_variable(t_shell *shell)
 {
 	shell->subshell_level = 0;
+	ft_lstclear(&shell->child_pid_list, free);
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
 	ft_free_and_null((void **)&shell->input_line);
@@ -44,7 +45,7 @@ void	reset_submodule_variable(t_shell *shell)
 void	ft_clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)
 {
 	if (msg)
-		ft_dprintf(STDERR_FILENO, STY_YEL "%s\n" STY_RES, msg);
+		printf(STY_GRY"[%d] %s\n"STY_RES, getpid(), msg);
 	ft_clean_shell(shell);
 	safe_close_all_pipes(shell);
 	exit(exit_code);
