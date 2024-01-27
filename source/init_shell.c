@@ -13,6 +13,7 @@
 #include "minishell.h"
 #include "clean.h"
 #include "utils.h"
+#include "signals.h"
 
 bool	ft_append_env(t_shell *shell, char *key, char *value)
 {
@@ -77,6 +78,7 @@ bool	ft_setup_env(t_shell *shell, char **env)
 
 bool	ft_init_shell(t_shell *shell, char **env)
 {
+
 	shell->pid = getpid();
 	shell->subshell_pid = -1;
 	shell->subshell_level = 0;
@@ -94,5 +96,10 @@ bool	ft_init_shell(t_shell *shell, char **env)
 		return (false);
 	else if (env && !ft_setup_env(shell, env))
 		return (false);
+	handle_signal_std(0, NULL, shell);
+	handle_signal_heredoc(0, NULL, shell);
+	setup_signal(shell, SIGINT, SIG_STD);
+	setup_signal(shell, SIGTERM, SIG_IGNORE);
+	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	return (true);
 }

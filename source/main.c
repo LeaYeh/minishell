@@ -18,6 +18,7 @@
 #include "debug.h"
 #include "tests.h"
 #include "utils.h"
+#include "signals.h"
 
 bool	ft_read_input(t_shell *shell);
 
@@ -31,23 +32,18 @@ int	main(int argc, char **argv, char **env)
 	// handle ctrl-C and ctrl-D and ignore ctrl-/
 	if (!ft_init_shell(&shell, env))
 		ft_clean_and_exit_shell(&shell, PREPROCESS_ERROR, "init shell failed");
-	// init signal handler
 	while (true)
 	{
 		if (!ft_read_input(&shell))
 		{
-			printf("\n");
-			ft_clean_and_exit_shell(&shell, EXIT_SUCCESS, NULL);
+			printf("\nexit\n");
+			ft_clean_and_exit_shell(&shell, shell.exit_code, NULL);
 		}
 		if (!ft_lexer(&shell) || !ft_parser(&shell))
 		{
 			reset_submodule_variable(&shell);
 			continue ;
 		}
-		print_cmd_table_list(shell.cmd_table_list);
-		if (!print_expanded_cmd_table_list(&shell))
-			ft_clean_and_exit_shell(
-				&shell, PREPROCESS_ERROR, "expansion malloc failed");
 		if (shell.cmd_table_list)
 			ft_executor(&shell);
 		reset_submodule_variable(&shell);

@@ -16,6 +16,9 @@
 # include <fcntl.h>
 # include <linux/limits.h>
 # include <limits.h>
+# include <sys/ioctl.h>
+# include <sys/types.h>
+# include <signal.h>
 # include <sysexits.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
@@ -96,7 +99,7 @@
 # define ERROR_PARSER_SYNTAX				\
 "%s: syntax error near unexpected token `%s'\n"
 # define ERROR_HEREDOC_UNEXPECTED_EOF		\
-"%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
+"\n%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_EXPANDER_BAD_SUBSTITUTION	\
 "%s: %s: bad substitution\n"
 # define ERROR_EXIT_TOO_MANY_ARGS			\
@@ -109,6 +112,22 @@
 "%s: warning: failed to remove file `%s'\n"
 
 extern const int	g_parsing_table[][PT_COL_SIZE];
+
+
+typedef enum e_heredoc_status
+{
+	HEREDOC_SUCCESS = 0,
+	HEREDOC_ERROR,
+	HEREDOC_ABORT
+}	t_heredoc_status;
+
+typedef enum e_state
+{
+	SIG_HEREDOC = 0,
+	SIG_STD,
+	SIG_DEFAULT,
+	SIG_IGNORE
+}	t_state;
 
 typedef enum e_pt_col
 {

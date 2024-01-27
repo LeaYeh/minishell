@@ -13,6 +13,7 @@
 #include "executor.h"
 #include "utils.h"
 #include "clean.h"
+#include "signals.h"
 
 // iter wait from the last child pid in the list
 void	wait_all_child_pid(t_shell *shell)
@@ -29,11 +30,12 @@ void	wait_all_child_pid(t_shell *shell)
 		pid = *(pid_t *)child_pid_node->content;
 		if (i == 0)
 			wait_process(shell, pid);
-		else if (waitpid(pid, &status, 0) == -1)
-			perror("waitpid");
+		waitpid(pid, &status, 0);
 		i++;
 		child_pid_node = child_pid_node->next;
 	}
+	if (shell->subshell_level <= 1 && shell->exit_code == 130)
+		printf("\n");
 }
 
 bool	insert_child_pid_list(t_shell *shell, pid_t pid)
@@ -104,6 +106,7 @@ void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 // handle_pipeline = handle_one_pipeline
 void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
+	setup_signal(shell, SIGINT, SIG_IGNORE);
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
 		ft_clean_and_exit_shell(
@@ -119,5 +122,6 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	{
 		move_past_pipeline(cmd_table_node);
 		handle_end_of_pipeline(shell, cmd_table_node);
+		setup_signal(shell, SIGINT, SIG_STD);
 	}
 }
