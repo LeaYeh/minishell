@@ -13,8 +13,6 @@
 #include "cd.h"
 #include "utils.h"
 
-# define ERROR_CD_OLDPWD_NOT_SET "cd: OLDPWD not set\n"
-
 char	*get_target_dir(char **args, t_list *env_list)
 {
 	char	*target_dir;

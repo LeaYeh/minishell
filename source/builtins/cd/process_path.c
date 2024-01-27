@@ -61,7 +61,6 @@ int	simplify_path(char **new_path, char *target_dir, char *pwd)
 	return (SUCCESS);
 }
 
-//TODO: Doesn't necessarily need an absolute path, so maybe adjust the function name
 char	*try_to_convert_abs_to_rel_path(char *abs_path, char *pwd)
 {
 	size_t	abs_path_len;
@@ -71,15 +70,11 @@ char	*try_to_convert_abs_to_rel_path(char *abs_path, char *pwd)
 	if (!is_abs_path(pwd) || !is_abs_path(abs_path))
 		return (ft_strdup(abs_path));
 	abs_path_len = ft_strlen(abs_path);
-	// Can pwd be NULL?
 	pwd_len = ft_strlen(pwd);
 	if (abs_path_len < pwd_len || \
 		ft_strncmp(abs_path, pwd, pwd_len) != 0 || \
 		(abs_path[pwd_len] != '/' && abs_path[pwd_len] != '\0'))
 		return (ft_strdup(abs_path));
-	// Else if they are equal, return "."
-	// else if (abs_path_len == pwd_len)
-	// 	rel_path = ft_strdup(".");
 	else
 		rel_path = ft_substr(abs_path, pwd_len + 1, abs_path_len - pwd_len);
 	return (rel_path);

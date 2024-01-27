@@ -16,8 +16,6 @@ bool	check_dir(char *dir, char *target_dir)
 {
 	struct stat	path_stat;
 
-	printf("dir: %s\n", dir);
-	printf("target_dir: %s\n", target_dir);
 	if (access(dir, F_OK) != -1)
 	{
 		stat(dir, &path_stat);
@@ -25,7 +23,7 @@ bool	check_dir(char *dir, char *target_dir)
 			return (true);
 	}
 	ft_dprintf(2, "%s: cd: %s: ", PROGRAM_NAME, target_dir);
-	perror("check_dir");
+	perror(NULL);
 	(void)dir;
 	return (false);
 }

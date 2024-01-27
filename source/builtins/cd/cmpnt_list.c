@@ -12,7 +12,6 @@
 
 #include "cd.h"
 
-//? Is it possible that cmpnt_list SHOULD be NULL without it being a GENERAL_ERROR?
 t_list_d	*get_abs_path_cmpnt_list(char *pwd, char *target_dir)
 {
 	t_list_d	*cmpnt_list;

@@ -89,13 +89,12 @@ int	exec_cd(char **args, t_list **env_list)
 
 	target_dir = get_target_dir(args, *env_list);
 	if (!target_dir)
-		return (printf("no target_dir"), MISUSE_BUILTIN);
+		return (MISUSE_BUILTIN);
 	// if (!is_abs_path(target_dir) && !is_dot_cmpnt(target_dir))
 		// Do step 5 - check CDPATH env variable
 	ret = set_final_path(&final_path, &new_pwd, target_dir);
 	if (ret != SUCCESS)
 		return (ret);
-	printf("final_path: %s\n", final_path);
 	if (chdir(final_path) == -1)
 		return (free(final_path), free(new_pwd),
 			handle_chdir_error(errno, target_dir));
