@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/25 16:11:26 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:47:04 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void		ft_lstadd_back_d(t_list_d **lst, t_list_d *new);
 void		ft_lstadd_front_d(t_list_d **lst, t_list_d *new);
 void		ft_lstclear_d(t_list_d **lst, void (*del)(void *));
 void		ft_lstdelone_d(t_list_d *lst, void (*del)(void *));
+void		ft_lstdrop_node_d(t_list_d **lst, t_list_d **node, \
+								void (*del)(void *));
 t_list_d	*ft_lstlast_d(t_list_d *lst);
 bool		ft_lstnew_back_d(t_list_d **lst, void *content);
 t_list_d	*ft_lstnew_d(void *content);
@@ -64,6 +66,7 @@ void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstadd_front(t_list **lst, t_list *new);
 void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstdelone(t_list *lst, void (*del)(void *));
+void		ft_lstdrop_node(t_list **lst, t_list **node, void (*del)(void *));
 void		ft_lstinsert_after(t_list **lst, t_list *new);
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstlast(t_list *lst);
@@ -115,6 +118,7 @@ char		**ft_split(char const *s, char c);
 char		**ft_split_at_index(char *str, size_t index);
 char		*ft_strchr(const char *s, int c);
 int			ft_strcmp(const char *s1, const char *s2);
+char		*ft_strdel_sequence(const char *str, const char *sequence);
 char		*ft_strdup(const char *s);
 int			ft_strisdigits(const char *s);
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));

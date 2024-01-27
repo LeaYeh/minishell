@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:04:29 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/23 21:00:58 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/15 00:00:05 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
  */
 void	*ft_lstpop_front_content(t_list **lst)
 {
-	void	*popped_content;
 	t_list	*popped_node;
+	void	*popped_content;
 
 	if (lst == NULL || *lst == NULL)
 		return (NULL);

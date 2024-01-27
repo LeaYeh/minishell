@@ -1,15 +1,6 @@
 {
     "configurations": [
         {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "args": ["/nfs/homes/lyeh/project/curriculum/minishell/data/parsing_rule.output", "parsing_table", "-v"],
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": true
-        },
-        {
             "name": "debug",
             "type": "cppdbg",
             "request": "launch",
@@ -32,6 +23,15 @@
                     "ignoreFailures": true
                 }
             ]
+        },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "args": ["/nfs/homes/lyeh/project/curriculum/minishell/data/parsing_rule.output", "parsing_table", "-v"],
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
         }
     ]
 }
