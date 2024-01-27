@@ -20,8 +20,14 @@ int	check_cmpnt_node_path(
 	path = convert_cmpnt_node_to_path(cmpnt_list, cmpnt_node);
 	if (!path)
 		return (GENERAL_ERROR);
-	if (!check_dir(path, target_dir))
-		return (free(path), MISUSE_BUILTIN);
+	if (ft_strlen(path) + 1 <= PATH_MAX)
+	{
+		if (!check_dir(path, target_dir))
+			return (free(path), MISUSE_BUILTIN);
+	}
+	else
+		if (!check_dir(target_dir, target_dir))
+			return (free(path), MISUSE_BUILTIN);
 	return (free(path), SUCCESS);
 }
 

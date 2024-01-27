@@ -58,7 +58,7 @@ char		*get_target_dir(char **args, t_list *env_list);
 
 /* process_path.c */
 int			set_final_path(char **final_path, char **new_pwd, char *target_dir);
-int			simplify_path(char **new_pwd, char *pwd, char *target_dir);
+int			simplify_path(char **new_path, char *target_dir, char *pwd);
 char		*try_to_convert_abs_to_rel_path(char *abs_path, char *pwd);
 
 /* update_pwd_env.c */

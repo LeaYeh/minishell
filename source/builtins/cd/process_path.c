@@ -23,30 +23,43 @@ int	set_final_path(char **final_path, char **new_pwd, char *target_dir)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 		return (handle_getcwd_error(errno, target_dir));
-	ret = simplify_path(new_pwd, pwd, target_dir);
+	ret = simplify_path(new_pwd, target_dir, pwd);
 	if (ret != SUCCESS)
 		return (free(pwd), ret);
 	*final_path = try_to_convert_abs_to_rel_path(*new_pwd, pwd);
 	free(pwd);
-	if (!*final_path || !ensure_path_not_empty(final_path))
+	if (!*final_path)
+		return (free(*new_pwd), GENERAL_ERROR);
+	if (ft_strlen(*final_path) + 1 > PATH_MAX)
+	{
+		free(*final_path);
+		ret = simplify_path(final_path, target_dir, NULL);
+		if (ret != SUCCESS)
+			return (free(*new_pwd), ret);
+	}
+	if (!ensure_path_not_empty(final_path))
 		return (free(*new_pwd), GENERAL_ERROR);
 	return (SUCCESS);
 }
 
-int	simplify_path(char **new_pwd, char *pwd, char *target_dir)
+int	simplify_path(char **new_path, char *target_dir, char *pwd)
 {
 	t_list_d	*cmpnt_list;
 	int			ret;
 
-	cmpnt_list = get_abs_path_cmpnt_list(pwd, target_dir);
+	if (pwd)
+		cmpnt_list = get_abs_path_cmpnt_list(pwd, target_dir);
+	else
+		cmpnt_list = create_cmpnt_list(target_dir);
 	if (!cmpnt_list)
 		return (GENERAL_ERROR);
 	ret = handle_dot_cmpnts(&cmpnt_list, target_dir);
 	if (ret != SUCCESS)
 		return (ft_lstclear_d(&cmpnt_list, free), ret);
-	*new_pwd = convert_cmpnt_node_to_path(cmpnt_list, ft_lstlast_d(cmpnt_list));
+	*new_path = convert_cmpnt_node_to_path(
+			cmpnt_list, ft_lstlast_d(cmpnt_list));
 	ft_lstclear_d(&cmpnt_list, free);
-	if (!*new_pwd)
+	if (!*new_path)
 		return (GENERAL_ERROR);
 	return (SUCCESS);
 }

@@ -70,6 +70,11 @@
  * [ ] If inside a directory that gets deleted, my cd never recovers bc it always tries to get the pwd from getcwd().
 */
 
+/*
+ * NAME_MAX = 255
+ * PATH_MAX = 4096
+*/
+
 #include "cd.h"
 #include "clean.h"
 #include "minishell.h"
