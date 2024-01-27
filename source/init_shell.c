@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 04:50:02 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/20 12:44:54 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "utils.h"
 #include "signals.h"
 
-bool	ft_append_env(t_shell *shell, char *key, char *value)
+bool	ft_append_env(t_list **env_list, char *key, char *value)
 {
 	t_env	*env_node;
 
@@ -24,8 +24,8 @@ bool	ft_append_env(t_shell *shell, char *key, char *value)
 		return (false);
 	env_node->key = key;
 	env_node->value = value;
-	if (!ft_lstnew_back(&shell->env_list, env_node))
-		return (free_env_node(env_node), false);
+	if (!ft_lstnew_back(env_list, env_node))
+		return (free(env_node), false);
 	return (true);
 }
 
@@ -66,7 +66,7 @@ bool	ft_setup_env(t_shell *shell, char **env)
 			break ;
 		if (!extract_string(&value, NULL, "\n\0"))
 			break ;
-		if (!ft_append_env(shell, key, value))
+		if (!ft_append_env(&shell->env_list, key, value))
 			break ;
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:43:22 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/11 17:33:25 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/17 10:11:52 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # include "defines.h"
 
 bool	ft_init_shell(t_shell *shell, char **env);
+bool	ft_append_env(t_list **env_list, char *key, char *value);
+
 bool	mock_lexer(t_shell *shell);
 
 char	*ft_get_token_type_str(int type);
