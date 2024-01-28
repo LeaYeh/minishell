@@ -1,26 +1,53 @@
 #include "signals.h"
 
-void	raise_internal_error(t_shell *shell, char *msg)
+void	raise_error_and_escape(t_shell *shell, char *msg)
 {
 	if (msg)
-		printf(STY_RED"Crash error: %s\n"STY_RES, msg);
+		printf(STY_RED"%s error: %s\n"STY_RES, PROGRAM_NAME, msg);
 	kill(-shell->pid, SIGABRT);
-	kill(shell->pid, SIGABRT);
 }
 
-void	handle_signal_subshell(int signo, siginfo_t *info, void *context)
+void	raise_error_to_all_subprocess(t_shell *shell, int exit_code, char *msg)
 {
-	static t_shell	*shell;
+	shell->exit_code = exit_code;
+	if (msg)
+		printf(STY_RED"%s error: %s\n"STY_RES, PROGRAM_NAME, msg);
+	setup_signal(shell, SIGINT, SIG_STD);
+	setup_signal(shell, SIGABRT, SIG_STD);
+	setup_signal(shell, SIGQUIT, SIG_IGNORE);
+	kill(-shell->pid, SIGTERM);
+}
 
-	(void)info;
-	if (!shell)
+void	signal_to_all_subprocess(t_shell *shell, int signo)
+{
+	pid_t	pid;
+	pid_t	child_pid;
+	t_list	*node;
+
+	pid = getpid();
+	node = shell->child_pid_list;
+	while (node)
 	{
-		shell = context;
-		return ;
+		child_pid = *(pid_t *)node->content;
+		if (child_pid == pid)
+			break ;
+		kill(child_pid, signo);
+		node = node->next;
 	}
-	shell->exit_code = TERM_BY_SIGNAL + signo;
-	if (signo == SIGABRT)
-		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+}
+
+void	raise_error_to_own_subprocess(t_shell *shell, int exit_code, char *msg)
+{
+	// pid_t	pid;
+
+	shell->exit_code = exit_code;
+	if (msg)
+		printf(STY_RED"%s error: %s\n"STY_RES, PROGRAM_NAME, msg);
+	setup_signal(shell, SIGINT, SIG_STD);
+	setup_signal(shell, SIGABRT, SIG_STD);
+	setup_signal(shell, SIGQUIT, SIG_IGNORE);
+	signal_to_all_subprocess(shell, SIGTERM);
+	kill(getpid(), SIGTERM);
 }
 
 void	handle_signal_std(int signo, siginfo_t *info, void *context)
@@ -44,6 +71,9 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 	else if (signo == SIGABRT)
 		ft_clean_and_exit_shell(
 			shell, shell->exit_code, "Clean up and abort the program");
+	else if (signo == SIGTERM && shell->subshell_level != 0)
+		ft_clean_and_exit_shell(shell, shell->exit_code, "SIGTERM");
+
 }
 
 void	handle_signal_heredoc(int signo, siginfo_t *info, void *context)
@@ -76,8 +106,6 @@ void	setup_signal(t_shell *shell, int signo, t_state state)
 		sa.sa_sigaction = handle_signal_heredoc;
 	else if (state == SIG_STD)
 		sa.sa_sigaction = handle_signal_std;
-	else if (state == SIG_SUBSHELL)
-		sa.sa_sigaction = handle_signal_subshell;
 	else if (state == SIG_DEFAULT)
 		sa.sa_handler = SIG_DFL;
 	else if (state == SIG_IGNORE)

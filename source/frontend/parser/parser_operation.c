@@ -56,11 +56,11 @@ bool	parse_shift(t_token *token_node,
 		return (free_ast_node(ast_node), false);
 	if (!push_state(state_stack, next_step))
 		return (false);
-	printf("After shift:\n");
-	printf("state_stack: ");
-	print_state_stack(*state_stack);
-	printf("parse_stack: ");
-	print_parse_stack(*parse_stack);
+	// printf("After shift:\n");
+	// printf("state_stack: ");
+	// print_state_stack(*state_stack);
+	// printf("parse_stack: ");
+	// print_parse_stack(*parse_stack);
 	return (true);
 }
 
@@ -83,11 +83,11 @@ bool	parse_reduce(
 	ft_lstadd_back(&reduce_node->children, children);
 	if (!push_node(parse_stack, reduce_node))
 		return (free_ast_node(reduce_node), false);
-	printf("reduce_node->type: %d\n", reduce_node->type);
-	printf("state_stack: ");
-	print_state_stack(*state_stack);
-	printf("parse_stack: ");
-	print_parse_stack(*parse_stack);
+	// printf("reduce_node->type: %d\n", reduce_node->type);
+	// printf("state_stack: ");
+	// print_state_stack(*state_stack);
+	// printf("parse_stack: ");
+	// print_parse_stack(*parse_stack);
 	return (true);
 }
 
@@ -105,8 +105,8 @@ bool	parse_goto(t_list **state_stack, int token_type)
 		return (false);
 	if (!push_state(state_stack, pt_entry->next_state))
 		return (free(pt_entry), false);
-	printf("After goto:\n");
-	printf("state_stack: ");
-	print_state_stack(*state_stack);
+	// printf("After goto:\n");
+	// printf("state_stack: ");
+	// print_state_stack(*state_stack);
 	return (free(pt_entry), true);
 }

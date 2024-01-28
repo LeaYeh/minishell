@@ -58,7 +58,6 @@ t_list_d	*build_cmd_table_list(t_list *token_list)
 	t_list_d	*cmd_table_list;
 
 	cmd_table_list = NULL;
-	print_token_list(token_list);
 	while (token_list)
 	{
 		if (!handle_current_token(&token_list, &cmd_table_list))

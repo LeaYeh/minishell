@@ -85,7 +85,7 @@ bool	ft_init_shell(t_shell *shell, char **env)
 	handle_signal_heredoc(0, NULL, shell);
 	setup_signal(shell, SIGINT, SIG_STD);
 	setup_signal(shell, SIGABRT, SIG_STD);
-	setup_signal(shell, SIGTERM, SIG_IGNORE);
+	setup_signal(shell, SIGTERM, SIG_STD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	init_pipe(&shell->old_pipe);
 	init_pipe(&shell->new_pipe);
@@ -94,7 +94,7 @@ bool	ft_init_shell(t_shell *shell, char **env)
 	shell->child_pid_list = NULL;
 	shell->env_list = NULL;
 	shell->token_list = NULL;
-	// shell->final_cmd_table = NULL;
+	shell->final_cmd_table = NULL;
 	// shell->ast = NULL;
 	shell->cmd_table_list = NULL;
 	shell->input_line = NULL;

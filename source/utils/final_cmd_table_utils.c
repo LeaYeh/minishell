@@ -13,13 +13,33 @@
 #include "executor.h"
 #include "defines.h"
 #include "utils.h"
+#include "expander.h"
 #include "debug.h"
 #include "signals.h"
 
-bool	setup_simple_cmd(t_final_cmd_table *final_cmd_table, t_list *simple_cmd_list)
+bool	expand_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
 {
-	final_cmd_table->simple_cmd = convert_list_to_string_array(simple_cmd_list);
-	if (!final_cmd_table->simple_cmd)
+	t_list		*expanded_list;
+	int			ret;
+
+	expanded_list = NULL;
+	ret = expand_list(
+			shell, simple_cmd_list, &expanded_list);
+	if (ret == MALLOC_ERROR)
+		return (ft_lstclear(&expanded_list, free), false);
+	else if (ret == BAD_SUBSTITUTION)
+		ft_lstclear(&expanded_list, free);
+	shell->final_cmd_table->simple_cmd = \
+		convert_list_to_string_array(expanded_list);
+	ft_lstclear(&expanded_list, free);
+	if (!shell->final_cmd_table->simple_cmd)
+		return (false);
+	return (true);
+}
+
+bool	setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
+{
+	if (!expand_simple_cmd(shell, simple_cmd_list))
 		return (false);
 	return (true);
 }
@@ -59,11 +79,9 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 	char	tmp[PATH_MAX];
 	int		i;
 
-	final_cmd_table->envp = NULL;
 	if (!env_list)
 		return (true);
-	final_cmd_table->envp = (char **)malloc(\
-								(ft_lstsize(env_list) + 1) * sizeof(char *));
+	final_cmd_table->envp = ft_calloc(ft_lstsize(env_list) + 1, sizeof(char *));
 	if (!final_cmd_table->envp)
 		return (false);
 	i = 0;
@@ -81,7 +99,7 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 	return (true);
 }
 
-bool	setup_fd(
+void	setup_fd(
 	t_shell *shell, t_final_cmd_table *final_cmd_table, t_cmd_table *cmd_table)
 {
 	final_cmd_table->read_fd = STDIN_FILENO;
@@ -90,32 +108,15 @@ bool	setup_fd(
 		final_cmd_table->read_fd = *shell->old_pipe.read_fd;
 	if (*shell->old_pipe.write_fd != -1)
 		final_cmd_table->write_fd = *shell->old_pipe.write_fd;
-	if (ft_lstsize_non_null(cmd_table->io_red_list) > 0)
-	{
-		if (!handle_io_redirect(final_cmd_table, cmd_table->io_red_list))
-		{
-			shell->exit_code = GENERAL_ERROR;
-			return (false);
-		}
-	}
-	return (true);
-}
-
-int	setup_final_cmd_table(
-	t_shell *shell, t_cmd_table *cmd_table, t_final_cmd_table **final_cmd_table)
-{
-	if (!setup_env(*final_cmd_table, shell->env_list) || \
-		!setup_simple_cmd(*final_cmd_table, cmd_table->simple_cmd_list) || \
-		!setup_exec_path(*final_cmd_table) || \
-		!setup_assignment_array(*final_cmd_table, cmd_table->assignment_list))
-		return (free_final_cmd_table(final_cmd_table), SUBSHELL_ERROR);
-	if (!setup_fd(shell, *final_cmd_table, cmd_table))
-		return (free_final_cmd_table(final_cmd_table), GENERAL_ERROR);
-	return (SUCCESS);
+	if (ft_lstsize_non_null(cmd_table->io_red_list) > 0 && \
+		!handle_io_redirect(final_cmd_table, cmd_table->io_red_list))
+		shell->exit_code = GENERAL_ERROR;
 }
 
 void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
 {
+	if (!final_cmd_table || !*final_cmd_table)
+		return ;
 	free_array(&(*final_cmd_table)->envp);
 	free_array(&(*final_cmd_table)->simple_cmd);
 	free((*final_cmd_table)->exec_path);
@@ -125,20 +126,18 @@ void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
 	ft_free_and_null((void **)final_cmd_table);
 }
 
-t_final_cmd_table	*get_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
-{
-	t_final_cmd_table	*final_cmd_table;
-	int					ret;
 
-	final_cmd_table = ft_calloc(1, sizeof(t_final_cmd_table));
-	if (!final_cmd_table)
-		return (NULL);
-	ret = setup_final_cmd_table(shell, cmd_table, &final_cmd_table);
-	if (ret == SUBSHELL_ERROR)
-		raise_internal_error(shell, "setup_final_cmd_table failed");
-	shell->exit_code = ret;
-	// if (final_cmd_table->simple_cmd[0] == NULL &&
-	// 	final_cmd_table->assignment_array)
-	// 	handle_assignment(shell, final_cmd_table);
-	return (final_cmd_table);
+bool	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
+{
+	free_final_cmd_table(&shell->final_cmd_table);
+	shell->final_cmd_table = ft_calloc(1, sizeof(t_final_cmd_table));
+	if (!shell->final_cmd_table || \
+		!setup_env(shell->final_cmd_table, shell->env_list) || \
+		!setup_simple_cmd(shell, cmd_table->simple_cmd_list) || \
+		!setup_exec_path(shell->final_cmd_table) || \
+		!setup_assignment_array(
+			shell->final_cmd_table, cmd_table->assignment_list))
+		return (false);
+	setup_fd(shell, shell->final_cmd_table, cmd_table);
+	return (true);
 }

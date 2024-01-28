@@ -25,27 +25,30 @@ void	free_env_node(t_env *env)
 
 void	ft_clean_shell(t_shell *shell)
 {
+	ft_free_and_null((void **)&shell->input_line);
 	ft_lstclear(&shell->child_pid_list, free);
 	ft_lstclear(&shell->env_list, (void *)free_env_node);
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
+	free_final_cmd_table(&shell->final_cmd_table);
 	// free_ast_node(shell->ast);
-	ft_free_and_null((void **)&shell->input_line);
 }
 
 void	reset_submodule_variable(t_shell *shell)
 {
 	shell->subshell_level = 0;
+	shell->subshell_pid = -1;
 	ft_lstclear(&shell->child_pid_list, free);
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
 	ft_free_and_null((void **)&shell->input_line);
+	free_final_cmd_table(&shell->final_cmd_table);
 }
 
 void	ft_clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)
 {
 	if (msg)
-		printf(STY_GRY"[%d] %s\n"STY_RES, getpid(), msg);
+		printf("%s\n", msg);
 	ft_clean_shell(shell);
 	safe_close_all_pipes(shell);
 	exit(exit_code);
