@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 22:59:29 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/26 02:24:21 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/28 03:00:15 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ int	check_cmpnt_node_path(
 
 	path = convert_cmpnt_node_to_path(cmpnt_list, cmpnt_node);
 	if (!path)
-		return (GENERAL_ERROR);
+		return (SUBSHELL_ERROR);
 	if (ft_strlen(path) + 1 <= PATH_MAX)
 	{
 		if (!check_dir(path, target_dir))
-			return (free(path), MISUSE_BUILTIN);
+			return (free(path), GENERAL_ERROR);
 	}
 	else
 		if (!check_dir(target_dir, target_dir))
-			return (free(path), MISUSE_BUILTIN);
+			return (free(path), GENERAL_ERROR);
 	return (free(path), SUCCESS);
 }
 
