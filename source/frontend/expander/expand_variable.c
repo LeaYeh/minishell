@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:18:15 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/03 15:26:09 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:12:54 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	expand_variable(char **str, size_t *i, size_t offset, t_list *env_list)
 	replace_len = count_replace_len(&(*str)[*i]);
 	replacement = get_replacement(var, env_list);
 	free(var);
-	if (!replace_part_of_str(str, replacement, *i, replace_len))
+	if (!ft_rplc_part_of_str(str, replacement, *i, replace_len))
 		return (false);
 	*i += ft_strlen(replacement);
 	return (true);

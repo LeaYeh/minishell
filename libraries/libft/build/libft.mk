@@ -116,6 +116,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 SUBDIR	:=	strings/
 TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_itoa.c \
+			ft_rplc_part_of_str.c \
 			ft_split.c \
 			ft_split_at_index.c \
 			ft_strchr.c \
@@ -133,7 +134,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_strncmp.c \
 			ft_strnstr.c \
 			ft_strrchr.c \
-			ft_strreplc_sequence.c \
+			ft_strrplc_sequence.c \
 			ft_strtok.c \
 			ft_strtrim.c \
 			ft_substr.c \

@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/30 18:47:04 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:23:05 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ void		ft_putstr_fd(char *s, int fd);
 /* Strings */
 
 char		*ft_itoa(int n);
+bool		ft_rplc_part_of_str(char **str, const char *rplcmt, \
+								size_t start, size_t len);
 char		**ft_split(char const *s, char c);
 char		**ft_split_at_index(char *str, size_t index);
 char		*ft_strchr(const char *s, int c);
@@ -131,7 +133,7 @@ int			ft_strmatches_any(const char *str, int n, ...);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
 char		*ft_strrchr(const char *s, int c);
-char		*ft_strreplc_sequence(const char *str, const char *sequence, \
+char		*ft_strrplc_sequence(const char *str, const char *sequence, \
 									const char *rplcmt);
 char		*ft_strtok(char *str, const char *delim);
 char		*ft_strtrim(char const *s1, char const *set);

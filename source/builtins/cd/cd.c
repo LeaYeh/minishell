@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:05:20 by codespace         #+#    #+#             */
-/*   Updated: 2024/01/26 02:35:16 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/27 22:07:45 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
  *     If OLDPWD is not set, print "<PROGRAM_NAME>: cd: OLDPWD not set".
  * [x] Permission checks!
  * [ ] Add ft_strstr to libft.
- * [ ] Move replace_part_of_str() to libft.
+ * [x] Move replace_part_of_str() to libft.
  * [x] Test cd with symbolic links, especially for step 8.b.i.
  * [x] Test inside a directory that then got deleted from another shell.
 */
