@@ -110,7 +110,6 @@ bool	ft_parser(t_shell *shell)
 	if (!parse(shell, &parser_data))
 		return (free_parser_data(&parser_data), false);
 	free_parser_data(&parser_data);
-	printf("ACCEPT\n");
 	shell->cmd_table_list = build_cmd_table_list(shell->token_list);
 	if (!shell->cmd_table_list)
 		ft_clean_and_exit_shell(

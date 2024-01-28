@@ -37,10 +37,10 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	t_cmd_table	*cmd_table;
 	char		*cmd_name;
 
+	if (!set_final_cmd_table(shell, (*cmd_table_node)->content))
+		return (raise_error_to_own_subprocess(
+				shell, MALLOC_ERROR, "malloc failed"));
 	cmd_table = get_cmd_table_from_list(*cmd_table_node);
-	if (!cmd_table)
-		ft_clean_and_exit_shell(
-			shell, SUBSHELL_ERROR, "get_cmd_table_from_list failed");
 	cmd_name = get_cmd_name_from_list(cmd_table->simple_cmd_list);
 	// TODO: Need to check if the final cmd table need to be skip
 	if (cmd_name == NULL)
@@ -48,7 +48,7 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	else if (is_builtin(cmd_name))
 		handle_builtin(shell, cmd_table_node);
 	else
-		handle_external_cmd(shell, cmd_table);
+		handle_external_cmd(shell);
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
@@ -58,8 +58,7 @@ void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 {
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
-		ft_clean_and_exit_shell(
-			shell, SUBSHELL_ERROR, "handle_simple_cmd, fork failed");
+		raise_error_to_all_subprocess(shell, 254, "handle_simple_cmd fork failed");
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;

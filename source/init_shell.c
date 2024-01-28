@@ -78,10 +78,15 @@ bool	ft_setup_env(t_shell *shell, char **env)
 
 bool	ft_init_shell(t_shell *shell, char **env)
 {
-
 	shell->pid = getpid();
 	shell->subshell_pid = -1;
 	shell->subshell_level = 0;
+	handle_signal_std(0, NULL, shell);
+	handle_signal_heredoc(0, NULL, shell);
+	setup_signal(shell, SIGINT, SIG_STD);
+	setup_signal(shell, SIGABRT, SIG_STD);
+	setup_signal(shell, SIGTERM, SIG_STD);
+	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	init_pipe(&shell->old_pipe);
 	init_pipe(&shell->new_pipe);
 	shell->exit_status = 0;
@@ -89,6 +94,7 @@ bool	ft_init_shell(t_shell *shell, char **env)
 	shell->child_pid_list = NULL;
 	shell->env_list = NULL;
 	shell->token_list = NULL;
+	shell->final_cmd_table = NULL;
 	// shell->ast = NULL;
 	shell->cmd_table_list = NULL;
 	shell->input_line = NULL;
@@ -96,10 +102,5 @@ bool	ft_init_shell(t_shell *shell, char **env)
 		return (false);
 	else if (env && !ft_setup_env(shell, env))
 		return (false);
-	handle_signal_std(0, NULL, shell);
-	handle_signal_heredoc(0, NULL, shell);
-	setup_signal(shell, SIGINT, SIG_STD);
-	setup_signal(shell, SIGTERM, SIG_IGNORE);
-	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	return (true);
 }

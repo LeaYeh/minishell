@@ -29,16 +29,12 @@ int	main(int argc, char **argv, char **env)
 	t_shell	shell;
 
 	((void)argc, (void)argv);
-	// handle ctrl-C and ctrl-D and ignore ctrl-/
 	if (!ft_init_shell(&shell, env))
-		ft_clean_and_exit_shell(&shell, PREPROCESS_ERROR, "init shell failed");
+		raise_error_and_escape(&shell, "init shell failed");
 	while (true)
 	{
 		if (!ft_read_input(&shell))
-		{
-			printf("\nexit\n");
-			ft_clean_and_exit_shell(&shell, shell.exit_code, NULL);
-		}
+			ft_clean_and_exit_shell(&shell, shell.exit_code, "\nexit");
 		if (!ft_lexer(&shell) || !ft_parser(&shell))
 		{
 			reset_submodule_variable(&shell);

@@ -41,14 +41,16 @@
 # define GENERAL_ERROR      1
 # define BAD_SUBSTITUTION   2
 # define MISUSE_BUILTIN     2
+# define MALLOC_ERROR       2
 # define CMD_EXEC_FAILED    126
 # define CMD_NOT_FOUND      127
 # define UNEXPECT_EXIT      128
 # define TERM_BY_SIGNAL     128
 # define EXIT_SIGTERM       130
 # define PREPROCESS_ERROR   195
-# define SUBSHELL_ERROR     196
-# define IO_RED_ERROR       197
+# define CREATE_FD_ERROR    197
+# define SUBSHELL_ERROR     197
+// # define RESTART_ERROR      254
 
 /* Parsing Table */
 # define PT_COL_SIZE        5
@@ -110,6 +112,8 @@
 // TODO: Replace with OS error message
 # define ERROR_REMOVE_FILE					\
 "%s: warning: failed to remove file `%s'\n"
+# define ERROR_CREATE_PIPE					\
+"pipe error: Too many open files\n"
 
 extern const int	g_parsing_table[][PT_COL_SIZE];
 
@@ -125,6 +129,7 @@ typedef enum e_state
 {
 	SIG_HEREDOC = 0,
 	SIG_STD,
+	SIG_SUBSHELL,
 	SIG_DEFAULT,
 	SIG_IGNORE
 }	t_state;
@@ -296,19 +301,20 @@ new_pipe: read=fd, write=fd
 */
 typedef struct s_shell
 {
-	pid_t			pid;
-	pid_t			subshell_pid;
-	int				subshell_level;
-	t_pipe			old_pipe;
-	t_pipe			new_pipe;
-	int				exit_status;
-	int				exit_code;
-	t_list			*child_pid_list;
-	t_list			*env_list;
-	t_list			*token_list;
-	t_list_d		*cmd_table_list;
+	pid_t				pid;
+	pid_t				subshell_pid;
+	int					subshell_level;
+	t_pipe				old_pipe;
+	t_pipe				new_pipe;
+	int					exit_status;
+	int					exit_code;
+	char				*input_line;
+	t_list				*child_pid_list;
+	t_list				*env_list;
+	t_list				*token_list;
+	t_list_d			*cmd_table_list;
+	t_final_cmd_table	*final_cmd_table;
 	// t_ast			*ast;
-	char			*input_line;
 }	t_shell;
 
 #endif

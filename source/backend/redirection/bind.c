@@ -16,10 +16,12 @@ bool	save_std_io(int saved_std_io[2])
 	return (true);
 }
 
-bool	redirect_io(t_shell *shell, t_final_cmd_table *final_cmd_table)
+bool	redirect_io(t_shell *shell)
 {
-	bool	ret;
+	bool				ret;
+	t_final_cmd_table	*final_cmd_table;
 
+	final_cmd_table = shell->final_cmd_table;
 	ret = true;
 	if (dup2(final_cmd_table->read_fd, STDIN_FILENO) == -1 || \
 		dup2(final_cmd_table->write_fd, STDOUT_FILENO) == -1)

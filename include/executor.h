@@ -26,7 +26,7 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_list);
 void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_list);
 void	handle_assignment(t_shell *shell, t_final_cmd_table *final_cmd_table);
 // void	handle_external_cmd(t_shell *shell, t_final_cmd_table *final_cmd_table);
-void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table);
+void	handle_external_cmd(t_shell *shell);
 void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node);
 // void	handle_builtin(t_shell *shell,
 // 			t_list_d **cmd_table_node, t_final_cmd_table *final_cmd_table);
@@ -41,7 +41,7 @@ char	*get_exec_path(char *cmd_name, char **envp);
 /* Redirection */
 bool	restore_std_io(int saved_std_io[2]);
 bool	save_std_io(int saved_std_io[2]);
-bool	redirect_io(t_shell *shell, t_final_cmd_table *final_cmd_table);
+bool	redirect_io(t_shell *shell);
 bool	handle_io_redirect(
 			t_final_cmd_table *final_cmd_table, t_list *io_red_node);
 

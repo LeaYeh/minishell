@@ -59,7 +59,6 @@ bool	append_cmd_table_by_scenario(int token_type, t_list_d **cmd_table_list)
 			(is_io_red_op(token_type) || is_word(token_type)))
 			return (true);
 	}
-	printf("[%s] Create new cmd_table\n", ft_get_token_type_str(token_type));
 	return (append_empty_cmd_table(cmd_table_list));
 }
 
