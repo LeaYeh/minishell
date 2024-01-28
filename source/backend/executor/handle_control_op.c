@@ -18,6 +18,8 @@
 
 bool	should_execute_next_pipeline(int type, int exit_code)
 {
+	if (exit_code == 130)
+		return (false);
 	if (type == C_AND && exit_code == 0)
 		return (true);
 	else if (type == C_OR && exit_code != 0)

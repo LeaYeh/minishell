@@ -28,11 +28,7 @@ int	handle_exit_status(int wstatus)
 
 void	wait_process(t_shell *shell, pid_t pid)
 {
-	if (waitpid(pid, &shell->exit_status, 0) == -1)
-	{
-		shell->exit_code = UNEXPECT_EXIT;
-		return (perror(PROGRAM_NAME));
-	}
+	waitpid(pid, &shell->exit_status, 0);
 	shell->exit_code = handle_exit_status(shell->exit_status);
 	if (shell->exit_code == SUBSHELL_ERROR && shell->subshell_level != 0)
 		ft_clean_and_exit_shell(shell, shell->exit_code, "propagration exit");

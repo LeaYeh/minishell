@@ -15,6 +15,7 @@
 #include "clean.h"
 #include "utils.h"
 #include "debug.h"
+#include "signals.h"
 
 void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
 {
@@ -78,10 +79,18 @@ bool	pre_expand_simple_cmd(t_shell *shell, t_list_d *cmd_table_node)
 // TODO: activate signal listener in the child process
 void	ft_executor(t_shell *shell)
 {
-	if (!ft_heredoc(shell->cmd_table_list) || \
-		!pre_expand_simple_cmd(shell, shell->cmd_table_list))
+	int	heredoc_status;
+
+	setup_signal(shell, SIGINT, SIG_HEREDOC);
+	heredoc_status = ft_heredoc(shell);
+	setup_signal(shell, SIGINT, SIG_STD);
+	if (heredoc_status == HEREDOC_ERROR)
 		ft_clean_and_exit_shell(
-			shell, PREPROCESS_ERROR, "heredoc/expend malloc failed");
-	print_cmd_table_list(shell->cmd_table_list);
+			shell, PREPROCESS_ERROR, "heredoc failed");
+	else if (heredoc_status == HEREDOC_ABORT)
+		return ;
+	if (!pre_expand_simple_cmd(shell, shell->cmd_table_list))
+		ft_clean_and_exit_shell(
+			shell, PREPROCESS_ERROR, "expend malloc failed");
 	handle_process(shell, shell->cmd_table_list);
 }

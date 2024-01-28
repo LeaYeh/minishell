@@ -15,6 +15,7 @@
 #include "utils.h"
 #include "clean.h"
 #include "debug.h"
+#include "signals.h"
 
 /*
 1. [ ] do expansions
@@ -41,6 +42,7 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 		ft_clean_and_exit_shell(
 			shell, SUBSHELL_ERROR, "get_cmd_table_from_list failed");
 	cmd_name = get_cmd_name_from_list(cmd_table->simple_cmd_list);
+	// TODO: Need to check if the final cmd table need to be skip
 	if (cmd_name == NULL)
 		printf("\n");
 	else if (is_builtin(cmd_name))
