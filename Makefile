@@ -38,7 +38,7 @@ INCLUDES 		:=	-I./include -I./$(LIBRARIES)/inc
 CC 				:=	cc
 CFLAGS 			:=	-Wall -Wextra -Werror -g
 ifeq ($(filter debug,$(MAKECMDGOALS)),debug)
-CFLAGS			+=	-D DEBUG_MODE
+CFLAGS			+=	-D DEBUG_MODE=true
 endif
 LIBFLAGS		:=	$(addprefix -L,$(LIBRARIES)) \
 					$(addprefix -l,$(patsubst lib%,%,$(notdir \
@@ -72,6 +72,8 @@ all				:
 						|| (echo -n $(MSG_START) \
 							&& ($(MAKE) build && echo -n $(MSG_SUCCESS)) \
 							|| (echo -n $(MSG_FAILURE) && exit 42))
+
+debug			:	all
 
 #		Version check for Make
 
