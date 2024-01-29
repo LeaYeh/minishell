@@ -23,8 +23,11 @@ void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
 
 	cmd_table = (*cmd_table_node)->content;
 	if (!set_final_cmd_table(shell, cmd_table))
-		return (raise_error_to_own_subprocess(
-				shell, MALLOC_ERROR, "malloc failed"));
+	{
+		raise_error_to_own_subprocess(shell, MALLOC_ERROR, "malloc failed");
+		move_past_pipeline(cmd_table_node);
+		return ;
+	}
 	if (is_builtin(get_cmd_name_from_list(cmd_table->simple_cmd_list)) && \
 		!is_scmd_in_pipeline(*cmd_table_node))
 		handle_builtin(shell, cmd_table_node);

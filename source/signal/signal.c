@@ -45,6 +45,7 @@ void	raise_error_to_own_subprocess(t_shell *shell, int exit_code, char *msg)
 		printf(STY_RED"%s error: %s\n"STY_RES, PROGRAM_NAME, msg);
 	setup_signal(shell, SIGINT, SIG_STD);
 	setup_signal(shell, SIGABRT, SIG_STD);
+	setup_signal(shell, SIGTERM, SIG_STD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	signal_to_all_subprocess(shell, SIGTERM);
 	kill(getpid(), SIGTERM);
