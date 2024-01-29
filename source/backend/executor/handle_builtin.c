@@ -21,8 +21,6 @@ void	exec_builtin_cmd(t_shell *shell)
 {
 	t_final_cmd_table	*final_cmd_table;
 
-	printf("shell->exit_code in exec_builtin_cmd: %d\n", shell->exit_code);
-	print_final_cmd_table(shell->final_cmd_table);
 	final_cmd_table = shell->final_cmd_table;
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "env") == 0)
 		shell->exit_code = ft_exec_env(shell);

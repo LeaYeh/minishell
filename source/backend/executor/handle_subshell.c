@@ -25,7 +25,6 @@ void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;
-		// do T0
 		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
 		*cmd_table_node = (*cmd_table_node)->next;
 		handle_process(shell, *cmd_table_node);
