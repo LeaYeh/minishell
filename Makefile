@@ -37,6 +37,9 @@ INCLUDES 		:=	-I./include -I./$(LIBRARIES)/inc
 
 CC 				:=	cc
 CFLAGS 			:=	-Wall -Wextra -Werror -g
+ifeq ($(filter debug,$(MAKECMDGOALS)),debug)
+CFLAGS			+=	-D DEBUG_MODE
+endif
 LIBFLAGS		:=	$(addprefix -L,$(LIBRARIES)) \
 					$(addprefix -l,$(patsubst lib%,%,$(notdir \
 					$(LIBRARIES) $(LIBRARIES_EXT))))
@@ -59,7 +62,7 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
-.PHONY			:	all build lib clean fclean re
+.PHONY			:	all build lib clean fclean re debug
 
 
 #	Compilation
@@ -69,7 +72,6 @@ all				:
 						|| (echo -n $(MSG_START) \
 							&& ($(MAKE) build && echo -n $(MSG_SUCCESS)) \
 							|| (echo -n $(MSG_FAILURE) && exit 42))
-
 
 #		Version check for Make
 

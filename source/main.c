@@ -34,7 +34,11 @@ int	main(int argc, char **argv, char **env)
 	while (true)
 	{
 		if (!ft_read_input(&shell))
-			ft_clean_and_exit_shell(&shell, shell.exit_code, "\nexit");
+		{
+			if (!DEBUG_MODE)
+				printf("\n"EXIT_STR);
+			ft_clean_and_exit_shell(&shell, shell.exit_code, NULL);
+		}
 		if (!ft_lexer(&shell) || !ft_parser(&shell))
 		{
 			reset_submodule_variable(&shell);
@@ -51,10 +55,16 @@ bool	ft_read_input(t_shell *shell)
 {
 	char	*line;
 
-	line = readline(PROMPT);
-	if (!line)
+	if (isatty(fileno(stdin)))
+		shell->input_line = readline(PROMPT);
+	else
+	{
+		line = get_next_line(fileno(stdin));
+		shell->input_line = ft_strtrim(line, "\n");
+		free(line);
+	}
+	if (!shell->input_line)
 		return (false);
-	shell->input_line = line;
 	add_history(shell->input_line);
 	return (true);
 }
