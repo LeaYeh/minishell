@@ -50,7 +50,7 @@
 # define PREPROCESS_ERROR   195
 # define CREATE_FD_ERROR    197
 # define SUBSHELL_ERROR     197
-// # define RESTART_ERROR      254
+# define FORK_ERROR         254
 
 /* Parsing Table */
 # define PT_COL_SIZE        5

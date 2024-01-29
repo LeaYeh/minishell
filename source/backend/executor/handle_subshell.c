@@ -20,7 +20,8 @@ void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 {
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
-		raise_error_to_all_subprocess(shell, 254, "subshell fork failed");
+		raise_error_to_all_subprocess(
+			shell, FORK_ERROR, "subshell fork failed");
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;

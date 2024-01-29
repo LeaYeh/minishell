@@ -107,7 +107,8 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
 	{
-		raise_error_to_all_subprocess(shell, 254, "pipeline fork failed");
+		raise_error_to_all_subprocess(
+			shell, FORK_ERROR, "pipeline fork failed");
 		*cmd_table_node = NULL;
 	}
 	else if (shell->subshell_pid == 0)
