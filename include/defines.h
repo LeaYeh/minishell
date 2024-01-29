@@ -46,7 +46,6 @@
 # define CMD_NOT_FOUND      127
 # define UNEXPECT_EXIT      128
 # define TERM_BY_SIGNAL     128
-# define EXIT_SIGTERM       130
 # define PREPROCESS_ERROR   195
 # define CREATE_FD_ERROR    197
 # define SUBSHELL_ERROR     197
