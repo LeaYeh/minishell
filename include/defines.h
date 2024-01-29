@@ -31,8 +31,22 @@
 # include <readline/history.h>
 # include "libft.h"
 # include "ft_printf.h"
+# include "get_next_line.h"
+
+# ifdef DEBUG_MODE
+#  define DEBUG_MODE true
+# else
+#  define DEBUG_MODE false
+# endif
+
+# if DEBUG_MODE
+#  define EXIT_STR			""
+# else
+#  define EXIT_STR			"exit"
+# endif
 
 // # define PROGRAM_NAME       "🌊rash"
+// # define PROGRAM_NAME       "minishell: "
 # define PROGRAM_NAME       "\e[1;34m🌊rash\e[0m"
 
 /* Error codes */

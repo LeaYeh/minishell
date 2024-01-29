@@ -22,5 +22,7 @@ void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 	setup_signal(shell, SIGABRT, SIG_DEFAULT);
 	execve(final_cmd_table->exec_path, final_cmd_table->simple_cmd,
 		final_cmd_table->envp);
-	ft_clean_and_exit_shell(shell, CMD_EXEC_FAILED, "execve failed");
+	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", PROGRAM_NAME,
+		final_cmd_table->simple_cmd[0], strerror(errno));
+	ft_clean_and_exit_shell(shell, CMD_EXEC_FAILED, NULL);
 }
