@@ -102,7 +102,7 @@ bool	parse_goto(t_list **state_stack, int token_type)
 			A_GOTO))
 		return (false);
 	if (!pt_entry)
-		return (false);
+		return (true);
 	if (!push_state(state_stack, pt_entry->next_state))
 		return (free(pt_entry), false);
 	// printf("After goto:\n");
