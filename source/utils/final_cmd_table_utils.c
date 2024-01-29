@@ -100,7 +100,7 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 }
 
 void	setup_fd(
-	t_shell *shell, t_final_cmd_table *final_cmd_table, t_cmd_table *cmd_table)
+	t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
 	final_cmd_table->read_fd = STDIN_FILENO;
 	final_cmd_table->write_fd = STDOUT_FILENO;
@@ -108,9 +108,6 @@ void	setup_fd(
 		final_cmd_table->read_fd = *shell->old_pipe.read_fd;
 	if (*shell->old_pipe.write_fd != -1)
 		final_cmd_table->write_fd = *shell->old_pipe.write_fd;
-	if (ft_lstsize_non_null(cmd_table->io_red_list) > 0 && \
-		!handle_io_redirect(final_cmd_table, cmd_table->io_red_list))
-		shell->exit_code = GENERAL_ERROR;
 }
 
 void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
@@ -126,7 +123,6 @@ void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
 	ft_free_and_null((void **)final_cmd_table);
 }
 
-
 bool	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 {
 	free_final_cmd_table(&shell->final_cmd_table);
@@ -138,6 +134,6 @@ bool	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 		!setup_assignment_array(
 			shell->final_cmd_table, cmd_table->assignment_list))
 		return (false);
-	setup_fd(shell, shell->final_cmd_table, cmd_table);
+	setup_fd(shell, shell->final_cmd_table);
 	return (true);
 }

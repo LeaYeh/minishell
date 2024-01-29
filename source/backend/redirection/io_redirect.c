@@ -63,6 +63,8 @@ bool	handle_redirect_by_type(
 bool	handle_io_redirect(
 	t_final_cmd_table *final_cmd_table, t_list *io_red_node)
 {
+	if (ft_lstsize_non_null(io_red_node) == 0)
+		return (true);
 	while (io_red_node)
 	{
 		if (!handle_redirect_by_type(final_cmd_table, io_red_node->content))

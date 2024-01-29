@@ -48,7 +48,7 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	else if (is_builtin(cmd_name))
 		handle_builtin(shell, cmd_table_node);
 	else
-		handle_external_cmd(shell);
+		handle_external_cmd(shell, cmd_table);
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 

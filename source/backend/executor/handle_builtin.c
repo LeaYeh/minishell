@@ -68,6 +68,20 @@ void	safe_redirect_io_and_exec_builtin(t_shell *shell)
 
 void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 {
+	t_cmd_table	*cmd_table;
+
+	cmd_table = (*cmd_table_node)->content;
+	if (!handle_io_redirect(shell->final_cmd_table, cmd_table->io_red_list))
+	{
+		if (shell->subshell_level != 0)
+			ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
+		else
+		{
+			shell->exit_code = GENERAL_ERROR;
+			*cmd_table_node = (*cmd_table_node)->next;
+			return ;
+		}
+	}
 	if (shell->subshell_level == 0)
 		safe_redirect_io_and_exec_builtin(shell);
 	else

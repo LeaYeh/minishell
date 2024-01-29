@@ -4,12 +4,13 @@
 #include "debug.h"
 #include "signals.h"
 
-void	handle_external_cmd(t_shell *shell)
+void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 {
 	t_final_cmd_table	*final_cmd_table;
 
 	final_cmd_table = shell->final_cmd_table;
-	print_final_cmd_table(final_cmd_table);
+	if (!handle_io_redirect(final_cmd_table, cmd_table->io_red_list))
+		ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
 	if (!redirect_io(shell) || \
 		!check_executable(shell, final_cmd_table->exec_path))
 		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
