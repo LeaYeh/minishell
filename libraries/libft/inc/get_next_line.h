@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 12:28:58 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/02 20:17:55 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/29 05:44:26 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 128
+#  define BUFFER_SIZE	128
 # endif
-# define FD_MAX 1048576
-# define NO_NL -1
+# define FD_MAX			1048576
+# define NO_NL			-1
 
 typedef struct s_buf
 {
@@ -33,12 +33,14 @@ typedef struct s_buf
 	struct s_buf	*next;
 }	t_buf;
 
+\
 /* get_next_line.c */
 char	*get_next_line(int fd);
 int		check_for_full_leftover_line(t_buf **head, char **result);
 int		read_until_endofline(t_buf **head, int fd);
 char	*copy_into_result_and_move_head_to_tail(t_buf **head);
 
+\
 /* get_next_line_utils.c */
 int		add_new_node(t_buf *cur);
 size_t	count_result_size(t_buf *cur);

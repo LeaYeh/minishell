@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/01/30 18:47:32 by ldulling         ###   ########.fr        #
+#    Updated: 2024/01/29 05:39:01 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,6 +110,9 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_putnchar_fd.c \
 			ft_putnstr_fd.c \
 			ft_putstr_fd.c \
+			ft_snputnbr_base.c \
+			ft_sputnchar.c \
+			ft_sputnstr.c \
 )
 
 #  Strings:

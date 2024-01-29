@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_base_fd.c                                :+:      :+:    :+:   */
+/*   ft_snputnbr_base.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/22 19:26:15 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/29 05:49:17 by ldulling         ###   ########.fr       */
+/*   Created: 2024/01/29 02:20:16 by ldulling          #+#    #+#             */
+/*   Updated: 2024/01/29 12:05:25 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,18 @@
 
 static size_t	get_base_len(const char *base);
 static bool		check_for_duplicate(const char *base, size_t base_len);
-static size_t	print(unsigned long u_n, const char *base, size_t base_len, \
-						int fd);
+unsigned long	truncate_nbr_if_needed(unsigned long nbr, size_t base_len, \
+										size_t max_len);
+static size_t	sprint(char *str, unsigned long u_n, const char *base, \
+						size_t base_len);
 
-/**
- * The ft_putnbr_base_fd function writes a long integer to the given file
- * descriptor using a specified base.
- *
- * @param n       The number to write.
- * @param base    The base to use for the number representation.
- * @param fd      The file descriptor to write to.
- *
- * @return        It always returns the number of characters written.
- *
- */
-size_t	ft_putnbr_base_fd(long n, const char *base, int fd)
+size_t	ft_snputnbr_base(char *str, long n, const char *base, size_t max_len)
 {
 	size_t			base_len;
 	unsigned long	u_n;
 	size_t			written;
 
-	if (base == NULL || fd < 0)
+	if (str == NULL || base == NULL || max_len == 0)
 		return (0);
 	base_len = get_base_len(base);
 	if (base_len < 2 || check_for_duplicate(base, base_len))
@@ -42,13 +33,16 @@ size_t	ft_putnbr_base_fd(long n, const char *base, int fd)
 	written = 0;
 	if (n < 0)
 	{
-		if (write(fd, "-", 1) == 1)
-			written += 1;
+		written += ft_sputnchar(str, '-', 1);
+		if (written == max_len)
+			return (written);
+		max_len--;
 		u_n = (unsigned long) n * -1;
 	}
 	else
 		u_n = (unsigned long) n;
-	written += print(u_n, base, base_len, fd);
+	u_n = truncate_nbr_if_needed(u_n, base_len, max_len);
+	written += sprint(&str[written], u_n, base, base_len);
 	return (written);
 }
 
@@ -86,16 +80,41 @@ static bool	check_for_duplicate(const char *base, size_t base_len)
 	return (false);
 }
 
-static size_t	print(unsigned long u_n, const char *base, size_t base_len, \
-						int fd)
+unsigned long	truncate_nbr_if_needed(unsigned long nbr, size_t base_len, \
+										size_t max_len)
+{
+	size_t			nbr_len;
+	unsigned long	tmp;
+
+	if (nbr == 0 || max_len == 0)
+		return (0);
+	nbr_len = 0;
+	tmp = nbr;
+	while (tmp != 0)
+	{
+		nbr_len++;
+		tmp /= base_len;
+	}
+	if (nbr_len > max_len)
+	{
+		while (nbr_len > max_len)
+		{
+			nbr_len--;
+			nbr /= base_len;
+		}
+	}
+	return (nbr);
+}
+
+static size_t	sprint(char *str, unsigned long u_n, const char *base, \
+					size_t base_len)
 {
 	size_t	written;
 
 	written = 0;
 	if (u_n >= base_len)
-		written += print(u_n / base_len, base, base_len, fd);
+		written += sprint(&str[written], u_n / base_len, base, base_len);
 	u_n %= base_len;
-	if (write(fd, &base[u_n], 1) == 1)
-		written += 1;
+	written += ft_sputnchar(&str[written], base[u_n], 1);
 	return (written);
 }

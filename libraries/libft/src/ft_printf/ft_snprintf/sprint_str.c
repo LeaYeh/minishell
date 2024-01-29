@@ -1,51 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_str.c                                        :+:      :+:    :+:   */
+/*   sprint_str.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:27:17 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/29 05:07:36 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:44:50 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	print(const char *str, int len, t_format *f);
+static void	sprint(const char *str, int len, t_sformat *f);
 
-int	print_str(const char *str, t_format *f)
+void	sprint_str(const char *str, t_sformat *f)
 {
 	int	len;
-	int	printed;
 
-	printed = 0;
 	if (!str)
 	{
 		len = ft_strlen(NULL_PRINTOUT_STR);
 		if (f->precision >= 0 && len > f->precision)
 			len = 0;
-		printed += print(NULL_PRINTOUT_STR, len, f);
+		sprint(NULL_PRINTOUT_STR, len, f);
 	}
 	else
 	{
 		len = ft_strlen(str);
 		if (f->precision >= 0 && len > f->precision)
 			len = f->precision;
-		printed += print(str, len, f);
+		sprint(str, len, f);
 	}
-	return (printed);
 }
 
-static int	print(const char *str, int len, t_format *f)
+static void	sprint(const char *str, int len, t_sformat *f)
 {
-	int	printed;
-
-	printed = 0;
 	if (!f->minus && f->width > len)
-		printed += ft_putnchar_fd(' ', f->width - len, f->fd);
-	printed += ft_putnstr_fd(str, len, f->fd);
+		f->sprinted += ft_sputnchar(&f->str[f->sprinted], ' ',
+				get_max_size(f, f->width - len));
+	f->sprinted += ft_sputnstr(&f->str[f->sprinted], str, get_max_size(f, len));
 	if (f->minus && f->width > len)
-		printed += ft_putnchar_fd(' ', f->width - len, f->fd);
-	return (printed);
+		f->sprinted += ft_sputnchar(&f->str[f->sprinted], ' ',
+				get_max_size(f, f->width - len));
 }
