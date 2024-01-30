@@ -54,6 +54,7 @@
 # define GENERAL_ERROR      1
 # define BAD_SUBSTITUTION   2
 # define MISUSE_BUILTIN     2
+# define SYNTAX_ERROR       2
 # define MALLOC_ERROR       2
 # define CMD_EXEC_FAILED    126
 # define CMD_NOT_FOUND      127

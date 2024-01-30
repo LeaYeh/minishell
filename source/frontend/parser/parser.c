@@ -47,12 +47,17 @@ char	*get_error_token_data(t_list *token_list, t_list *parse_stack)
 	return (error_token_data);
 }
 
-void	report_syntax_error(t_parser_data *parser_data)
+void	report_syntax_error(t_shell *shell, t_parser_data *parser_data)
 {
-	ft_dprintf(STDERR_FILENO, ERROR_PARSER_SYNTAX,
-		PROGRAM_NAME,
-		get_error_token_data(
-			parser_data->token_list, parser_data->parse_stack));
+	char	*error_token;
+
+	error_token = NULL;
+	error_token = get_error_token_data(
+			parser_data->token_list, parser_data->parse_stack);
+	if (!error_token)
+		error_token = "newline";
+	shell->exit_code = SYNTAX_ERROR;
+	ft_dprintf(STDERR_FILENO, ERROR_PARSER_SYNTAX, PROGRAM_NAME, error_token);
 }
 
 bool	parse(t_shell *shell, t_parser_data *parser_data)
@@ -72,7 +77,7 @@ bool	parse(t_shell *shell, t_parser_data *parser_data)
 				shell, PREPROCESS_ERROR, "parser malloc failed");
 		}
 		if (!pt_entry)
-			return (report_syntax_error(parser_data), false);
+			return (report_syntax_error(shell, parser_data), false);
 		if (pt_entry->action == A_ACCEPT)
 			return (free(pt_entry), true);
 		if (!parse_step(parser_data, pt_entry))
