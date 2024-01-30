@@ -29,14 +29,14 @@ jobs:
 
     - name: Check memory leaks
       run: |
-        make fclean debug
+        make fclean test
         $HOME/42_minishell_tester/tester.sh vm
       env:
         GH_BRANCH: "IGNORE"
 
     - name: Set up PR failed count
       run: |
-        make fclean debug
+        make fclean test
         $HOME/42_minishell_tester/tester.sh m > $HOME/pr_test_result.txt
       env:
         GH_BRANCH: "PR_FAILED_COUNT"
@@ -48,7 +48,8 @@ jobs:
 
     - name: Set up main failed count
       run: |
-        make fclean debug
+        # Once merged, comment in "test" again.
+        make fclean # test
         $HOME/42_minishell_tester/tester.sh m > $HOME/main_test_result.txt
       env:
         GH_BRANCH: "MAIN_FAILED_COUNT"

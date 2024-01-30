@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		if (!ft_read_input(&shell))
 		{
-			if (!DEBUG_MODE)
+			if (!TEST_MODE)
 				printf("\n"EXIT_STR);
 			ft_clean_and_exit_shell(&shell, shell.exit_code, NULL);
 		}

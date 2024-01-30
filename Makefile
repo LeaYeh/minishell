@@ -37,13 +37,19 @@ INCLUDES 		:=	-I./include -I./$(LIBRARIES)/inc
 
 CC 				:=	cc
 CFLAGS 			:=	-Wall -Wextra -Werror -g
-ifeq ($(filter debug,$(MAKECMDGOALS)),debug)
-CFLAGS			+=	-D DEBUG_MODE=true
-endif
 LIBFLAGS		:=	$(addprefix -L,$(LIBRARIES)) \
 					$(addprefix -l,$(patsubst lib%,%,$(notdir \
 					$(LIBRARIES) $(LIBRARIES_EXT))))
 MAKEFLAGS		:=	-j -s
+
+
+#	Test mode
+
+ifeq ($(filter test,$(MAKECMDGOALS)),test)
+
+CFLAGS			+=	-D TEST_MODE=true
+
+endif
 
 
 #	Files
@@ -62,18 +68,21 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
-.PHONY			:	all build lib clean fclean re debug
+.PHONY			:	all test build lib clean fclean re
 
 
 #	Compilation
 
 all				:
-					($(MAKE) --question build && echo -n $(MSG_NO_CHNG)) \
+					($(MAKE) --question build && echo $(MSG_NO_CHNG)) \
 						|| (echo -n $(MSG_START) \
-							&& ($(MAKE) build && echo -n $(MSG_SUCCESS)) \
-							|| (echo -n $(MSG_FAILURE) && exit 42))
+							&& ($(MAKE) build && echo $(MSG_SUCCESS)) \
+							|| (echo $(MSG_FAILURE) && exit 42))
 
-debug			:	all
+test			:
+					echo $(MSG_TEST_MODE)
+					$(MAKE) all
+
 
 #		Version check for Make
 
@@ -154,9 +163,10 @@ endif
 
 MSG_START		:=	"\e[3mBuilding \e[1;34m🌊rash \e[0;3m... \e[0m"
 MSG_PROGRESS	:=	"\e[3m🌊\e[0m"
-MSG_SUCCESS		:=	"\e[1;3;36m\nDONE!\n\e[0m"
-MSG_NO_CHNG		:=	"\e[3;37mEverything up-to-date!\n\e[0m"
-MSG_FAILURE		:=	"\e[1;3;31mBUILD FAILED!\n\e[0m"
+MSG_SUCCESS		:=	"\e[1;3;36m\nDONE!\e[0m"
+MSG_NO_CHNG		:=	"\e[3;37mEverything up-to-date!\e[0m"
+MSG_FAILURE		:=	"\e[1;3;31mBUILD FAILED!\e[0m"
+MSG_TEST_MODE	:=	"\e[1;3;4;33m---------------TEST MODE---------------\n\e[0m"
 
 
 # *************************** MAKEFILE DEBUGGING ***************************** #

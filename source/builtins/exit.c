@@ -4,7 +4,7 @@
 
 void	handle_exit(t_shell *shell, int args_error)
 {
-	if (shell->subshell_level == 0 && !DEBUG_MODE)
+	if (shell->subshell_level == 0 && !TEST_MODE)
 		printf(EXIT_STR "\n");
 	if (args_error == TOO_MANY_ARGS)
 	{

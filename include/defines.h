@@ -33,11 +33,11 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 
-# ifndef DEBUG_MODE
-#  define DEBUG_MODE false
+# ifndef TEST_MODE
+#  define TEST_MODE false
 # endif
 
-# if DEBUG_MODE
+# if TEST_MODE
 #  define EXIT_STR			""
 # else
 #  define EXIT_STR			"exit"
