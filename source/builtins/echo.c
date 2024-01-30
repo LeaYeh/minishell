@@ -8,6 +8,8 @@ bool	is_newline_option(char *str)
 	return (false);
 }
 
+// TODO: printf without newline will not flash the buffer in time
+// but ft_printf is not thread safe
 int	ft_exec_echo(char **args)
 {
 	int		i;
@@ -23,11 +25,11 @@ int	ft_exec_echo(char **args)
 		end_with_newline = true;
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		ft_printf("%s", args[i]);
 		if (args[++i])
-			printf(" ");
+			ft_printf(" ");
 	}
 	if (end_with_newline)
-		printf("\n");
+		ft_printf("\n");
 	return (EXIT_SUCCESS);
 }

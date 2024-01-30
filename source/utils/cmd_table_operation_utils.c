@@ -30,6 +30,8 @@ t_cmd_table	*init_cmd_table(void)
 		return (NULL);
 	cmd_table->id = 0;
 	cmd_table->subshell_level = 0;
+	cmd_table->read_fd = -1;
+	cmd_table->write_fd = -1;
 	cmd_table->type = C_NONE;
 	cmd_table->assignment_list = NULL;
 	cmd_table->simple_cmd_list = NULL;
@@ -57,7 +59,6 @@ bool	append_cmd_table_by_scenario(int token_type, t_list_d **cmd_table_list)
 			(is_io_red_op(token_type) || is_word(token_type)))
 			return (true);
 	}
-	printf("[%s] Create new cmd_table\n", ft_get_token_type_str(token_type));
 	return (append_empty_cmd_table(cmd_table_list));
 }
 

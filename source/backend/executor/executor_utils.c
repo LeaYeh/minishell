@@ -75,7 +75,7 @@ char	*get_exec_path(char *cmd_name, char **envp)
 
 	if (!cmd_name)
 		return (NULL);
-	if (ft_strchr(cmd_name, '/') && access(cmd_name, F_OK) == 0)
+	if (ft_strchr(cmd_name, '/'))
 		return (ft_strdup(cmd_name));
 	all_path = get_all_path(envp);
 	if (!all_path)

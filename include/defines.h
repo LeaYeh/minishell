@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 23:46:08 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:24:17 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@
 # include <fcntl.h>
 # include <linux/limits.h>
 # include <limits.h>
+# include <sys/ioctl.h>
+# include <sys/types.h>
+# include <signal.h>
 # include <sysexits.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <errno.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -27,8 +31,20 @@
 # include <readline/history.h>
 # include "libft.h"
 # include "ft_printf.h"
+# include "get_next_line.h"
+
+# ifndef TEST_MODE
+#  define TEST_MODE false
+# endif
+
+# if TEST_MODE
+#  define EXIT_STR			""
+# else
+#  define EXIT_STR			"exit"
+# endif
 
 // # define PROGRAM_NAME       "🌊rash"
+// # define PROGRAM_NAME       "minishell: "
 # define PROGRAM_NAME       "\e[1;34m🌊rash\e[0m"
 
 /* Error codes */
@@ -37,13 +53,15 @@
 # define GENERAL_ERROR      1
 # define BAD_SUBSTITUTION   2
 # define MISUSE_BUILTIN     2
+# define MALLOC_ERROR       2
 # define CMD_EXEC_FAILED    126
 # define CMD_NOT_FOUND      127
 # define UNEXPECT_EXIT      128
 # define TERM_BY_SIGNAL     128
-# define EXIT_SIGTERM       130
 # define PREPROCESS_ERROR   195
-# define SUBSHELL_ERROR     196
+# define CREATE_FD_ERROR    197
+# define SUBSHELL_ERROR     197
+# define FORK_ERROR         254
 
 /* Parsing Table */
 # define PT_COL_SIZE        5
@@ -94,7 +112,7 @@
 # define ERROR_PARSER_SYNTAX				\
 "%s: syntax error near unexpected token `%s'\n"
 # define ERROR_HEREDOC_UNEXPECTED_EOF		\
-"%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
+"\n%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_EXPANDER_BAD_SUBSTITUTION	\
 "%s: %s: bad substitution\n"
 # define ERROR_EXIT_TOO_MANY_ARGS			\
@@ -105,8 +123,27 @@
 // TODO: Replace with OS error message
 # define ERROR_REMOVE_FILE					\
 "%s: warning: failed to remove file `%s'\n"
+# define ERROR_CREATE_PIPE					\
+"pipe error: Too many open files\n"
 
 extern const int	g_parsing_table[][PT_COL_SIZE];
+
+
+typedef enum e_heredoc_status
+{
+	HEREDOC_SUCCESS = 0,
+	HEREDOC_ERROR,
+	HEREDOC_ABORT
+}	t_heredoc_status;
+
+typedef enum e_state
+{
+	SIG_HEREDOC = 0,
+	SIG_STD,
+	SIG_SUBSHELL,
+	SIG_DEFAULT,
+	SIG_IGNORE
+}	t_state;
 
 typedef enum e_pt_col
 {
@@ -275,18 +312,20 @@ new_pipe: read=fd, write=fd
 */
 typedef struct s_shell
 {
-	int				pid;
-	int				subshell_pid;
-	int				subshell_level;
-	t_pipe			old_pipe;
-	t_pipe			new_pipe;
-	int				exit_status;
-	int				exit_code;
-	t_list			*env_list;
-	t_list			*token_list;
-	t_list_d		*cmd_table_list;
+	pid_t				pid;
+	pid_t				subshell_pid;
+	int					subshell_level;
+	t_pipe				old_pipe;
+	t_pipe				new_pipe;
+	int					exit_status;
+	int					exit_code;
+	char				*input_line;
+	t_list				*child_pid_list;
+	t_list				*env_list;
+	t_list				*token_list;
+	t_list_d			*cmd_table_list;
+	t_final_cmd_table	*final_cmd_table;
 	// t_ast			*ast;
-	char			*input_line;
 }	t_shell;
 
 #endif

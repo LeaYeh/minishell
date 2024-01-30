@@ -12,6 +12,7 @@
 
 #include "defines.h"
 #include "utils.h"
+#include "expander.h"
 
 int	get_cmd_table_type_from_list(t_list_d *cmd_table_list)
 {

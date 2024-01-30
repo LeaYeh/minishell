@@ -29,3 +29,10 @@ t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
 	}
 	return (last_simple_cmd_table);
 }
+
+char	*get_cmd_name_from_list(t_list *simple_cmd_list)
+{
+	if (ft_lstsize_non_null(simple_cmd_list) == 0)
+		return (NULL);
+	return ((char *)simple_cmd_list->content);
+}

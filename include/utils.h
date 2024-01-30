@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/23 03:33:57 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:25:19 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		free_ast_data(t_ast *ast);
 /* Redirect utils */
 t_io_red	*init_io_red(void);
 void		free_io_red(t_io_red *io_red);
+int			get_redirect_type_from_list(t_list *io_red_list);
 
 /* Cmd table utils */
 t_cmd_table	*init_cmd_table(void);
@@ -42,6 +43,7 @@ bool		append_cmd_table_by_scenario(
 				int token_type, t_list_d **cmd_table_list);
 t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node);
 int			get_cmd_table_type_from_list(t_list_d *cmd_table_list);
+char		*get_cmd_name_from_list(t_list *simple_cmd_list);
 bool		is_control_op_cmd_table(int cmd_table_type);
 bool		is_builtin(char *cmd_name);
 bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);
@@ -49,11 +51,8 @@ void		move_past_subshell(t_list_d **cmd_table_node);
 void		move_past_pipeline(t_list_d **cmd_table_node);
 
 /* Final cmd table utils */
-t_final_cmd_table	*init_final_cmd_table(
-				t_shell *shell, t_cmd_table *cmd_table);
-void				free_final_cmd_table(t_final_cmd_table **final_cmd_table);
-t_final_cmd_table	*get_final_cmd_table(t_shell *shell,
-						t_cmd_table *cmd_table);
+void		free_final_cmd_table(t_final_cmd_table **final_cmd_table);
+bool		set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
 
 /* Expansion utils */
 int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list);
@@ -69,7 +68,7 @@ char		**convert_list_to_string_array(t_list *list);
 char		**append_string_array(char **array, char *str);
 
 /* Process utils */
-void		wait_process(t_shell *shell, int pid);
+void		wait_process(t_shell *shell, pid_t pid);
 int			status(int wstatus);
 
 /* Type utils */

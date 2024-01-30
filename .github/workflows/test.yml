@@ -28,15 +28,16 @@ jobs:
         chmod +x $HOME/42_minishell_tester/tester.sh
 
     - name: Check memory leaks
-      run: $HOME/42_minishell_tester/tester.sh vm
+      run: |
+        make fclean test
+        $HOME/42_minishell_tester/tester.sh vm
       env:
         GH_BRANCH: "IGNORE"
 
-    - name: Cleanup before test
-      run: make fclean
-
     - name: Set up PR failed count
-      run: $HOME/42_minishell_tester/tester.sh m > $HOME/pr_test_result.txt
+      run: |
+        make fclean test
+        $HOME/42_minishell_tester/tester.sh m > $HOME/pr_test_result.txt
       env:
         GH_BRANCH: "PR_FAILED_COUNT"
 
@@ -45,11 +46,11 @@ jobs:
       with:
         ref: main
 
-    - name: Cleanup before test
-      run: make fclean
-
     - name: Set up main failed count
-      run: $HOME/42_minishell_tester/tester.sh m > $HOME/main_test_result.txt
+      run: |
+        # Once merged, comment in "test" again.
+        make fclean # test
+        $HOME/42_minishell_tester/tester.sh m > $HOME/main_test_result.txt
       env:
         GH_BRANCH: "MAIN_FAILED_COUNT"
 

@@ -45,6 +45,9 @@ void	print_final_cmd_table(t_final_cmd_table *final_cmd_table)
 {
 	printf("\n\n========= final cmd table =========\n");
 	print_simple_cmd_array(final_cmd_table->simple_cmd);
+	printf("exec_path: %s\n", final_cmd_table->exec_path);
+	printf("read_fd: %d\n", final_cmd_table->read_fd);
+	printf("write_fd: %d\n", final_cmd_table->write_fd);
 	print_assignment_array(final_cmd_table->assignment_array);
 	printf("===================================\n\n");
 }

@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/01/18 01:54:20 by ldulling         ###   ########.fr        #
+#    Updated: 2024/01/25 16:11:32 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstmap.c \
 			ft_lstnew.c \
 			ft_lstnew_back.c \
+			ft_lstnew_front.c \
 			ft_lstpop_front.c \
 			ft_lstpop_front_content.c \
 			ft_lstsize.c \
