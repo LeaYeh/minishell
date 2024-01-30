@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 12:09:34 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/03 15:28:42 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:12:54 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ bool	quote_removal(char **str)
 		first_quote = i;
 		if (!skip_to_same_quote(*str, &i))
 			return (true);
-		if (!replace_part_of_str(str, "", first_quote, 1))
+		if (!ft_rplc_part_of_str(str, "", first_quote, 1))
 			return (false);
-		if (!replace_part_of_str(str, "", --i, 1))
+		if (!ft_rplc_part_of_str(str, "", --i, 1))
 			return (false);
 	}
 	return (true);

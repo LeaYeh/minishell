@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 18:22:38 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/10 18:24:16 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/01/17 10:55:28 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		ft_exec_env(t_shell *shell);
 int		ft_exec_echo(char **args);
 int		ft_exec_pwd(void);
 void	exec_exit(t_shell *shell);
+int		exec_cd(char **args, t_list **env_list);
 
 int		get_args_error(char **args);
 

@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 00:34:37 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/18 14:18:30 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:12:54 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool	expand_parameter(char **str, size_t *i, t_shell *shell)
 bool	handle_dollar_quotes(char **str, size_t *i)
 {
 	if (!is_open_pair('"', GET))
-		return (replace_part_of_str(str, "", *i, 1));
+		return (ft_rplc_part_of_str(str, "", *i, 1));
 	else
 		(*i)++;
 	return (true);

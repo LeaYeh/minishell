@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:16:22 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/23 16:51:07 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/17 12:41:11 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
  * @note        Calling ft_strcmp with s1 or s2 equal to NULL will cause a
  *              segmentation fault (mirrors the behavior of the original
  *              strcmp).
+ *
  */
 int	ft_strcmp(const char *s1, const char *s2)
 {

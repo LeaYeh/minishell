@@ -8,7 +8,7 @@ int	ft_exec_pwd(void)
 	if (!pwd)
 	{
 		ft_dprintf(2, "%s: %s: ", PROGRAM_NAME, "pwd");
-		perror("");
+		perror(NULL);
 		return (CMD_EXEC_FAILED);
 	}
 	printf("%s\n", pwd);

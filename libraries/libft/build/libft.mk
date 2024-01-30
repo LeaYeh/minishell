@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/01/25 16:11:32 by ldulling         ###   ########.fr        #
+#    Updated: 2024/01/30 18:47:32 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstadd_front_d.c \
 			ft_lstclear_d.c \
 			ft_lstdelone_d.c \
+			ft_lstdrop_node_d.c \
 			ft_lstlast_d.c \
 			ft_lstnew_back_d.c \
 			ft_lstnew_d.c \
@@ -62,6 +63,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstadd_front.c \
 			ft_lstclear.c \
 			ft_lstdelone.c \
+			ft_lstdrop_node.c \
 			ft_lstinsert_after.c \
 			ft_lstiter.c \
 			ft_lstlast.c \
@@ -114,10 +116,12 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 SUBDIR	:=	strings/
 TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_itoa.c \
+			ft_rplc_part_of_str.c \
 			ft_split.c \
 			ft_split_at_index.c \
 			ft_strchr.c \
 			ft_strcmp.c \
+			ft_strdel_sequence.c \
 			ft_strdup.c \
 			ft_strisdigits.c \
 			ft_striteri.c \
@@ -130,6 +134,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_strncmp.c \
 			ft_strnstr.c \
 			ft_strrchr.c \
+			ft_strrplc_sequence.c \
 			ft_strtok.c \
 			ft_strtrim.c \
 			ft_substr.c \

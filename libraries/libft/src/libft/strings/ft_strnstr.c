@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:16:27 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/23 12:17:17 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/12 23:00:26 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
  *                  to the first character of the first occurrence of little is
  *                  returned.
  *
- * @note            Calling ft_strnstr with big equal to NULL with a size not 0
- *                  will cause a segmentation fault (mirrors the behavior of the
- *                  original strnstr).
+ * @note            Calling ft_strnstr with big equal to NULL with a size not 0,
+ *                  or with little equal to NULL will cause a segmentation fault
+ *                  (mirrors the behavior of the original strnstr).
  *
  */
 char	*ft_strnstr(const char *big, const char *little, size_t len)
