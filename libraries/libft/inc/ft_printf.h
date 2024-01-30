@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:08 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/17 13:45:49 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:44:50 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 # include "libft.h"
 
-# define SPECIFIERS "cspdiuxX%"
-# define FLAGS "#+- 0"
-# define NULL_PRINTOUT_PTR "(nil)"
-# define NULL_PRINTOUT_STR "(null)"
-# define FROM_NEGATIVE_WIDTH 2
-# define NO_PRECISION_SET -1
-# define NEGATIVE_PRECISION -2
+# define SPECIFIERS				"cspdiuxX%"
+# define FLAGS					"#+- 0"
+# define NULL_PRINTOUT_PTR		"(nil)"
+# define NULL_PRINTOUT_STR		"(null)"
+# define FROM_NEGATIVE_WIDTH	2
+# define NO_PRECISION_SET		-1
+# define NEGATIVE_PRECISION		-2
 
 typedef struct s_format
 {
@@ -37,6 +37,25 @@ typedef struct s_format
 	int		fd;
 }	t_format;
 
+typedef struct s_sformat
+{
+	int		hash;
+	int		plus;
+	int		space;
+	int		minus;
+	int		zero;
+	int		width;
+	int		precision;
+	char	specifier;
+	int		unresolved;
+	char	*str;
+	size_t	size;
+	int		sprinted;
+}	t_sformat;
+
+\
+/* ft_printf + ft_dprintf */
+
 int		ft_printf(const char *format, ...);
 int		ft_dprintf(int fd, const char *format, ...);
 int		parseandprint(const char *format, int *i, t_format *f, va_list *ap);
@@ -48,5 +67,21 @@ int		print_ptr(size_t ptr, t_format *f);
 int		print_str(const char *str, t_format *f);
 void	reset_format(t_format *f);
 int		set_format(const char *format, int *i, t_format *f, va_list *ap);
+
+\
+/* ft_snprintf */
+
+int		ft_snprintf(char *str, size_t size, const char *format, ...);
+bool	check_args(char *str, size_t size, const char *format, t_sformat *f);
+void	parseandsprint(const char *format, int *i, t_sformat *f, va_list *ap);
+void	sprint_argument(t_sformat *f, va_list *ap);
+void	sprint_char(unsigned char c, t_sformat *f);
+void	sprint_nbr(long nbr, t_sformat *f);
+void	sprint_parsed(const char *format, int parsed, t_sformat *f);
+void	sprint_ptr(size_t ptr, t_sformat *f);
+void	sprint_str(const char *str, t_sformat *f);
+size_t	get_max_size(t_sformat *f, size_t size);
+void	reset_sformat(t_sformat *f);
+int		set_sformat(const char *format, int *i, t_sformat *f, va_list *ap);
 
 #endif

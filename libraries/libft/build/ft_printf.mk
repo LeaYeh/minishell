@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:22 by ldulling          #+#    #+#              #
-#    Updated: 2023/12/17 14:01:30 by ldulling         ###   ########.fr        #
+#    Updated: 2024/01/29 12:44:04 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,9 @@ DEPS	:=	libft
 DIR		:=	ft_printf/
 
 # Source files:
-TMP		+=	$(addprefix $(DIR), \
+#  ft_printf + ft_dprintf:
+SUBDIR	:=	./
+TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_dprintf.c \
 			ft_printf.c \
 			parseandprint.c \
@@ -39,6 +41,20 @@ TMP		+=	$(addprefix $(DIR), \
 			print_ptr.c \
 			print_str.c \
 			set_format.c \
+)
+
+#  ft_snprintf:
+SUBDIR	:=	ft_snprintf/
+TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+			ft_snprintf.c \
+			get_max_size.c \
+			parseandsprint.c \
+			sprint_char.c \
+			sprint_nbr.c \
+			sprint_parsed.c \
+			sprint_ptr.c \
+			sprint_str.c \
+			set_sformat.c \
 )
 
 # *************************** VARIABLE CREATION ****************************** #

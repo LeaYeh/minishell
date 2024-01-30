@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/28 02:23:05 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/29 05:52:35 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define WHITESPACE " \f\n\r\t\v"
+# define WHITESPACE	" \f\n\r\t\v"
 
 typedef struct s_list
 {
@@ -104,11 +104,15 @@ long		ft_atol(const char *nptr);
 /* Put */
 void		ft_putchar_fd(char c, int fd);
 void		ft_putendl_fd(char *s, int fd);
-int			ft_putnbr_base_fd(long n, const char *base, int fd);
+size_t		ft_putnbr_base_fd(long n, const char *base, int fd);
 void		ft_putnbr_fd(int n, int fd);
 size_t		ft_putnchar_fd(unsigned char c, size_t n, int fd);
 size_t		ft_putnstr_fd(const char *s, size_t n, int fd);
 void		ft_putstr_fd(char *s, int fd);
+size_t		ft_snputnbr_base(char *str, long n, const char *base, \
+								size_t max_len);
+size_t		ft_sputnchar(char *str, unsigned char c, size_t n);
+size_t		ft_sputnstr(char *str, const char *s, size_t n);
 
 \
 /* Strings */
