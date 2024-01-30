@@ -48,8 +48,7 @@ jobs:
 
     - name: Set up main failed count
       run: |
-        # Once merged, comment in "test" again.
-        make fclean # test
+        make fclean test
         $HOME/42_minishell_tester/tester.sh m > $HOME/main_test_result.txt
       env:
         GH_BRANCH: "MAIN_FAILED_COUNT"
