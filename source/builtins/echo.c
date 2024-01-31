@@ -31,6 +31,7 @@ char	*combine_args(char **args, bool end_with_newline)
 	int		i;
 	char	*str;
 	int		cur_len;
+	int		arg_len;
 
 	str = ft_calloc(
 			get_combined_args_len(args, end_with_newline) + 1, sizeof(char));
@@ -40,16 +41,16 @@ char	*combine_args(char **args, bool end_with_newline)
 	cur_len = 0;
 	while (args[i])
 	{
+		arg_len = ft_strlen(args[i]);
 		if (i == 0)
-			ft_snprintf(str, ft_strlen(args[i]) + 1, "%s", args[i]);
+			ft_snprintf(&str[cur_len], arg_len + 1, "%s", args[i]);
 		else
-			ft_snprintf(
-				str, cur_len + ft_strlen(args[i]) + 1, "%s %s", str, args[i]);
-		cur_len += ft_strlen(args[i]) + 1;
+			ft_snprintf(&str[cur_len++], arg_len + 2, " %s", args[i]);
+		cur_len += arg_len;
 		i++;
 	}
 	if (end_with_newline)
-		ft_snprintf(str, cur_len + 2, "%s\n", str);
+		ft_snprintf(&str[cur_len], 2, "\n");
 	return (str);
 }
 
