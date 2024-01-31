@@ -33,7 +33,7 @@ jobs:
       env:
         GH_BRANCH: "IGNORE"
 
-    - name: Set up SOURCE failed count
+    - name: Test source branch of pull request
       run: |
         make fclean test
         $HOME/42_minishell_tester/tester.sh m > $HOME/source_test_result.txt
@@ -45,7 +45,7 @@ jobs:
       with:
         ref: ${{ github.base_ref }}
 
-    - name: Set up TARGET failed count
+    - name: Test target branch of pull request
       run: |
         make fclean test
         $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
@@ -69,7 +69,7 @@ jobs:
         TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
       continue-on-error: true
 
-    - name: Print test cases
+    - name: Print test cases whose results changed
       run: |
         DIFF_OUTPUT=$(diff $HOME/target_test_result.txt $HOME/source_test_result.txt || true)
 
