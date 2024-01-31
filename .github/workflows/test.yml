@@ -2,15 +2,13 @@ name: Build and Test
 
 on:
   pull_request:
-    branches:
-      - main
 
 jobs:
   unit_test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository to incoming PR
+    - name: Checkout source branch of pull request
       uses: actions/checkout@v4
 
     - name: Set up build environment
@@ -34,48 +32,48 @@ jobs:
       env:
         GH_BRANCH: "IGNORE"
 
-    - name: Set up PR failed count
+    - name: Set up SOURCE failed count
       run: |
         make fclean test
-        $HOME/42_minishell_tester/tester.sh m > $HOME/pr_test_result.txt
+        $HOME/42_minishell_tester/tester.sh m > $HOME/source_test_result.txt
       env:
-        GH_BRANCH: "PR_FAILED_COUNT"
+        GH_BRANCH: "SOURCE_FAILED_COUNT"
 
-    - name: Checkout main branch
+    - name: Checkout target branch of pull request
       uses: actions/checkout@v4
       with:
-        ref: main
+        ref: ${{ github.base_ref }}
 
-    - name: Set up main failed count
+    - name: Set up TARGET failed count
       run: |
         make fclean test
-        $HOME/42_minishell_tester/tester.sh m > $HOME/main_test_result.txt
+        $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
       env:
-        GH_BRANCH: "MAIN_FAILED_COUNT"
+        GH_BRANCH: "TARGET_FAILED_COUNT"
 
     - name: Compare failed count
       id: comparison
       run: |
-        echo "MAIN_FAILED_COUNT: $MAIN_FAILED_COUNT"
-        echo "PR_FAILED_COUNT: $PR_FAILED_COUNT"
-        if [ $PR_FAILED_COUNT -gt $MAIN_FAILED_COUNT ]; then
-          echo "PR_FAILED_COUNT is greater than MAIN_FAILED_COUNT"
+        echo "TARGET_FAILED_COUNT: $TARGET_FAILED_COUNT"
+        echo "SOURCE_FAILED_COUNT: $SOURCE_FAILED_COUNT"
+        if [ $SOURCE_FAILED_COUNT -gt $TARGET_FAILED_COUNT ]; then
+          echo "SOURCE_FAILED_COUNT is greater than TARGET_FAILED_COUNT"
           exit 1
         else
-          echo "PR_FAILED_COUNT is less than or equal to MAIN_FAILED_COUNT"
+          echo "SOURCE_FAILED_COUNT is less than or equal to TARGET_FAILED_COUNT"
           exit 0
         fi
       env:
-        PR_FAILED_COUNT: ${{ env.PR_FAILED_COUNT }}
-        MAIN_FAILED_COUNT: ${{ env.MAIN_FAILED_COUNT }}
+        SOURCE_FAILED_COUNT: ${{ env.SOURCE_FAILED_COUNT }}
+        TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
       continue-on-error: true
 
       # Can fail the job
-    - name: Show the regressions between PR and main
+    - name: Show the regressions between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'failure'
-      run: diff $HOME/main_test_result.txt $HOME/pr_test_result.txt
+      run: diff $HOME/target_test_result.txt $HOME/source_test_result.txt
 
       # Cannot fail the job
-    - name: Show the improvements between PR and main
+    - name: Show the improvements between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'success'
-      run: diff $HOME/main_test_result.txt $HOME/pr_test_result.txt || true
+      run: diff $HOME/target_test_result.txt $HOME/source_test_result.txt || true
