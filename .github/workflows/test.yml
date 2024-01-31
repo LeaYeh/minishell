@@ -2,30 +2,41 @@ name: Build and Test
 
 on:
   pull_request:
-    branches:
-      - main
+
+################################################################################
 
 jobs:
   unit_test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    ############################################################################
 
     steps:
-    - name: Checkout repository to incoming PR
+    - name: Checkout source branch of pull request
       uses: actions/checkout@v4
+
+    ############################################################################
 
     - name: Set up build environment
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential valgrind
 
+    ############################################################################
+
     - name: Compile with Makefile
       run: make
+
+    ############################################################################
 
     - name: Set up testing framework
       run: |
         git clone https://github.com/LeaYeh/42_minishell_tester.git
         cp -r 42_minishell_tester $HOME
         chmod +x $HOME/42_minishell_tester/tester.sh
+
+    ############################################################################
 
     - name: Check memory leaks
       run: |
@@ -34,48 +45,87 @@ jobs:
       env:
         GH_BRANCH: "IGNORE"
 
-    - name: Set up PR failed count
+    ############################################################################
+
+    - name: Test source branch of pull request
       run: |
         make fclean test
-        $HOME/42_minishell_tester/tester.sh m > $HOME/pr_test_result.txt
+        $HOME/42_minishell_tester/tester.sh m > $HOME/source_test_result.txt
       env:
-        GH_BRANCH: "PR_FAILED_COUNT"
+        GH_BRANCH: "SOURCE_FAILED_COUNT"
 
-    - name: Checkout main branch
+    ############################################################################
+
+    - name: Checkout target branch of pull request
       uses: actions/checkout@v4
       with:
-        ref: main
+        ref: ${{ github.base_ref }}
 
-    - name: Set up main failed count
+    ############################################################################
+
+    - name: Test target branch of pull request
       run: |
         make fclean test
-        $HOME/42_minishell_tester/tester.sh m > $HOME/main_test_result.txt
+        $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
       env:
-        GH_BRANCH: "MAIN_FAILED_COUNT"
+        GH_BRANCH: "TARGET_FAILED_COUNT"
+
+    ############################################################################
 
     - name: Compare failed count
       id: comparison
       run: |
-        echo "MAIN_FAILED_COUNT: $MAIN_FAILED_COUNT"
-        echo "PR_FAILED_COUNT: $PR_FAILED_COUNT"
-        if [ $PR_FAILED_COUNT -gt $MAIN_FAILED_COUNT ]; then
-          echo "PR_FAILED_COUNT is greater than MAIN_FAILED_COUNT"
+        echo "TARGET_FAILED_COUNT: $TARGET_FAILED_COUNT"
+        echo "SOURCE_FAILED_COUNT: $SOURCE_FAILED_COUNT"
+        if [ $SOURCE_FAILED_COUNT -gt $TARGET_FAILED_COUNT ]; then
+          echo "SOURCE_FAILED_COUNT is greater than TARGET_FAILED_COUNT"
           exit 1
         else
-          echo "PR_FAILED_COUNT is less than or equal to MAIN_FAILED_COUNT"
+          echo "SOURCE_FAILED_COUNT is less than or equal to TARGET_FAILED_COUNT"
           exit 0
         fi
       env:
-        PR_FAILED_COUNT: ${{ env.PR_FAILED_COUNT }}
-        MAIN_FAILED_COUNT: ${{ env.MAIN_FAILED_COUNT }}
+        SOURCE_FAILED_COUNT: ${{ env.SOURCE_FAILED_COUNT }}
+        TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
       continue-on-error: true
 
+    ############################################################################
+
+    - name: Print test cases whose results changed
+      run: |
+        DIFF_OUTPUT=$(diff $HOME/target_test_result.txt $HOME/source_test_result.txt || true)
+
+        # Extract line numbers and file paths from diff output
+        while IFS= read -r line; do
+          if [[ $line == "<"* ]]; then
+            echo -e "\e[94mTarget branch: $line\e[0m"
+          elif [[ $line == ">"* ]]; then
+            echo -e "\e[93mSource branch: $line\e[0m"
+            line_number=$(echo "$line" | grep -oP '\d+' | tail -1 || true)
+            file_path=$(echo "$line" | grep -oP '\s*/home/runner/42_minishell_tester/cmds/.*\.sh' || true)
+          fi
+
+          # Print test case
+          if [[ -n $line_number && -n $file_path ]]; then
+            echo -e "\e[93m----------------------------------------------------------------\e[1;97m"
+            sed -n "${line_number},\$p" "$file_path" | awk 'NF {p=1} !NF {if(p) exit} {if(p) print}'
+            echo -e "\e[0;93m----------------------------------------------------------------\e[0m"
+          fi
+
+          line_number=""
+          file_path=""
+        done <<< "$DIFF_OUTPUT"
+
+    ############################################################################
+
       # Can fail the job
-    - name: Show the regressions between PR and main
+    - name: Show the regressions between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'failure'
-      run: diff $HOME/main_test_result.txt $HOME/pr_test_result.txt
+      run: diff $HOME/target_test_result.txt $HOME/source_test_result.txt
+
+    ############################################################################
 
       # Cannot fail the job
-    - name: Show the improvements between PR and main
+    - name: Show the improvements between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'success'
-      run: diff $HOME/main_test_result.txt $HOME/pr_test_result.txt || true
+      run: diff $HOME/target_test_result.txt $HOME/source_test_result.txt || true
