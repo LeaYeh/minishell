@@ -24,7 +24,6 @@ BUILD_DIR		:=	build
 OBJ_DIR			:=	$(BUILD_DIR)/_obj
 DEP_DIR			:=	$(BUILD_DIR)/_dep
 LIB_DIR			:=	libraries
-CUR_DIR			:=	$(shell pwd)
 
 
 #	Dependencies
@@ -71,7 +70,7 @@ VALGRINDFLAGS	:=	--errors-for-leak-kinds=all \
 					--read-var-info=yes \
 					--show-error-list=yes \
 					--show-leak-kinds=all \
-					--suppressions=$(CUR_DIR)/minishell.supp \
+					--suppressions=./minishell.supp \
 					--trace-children=yes \
 					--trace-children-skip=$(subst $(SPACE),$(COMMA),$(ABSOLUTE_PATHS)) \
 					--track-origins=yes
@@ -114,7 +113,7 @@ run				:	all
 					./$(NAME)
 
 val				:	all
-					/usr/bin/valgrind $(VALGRINDFLAGS) ./$(NAME)
+					$(shell which valgrind) $(VALGRINDFLAGS) ./$(NAME)
 
 valfd			:	all
 					/usr/bin/valgrind $(VALGRINDFDFLAGS) ./$(NAME)
