@@ -100,7 +100,7 @@ jobs:
           if [[ $line == "<"* ]]; then
             echo -e "\e[94mTarget branch: $line\e[0m"
           elif [[ $line == ">"* ]]; then
-            echo -e "\n\e[93mSource branch: $line\e[0m"
+            echo -e "\e[93mSource branch: $line\e[0m"
             line_number=$(echo "$line" | grep -oP '\d+' | tail -1 || true)
             file_path=$(echo "$line" | grep -oP '\s*/home/runner/42_minishell_tester/cmds/.*\.sh' || true)
           fi
