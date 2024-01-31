@@ -75,8 +75,13 @@ jobs:
 
         # Extract line numbers and file paths from diff output
         while IFS= read -r line; do
-          line_number=$(echo "$line" | grep -oP '\d+' | tail -1 || true)
-          file_path=$(echo "$line" | grep -oP '\s*/home/runner/42_minishell_tester/cmds/.*\.sh' || true)
+          if [[ $line == "<"* ]]; then
+            echo "Target branch: $line"
+          elif [[ $line == ">"* ]]; then
+            echo -e "Source branch: $line"
+            line_number=$(echo "$line" | grep -oP '\d+' | tail -1 || true)
+            file_path=$(echo "$line" | grep -oP '\s*/home/runner/42_minishell_tester/cmds/.*\.sh' || true)
+          fi
 
           # Print test case
           if [[ -n $line_number && -n $file_path ]]; then
