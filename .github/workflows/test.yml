@@ -69,6 +69,24 @@ jobs:
         TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
       continue-on-error: true
 
+    - name: Print test cases
+      run: |
+        DIFF_OUTPUT=$(diff $HOME/target_test_result.txt $HOME/source_test_result.txt || true)
+
+        # Extract line numbers and file paths from diff output
+        while IFS= read -r line; do
+          line_number=$(echo "$line" | grep -oP '\d+' | tail -1 || true)
+          file_path=$(echo "$line" | grep -oP '\s*/home/runner/42_minishell_tester/cmds/.*\.sh' || true)
+
+          # Print test case
+          if [[ -n $line_number && -n $file_path ]]; then
+            echo -e "\nTest starting at line $line_number in file $file_path:"
+            echo -e "\e[31m--------------------------------\e[0m"
+            sed -n "${line_number},\$p" "$file_path" | awk 'NF {p=1} !NF {if(p) exit} {if(p) print}'
+            echo -e "\e[31m--------------------------------\e[0m"
+          fi
+        done <<< "$DIFF_OUTPUT"
+
       # Can fail the job
     - name: Show the regressions between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'failure'
