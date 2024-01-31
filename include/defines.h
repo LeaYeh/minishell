@@ -133,9 +133,6 @@
 # define ERROR_CREATE_PIPE					\
 "pipe error: Too many open files\n"
 
-extern const int	g_parsing_table[][PT_COL_SIZE];
-
-
 typedef enum e_heredoc_status
 {
 	HEREDOC_SUCCESS = 0,
