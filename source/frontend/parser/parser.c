@@ -51,7 +51,6 @@ void	report_syntax_error(t_shell *shell, t_parser_data *parser_data)
 {
 	char	*error_token;
 
-	error_token = NULL;
 	error_token = get_error_token_data(
 			parser_data->token_list, parser_data->parse_stack);
 	if (!error_token)
