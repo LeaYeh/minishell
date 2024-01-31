@@ -40,8 +40,8 @@ t_env	*find_env_node(t_list *env_list, char *key, char *value)
 	return (NULL);
 }
 
-// TODO: Almost the same function as get_replacement() from expander
-char	*get_value_from_env(t_list *env_list, char *key)
+// TODO: Almost the same function as get_replacement() from expander and get_value_from_env() from executor_utils
+char	*get_value_from_env_list(t_list *env_list, char *key)
 {
 	t_env	*env_node;
 	char	*value;

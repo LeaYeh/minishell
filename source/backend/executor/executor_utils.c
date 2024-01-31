@@ -13,29 +13,6 @@
 #include "defines.h"
 #include "utils.h"
 
-char	*extract_env(char **envp, char *key)
-{
-	int		i;
-	int		env_len;
-	char	*path;
-
-	if (!key || !envp)
-		return (NULL);
-	env_len = ft_strlen(key);
-	path = NULL;
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], key, env_len) == 0)
-		{
-			path = ft_strdup(envp[i] + env_len + 1);
-			break ;
-		}
-		i++;
-	}
-	return (path);
-}
-
 char	*get_base_filename(char	*full_name)
 {
 	char	*ret;
@@ -54,36 +31,70 @@ char	*get_base_filename(char	*full_name)
 	return (ret);
 }
 
-char	**get_all_path(char **envp)
+char	*get_value_with_key(char *str, char *key)
 {
-	char	**all_path;
+	int		key_len;
+	char	*value;
+
+	if (!str || !key)
+		return (NULL);
+	key_len = ft_strlen(key);
+	if (ft_strncmp(str, key, key_len) == 0 && str[key_len] == '=')
+	{
+		value = str + key_len + 1;
+		return (value);
+	}
+	return (NULL);
+}
+
+char	*get_value_from_env(char **envp, char *key)
+{
+	int		i;
+	char	*value;
+
+	if (!envp || !key)
+		return (NULL);
+	value = NULL;
+	i = 0;
+	while (envp[i])
+	{
+		value = get_value_with_key(envp[i], key);
+		if (value)
+			break ;
+		i++;
+	}
+	return (value);
+}
+
+bool	set_all_path(char ***all_path, char **envp)
+{
 	char	*path_value;
 
-	path_value = extract_env(envp, "PATH");
+	path_value = get_value_from_env(envp, "PATH");
 	if (!path_value)
-		return (NULL);
-	all_path = ft_split(path_value, ':');
-	free(path_value);
-	return (all_path);
+		return (*all_path = NULL, true);
+	*all_path = ft_split(path_value, ':');
+	if (!*all_path)
+		return (false);
+	return (true);
 }
 
 char	*get_exec_path(char *cmd_name, char **envp)
 {
-	char	exec_path[FILENAME_MAX];
+	char	exec_path[PATH_MAX];
 	char	**all_path;
 	int		i;
 
-	if (!cmd_name)
-		return (NULL);
 	if (ft_strchr(cmd_name, '/'))
 		return (ft_strdup(cmd_name));
-	all_path = get_all_path(envp);
-	if (!all_path)
+	if (!set_all_path(&all_path, envp))
 		return (NULL);
+	if (!all_path)
+		return (ft_strdup(cmd_name));
 	i = 0;
 	while (all_path[i])
 	{
-		sprintf(exec_path, "%s/%s", all_path[i], cmd_name);
+		ft_snprintf(exec_path, PATH_MAX, "%s/%s", all_path[i], cmd_name);
 		if (access(exec_path, F_OK) == 0)
 			break ;
 		i++;
@@ -102,7 +113,7 @@ char	*get_exec_path(char *cmd_name, char **envp)
 
 // 	if (ft_strchr(cmd_name, '/') && access(cmd_name, F_OK) == 0)
 // 		return (ft_strdup(cmd_name));
-// 	exec_path = extract_env(envp, "PATH");
+// 	exec_path = get_value_from_env(envp, "PATH");
 // 	all_path = ft_split(exec_path, ':');
 // 	ft_free_and_null((void **)&exec_path);
 // 	i = 0;
