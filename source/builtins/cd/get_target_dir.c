@@ -24,13 +24,13 @@ char	*get_target_dir(char **args, t_list *env_list)
 	}
 	if (!args[1])
 	{
-		target_dir = get_value_from_env(env_list, "HOME");
+		target_dir = get_value_from_env_list(env_list, "HOME");
 		if (!target_dir)
 			return (ft_dprintf(2, ERROR_CD_HOME_NOT_SET, PROGRAM_NAME), NULL);
 	}
 	else if (ft_strcmp(args[1], "-") == 0)
 	{
-		target_dir = get_value_from_env(env_list, "OLDPWD");
+		target_dir = get_value_from_env_list(env_list, "OLDPWD");
 		if (!target_dir)
 			return (ft_dprintf(2, ERROR_CD_OLDPWD_NOT_SET, PROGRAM_NAME), NULL);
 	}
