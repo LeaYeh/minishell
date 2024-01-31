@@ -3,28 +3,40 @@ name: Build and Test
 on:
   pull_request:
 
+################################################################################
+
 jobs:
   unit_test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    ############################################################################
+
     steps:
     - name: Checkout source branch of pull request
       uses: actions/checkout@v4
+
+    ############################################################################
 
     - name: Set up build environment
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential valgrind
 
+    ############################################################################
+
     - name: Compile with Makefile
       run: make
+
+    ############################################################################
 
     - name: Set up testing framework
       run: |
         git clone https://github.com/LeaYeh/42_minishell_tester.git
         cp -r 42_minishell_tester $HOME
         chmod +x $HOME/42_minishell_tester/tester.sh
+
+    ############################################################################
 
     - name: Check memory leaks
       run: |
@@ -33,6 +45,8 @@ jobs:
       env:
         GH_BRANCH: "IGNORE"
 
+    ############################################################################
+
     - name: Test source branch of pull request
       run: |
         make fclean test
@@ -40,10 +54,14 @@ jobs:
       env:
         GH_BRANCH: "SOURCE_FAILED_COUNT"
 
+    ############################################################################
+
     - name: Checkout target branch of pull request
       uses: actions/checkout@v4
       with:
         ref: ${{ github.base_ref }}
+
+    ############################################################################
 
     - name: Test target branch of pull request
       run: |
@@ -51,6 +69,8 @@ jobs:
         $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
       env:
         GH_BRANCH: "TARGET_FAILED_COUNT"
+
+    ############################################################################
 
     - name: Compare failed count
       id: comparison
@@ -68,6 +88,8 @@ jobs:
         SOURCE_FAILED_COUNT: ${{ env.SOURCE_FAILED_COUNT }}
         TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
       continue-on-error: true
+
+    ############################################################################
 
     - name: Print test cases whose results changed
       run: |
@@ -94,10 +116,14 @@ jobs:
           file_path=""
         done <<< "$DIFF_OUTPUT"
 
+    ############################################################################
+
       # Can fail the job
     - name: Show the regressions between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'failure'
       run: diff $HOME/target_test_result.txt $HOME/source_test_result.txt
+
+    ############################################################################
 
       # Cannot fail the job
     - name: Show the improvements between SOURCE and TARGET branch
