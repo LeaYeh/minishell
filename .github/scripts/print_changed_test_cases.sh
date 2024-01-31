@@ -12,14 +12,11 @@ while IFS= read -r line; do
     file_path=$(echo "$line" | grep -oP '\s*'"$HOME"'/42_minishell_tester/cmds/.*\.sh' || true)
   fi
 
-  echo $line_number
-  echo $file_path
-
   # Print test case
   if [[ -n $line_number && -n $file_path ]]; then
-    echo -e "\e[93m----------------------------------------------------------------\e[1;97m"
+    echo -e "\e[93m----------------------------------------\e[1;97m"
     sed -n "${line_number},\$p" "$file_path" | awk 'NF {p=1} !NF {if(p) exit} {if(p) print}'
-    echo -e "\e[0;93m----------------------------------------------------------------\e[0m"
+    echo -e "\e[0;93m---------------------------------------------------------------------------------\e[0m"
   fi
 
   line_number=""
