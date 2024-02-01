@@ -43,12 +43,14 @@ LIBFLAGS		:=	$(addprefix -L,$(LIBRARIES)) \
 MAKEFLAGS		:=	-j -s
 
 
-#	Test mode
+#	Macro definitions
+
+include				$(BUILD_DIR)/parsing_table.mk
+
+MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE)
 
 ifeq ($(filter test,$(MAKECMDGOALS)),test)
-
-CFLAGS			+=	-D TEST_MODE=true
-
+MACROS			+=	-D TEST_MODE=true
 endif
 
 
@@ -146,14 +148,14 @@ $(NAME)			:	$(LIBRARIES) $(OBJ)
 #		Source file compiling
 
 $(OBJ_DIR)/%.o	:	%.c Makefile | $(OBJ_SUBDIRS)
-					$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ \
+					$(CC) $(CFLAGS) $(MACROS) $(INCLUDES) -c $< -o $@ \
 						&& echo -n $(MSG_PROGRESS)
 
 
 #		Pre-processing and dependency file creation
 
 $(DEP_DIR)/%.d	:	%.c Makefile | $(DEP_SUBDIRS)
-					$(CC) $(CFLAGS) $(INCLUDES) \
+					$(CC) $(CFLAGS) $(MACROS) $(INCLUDES) \
 						-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
 
 
