@@ -68,21 +68,21 @@ bool	handle_redirect(t_list **token_list, t_list_d **cmd_table_list)
 {
 	t_cmd_table	*cmd_table;
 	t_list_d	*cmd_table_node;
-	int			subshell_cnt;
+	int			subshell_count;
 
 	cmd_table_node = ft_lstlast_d(*cmd_table_list);
-	subshell_cnt = 0;
+	subshell_count = 0;
 	while (cmd_table_node)
 	{
 		cmd_table = cmd_table_node->content;
 		if (cmd_table->type == C_SUBSHELL_END)
-			subshell_cnt++;
+			subshell_count++;
 		else if (cmd_table->type == C_SUBSHELL_START)
-			subshell_cnt--;
+			subshell_count--;
 		else if (cmd_table->type == C_SIMPLE_CMD || cmd_table->type == C_NONE)
 			if (!fill_redirect(token_list, cmd_table))
 				return (false);
-		if (subshell_cnt == 0)
+		if (subshell_count == 0)
 			break ;
 		cmd_table_node = cmd_table_node->prev;
 	}
