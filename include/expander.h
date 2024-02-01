@@ -15,16 +15,8 @@
 
 # include "defines.h"
 
-enum e_is_open_pair_operations
-{
-	GET = 0,
-	TOGGLE,
-	RESET,
-	CLEAN
-};
-
 /* bad_substitution.c */
-bool	bad_substitution(char *str);
+bool	is_bad_substitution(char *str);
 
 /* expand_special_param.c */
 bool	expand_exit_code(char **str, size_t *i, int exit_code);
@@ -35,20 +27,22 @@ size_t	count_var_len(char *str);
 char	*get_replacement(char *var, t_list *env_list);
 
 /* expander.c */
-int		ft_expander(char *str, t_list **lst, t_shell *shell);
+int		ft_expander(char *str, t_list **lst, t_shell *shell, \
+					t_expander_op op_mask);
 
 /* expander_utils.c */
 size_t	count_offset(char *str);
 size_t	count_replace_len(char *str);
-bool	is_open_pair(unsigned char c, int operation);
+bool	is_open_pair(unsigned char c, t_is_open_pair_op operation);
 void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i);
 
 /* parameter_expansion.c */
-bool	parameter_expansion(char **str, t_shell *shell);
-bool	expand_parameter(char **str, size_t *i, t_shell *shell);
+bool	handle_parameter_expansion(char **str, t_list **lst, t_shell *shell);
+bool	expand(char **str, size_t *i, t_shell *shell);
 bool	handle_dollar_quotes(char **str, size_t *i);
 
-/* quote_removal.c */
-bool	quote_removal(char **str);
+/* remove_quotes.c */
+bool	handle_remove_quotes(t_list **lst);
+bool	remove_quotes(char **str);
 
 #endif

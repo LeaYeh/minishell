@@ -49,7 +49,7 @@ size_t	count_replace_len(char *str)
 	return (replace_len);
 }
 
-bool	is_open_pair(unsigned char c, int operation)
+bool	is_open_pair(unsigned char c, t_is_open_pair_op operation)
 {
 	static bool	is_open_pair[UCHAR_MAX];
 
