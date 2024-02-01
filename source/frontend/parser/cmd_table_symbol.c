@@ -25,7 +25,7 @@ void	fill_bracket(t_list **token_list, t_list_d **cmd_table_list)
 		cmd_table->type = C_SUBSHELL_END;
 }
 
-bool	fill_red_node(t_io_red *io_red, int type, char *data)
+bool	fill_red_node(t_io_red *io_red, t_token_type type, char *data)
 {
 	char	*dup_data;
 
@@ -107,7 +107,7 @@ void	fill_control_op(t_list **token_list, t_list_d **cmd_table_list)
 
 bool	handle_symbol_token(t_list **token_list, t_list_d **cmd_table_list)
 {
-	int	token_type;
+	t_token_type	token_type;
 
 	token_type = get_token_type_from_list(*token_list);
 	if (is_io_red_op(token_type))

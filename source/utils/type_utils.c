@@ -12,7 +12,7 @@
 
 #include "defines.h"
 
-char	*ft_get_token_type_str(int type)
+char	*ft_get_token_type_str(t_token_type type)
 {
 	if (type == T_WORD)
 		return ("WORD");
@@ -41,34 +41,34 @@ char	*ft_get_token_type_str(int type)
 	return (NULL);
 }
 
-bool	is_control_op(int token_type)
+bool	is_control_op(t_token_type token_type)
 {
 	return (token_type == T_AND || token_type == T_OR || token_type == T_PIPE);
 }
 
-// bool	is_identifier(int token_type)
+// bool	is_identifier(t_token_type token_type)
 // {
 // 	return (token_type < 100 && token_type >= 0);
 // }
 
 
-// bool	is_rule(int token_type)
+// bool	is_rule(t_token_type token_type)
 // {
 // 	return (token_type >= 100);
 // }
 
-bool	is_word(int token_type)
+bool	is_word(t_token_type token_type)
 {
 	return (token_type == T_WORD || token_type == T_ASSIGNMENT_WORD);
 }
 
-bool	is_io_red_op(int token_type)
+bool	is_io_red_op(t_token_type token_type)
 {
 	return (token_type == T_HERE_DOC || token_type == T_APPEND || \
 		token_type == T_RED_IN || token_type == T_RED_OUT);
 }
 
-bool	is_subshell_symbol(int token_type)
+bool	is_subshell_symbol(t_token_type token_type)
 {
 	return (token_type == T_L_BRACKET || token_type == T_R_BRACKET);
 }

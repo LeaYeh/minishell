@@ -48,9 +48,9 @@ bool	is_atol_overflow(char *str)
 	return (true);
 }
 
-int	get_args_error(char **args)
+t_exit_args_error	get_args_error(char **args)
 {
-	int	type;
+	t_exit_args_error	type;
 	// int	i;
 
 	if (!*args)

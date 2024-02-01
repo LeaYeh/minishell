@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include "defines.h"
+#include "utils.h"
 
 t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
 {
-	t_cmd_table	*last_simple_cmd_table;
-	int			cur_type;
+	t_cmd_table		*last_simple_cmd_table;
+	t_cmdtable_type	cur_type;
 
 	last_simple_cmd_table = NULL;
 	while (cmd_table_list && cmd_table_list->content)

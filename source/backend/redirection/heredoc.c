@@ -32,7 +32,7 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
 	return (true);
 }
 
-int	exec_heredoc(t_shell *shell, int cmdtable_id, t_io_red *io_red)
+t_heredoc_status	exec_heredoc(t_shell *shell, int cmdtable_id, t_io_red *io_red)
 {
 	char	*line;
 
@@ -59,10 +59,10 @@ int	exec_heredoc(t_shell *shell, int cmdtable_id, t_io_red *io_red)
 	return (HEREDOC_SUCCESS);
 }
 
-int	handle_heredoc(t_shell *shell, int cmdtable_id, t_list *io_red_list)
+t_heredoc_status	handle_heredoc(t_shell *shell, int cmdtable_id, t_list *io_red_list)
 {
-	t_io_red	*io_red;
-	int			ret;
+	t_io_red			*io_red;
+	t_heredoc_status	ret;
 
 	while (io_red_list && io_red_list->content)
 	{
@@ -82,11 +82,11 @@ int	handle_heredoc(t_shell *shell, int cmdtable_id, t_list *io_red_list)
 // If the heredoc delimiter has quotes,
 //     1. the here-document lines shall not undergo expansion
 //     2. the delimiter will remove the quotes
-int	ft_heredoc(t_shell *shell)
+t_heredoc_status	ft_heredoc(t_shell *shell)
 {
-	t_cmd_table	*cur_cmd_table;
-	t_list_d	*cmd_table_node;
-	int			ret;
+	t_cmd_table			*cur_cmd_table;
+	t_list_d			*cmd_table_node;
+	t_heredoc_status	ret;
 
 	cmd_table_node = shell->cmd_table_list;
 	while (cmd_table_node && cmd_table_node->content)

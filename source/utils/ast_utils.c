@@ -12,7 +12,7 @@
 
 #include "defines.h"
 
-t_ast	*init_ast_node(int type, char *data, t_list *children)
+t_ast	*init_ast_node(t_token_type type, char *data, t_list *children)
 {
 	t_ast	*node;
 

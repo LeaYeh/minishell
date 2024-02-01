@@ -29,10 +29,10 @@ t_cmd_table	*init_cmd_table(void)
 	if (!cmd_table)
 		return (NULL);
 	cmd_table->id = 0;
+	cmd_table->type = C_NONE;
 	cmd_table->subshell_level = 0;
 	cmd_table->read_fd = -1;
 	cmd_table->write_fd = -1;
-	cmd_table->type = C_NONE;
 	cmd_table->assignment_list = NULL;
 	cmd_table->simple_cmd_list = NULL;
 	cmd_table->io_red_list = NULL;
@@ -46,7 +46,7 @@ t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node)
 	return (cmd_table_node->content);
 }
 
-bool	append_cmd_table_by_scenario(int token_type, t_list_d **cmd_table_list)
+bool	append_cmd_table_by_scenario(t_token_type token_type, t_list_d **cmd_table_list)
 {
 	t_cmd_table	*cmd_table;
 

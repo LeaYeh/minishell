@@ -15,14 +15,14 @@
 # include "defines.h"
 
 bool		set_next_pt_entry(t_pt_node **pt_entry,
-				int state, int token_type, int action_mask);
-bool		push_state(t_list **state_stack, int next_step);
+				int state, t_token_type token_type, t_action_type action_mask);
+bool		push_state(t_list **state_stack, t_token_type next_step);
 bool		push_token(t_list **parse_stack, t_ast *ast_node);
 bool		parse_shift(t_token *input_token,
-				t_list **state_stack, t_list **parse_stack, int next_step);
+				t_list **state_stack, t_list **parse_stack, t_token_type next_step);
 bool		parse_reduce(t_list **state_stack,
 				t_list **parse_stack, t_pt_node *pt_entry);
-bool		parse_goto(t_list **state_stack, int token_type);
+bool		parse_goto(t_list **state_stack, t_token_type token_type);
 
 bool		init_parser_data(t_parser_data *parser_data, t_list *token_list);
 void		free_parser_data(t_parser_data *parser_data);

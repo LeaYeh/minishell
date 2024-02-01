@@ -13,7 +13,7 @@
 #include "defines.h"
 #include "utils.h"
 
-t_token	*init_token_node(int type, char *data)
+t_token	*init_token_node(t_token_type type, char *data)
 {
 	t_token	*token_node;
 

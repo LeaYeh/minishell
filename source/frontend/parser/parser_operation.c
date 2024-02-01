@@ -13,12 +13,12 @@
 #include "parser.h"
 #include "utils.h"
 
-bool	push_state(t_list **state_stack, int next_step)
+bool	push_state(t_list **state_stack, t_token_type next_step)
 {
-	t_list	*node;
-	int		*state;
+	t_list			*node;
+	t_token_type	*state;
 
-	state = (int *)malloc(sizeof(int));
+	state = (t_token_type *)malloc(sizeof(t_token_type));
 	if (!state)
 		return (false);
 	*state = next_step;
@@ -44,7 +44,7 @@ bool	push_node(t_list **parse_stack, t_ast *ast_node)
 }
 
 bool	parse_shift(t_token *token_node,
-	t_list **state_stack, t_list **parse_stack, int next_step)
+	t_list **state_stack, t_list **parse_stack, t_token_type next_step)
 {
 	t_ast	*ast_node;
 
@@ -91,7 +91,7 @@ bool	parse_reduce(
 	return (true);
 }
 
-bool	parse_goto(t_list **state_stack, int token_type)
+bool	parse_goto(t_list **state_stack, t_token_type token_type)
 {
 	t_pt_node	*pt_entry;
 

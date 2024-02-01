@@ -28,7 +28,7 @@ t_pt_node	*init_pt_node(const int pt_row[])
 	return (pt_node);
 }
 
-bool	match_rule(int token_type, int action_mask, int row_index,
+bool	match_rule(t_token_type token_type, t_action_type action_mask, int row_index,
 	const int parsing_table[][PT_COL_SIZE])
 {
 	if ((action_mask & A_ACCEPT) == A_ACCEPT && \
@@ -49,7 +49,7 @@ bool	match_rule(int token_type, int action_mask, int row_index,
 }
 
 bool	set_next_pt_entry(
-	t_pt_node **pt_entry, int state, int token_type, int action_mask)
+	t_pt_node **pt_entry, int state, t_token_type token_type, t_action_type action_mask)
 {
 	const int	parsing_table[][PT_COL_SIZE] = PARSING_TABLE;
 	int			i;

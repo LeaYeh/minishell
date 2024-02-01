@@ -167,24 +167,24 @@ typedef enum e_action_type
 	A_GOTO		= 0b100
 }	t_action_type;
 
-typedef enum e_rules
-{
-	R_AND_OR = 100,
-	R_PIPE_SEQ,
-	R_CMD,
-	R_SUBSHELL,
-	R_SIMPLE_CMD,
-	R_CMD_NAME,
-	R_CMD_WORD,
-	R_CMD_PREFIX,
-	R_CMD_SUFFIX,
-	R_RED_LIST,
-	R_IO_RED,
-	R_IO_FILE,
-	R_FILENAME,
-	R_IO_HERE,
-	R_HERE_END
-}	t_rules;
+// typedef enum e_rules
+// {
+// 	R_AND_OR = 100,
+// 	R_PIPE_SEQ,
+// 	R_CMD,
+// 	R_SUBSHELL,
+// 	R_SIMPLE_CMD,
+// 	R_CMD_NAME,
+// 	R_CMD_WORD,
+// 	R_CMD_PREFIX,
+// 	R_CMD_SUFFIX,
+// 	R_RED_LIST,
+// 	R_IO_RED,
+// 	R_IO_FILE,
+// 	R_FILENAME,
+// 	R_IO_HERE,
+// 	R_HERE_END
+// }	t_rules;
 
 typedef enum e_token_type
 {
@@ -222,13 +222,13 @@ typedef struct s_env
 
 typedef struct s_token
 {
-	int				type;
+	t_token_type	type;
 	char			*data;
 }	t_token;
 
 typedef struct s_ast
 {
-	int				type;
+	t_token_type	type;
 	char			*data;
 	t_list			*children;
 }	t_ast;
@@ -251,16 +251,16 @@ typedef struct s_parser_data
 
 typedef struct s_pt_node
 {
-	int				state;
-	int				token_type;
-	int				action;
-	int				next_state;
+	t_token_type	state;
+	t_token_type	token_type; //? t_token_type
+	t_action_type	action;
+	t_token_type	next_state;
 	int				num_reduced;
 }	t_pt_node;
 
 typedef struct s_io_red
 {
-	int				type;
+	t_token_type	type;
 	char			*in_file;
 	char			*out_file;
 	char			*here_end;
@@ -273,10 +273,10 @@ typedef struct s_io_red
 typedef struct s_cmd_table
 {
 	int				id;
+	t_cmdtable_type	type;
 	int				subshell_level;
 	int				read_fd;
 	int				write_fd;
-	int				type;
 	t_list			*simple_cmd_list;
 	t_list			*assignment_list;
 	t_list			*io_red_list;

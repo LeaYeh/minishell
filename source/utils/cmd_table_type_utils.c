@@ -14,7 +14,7 @@
 #include "utils.h"
 #include "expander.h"
 
-int	get_cmd_table_type_from_list(t_list_d *cmd_table_list)
+t_cmdtable_type	get_cmd_table_type_from_list(t_list_d *cmd_table_list)
 {
 	t_cmd_table	*cmd_table;
 
@@ -24,7 +24,7 @@ int	get_cmd_table_type_from_list(t_list_d *cmd_table_list)
 	return (cmd_table->type);
 }
 
-bool	is_control_op_cmd_table(int cmd_table_type)
+bool	is_control_op_cmd_table(t_cmdtable_type cmd_table_type)
 {
 	return (cmd_table_type == C_AND || cmd_table_type == C_OR || \
 		cmd_table_type == C_PIPE);

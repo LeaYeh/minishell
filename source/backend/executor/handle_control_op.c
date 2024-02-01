@@ -16,7 +16,7 @@
 #include "utils.h"
 #include "clean.h"
 
-bool	should_execute_next_pipeline(int type, int exit_code)
+bool	should_execute_next_pipeline(t_cmdtable_type type, int exit_code)
 {
 	if (exit_code == TERM_BY_SIGNAL + SIGINT)
 		return (false);
