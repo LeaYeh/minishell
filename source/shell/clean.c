@@ -16,12 +16,14 @@
 
 static void	clean_shell(t_sh *shell);
 static void	remove_heredoc_files(t_ct *cmd_table);
+static void	close_std_io(void);
 
 void	clean_and_exit_shell(t_sh *shell, int exit_code, char *msg)
 {
 	if (msg)
 		printf("%s\n", msg);
 	clean_shell(shell);
+	close_std_io();
 	safe_close_all_pipes(shell);
 	(void)get_next_line(-1);
 	exit(exit_code);
@@ -68,4 +70,11 @@ static void	remove_heredoc_files(t_ct *cmd_table)
 			remove_file(io_red->filename);
 		io_red_list = io_red_list->next;
 	}
+}
+
+static void	close_std_io(void)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 }
