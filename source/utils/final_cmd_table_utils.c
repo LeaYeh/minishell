@@ -125,7 +125,7 @@ void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
 	ft_free_and_null((void **)final_cmd_table);
 }
 
-bool	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
+bool	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table, bool is_setup_fd)
 {
 	free_final_cmd_table(&shell->final_cmd_table);
 	shell->final_cmd_table = ft_calloc(1, sizeof(t_final_cmd_table));
@@ -136,6 +136,7 @@ bool	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 		!setup_assignment_array(
 			shell->final_cmd_table, cmd_table->assignment_list))
 		return (false);
-	setup_fd(shell, shell->final_cmd_table);
+	if (is_setup_fd)
+		setup_fd(shell, shell->final_cmd_table);
 	return (true);
 }

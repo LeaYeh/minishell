@@ -22,7 +22,7 @@ void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
 	t_cmd_table	*cmd_table;
 
 	cmd_table = (*cmd_table_node)->content;
-	if (!set_final_cmd_table(shell, cmd_table))
+	if (!set_final_cmd_table(shell, cmd_table, false))
 	{
 		raise_error_to_own_subprocess(shell, MALLOC_ERROR, "malloc failed");
 		move_past_pipeline(cmd_table_node);
