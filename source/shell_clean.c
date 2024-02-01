@@ -45,11 +45,19 @@ void	reset_submodule_variable(t_shell *shell)
 	free_final_cmd_table(&shell->final_cmd_table, true);
 }
 
+void	close_std_io(void)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+}
+
 void	ft_clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)
 {
 	if (msg)
 		printf("%s\n", msg);
 	ft_clean_shell(shell);
+	close_std_io();
 	safe_close_all_pipes(shell);
 	(void)get_next_line(-1);
 	exit(exit_code);
