@@ -13,7 +13,7 @@
 #include "expander.h"
 #include "utils.h"
 
-bool	parameter_expansion(char **str, t_shell *shell)
+bool	handle_parameter_expansion(char **str, t_list **lst, t_shell *shell)
 {
 	size_t	i;
 
@@ -23,14 +23,18 @@ bool	parameter_expansion(char **str, t_shell *shell)
 		skip_to_dollar_not_in_single_quotes(*str, &i);
 		if (!(*str)[i])
 			break ;
-		if (!expand_parameter(str, &i, shell))
+		if (!expand(str, &i, shell))
 			return (is_open_pair('"', RESET), false);
 	}
 	is_open_pair('"', RESET);
+	if (!(*str)[0])
+		ft_free_and_null((void **)str);
+	if (!ft_lstnew_back(lst, *str))
+		return (false);
 	return (true);
 }
 
-bool	expand_parameter(char **str, size_t *i, t_shell *shell)
+bool	expand(char **str, size_t *i, t_shell *shell)
 {
 	size_t	offset;
 

@@ -20,7 +20,8 @@ int	expand_list(t_shell *shell, t_list *list, t_list **expanded_list)
 	ret = SUCCESS;
 	while (list && ret == SUCCESS)
 	{
-		ret = ft_expander(list->content, expanded_list, shell);
+		ret = ft_expander(list->content, expanded_list, shell, \
+							EXPAND | REMOVE_QUOTES);
 		list = list->next;
 	}
 	return (ret);
@@ -36,7 +37,8 @@ int	expand_array(t_shell *shell, char ***array)
 	i = 0;
 	while ((*array)[i])
 	{
-		ret = ft_expander((*array)[i], &expanded_list, shell);
+		ret = ft_expander((*array)[i++], &expanded_list, shell, \
+							EXPAND | REMOVE_QUOTES);
 		if (ret != SUCCESS)
 		{
 			ft_lstclear(&expanded_list, free);
@@ -45,7 +47,6 @@ int	expand_array(t_shell *shell, char ***array)
 			else if (ret == BAD_SUBSTITUTION)
 				break ;
 		}
-		i++;
 	}
 	free_array(array);
 	*array = convert_list_to_string_array(expanded_list);

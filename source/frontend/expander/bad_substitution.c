@@ -48,7 +48,7 @@ void	prepare_error_msg(char *str, size_t *i)
 		*i = 0;
 }
 
-bool	bad_substitution(char *str)
+bool	is_bad_substitution(char *str)
 {
 	size_t	i;
 

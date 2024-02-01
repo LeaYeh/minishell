@@ -20,7 +20,7 @@ bool	expand_and_print(char *str, t_shell *shell)
 	int		ret;
 
 	expanded_list = NULL;
-	ret = ft_expander(str, &expanded_list, shell);
+	ret = ft_expander(str, &expanded_list, shell, EXPAND | REMOVE_QUOTES);
 	if (ret == SUBSHELL_ERROR)
 		return (printf("malloc failed in expander"), false);
 	if (ret == BAD_SUBSTITUTION)
