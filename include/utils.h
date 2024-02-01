@@ -70,7 +70,7 @@ char		**append_string_array(char **array, char *str);
 
 /* Process utils */
 void		wait_process(t_shell *shell, pid_t pid);
-int			status(int wstatus);
+int			handle_exit_status(int wstatus);
 
 /* Type utils */
 char		*ft_get_token_type_str(int type);
