@@ -28,7 +28,7 @@ void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
 		move_past_pipeline(cmd_table_node);
 		return ;
 	}
-	if (is_builtin(get_cmd_name_from_list(cmd_table->simple_cmd_list)) && \
+	if (is_builtin(shell->final_cmd_table->simple_cmd[0]) && \
 		!is_scmd_in_pipeline(*cmd_table_node))
 		handle_builtin(shell, cmd_table_node);
 	else

@@ -51,7 +51,8 @@ void		move_past_subshell(t_list_d **cmd_table_node);
 void		move_past_pipeline(t_list_d **cmd_table_node);
 
 /* Final cmd table utils */
-void		free_final_cmd_table(t_final_cmd_table **final_cmd_table);
+void		free_final_cmd_table(
+				t_final_cmd_table **final_cmd_table, bool close_fd);
 bool		set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
 
 /* Expansion utils */
