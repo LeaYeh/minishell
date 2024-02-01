@@ -30,7 +30,7 @@ void	ft_clean_shell(t_shell *shell)
 	ft_lstclear(&shell->env_list, (void *)free_env_node);
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
-	free_final_cmd_table(&shell->final_cmd_table);
+	free_final_cmd_table(&shell->final_cmd_table, true);
 	// free_ast_node(shell->ast);
 }
 
@@ -42,7 +42,7 @@ void	reset_submodule_variable(t_shell *shell)
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
 	ft_free_and_null((void **)&shell->input_line);
-	free_final_cmd_table(&shell->final_cmd_table);
+	free_final_cmd_table(&shell->final_cmd_table, true);
 }
 
 void	ft_clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)

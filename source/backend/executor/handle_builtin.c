@@ -46,6 +46,7 @@ void	safe_redirect_io_and_exec_builtin(t_shell *shell)
 	int					ret;
 
 	final_cmd_table = shell->final_cmd_table;
+	// print_final_cmd_table(final_cmd_table);
 	ret = SUCCESS;
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") != 0)
 	{
