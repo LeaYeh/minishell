@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:16:51 by ldulling          #+#    #+#             */
-/*   Updated: 2023/09/26 12:47:52 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:19:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	if (s1 == NULL || set == NULL)
 		return (NULL);
+	if (s1[0] == '\0')
+		return (ft_strdup(""));
 	start = 0;
 	end = ft_strlen(s1) - 1;
 	skip_set(&start, end, s1, set);
