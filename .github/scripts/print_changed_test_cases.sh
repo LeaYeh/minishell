@@ -12,6 +12,9 @@ while IFS= read -r line; do
     file_path=$(echo "$line" | grep -oP '\s*'"$HOME"'/42_minishell_tester/cmds/.*\.sh' || true)
   fi
 
+  echo $line_number
+  echo $file_path
+
   # Print test case
   if [[ -n $line_number && -n $file_path ]]; then
     echo -e "\e[93m----------------------------------------------------------------\e[1;97m"

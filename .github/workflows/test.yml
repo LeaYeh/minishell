@@ -35,7 +35,7 @@ jobs:
         git clone https://github.com/LeaYeh/42_minishell_tester.git
         cp -r 42_minishell_tester $HOME
         chmod +x $HOME/42_minishell_tester/tester.sh
-        chmod +x $HOME/.github/scripts/print_test_cases.sh
+        find . -type f -name "*.sh" -exec chmod +x {} \;
 
     ############################################################################
 
@@ -58,7 +58,8 @@ jobs:
     ############################################################################
 
     - name: 📝 Print all test cases that failed on source branch
-      run: $HOME/.github/scripts/print_all_failed_test_cases.sh
+      working-directory: .github/scripts
+      run: ./print_all_failed_test_cases.sh
       env:
         TEST_OUTPUT: $HOME/source_test_result.txt
 
@@ -102,11 +103,13 @@ jobs:
       # Can fail the job
     - name: 📈 Show the regressions between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'failure'
-      run: $HOME/.github/scripts/print_test_cases.sh
+      working-directory: .github/scripts
+      run: ./print_changed_test_cases.sh
 
     ############################################################################
 
       # Cannot fail the job
     - name: 📉 Show the improvements between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'success'
-      run: $HOME/.github/scripts/print_test_cases.sh || true
+      working-directory: .github/scripts
+      run: ./print_changed_test_cases.sh || true
