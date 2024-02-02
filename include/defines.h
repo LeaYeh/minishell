@@ -234,7 +234,7 @@ typedef enum e_is_open_pair_op
 typedef enum e_expander_op
 {
 	EXPAND			= 0b01,
-	REMOVE_QUOTES	= 0b10
+	RM_QUOTES		= 0b10
 }	t_expander_op;
 
 typedef struct s_env

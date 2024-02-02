@@ -171,7 +171,7 @@ int	ft_expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 		if (!*lst)
 			return (free(dup), MALLOC_ERROR);
 	}
-	if (op_mask & REMOVE_QUOTES)
+	if (op_mask & RM_QUOTES)
 		if (!handle_remove_quotes(lst))
 			return (MALLOC_ERROR);
 	return (SUCCESS);
