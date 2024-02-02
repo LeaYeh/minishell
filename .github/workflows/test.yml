@@ -25,7 +25,7 @@ jobs:
 
     ############################################################################
 
-    - name: Compile with Makefile
+    - name: 🔨 Compile with Makefile
       run: make
 
     ############################################################################
@@ -35,10 +35,12 @@ jobs:
         git clone https://github.com/LeaYeh/42_minishell_tester.git
         cp -r 42_minishell_tester $HOME
         chmod +x $HOME/42_minishell_tester/tester.sh
+        find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
+        cp .github/scripts/*.sh $HOME
 
     ############################################################################
 
-    - name: Check memory leaks
+    - name: 🔍 Check memory leaks
       run: |
         make fclean test
         $HOME/42_minishell_tester/tester.sh vm
@@ -47,12 +49,19 @@ jobs:
 
     ############################################################################
 
-    - name: Test source branch of pull request
+    - name: 🌱 Test source branch of pull request
       run: |
         make fclean test
         $HOME/42_minishell_tester/tester.sh m > $HOME/source_test_result.txt
       env:
         GH_BRANCH: "SOURCE_FAILED_COUNT"
+
+    ############################################################################
+
+    - name: 📝 Print all test cases that failed on source branch
+      run: |
+        export RESULT_FILE="$HOME/source_test_result.txt"
+        $HOME/print_all_failed_test_cases.sh
 
     ############################################################################
 
@@ -63,7 +72,7 @@ jobs:
 
     ############################################################################
 
-    - name: Test target branch of pull request
+    - name: 🎯 Test target branch of pull request
       run: |
         make fclean test
         $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
@@ -72,7 +81,7 @@ jobs:
 
     ############################################################################
 
-    - name: Compare failed count
+    - name: 🆚 Compare failed count
       id: comparison
       run: |
         echo "TARGET_FAILED_COUNT: $TARGET_FAILED_COUNT"
@@ -91,41 +100,14 @@ jobs:
 
     ############################################################################
 
-    - name: Print test cases whose results changed
-      run: |
-        DIFF_OUTPUT=$(diff $HOME/target_test_result.txt $HOME/source_test_result.txt || true)
-
-        # Extract line numbers and file paths from diff output
-        while IFS= read -r line; do
-          if [[ $line == "<"* ]]; then
-            echo -e "\e[94mTarget branch: $line\e[0m"
-          elif [[ $line == ">"* ]]; then
-            echo -e "\e[93mSource branch: $line\e[0m"
-            line_number=$(echo "$line" | grep -oP '\d+' | tail -1 || true)
-            file_path=$(echo "$line" | grep -oP '\s*/home/runner/42_minishell_tester/cmds/.*\.sh' || true)
-          fi
-
-          # Print test case
-          if [[ -n $line_number && -n $file_path ]]; then
-            echo -e "\e[93m----------------------------------------------------------------\e[1;97m"
-            sed -n "${line_number},\$p" "$file_path" | awk 'NF {p=1} !NF {if(p) exit} {if(p) print}'
-            echo -e "\e[0;93m----------------------------------------------------------------\e[0m"
-          fi
-
-          line_number=""
-          file_path=""
-        done <<< "$DIFF_OUTPUT"
-
-    ############################################################################
-
       # Can fail the job
-    - name: Show the regressions between SOURCE and TARGET branch
+    - name: 📈 Show the regressions between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'failure'
-      run: diff $HOME/target_test_result.txt $HOME/source_test_result.txt
+      run: $HOME/print_changed_test_cases.sh
 
     ############################################################################
 
       # Cannot fail the job
-    - name: Show the improvements between SOURCE and TARGET branch
+    - name: 📉 Show the improvements between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'success'
-      run: diff $HOME/target_test_result.txt $HOME/source_test_result.txt || true
+      run: $HOME/print_changed_test_cases.sh || true
