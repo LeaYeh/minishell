@@ -44,6 +44,10 @@
 #  define EXIT_STR			"exit"
 # endif
 
+# ifndef PARSING_TABLE
+#  define PARSING_TABLE		0
+# endif
+
 // # define PROGRAM_NAME       "🌊rash"
 // # define PROGRAM_NAME       "minishell: "
 # define PROGRAM_NAME       "\e[1;34m🌊rash\e[0m"
