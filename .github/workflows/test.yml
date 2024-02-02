@@ -25,7 +25,7 @@ jobs:
 
     ############################################################################
 
-    - name: Compile with Makefile
+    - name: 🔨 Compile with Makefile
       run: make
 
     ############################################################################
@@ -39,7 +39,7 @@ jobs:
 
     ############################################################################
 
-    - name: Check memory leaks
+    - name: 🔍 Check memory leaks
       run: |
         make fclean test
         $HOME/42_minishell_tester/tester.sh vm
@@ -48,12 +48,19 @@ jobs:
 
     ############################################################################
 
-    - name: Test source branch of pull request
+    - name: 🧪 Test source branch of pull request
       run: |
         make fclean test
         $HOME/42_minishell_tester/tester.sh m > $HOME/source_test_result.txt
       env:
         GH_BRANCH: "SOURCE_FAILED_COUNT"
+
+    ############################################################################
+
+    - name: 📝 Print all test cases that failed on source branch
+      run: $HOME/.github/scripts/print_all_failed_test_cases.sh
+      env:
+        TEST_OUTPUT: $HOME/source_test_result.txt
 
     ############################################################################
 
@@ -64,7 +71,7 @@ jobs:
 
     ############################################################################
 
-    - name: Test target branch of pull request
+    - name: 🎯 Test target branch of pull request
       run: |
         make fclean test
         $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
@@ -73,7 +80,7 @@ jobs:
 
     ############################################################################
 
-    - name: Compare failed count
+    - name: 🆚 Compare failed count
       id: comparison
       run: |
         echo "TARGET_FAILED_COUNT: $TARGET_FAILED_COUNT"
@@ -93,13 +100,13 @@ jobs:
     ############################################################################
 
       # Can fail the job
-    - name: Show the regressions between SOURCE and TARGET branch
+    - name: 📈 Show the regressions between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'failure'
       run: $HOME/.github/scripts/print_test_cases.sh
 
     ############################################################################
 
       # Cannot fail the job
-    - name: Show the improvements between SOURCE and TARGET branch
+    - name: 📉 Show the improvements between SOURCE and TARGET branch
       if: steps.comparison.outcome == 'success'
       run: $HOME/.github/scripts/print_test_cases.sh || true
