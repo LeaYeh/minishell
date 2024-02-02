@@ -16,12 +16,20 @@
 int	expand_list(t_shell *shell, t_list *list, t_list **expanded_list)
 {
 	int		ret;
+	t_list	*tmp_list;
 
 	ret = SUCCESS;
-	while (list && ret == SUCCESS)
+	while (list)
 	{
-		ret = ft_expander(list->content, expanded_list, shell, \
-							EXPAND | REMOVE_QUOTES);
+		tmp_list = NULL;
+		ret = ft_expander(list->content, &tmp_list, shell, EXPAND | RM_QUOTES);
+		if (ret != SUCCESS)
+		{
+			ft_lstclear(&tmp_list, free);
+			break ;
+		}
+		else
+			ft_lstadd_back(expanded_list, tmp_list);
 		list = list->next;
 	}
 	return (ret);
@@ -32,26 +40,26 @@ int	expand_array(t_shell *shell, char ***array)
 	t_list	*expanded_list;
 	int		i;
 	int		ret;
+	t_list	*tmp_list;
 
 	expanded_list = NULL;
+	ret = SUCCESS;
 	i = 0;
-	while ((*array)[i])
+	while ((*array)[i] && ret == SUCCESS)
 	{
-		ret = ft_expander((*array)[i++], &expanded_list, shell, \
-							EXPAND | REMOVE_QUOTES);
-		if (ret != SUCCESS)
-		{
-			ft_lstclear(&expanded_list, free);
-			if (ret == SUBSHELL_ERROR)
-				return (ret);
-			else if (ret == BAD_SUBSTITUTION)
-				break ;
-		}
+		tmp_list = NULL;
+		ret = ft_expander((*array)[i++], &tmp_list, shell, EXPAND | RM_QUOTES);
+		if (ret == MALLOC_ERROR)
+			return (ft_lstclear(&tmp_list, free),
+				ft_lstclear(&expanded_list, free), ret);
+		else
+			ft_lstadd_back(&expanded_list, tmp_list);
 	}
+	if (ret == BAD_SUBSTITUTION)
+		ft_lstclear(&expanded_list, free);
 	free_array(array);
 	*array = convert_list_to_string_array(expanded_list);
-	ft_lstclear(&expanded_list, free);
 	if (!*array)
-		return (SUBSHELL_ERROR);
-	return (ret);
+		return (ft_lstclear(&expanded_list, free), MALLOC_ERROR);
+	return (ft_lstclear(&expanded_list, free), ret);
 }
