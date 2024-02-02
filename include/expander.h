@@ -16,7 +16,7 @@
 # include "defines.h"
 
 /* bad_substitution.c */
-bool	is_bad_substitution(char *str);
+bool	is_bad_substitution(char *str, t_expander_op op_mask);
 
 /* expand_special_param.c */
 bool	expand_exit_code(char **str, size_t *i, int exit_code);
@@ -37,7 +37,8 @@ bool	is_open_pair(unsigned char c, t_is_open_pair_op operation);
 void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i);
 
 /* parameter_expansion.c */
-bool	handle_parameter_expansion(char **str, t_list **lst, t_shell *shell);
+bool	handle_parameter_expansion(char **str, t_list **lst, t_shell *shell, \
+									t_expander_op op_mask);
 bool	expand(char **str, size_t *i, t_shell *shell);
 bool	handle_dollar_quotes(char **str, size_t *i);
 

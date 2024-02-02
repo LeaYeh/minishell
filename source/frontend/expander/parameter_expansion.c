@@ -13,20 +13,22 @@
 #include "expander.h"
 #include "utils.h"
 
-bool	handle_parameter_expansion(char **str, t_list **lst, t_shell *shell)
+bool	handle_parameter_expansion(char **str, t_list **lst, t_shell *shell, \
+									t_expander_op op_mask)
 {
 	size_t	i;
 
 	i = 0;
 	while ((*str)[i])
 	{
-		skip_to_dollar_not_in_single_quotes(*str, &i);
+		if (op_mask & ~E_HEREDOC)
+			skip_to_dollar_not_in_single_quotes(*str, &i);
 		if (!(*str)[i])
 			break ;
 		if (!expand(str, &i, shell))
-			return (is_open_pair('"', RESET), false);
+			return (is_open_pair('"', OP_RESET), false);
 	}
-	is_open_pair('"', RESET);
+	is_open_pair('"', OP_RESET);
 	if (!(*str)[0])
 		ft_free_and_null((void **)str);
 	if (!ft_lstnew_back(lst, *str))
@@ -58,7 +60,7 @@ bool	expand(char **str, size_t *i, t_shell *shell)
 // TODO We have have to check for unclosed quotes somewhere
 bool	handle_dollar_quotes(char **str, size_t *i)
 {
-	if (!is_open_pair('"', GET))
+	if (!is_open_pair('"', OP_GET))
 		return (ft_rplc_part_of_str(str, "", *i, 1));
 	else
 		(*i)++;

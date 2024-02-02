@@ -53,13 +53,13 @@ bool	is_open_pair(unsigned char c, t_is_open_pair_op operation)
 {
 	static bool	is_open_pair[UCHAR_MAX];
 
-	if (operation == GET)
+	if (operation == OP_GET)
 		return (is_open_pair[c]);
-	else if (operation == TOGGLE)
+	else if (operation == OP_TOGGLE)
 		is_open_pair[c] ^= true;
-	else if (operation == RESET)
+	else if (operation == OP_RESET)
 		is_open_pair[c] = false;
-	else if (operation == CLEAN)
+	else if (operation == OP_CLEAN)
 		while (c < UCHAR_MAX)
 			is_open_pair[c++] = false;
 	return (is_open_pair[c]);
@@ -72,8 +72,8 @@ void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
 		if (str[*i] == '$')
 			return ;
 		else if (str[*i] == '"')
-			is_open_pair('"', TOGGLE);
-		else if (str[*i] == '\'' && !is_open_pair('"', GET))
+			is_open_pair('"', OP_TOGGLE);
+		else if (str[*i] == '\'' && !is_open_pair('"', OP_GET))
 			if (!skip_to_same_quote(str, i))
 				return ;
 		(*i)++;
