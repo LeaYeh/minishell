@@ -13,6 +13,9 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
+// Could solve some directory permission error messages
+# include <dirent.h>
+
 # include <errno.h>
 # include <fcntl.h>
 # include <linux/limits.h>
@@ -219,6 +222,20 @@ typedef enum e_cmdtable_type
 	C_SUBSHELL_START,
 	C_SUBSHELL_END
 }	t_cmdtable_type;
+
+typedef enum e_is_open_pair_op
+{
+	GET = 0,
+	TOGGLE,
+	RESET,
+	CLEAN
+}	t_is_open_pair_op;
+
+typedef enum e_expander_op
+{
+	EXPAND			= 0b01,
+	RM_QUOTES		= 0b10
+}	t_expander_op;
 
 typedef struct s_env
 {

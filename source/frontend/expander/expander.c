@@ -145,26 +145,34 @@
 
 #include "expander.h"
 
-int	ft_expander(char *str, t_list **lst, t_shell *shell)
+// Enums should be used in such a case bc it allows the compiler to enforce that only values from this enumeration are used.
+// TODO: Go through all enums and if an argument of a function can only be an enum, modify like here.
+int	ft_expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 {
 	char	*dup;
 
 	if (!str)
 		return (SUCCESS);
-	if (bad_substitution(str))
-		return (BAD_SUBSTITUTION);
 	dup = ft_strdup(str);
 	if (!dup)
 		return (MALLOC_ERROR);
-	if (!parameter_expansion(&dup, shell))
-		return (free(dup), MALLOC_ERROR);
-	if (!*dup)
-		return (free(dup), SUCCESS);
-	if (!quote_removal(&dup))
-		return (free(dup), MALLOC_ERROR);
-	// TODO: Potentially split into multiple nodes by whitespace here.
-	// The keyword in the bash manual is "Word Splitting".
-	if (!ft_lstnew_back(lst, dup))
-		return (free(dup), MALLOC_ERROR);
+	if (op_mask & EXPAND)
+	{
+		if (is_bad_substitution(str))
+			return (free(dup), BAD_SUBSTITUTION);
+		if (!handle_parameter_expansion(&dup, lst, shell))
+			return (free(dup), MALLOC_ERROR);
+		// TODO: Potentially split into multiple nodes by whitespace here.
+		// The keyword in the bash manual is "Word Splitting".
+	}
+	else
+	{
+		*lst = ft_lstnew(dup);
+		if (!*lst)
+			return (free(dup), MALLOC_ERROR);
+	}
+	if (op_mask & RM_QUOTES)
+		if (!handle_remove_quotes(lst))
+			return (MALLOC_ERROR);
 	return (SUCCESS);
 }
