@@ -23,7 +23,8 @@ void	clean_and_exit_shell(t_sh *shell, int exit_code, char *msg)
 	if (msg)
 		printf("%s\n", msg);
 	clean_shell(shell);
-	close_std_io();
+	if (shell->subshell_level != 0)
+		close_std_io();
 	safe_close_all_pipes(shell);
 	(void)get_next_line(-1);
 	exit(exit_code);
