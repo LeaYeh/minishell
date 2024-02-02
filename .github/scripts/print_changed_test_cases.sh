@@ -5,9 +5,9 @@ DIFF_OUTPUT=$(diff $HOME/target_test_result.txt $HOME/source_test_result.txt || 
 # Extract line numbers and file paths from diff output
 while IFS= read -r line; do
   if [[ $line == "<"* ]]; then
-    echo -e "\e[94mTarget branch: $line\e[0m"
+    echo -e "\e[94m🎯 Target branch: $line\e[0m"
   elif [[ $line == ">"* ]]; then
-    echo -e "\e[93mSource branch: $line\e[0m"
+    echo -e "\e[93m🌱 Source branch: $line\e[0m"
     line_number=$(echo "$line" | grep -oP '\d+' | tail -1 || true)
     file_path=$(echo "$line" | grep -oP '\s*'"$HOME"'/42_minishell_tester/cmds/.*\.sh' || true)
   fi
