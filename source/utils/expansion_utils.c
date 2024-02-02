@@ -22,7 +22,7 @@ int	expand_list(t_shell *shell, t_list *list, t_list **expanded_list)
 	while (list)
 	{
 		tmp_list = NULL;
-		ret = ft_expander(list->content, &tmp_list, shell, EXPAND | RM_QUOTES);
+		ret = ft_expander(list->content, &tmp_list, shell, E_EXPAND | E_RM_QUOTES);
 		if (ret != SUCCESS)
 		{
 			ft_lstclear(&tmp_list, free);
@@ -48,7 +48,7 @@ int	expand_array(t_shell *shell, char ***array)
 	while ((*array)[i] && ret == SUCCESS)
 	{
 		tmp_list = NULL;
-		ret = ft_expander((*array)[i++], &tmp_list, shell, EXPAND | RM_QUOTES);
+		ret = ft_expander((*array)[i++], &tmp_list, shell, E_EXPAND | E_RM_QUOTES);
 		if (ret == MALLOC_ERROR)
 			return (ft_lstclear(&tmp_list, free),
 				ft_lstclear(&expanded_list, free), ret);
