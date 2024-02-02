@@ -45,7 +45,9 @@
 # endif
 
 # ifndef PARSING_TABLE
-#  define PARSING_TABLE		0
+#  define DEFINITIONS_OK	false
+# else
+#  define DEFINITIONS_OK	true
 # endif
 
 // # define PROGRAM_NAME       "🌊rash"
