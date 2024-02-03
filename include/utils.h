@@ -97,8 +97,9 @@ bool		drop_num_stack(t_list **stack, int num, void (*del)(void *));
 t_list		*pop_num_stack(t_list **stack, int num);
 
 /* String utils */
-bool	is_valid_varname(char c);
-bool	is_valid_varname_start(char c);
-bool	skip_to_same_quote(char *str, size_t *i);
+bool		is_valid_varname(char c);
+bool		is_valid_varname_start(char c);
+bool		skip_to_same_quote(char *str, size_t *i);
+bool		replace_string_content(char **str, char *new_content);
 
 #endif

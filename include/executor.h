@@ -17,8 +17,6 @@
 
 void	ft_executor(t_shell *shell);
 
-int		ft_heredoc(t_shell *shell);
-
 void	handle_process(t_shell *shell, t_list_d *cmd_table_node);
 void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node);
 void	handle_control_op(t_shell *shell, t_list_d **cmd_table_node);

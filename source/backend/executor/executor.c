@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "executor.h"
-#include "defines.h"
+#include "heredoc.h"
 #include "clean.h"
 #include "utils.h"
 #include "debug.h"
