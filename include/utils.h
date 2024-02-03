@@ -56,8 +56,9 @@ void		free_final_cmd_table(
 bool		set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
 
 /* Expansion utils */
-int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list);
-int			expand_array(t_shell *shell, char ***array);
+int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
+						t_expander_op op_mask);
+int			expand_array(t_shell *shell, char ***array, t_expander_op op_mask);
 
 /* Pipe utils */
 void		init_pipe(t_pipe *pipe);

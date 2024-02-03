@@ -65,6 +65,16 @@ bool	is_open_pair(unsigned char c, t_is_open_pair_op operation)
 	return (is_open_pair[c]);
 }
 
+void	skip_to_dollar(char *str, size_t *i)
+{
+	while (str[*i])
+	{
+		if (str[*i] == '$')
+			return ;
+		(*i)++;
+	}
+}
+
 void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
 {
 	while (str[*i])
