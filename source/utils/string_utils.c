@@ -12,6 +12,17 @@
 
 #include "utils.h"
 
+bool	replace_string_content(char **str, char *new_content)
+{
+	char	*tmp;
+
+	tmp = *str;
+	*str = ft_strdup(new_content);
+	if (!*str)
+		return (free(tmp), false);
+	return (free(tmp), true);
+}
+
 bool	is_valid_varname(char c)
 {
 	return (ft_isalnum(c) || c == '_');
