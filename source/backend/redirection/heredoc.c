@@ -12,24 +12,6 @@
 
 #include "heredoc.h"
 
-bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
-{
-	int	fd;
-
-	io_red->in_file = generate_tmp_filename(cmdtable_id, "hd");
-	if (!io_red->in_file)
-		return (false);
-	fd = open(io_red->in_file,
-			O_CREAT | O_RDWR | O_TRUNC,
-			(S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
-	if (fd < 0 || close(fd) == -1)
-	{
-		perror(PROGRAM_NAME);
-		return (ft_free_and_null((void **)&io_red->in_file), false);
-	}
-	return (true);
-}
-
 bool	handle_heredoc_content(t_shell *shell,
 		char *filename, t_list **line_list, bool need_content_expansion)
 {
@@ -54,32 +36,41 @@ bool	handle_heredoc_content(t_shell *shell,
 	return (ft_lstclear(line_list, free), HEREDOC_SUCCESS);
 }
 
-int	exec_heredoc(t_shell *shell,
-		int cmdtable_id, t_io_red *io_red, bool need_content_expansion)
+int	read_heredoc(t_shell *shell, t_list **line_list, char *here_end)
 {
-	t_list	*line_list;
 	char	*line;
 
-	if (!setup_tmp_hdfile(cmdtable_id, io_red))
-		return (HEREDOC_ERROR);
-	line_list = NULL;
 	while (true)
 	{
 		line = readline(HEREDOC_PROMPT);
 		if (shell->exit_code == TERM_BY_SIGNAL + SIGINT)
-			return (free(line), ft_lstclear(&line_list, free),
-				remove_file(io_red->in_file), HEREDOC_ABORT);
+			return (free(line), HEREDOC_ABORT);
 		if (!line)
 			return (ft_dprintf(STDERR_FILENO, ERROR_HEREDOC_UNEXPECTED_EOF,
-					PROGRAM_NAME, io_red->here_end), HEREDOC_SUCCESS);
-		if (ft_strcmp(line, io_red->here_end) == 0)
+					PROGRAM_NAME, here_end), SUCCESS);
+		if (ft_strcmp(line, here_end) == 0)
 			break ;
-		if (!append_line_to_list(line, &line_list))
-			return (free(line), ft_lstclear(&line_list, free),
-				remove_file(io_red->in_file), HEREDOC_ERROR);
-		free(line);
+		if (!append_line_to_list(line_list, line))
+			return (free(line), HEREDOC_ERROR);
+		ft_free_and_null((void **)&line);
 	}
 	free(line);
+	return (SUCCESS);
+}
+
+int	exec_heredoc(t_shell *shell,
+		int cmdtable_id, t_io_red *io_red, bool need_content_expansion)
+{
+	t_list	*line_list;
+	int		ret;
+
+	if (!setup_tmp_hdfile(cmdtable_id, io_red))
+		return (HEREDOC_ERROR);
+	line_list = NULL;
+	ret = read_heredoc(shell, &line_list, io_red->here_end);
+	if (ret != SUCCESS)
+		return (ft_lstclear(&line_list, free),
+			remove_file(io_red->in_file), ret);
 	return (handle_heredoc_content(
 			shell, io_red->in_file, &line_list, need_content_expansion));
 }
