@@ -56,7 +56,7 @@ bool	remove_here_end_quote(
 	return (ft_lstclear(&expanded_list, free), true);
 }
 
-bool	append_line_to_list(char *line, t_list **line_list)
+bool	append_line_to_list(t_list **line_list, char *line)
 {
 	char	*line_copy;
 
