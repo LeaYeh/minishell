@@ -10,6 +10,23 @@ bool	is_here_end_quoted(char *here_end)
 	return (false);
 }
 
+bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
+{
+	int	fd;
+
+	io_red->in_file = generate_tmp_filename(cmdtable_id, "hd");
+	if (!io_red->in_file)
+		return (false);
+	fd = open(io_red->in_file,
+			O_CREAT | O_RDWR | O_TRUNC,
+			(S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
+	if (fd < 0 || close(fd) == -1)
+	{
+		perror(PROGRAM_NAME);
+		return (ft_free_and_null((void **)&io_red->in_file), false);
+	}
+	return (true);
+}
 
 bool	expand_heredoc_content(t_shell *shell, t_list **line_list)
 {
@@ -23,20 +40,6 @@ bool	expand_heredoc_content(t_shell *shell, t_list **line_list)
 	return (true);
 }
 
-bool	expand_heredoc_line(t_shell *shell, char **line)
-{
-	t_list	*expanded_list;
-
-	expanded_list = NULL;
-	if (ft_expander(
-			*line, &expanded_list, shell, EXPAND | RM_QUOTES) != SUCCESS)
-		return (ft_lstclear(&expanded_list, free), false);
-	if (ft_lstsize_non_null(expanded_list) == 0)
-		return (ft_lstclear(&expanded_list, free), true);
-	replace_string_content(line, expanded_list->content);
-	return (ft_lstclear(&expanded_list, free), true);
-}
-
 bool	remove_here_end_quote(
 	t_shell *shell, t_io_red *io_red, bool *need_content_expansion)
 {
@@ -46,7 +49,7 @@ bool	remove_here_end_quote(
 	if (is_here_end_quoted(io_red->here_end))
 		*need_content_expansion = false;
 	if (ft_expander(
-			io_red->here_end, &expanded_list, shell, RM_QUOTES) != SUCCESS)
+			io_red->here_end, &expanded_list, shell, E_RM_QUOTES) != SUCCESS)
 		return (ft_lstclear(&expanded_list, free), false);
 	if (!replace_string_content(&io_red->here_end, expanded_list->content))
 		return (ft_lstclear(&expanded_list, free), false);
