@@ -34,12 +34,13 @@ int		ft_expander(char *str, t_list **lst, t_shell *shell, \
 size_t	count_offset(char *str);
 size_t	count_replace_len(char *str);
 bool	is_open_pair(unsigned char c, t_is_open_pair_op operation);
+void	skip_to_dollar(char *str, size_t *i);
 void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i);
 
 /* parameter_expansion.c */
 bool	handle_parameter_expansion(char **str, t_list **lst, t_shell *shell, \
 									t_expander_op op_mask);
-bool	expand(char **str, size_t *i, t_shell *shell);
+bool	expand(char **str, size_t *i, t_shell *shell, t_expander_op op_mask);
 bool	handle_dollar_quotes(char **str, size_t *i);
 
 /* remove_quotes.c */

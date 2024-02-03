@@ -21,11 +21,13 @@ bool	handle_parameter_expansion(char **str, t_list **lst, t_shell *shell, \
 	i = 0;
 	while ((*str)[i])
 	{
-		if (op_mask & ~E_HEREDOC)
+		if (op_mask & E_HEREDOC)
+			skip_to_dollar(*str, &i);
+		else
 			skip_to_dollar_not_in_single_quotes(*str, &i);
 		if (!(*str)[i])
 			break ;
-		if (!expand(str, &i, shell))
+		if (!expand(str, &i, shell, op_mask))
 			return (is_open_pair('"', OP_RESET), false);
 	}
 	is_open_pair('"', OP_RESET);
@@ -36,7 +38,7 @@ bool	handle_parameter_expansion(char **str, t_list **lst, t_shell *shell, \
 	return (true);
 }
 
-bool	expand(char **str, size_t *i, t_shell *shell)
+bool	expand(char **str, size_t *i, t_shell *shell, t_expander_op op_mask)
 {
 	size_t	offset;
 
@@ -47,7 +49,8 @@ bool	expand(char **str, size_t *i, t_shell *shell)
 			return (expand_exit_code(str, i, shell->exit_code));
 		else if (is_valid_varname_start((*str)[*i + offset]))
 			return (expand_variable(str, i, offset, shell->env_list));
-		else if (ft_strchr(QUOTES, (*str)[*i + offset]))
+		else if (op_mask & ~E_HEREDOC && \
+				ft_strchr(QUOTES, (*str)[*i + offset]))
 			return (handle_dollar_quotes(str, i));
 		*i += offset;
 	}

@@ -33,7 +33,7 @@ bool	expand_heredoc_content(t_shell *shell, t_list **line_list)
 	t_list	*expanded_list;
 
 	expanded_list = NULL;
-	if (expand_list(shell, *line_list, &expanded_list) != SUCCESS)
+	if (expand_list(shell, *line_list, &expanded_list, E_HEREDOC) != SUCCESS)
 		return (ft_lstclear(&expanded_list, free), false);
 	ft_lstclear(line_list, free);
 	*line_list = expanded_list;
