@@ -29,21 +29,27 @@ jobs:
 
   ############################################################################
 
+  # Save all mandatory part test scripts in a matrix
+  prepare_test_matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - id: set-matrix
+      run: |
+        FILES=$(find 42_minishell_tester/cmds/mand -type f -name "*.sh" \
+        -exec basename {} \; | jq -R -s -c 'split("\n")[:-1]')
+        echo "::set-output name=matrix::${FILES}"
+
+  ############################################################################
+
   memory_leak_test:
+    needs: prepare_test_matrix
     strategy:
       matrix:
-        test_script:
-          - 0_compare_parsing.sh
-          - 1_builtins.sh
-          - 1_pipelines.sh
-          - 1_redirs.sh
-          - 1_scmds.sh
-          - 1_variables.sh
-          - 2_correction.sh
-          - 2_path_check.sh
-          - 8_syntax_errors.sh
-          - 9_go_wild.sh
-          - 10_parsing_hell.sh
+        test_script: ${{fromJson(needs.prepare_test_matrix.outputs.matrix)}}
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
