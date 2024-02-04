@@ -6,9 +6,8 @@ on:
 ################################################################################
 
 jobs:
-  unit_test:
+  setup:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
 
     ############################################################################
 
@@ -25,11 +24,6 @@ jobs:
 
     ############################################################################
 
-    - name: 🔨 Compile with Makefile
-      run: make
-
-    ############################################################################
-
     - name: Set up testing framework
       run: |
         git clone https://github.com/LeaYeh/42_minishell_tester.git
@@ -38,8 +32,25 @@ jobs:
         find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
         cp .github/scripts/*.sh $HOME
 
-    ############################################################################
+  ##############################################################################
 
+  compile_test:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+    - name: 🔨 Compile with Makefile
+      run: make
+
+  ##############################################################################
+
+  memory_leak_test:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
     - name: 🔍 Check memory leaks
       run: |
         make fclean test
@@ -47,8 +58,14 @@ jobs:
       env:
         GH_BRANCH: "IGNORE"
 
-    ############################################################################
+  ##############################################################################
 
+  regression_test:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
     - name: 🌱 Test source branch of pull request
       run: |
         make fclean test
