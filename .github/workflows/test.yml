@@ -11,7 +11,9 @@ jobs:
     timeout-minutes: 2
 
     steps:
-      # Setup
+
+      #### Setup #########################################################
+
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
 
@@ -20,18 +22,21 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential clang-12 valgrind
 
-      # Compilation test
+      #### Compilation test ##############################################
+
       - name: 🔨 Compile with Makefile
         run: make
 
-  ##############################################################################
+  ############################################################################
 
   memory_leak_test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
     steps:
-      # Setup
+
+      #### Setup #########################################################
+
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
 
@@ -48,7 +53,8 @@ jobs:
           find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
           cp .github/scripts/*.sh $HOME
 
-      # Memory leak test
+      #### Memory leak test ##############################################
+
       - name: 🔍 Check memory leaks
         run: |
           make fclean test
@@ -63,7 +69,9 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      # Setup
+
+      #### Setup #########################################################
+
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
 
@@ -80,7 +88,8 @@ jobs:
           find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
           cp .github/scripts/*.sh $HOME
 
-      # Test source branch
+      #### Test source branch ############################################
+
       - name: 🌱 Test source branch of pull request
         run: |
           make fclean test
@@ -93,7 +102,8 @@ jobs:
           export RESULT_FILE="$HOME/source_test_result.txt"
           $HOME/print_all_failed_test_cases.sh
 
-      # Test target branch
+      #### Test target branch ############################################
+
       - name: Checkout target branch of pull request
         uses: actions/checkout@v4
         with:
@@ -106,7 +116,8 @@ jobs:
         env:
           GH_BRANCH: "TARGET_FAILED_COUNT"
 
-      # Comparison of results
+      #### Comparison of results #########################################
+      
       - name: 🆚 Compare failed count
         id: comparison
         run: |
