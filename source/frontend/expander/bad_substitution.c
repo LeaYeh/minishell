@@ -62,7 +62,7 @@ bool	is_bad_substitution(char *str, t_expander_op op_mask)
 		i++;
 		if (!check_braces(str, &i))
 		{
-			prepare_error_msg(str, &i);	// Not sure about interaction with heredoc yet.
+			prepare_error_msg(str, &i);
 			ft_dprintf(STDERR_FILENO, ERROR_EXPANDER_BAD_SUBSTITUTION,
 				PROGRAM_NAME, &str[i]);
 			is_open_pair('"', OP_RESET);

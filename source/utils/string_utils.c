@@ -61,8 +61,7 @@ int	count_total_strlen(t_list *list, char *delim)
 	{
 		if (node->content)
 			total_length += ft_strlen(node->content);
-		if (node->next)
-			total_length += ft_strlen(delim);
+		total_length += ft_strlen(delim);
 		node = node->next;
 	}
 	return (total_length);
@@ -84,8 +83,8 @@ char	*concat_list_to_string(t_list *list, char *delim)
 	{
 		if (list->content)
 			cur_len += ft_snprintf(&str[cur_len],
-				ft_strlen(list->content) + 1, "%s", list->content);
-		if (list->next && delim)
+					ft_strlen(list->content) + 1, "%s", list->content);
+		if (delim)
 			cur_len += ft_snprintf(&str[cur_len], delim_len + 1, "%s", delim);
 		list = list->next;
 	}
