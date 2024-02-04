@@ -93,9 +93,9 @@ ABSOLUTE_PATHS	:=	$(foreach cmd,$(VALGRINDIGNORE),$(shell which $(cmd)))
 TERMINAL		:=	$(shell which gnome-terminal 2> /dev/null)
 
 ifeq ($(filter val,$(MAKECMDGOALS)),val)
-TERMINALTITLE	:=	valgrind
+TERMINALTITLE	:=	valgrind $(NAME)
 else ifeq ($(filter valfd,$(MAKECMDGOALS)),valfd)
-TERMINALTITLE	:=	valgrind-fd
+TERMINALTITLE	:=	valgrind-fd $(NAME)
 else
 TERMINALTITLE	:=	$(NAME)
 endif
