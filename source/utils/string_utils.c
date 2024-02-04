@@ -16,11 +16,12 @@ bool	replace_string_content(char **str, char *new_content)
 {
 	char	*tmp;
 
-	tmp = *str;
-	*str = ft_strdup(new_content);
-	if (!*str)
-		return (free(tmp), false);
-	return (free(tmp), true);
+	tmp = ft_strdup(new_content);
+	if (!tmp)
+		return (false);
+	free(*str);
+	*str = tmp;
+	return (true);
 }
 
 bool	is_valid_varname(char c)
@@ -47,4 +48,49 @@ bool	skip_to_same_quote(char *str, size_t *i)
 			return (true);
 	}
 	return (false);
+}
+
+int	count_total_strlen(t_list *list, char *delim)
+{
+	int		total_length;
+	t_list	*node;
+
+	total_length = 0;
+	node = list;
+	while (node)
+	{
+		if (node->content)
+			total_length += ft_strlen(node->content);
+		if (node->next)
+			total_length += ft_strlen(delim);
+		node = node->next;
+	}
+	return (total_length);
+}
+
+char	*concat_list_to_string(t_list *list, char *delim)
+{
+	char	*str;
+	int		cur_len;
+	int		delim_len;
+
+	str = (char *)ft_calloc(count_total_strlen(list, delim) + 1, sizeof(char));
+	if (!str)
+		return (NULL);
+	if (delim)
+		delim_len = ft_strlen(delim);
+	cur_len = 0;
+	while (list)
+	{
+		if (list->content)
+			ft_snprintf(&str[cur_len],
+				ft_strlen(list->content) + 1, "%s", list->content);
+		if (list->next && delim)
+		{
+			ft_snprintf(&str[cur_len], delim_len + 1, "%s", delim);
+			cur_len += delim_len;
+		}
+		list = list->next;
+	}
+	return (str);
 }

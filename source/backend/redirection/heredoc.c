@@ -15,25 +15,25 @@
 bool	handle_heredoc_content(t_shell *shell,
 		char *filename, t_list **line_list, bool need_content_expansion)
 {
-	t_list	*line_node;
-	char	*line;
+	char	*content;
+	t_list	*expanded_list;
 
+	content = concat_list_to_string(*line_list, "\n");
+	if (!content)
+		return (HEREDOC_ERROR);
+	expanded_list = NULL;
 	if (need_content_expansion)
 	{
-		if (!expand_heredoc_content(shell, line_list))
-			return (ft_lstclear(line_list, free),
-				remove_file(filename), HEREDOC_ERROR);
+		if (ft_expander(content,
+				&expanded_list, shell, E_EXPAND | E_RM_QUOTES) != SUCCESS)
+			return (HEREDOC_ERROR);
+		free(content);
+		content = expanded_list->content;
+		ft_lstclear(&expanded_list, NULL);
 	}
-	line_node = *line_list;
-	while (line_node)
-	{
-		line = (char *)line_node->content;
-		if (!append_line_to_file(line, filename))
-			return (ft_lstclear(line_list, free),
-				remove_file(filename), HEREDOC_ERROR);
-		line_node = line_node->next;
-	}
-	return (ft_lstclear(line_list, free), HEREDOC_SUCCESS);
+	if (!write_content_to_file(content, filename))
+		return (free(content), HEREDOC_ERROR);
+	return (free(content), HEREDOC_SUCCESS);
 }
 
 int	read_heredoc(t_shell *shell, t_list **line_list, char *here_end)
@@ -71,8 +71,11 @@ int	exec_heredoc(t_shell *shell,
 	if (ret != SUCCESS)
 		return (ft_lstclear(&line_list, free),
 			remove_file(io_red->in_file), ret);
-	return (handle_heredoc_content(
-			shell, io_red->in_file, &line_list, need_content_expansion));
+	if (!handle_heredoc_content(
+			shell, io_red->in_file, &line_list, need_content_expansion))
+		return (ft_lstclear(&line_list, free), remove_file(io_red->in_file),
+			HEREDOC_ERROR);
+	return (ft_lstclear(&line_list, free), HEREDOC_SUCCESS);
 }
 
 int	handle_heredoc(t_shell *shell, int cmdtable_id, t_list *io_red_list)

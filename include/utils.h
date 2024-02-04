@@ -102,5 +102,6 @@ bool		is_valid_varname(char c);
 bool		is_valid_varname_start(char c);
 bool		skip_to_same_quote(char *str, size_t *i);
 bool		replace_string_content(char **str, char *new_content);
+char		*concat_list_to_string(t_list *list, char *delim);
 
 #endif
