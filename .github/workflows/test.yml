@@ -8,6 +8,7 @@ on:
 jobs:
 
   compilation_test:
+    name: Compilation Test
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -31,6 +32,7 @@ jobs:
 
   # Save all test scripts (mandatory part) in a matrix
   prepare_test_matrix:
+    name: Prepare Test Matrix
     runs-on: ubuntu-latest
     outputs:
       test_matrix: ${{ steps.prep_matrix.outputs.TEST_MATRIX }}
@@ -49,6 +51,7 @@ jobs:
   ############################################################################
 
   memory_leak_test:
+    name: Memory Leak Test
     needs: prepare_test_matrix
     strategy:
       matrix:
@@ -93,6 +96,7 @@ jobs:
   ##############################################################################
 
   regression_test:
+    name: Regression Test
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
