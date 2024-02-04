@@ -93,7 +93,17 @@ jobs:
         env:
           GH_BRANCH: "IGNORE"
 
-  ##############################################################################
+  ############################################################################
+
+  combine_memory_leak_test_results:
+    name: Combine Memory Leak Test Results
+    needs: [memory_leak_test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Combine memory leak test results
+        run: echo "All memory leak tests finished"
+
+  ############################################################################
 
   regression_test:
     name: Regression Test
