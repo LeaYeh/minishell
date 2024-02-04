@@ -12,24 +12,20 @@
 
 #include "heredoc.h"
 
-bool	handle_heredoc_content(t_shell *shell,
+int	handle_heredoc_content(t_shell *shell,
 		char *filename, t_list **line_list, bool need_content_expansion)
 {
 	char	*content;
-	t_list	*expanded_list;
+	int		ret;
 
 	content = concat_list_to_string(*line_list, "\n");
 	if (!content)
 		return (HEREDOC_ERROR);
-	expanded_list = NULL;
 	if (need_content_expansion)
 	{
-		if (ft_expander(content,
-				&expanded_list, shell, E_EXPAND | E_RM_QUOTES) != SUCCESS)
-			return (HEREDOC_ERROR);
-		free(content);
-		content = expanded_list->content;
-		ft_lstclear(&expanded_list, NULL);
+		ret = expand_heredoc_content(shell, &content);
+		if (ret != SUCCESS)
+			return (free(content), ret);
 	}
 	if (!write_content_to_file(content, filename))
 		return (free(content), HEREDOC_ERROR);
@@ -71,11 +67,12 @@ int	exec_heredoc(t_shell *shell,
 	if (ret != SUCCESS)
 		return (ft_lstclear(&line_list, free),
 			remove_file(io_red->in_file), ret);
-	if (!handle_heredoc_content(
-			shell, io_red->in_file, &line_list, need_content_expansion))
-		return (ft_lstclear(&line_list, free), remove_file(io_red->in_file),
-			HEREDOC_ERROR);
-	return (ft_lstclear(&line_list, free), HEREDOC_SUCCESS);
+	ret = handle_heredoc_content(
+			shell, io_red->in_file, &line_list, need_content_expansion);
+	ft_lstclear(&line_list, free);
+	if (ret != HEREDOC_SUCCESS)
+		return (remove_file(io_red->in_file), ret);
+	return (HEREDOC_SUCCESS);
 }
 
 int	handle_heredoc(t_shell *shell, int cmdtable_id, t_list *io_red_list)

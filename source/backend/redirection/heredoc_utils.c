@@ -28,16 +28,21 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
 	return (true);
 }
 
-bool	expand_heredoc_content(t_shell *shell, t_list **line_list)
+int	expand_heredoc_content(t_shell *shell, char **content)
 {
 	t_list	*expanded_list;
+	int		ret;
 
 	expanded_list = NULL;
-	if (expand_list(shell, *line_list, &expanded_list, E_HEREDOC) != SUCCESS)
-		return (ft_lstclear(&expanded_list, free), false);
-	ft_lstclear(line_list, free);
-	*line_list = expanded_list;
-	return (true);
+	ret = ft_expander(*content, &expanded_list, shell, E_HEREDOC);
+	if (ret == MALLOC_ERROR)
+		return (ft_lstclear(&expanded_list, free), HEREDOC_ERROR);
+	if (ret == BAD_SUBSTITUTION)
+		return (ft_lstclear(&expanded_list, free), HEREDOC_ABORT);
+	free(*content);
+	*content = expanded_list->content;
+	ft_lstclear(&expanded_list, NULL);
+	return (SUCCESS);
 }
 
 bool	remove_here_end_quote(
