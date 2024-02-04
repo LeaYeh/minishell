@@ -49,8 +49,14 @@ include				$(BUILD_DIR)/parsing_table.mk
 
 MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE)
 
+
+#	Test mode
+
 ifeq ($(filter test,$(MAKECMDGOALS)),test)
+
+CC 				:=	clang-12
 MACROS			+=	-D TEST_MODE=true
+
 endif
 
 
@@ -246,7 +252,7 @@ MSG_NO_CHNG		:=	"\e[3;37mEverything up-to-date!\e[0m"
 ################################################################################
 MSG_FAILURE		:=	"\e[1;3;31mBUILD FAILED!\e[0m"
 ################################################################################
-MSG_TEST_MODE	:=	"\e[1;3;4;33m---------------TEST MODE---------------\n\e[0m"
+MSG_TEST_MODE	:=	"\e[1;3;4;33m-------------- TEST MODE --------------\e[0m"
 ################################################################################
 
 
