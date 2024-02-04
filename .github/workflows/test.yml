@@ -6,10 +6,10 @@ on:
 ################################################################################
 
 jobs:
+
   compilation_test:
     runs-on: ubuntu-latest
     timeout-minutes: 2
-
     steps:
 
       #### Setup #########################################################
@@ -29,19 +29,22 @@ jobs:
 
   ############################################################################
 
-  # Save all mandatory part test scripts in a matrix
+  # Save all test scripts (mandatory part) in a matrix
   prepare_test_matrix:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      test_matrix: ${{ steps.prep_matrix.outputs.TEST_MATRIX }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - id: set-matrix
-      run: |
-        FILES=$(find 42_minishell_tester/cmds/mand -type f -name "*.sh" \
-        -exec basename {} \; | jq -R -s -c 'split("\n")[:-1]')
-        echo "::set-output name=matrix::${FILES}"
+
+      - name: Clone tester repository
+        run: git clone https://github.com/LeaYeh/42_minishell_tester.git
+
+      - name: Prepare matrix
+        id: prep_matrix
+        run: |
+          FILES=$(find 42_minishell_tester/cmds/mand -type f -name "*.sh" \
+          -exec basename {} \; | jq -R -s -c 'split("\n")[:-1]')
+          echo "TEST_MATRIX=${FILES}" >> "$GITHUB_OUTPUT"
 
   ############################################################################
 
@@ -49,10 +52,9 @@ jobs:
     needs: prepare_test_matrix
     strategy:
       matrix:
-        test_script: ${{fromJson(needs.prepare_test_matrix.outputs.matrix)}}
+        test_script: ${{ fromJson(needs.prepare_test_matrix.outputs.test_matrix) }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
-
     steps:
 
       #### Setup #########################################################
@@ -70,8 +72,6 @@ jobs:
           git clone https://github.com/LeaYeh/42_minishell_tester.git
           cp -r 42_minishell_tester $HOME
           chmod +x $HOME/42_minishell_tester/tester.sh
-          find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
-          cp .github/scripts/*.sh $HOME
 
       - name: Delete all but one test script
         run: |
@@ -95,7 +95,6 @@ jobs:
   regression_test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
 
       #### Setup #########################################################
