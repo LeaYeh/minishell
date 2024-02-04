@@ -83,13 +83,10 @@ char	*concat_list_to_string(t_list *list, char *delim)
 	while (list)
 	{
 		if (list->content)
-			ft_snprintf(&str[cur_len],
+			cur_len += ft_snprintf(&str[cur_len],
 				ft_strlen(list->content) + 1, "%s", list->content);
 		if (list->next && delim)
-		{
-			ft_snprintf(&str[cur_len], delim_len + 1, "%s", delim);
-			cur_len += delim_len;
-		}
+			cur_len += ft_snprintf(&str[cur_len], delim_len + 1, "%s", delim);
 		list = list->next;
 	}
 	return (str);
