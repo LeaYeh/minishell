@@ -6,10 +6,32 @@ on:
 ################################################################################
 
 jobs:
-  setup:
+  compilation_test:
     runs-on: ubuntu-latest
+    timeout-minutes: 2
 
     steps:
+      # Setup
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
+
+      - name: Set up build environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential clang-12 valgrind
+
+      # Compilation test
+      - name: 🔨 Compile with Makefile
+        run: make
+
+  ##############################################################################
+
+  memory_leak_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # Setup
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
 
@@ -26,25 +48,7 @@ jobs:
           find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
           cp .github/scripts/*.sh $HOME
 
-  ##############################################################################
-
-  compilation_test:
-    needs: setup
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-
-    steps:
-      - name: 🔨 Compile with Makefile
-        run: make
-
-  ##############################################################################
-
-  memory_leak_test:
-    needs: setup
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    steps:
+      # Memory leak test
       - name: 🔍 Check memory leaks
         run: |
           make fclean test
@@ -55,11 +59,27 @@ jobs:
   ##############################################################################
 
   regression_test:
-    needs: setup
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
+      # Setup
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
+
+      - name: Set up build environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential clang-12 valgrind
+
+      - name: Set up testing framework
+        run: |
+          git clone https://github.com/LeaYeh/42_minishell_tester.git
+          cp -r 42_minishell_tester $HOME
+          chmod +x $HOME/42_minishell_tester/tester.sh
+          find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
+          cp .github/scripts/*.sh $HOME
+
       # Test source branch
       - name: 🌱 Test source branch of pull request
         run: |
