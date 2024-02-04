@@ -46,7 +46,6 @@ bool	write_content_to_file(char *content, char *filename)
 	}
 	if (content)
 		ft_dprintf(fd, "%s", content);
-	ft_dprintf(fd, "\n");
 	return (close(fd) != -1);
 }
 
