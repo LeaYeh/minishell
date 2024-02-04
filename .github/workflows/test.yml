@@ -9,39 +9,33 @@ jobs:
   setup:
     runs-on: ubuntu-latest
 
-    ############################################################################
-
     steps:
-    - name: Checkout source branch of pull request
-      uses: actions/checkout@v4
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
 
-    ############################################################################
+      - name: Set up build environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential clang-12 valgrind
 
-    - name: Set up build environment
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential clang-12 valgrind
-
-    ############################################################################
-
-    - name: Set up testing framework
-      run: |
-        git clone https://github.com/LeaYeh/42_minishell_tester.git
-        cp -r 42_minishell_tester $HOME
-        chmod +x $HOME/42_minishell_tester/tester.sh
-        find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
-        cp .github/scripts/*.sh $HOME
+      - name: Set up testing framework
+        run: |
+          git clone https://github.com/LeaYeh/42_minishell_tester.git
+          cp -r 42_minishell_tester $HOME
+          chmod +x $HOME/42_minishell_tester/tester.sh
+          find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
+          cp .github/scripts/*.sh $HOME
 
   ##############################################################################
 
-  compile_test:
+  compilation_test:
     needs: setup
     runs-on: ubuntu-latest
     timeout-minutes: 2
 
     steps:
-    - name: 🔨 Compile with Makefile
-      run: make
+      - name: 🔨 Compile with Makefile
+        run: make
 
   ##############################################################################
 
@@ -51,12 +45,12 @@ jobs:
     timeout-minutes: 30
 
     steps:
-    - name: 🔍 Check memory leaks
-      run: |
-        make fclean test
-        $HOME/42_minishell_tester/tester.sh vm
-      env:
-        GH_BRANCH: "IGNORE"
+      - name: 🔍 Check memory leaks
+        run: |
+          make fclean test
+          $HOME/42_minishell_tester/tester.sh vm
+        env:
+          GH_BRANCH: "IGNORE"
 
   ##############################################################################
 
@@ -66,65 +60,56 @@ jobs:
     timeout-minutes: 10
 
     steps:
-    - name: 🌱 Test source branch of pull request
-      run: |
-        make fclean test
-        $HOME/42_minishell_tester/tester.sh m > $HOME/source_test_result.txt
-      env:
-        GH_BRANCH: "SOURCE_FAILED_COUNT"
+      # Test source branch
+      - name: 🌱 Test source branch of pull request
+        run: |
+          make fclean test
+          $HOME/42_minishell_tester/tester.sh m > $HOME/source_test_result.txt
+        env:
+          GH_BRANCH: "SOURCE_FAILED_COUNT"
 
-    ############################################################################
+      - name: 📝 Print all test cases that failed on source branch
+        run: |
+          export RESULT_FILE="$HOME/source_test_result.txt"
+          $HOME/print_all_failed_test_cases.sh
 
-    - name: 📝 Print all test cases that failed on source branch
-      run: |
-        export RESULT_FILE="$HOME/source_test_result.txt"
-        $HOME/print_all_failed_test_cases.sh
+      # Test target branch
+      - name: Checkout target branch of pull request
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
 
-    ############################################################################
+      - name: 🎯 Test target branch of pull request
+        run: |
+          make fclean test
+          $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
+        env:
+          GH_BRANCH: "TARGET_FAILED_COUNT"
 
-    - name: Checkout target branch of pull request
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.base_ref }}
+      # Comparison of results
+      - name: 🆚 Compare failed count
+        id: comparison
+        run: |
+          echo "TARGET_FAILED_COUNT: $TARGET_FAILED_COUNT"
+          echo "SOURCE_FAILED_COUNT: $SOURCE_FAILED_COUNT"
+          if [ $SOURCE_FAILED_COUNT -gt $TARGET_FAILED_COUNT ]; then
+            echo "SOURCE_FAILED_COUNT is greater than TARGET_FAILED_COUNT"
+            exit 1
+          else
+            echo "SOURCE_FAILED_COUNT is less than or equal to TARGET_FAILED_COUNT"
+            exit 0
+          fi
+        env:
+          SOURCE_FAILED_COUNT: ${{ env.SOURCE_FAILED_COUNT }}
+          TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
+        continue-on-error: true
 
-    ############################################################################
+        # Can fail the job
+      - name: 📈 Show the regressions between SOURCE and TARGET branch
+        if: steps.comparison.outcome == 'failure'
+        run: $HOME/print_changed_test_cases.sh
 
-    - name: 🎯 Test target branch of pull request
-      run: |
-        make fclean test
-        $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
-      env:
-        GH_BRANCH: "TARGET_FAILED_COUNT"
-
-    ############################################################################
-
-    - name: 🆚 Compare failed count
-      id: comparison
-      run: |
-        echo "TARGET_FAILED_COUNT: $TARGET_FAILED_COUNT"
-        echo "SOURCE_FAILED_COUNT: $SOURCE_FAILED_COUNT"
-        if [ $SOURCE_FAILED_COUNT -gt $TARGET_FAILED_COUNT ]; then
-          echo "SOURCE_FAILED_COUNT is greater than TARGET_FAILED_COUNT"
-          exit 1
-        else
-          echo "SOURCE_FAILED_COUNT is less than or equal to TARGET_FAILED_COUNT"
-          exit 0
-        fi
-      env:
-        SOURCE_FAILED_COUNT: ${{ env.SOURCE_FAILED_COUNT }}
-        TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
-      continue-on-error: true
-
-    ############################################################################
-
-      # Can fail the job
-    - name: 📈 Show the regressions between SOURCE and TARGET branch
-      if: steps.comparison.outcome == 'failure'
-      run: $HOME/print_changed_test_cases.sh
-
-    ############################################################################
-
-      # Cannot fail the job
-    - name: 📉 Show the improvements between SOURCE and TARGET branch
-      if: steps.comparison.outcome == 'success'
-      run: $HOME/print_changed_test_cases.sh || true
+        # Cannot fail the job
+      - name: 📉 Show the improvements between SOURCE and TARGET branch
+        if: steps.comparison.outcome == 'success'
+        run: $HOME/print_changed_test_cases.sh || true
