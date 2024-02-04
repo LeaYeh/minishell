@@ -49,8 +49,14 @@ include				$(BUILD_DIR)/parsing_table.mk
 
 MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE)
 
+
+#	Test mode
+
 ifeq ($(filter test,$(MAKECMDGOALS)),test)
+
+CC 				:=	clang-12
 MACROS			+=	-D TEST_MODE=true
+
 endif
 
 
@@ -62,12 +68,9 @@ SPACE			:=	$() $()
 
 #	Valgrind
 
-VALGRINDIGNORE	:=	cat cp diff find git grep head ls make man mkdir mv ncdu \
-					norminette ps rm tail time top touch wc which yes
+VALGRIND		:=	$(shell which valgrind)
 
-ABSOLUTE_PATHS	:=	$(foreach cmd,$(VALGRINDIGNORE),$(shell which $(cmd)))
-
-VALGRINDFLAGS	:=	--errors-for-leak-kinds=all \
+VALGRINDFLAGS	=	--errors-for-leak-kinds=all \
 					--leak-check=full \
 					--read-var-info=yes \
 					--show-error-list=yes \
@@ -77,7 +80,27 @@ VALGRINDFLAGS	:=	--errors-for-leak-kinds=all \
 					--trace-children-skip=$(subst $(SPACE),$(COMMA),$(ABSOLUTE_PATHS)) \
 					--track-origins=yes
 
-VALGRINDFDFLAGS	:=	$(VALGRINDFLAGS) --track-fds=all
+VALGRINDFDFLAGS	:=	--track-fds=all
+
+VALGRINDIGNORE	:=	cat cp diff find git grep head ls make man mkdir mv ncdu \
+					norminette ps rm tail time top touch wc which yes
+
+ABSOLUTE_PATHS	:=	$(foreach cmd,$(VALGRINDIGNORE),$(shell which $(cmd)))
+
+
+#	Terminal
+
+TERMINAL		:=	$(shell which gnome-terminal 2> /dev/null)
+
+ifeq ($(filter val,$(MAKECMDGOALS)),val)
+TERMINALTITLE	:=	valgrind $(NAME)
+else ifeq ($(filter valfd,$(MAKECMDGOALS)),valfd)
+TERMINALTITLE	:=	valgrind-fd $(NAME)
+else
+TERMINALTITLE	:=	$(NAME)
+endif
+
+TERMINALFLAGS	:=	--title="$(TERMINALTITLE)" -- /bin/sh -c
 
 
 #	Files
@@ -103,7 +126,7 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 all				:
 					($(MAKE) --question build && echo $(MSG_NO_CHNG)) \
-						|| (echo -n $(MSG_START) \
+						|| (echo -n $(MSG_INFO)$(MSG_START) \
 							&& ($(MAKE) build && echo $(MSG_SUCCESS)) \
 							|| (echo $(MSG_FAILURE) && exit 42))
 
@@ -112,22 +135,34 @@ test			:
 					$(MAKE) all
 
 run				:	all
-					./$(NAME)
+					"./$(NAME)"
 
 val				:	all
-					$(shell which valgrind) $(VALGRINDFLAGS) ./$(NAME)
+					$(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
 valfd			:	all
-					/usr/bin/valgrind $(VALGRINDFDFLAGS) ./$(NAME)
+ifneq ($(TERMINAL),)
+					$(TERMINAL) $(TERMINALFLAGS) \
+					"$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME) \
+					; zsh"
+else
+					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) "./$(NAME)"
+endif
 
 
 #		Version check for Make
 
 ifeq ($(firstword $(sort $(MAKE_VERSION) 4.4)),4.4)
+
+MSG_INFO		=	$(MSG_MAKE_V4.4+)
 build			:	lib .WAIT $(NAME)
+
 else
-.NOTPARALLEL:		lib
+
+MSG_INFO		=	$(MSG_MAKE_V4.3-)
+.NOTPARALLEL	:	lib
 build			:	lib $(NAME)
+
 endif
 
 
@@ -168,7 +203,7 @@ $(DEP_SUBDIRS)	:
 
 #	Cleaning
 
-clean:
+clean			:
 					$(MAKE) clean -C $(LIBRARIES)
 					rm -f $(OBJ) $(DEP)
 ifneq (,$(wildcard $(OBJ_DIR)))
@@ -198,12 +233,27 @@ endif
 
 # **************************** CUSTOM MESSAGES ******************************* #
 
+################################################################################
+MSG_MAKE_V4.4+	:=	"\e[3;37m Make version 4.4+ detected\n\
+					Make version: $(MAKE_VERSION)\n\
+					Parallel build for libraries enabled\n\e[0m"
+################################################################################
+MSG_MAKE_V4.3-	:=	"\e[3;37m Make version 4.4+ not detected\n\
+					Make version: $(MAKE_VERSION)\n\
+					Parallel build for libraries disabled\n\e[0m"
+################################################################################
 MSG_START		:=	"\e[3mBuilding \e[1;34m🌊rash \e[0;3m... \e[0m"
+################################################################################
 MSG_PROGRESS	:=	"\e[3m🌊\e[0m"
+################################################################################
 MSG_SUCCESS		:=	"\e[1;3;36m\nDONE!\e[0m"
+################################################################################
 MSG_NO_CHNG		:=	"\e[3;37mEverything up-to-date!\e[0m"
+################################################################################
 MSG_FAILURE		:=	"\e[1;3;31mBUILD FAILED!\e[0m"
-MSG_TEST_MODE	:=	"\e[1;3;4;33m---------------TEST MODE---------------\n\e[0m"
+################################################################################
+MSG_TEST_MODE	:=	"\e[1;3;4;33m-------------- TEST MODE --------------\e[0m"
+################################################################################
 
 
 # *************************** MAKEFILE DEBUGGING ***************************** #

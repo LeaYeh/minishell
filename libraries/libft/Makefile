@@ -33,7 +33,7 @@ SOURCELISTS		:=	libft.mk \
 					get_next_line.mk \
 
 # Flags:
-CC				:=	cc
+CC				?=	cc
 CFLAGS			?=	-Wall -Wextra -Werror $(addprefix -I,$I) -g
 DEBUGFLAGS		:=	-g
 ARFLAGS			:=	rcs
