@@ -84,7 +84,7 @@ ABSOLUTE_PATHS	:=	$(foreach cmd,$(VALGRINDIGNORE),$(shell which $(cmd)))
 
 #	Terminal
 
-TERMINAL		:=	gnome-terminal
+TERMINAL		:=	$(shell which gnome-terminal 2> /dev/null)
 
 ifeq ($(filter val,$(MAKECMDGOALS)),val)
 TERMINALTITLE	:=	valgrind
@@ -129,15 +129,19 @@ test			:
 					$(MAKE) all
 
 run				:	all
-					$(TERMINAL) $(TERMINALFLAGS) "./$(NAME) ; zsh"
+					"./$(NAME)"
 
 val				:	all
-					$(TERMINAL) $(TERMINALFLAGS) \
-					"$(VALGRIND) $(VALGRINDFLAGS) ./$(NAME) ; zsh"
+					$(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
 valfd			:	all
+ifneq ($(TERMINAL),)
 					$(TERMINAL) $(TERMINALFLAGS) \
-					"$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME) ; zsh"
+					"$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME) \
+					; zsh"
+else
+					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) "./$(NAME)"
+endif
 
 
 #		Version check for Make
