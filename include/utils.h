@@ -55,6 +55,9 @@ void		free_final_cmd_table(
 				t_final_cmd_table **final_cmd_table, bool close_fd);
 bool		set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
 
+/* Environment utils */
+char		*get_value_from_env(char **envp, char *key);
+
 /* Expansion utils */
 int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list);
 int			expand_array(t_shell *shell, char ***array);
