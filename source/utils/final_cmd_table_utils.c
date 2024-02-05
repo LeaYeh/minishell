@@ -52,9 +52,6 @@ bool	setup_exec_path(t_final_cmd_table *final_cmd_table)
 		final_cmd_table->exec_path = NULL;
 		return (true);
 	}
-	// TODO: Fix if no environment set to not report malloc error. It should just give the cmd_name
-	set_exec_path(&final_cmd_table->exec_path, final_cmd_table->simple_cmd[0],
-		final_cmd_table->envp);
 	final_cmd_table->exec_path = get_exec_path(final_cmd_table->simple_cmd[0],
 			final_cmd_table->envp);
 	if (!final_cmd_table->exec_path)
