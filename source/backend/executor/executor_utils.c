@@ -79,11 +79,35 @@ bool	set_all_path(char ***all_path, char **envp)
 	return (true);
 }
 
+char	*find_exec_path(char **all_path, char *cmd_name)
+{
+	char	*exec_path;
+	int		exec_path_len;
+	int		cmd_name_len;
+	int		i;
+
+	cmd_name_len = ft_strlen(cmd_name);
+	i = 0;
+	while (all_path[i])
+	{
+		exec_path_len = ft_strlen(all_path[i]) + 1 + cmd_name_len;
+		exec_path = (char *)malloc(exec_path_len + 1);
+		if (!exec_path)
+			return (NULL);
+		ft_snprintf(exec_path, exec_path_len + 1, "%s/%s",
+			all_path[i], cmd_name);
+		if (access(exec_path, F_OK) == 0)
+			return (exec_path);
+		free(exec_path);
+		i++;
+	}
+	return (ft_strdup(cmd_name));
+}
+
 char	*get_exec_path(char *cmd_name, char **envp)
 {
-	char	exec_path[PATH_MAX];
+	char	*exec_path;
 	char	**all_path;
-	int		i;
 
 	if (ft_strchr(cmd_name, '/'))
 		return (ft_strdup(cmd_name));
@@ -91,17 +115,8 @@ char	*get_exec_path(char *cmd_name, char **envp)
 		return (NULL);
 	if (!all_path)
 		return (ft_strdup(cmd_name));
-	i = 0;
-	while (all_path[i])
-	{
-		ft_snprintf(exec_path, PATH_MAX, "%s/%s", all_path[i], cmd_name);
-		if (access(exec_path, F_OK) == 0)
-			break ;
-		i++;
-	}
-	if (i == get_array_len(all_path))
-		return (free_array(&all_path), ft_strdup(cmd_name));
-	return (free_array(&all_path), ft_strdup(exec_path));
+	exec_path = find_exec_path(all_path, cmd_name);
+	return (free_array(&all_path), exec_path);
 }
 
 // char	*get_exec_path(char *cmd_name, char **envp)
