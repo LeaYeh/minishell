@@ -36,7 +36,7 @@ void	prepare_error_msg(char *str, size_t *i)
 {
 	char	*occurrence;
 
-	if (is_open_pair('"', GET))
+	if (is_open_pair('"', OP_GET))
 	{
 		occurrence = ft_strchr(&str[*i], '"');
 		if (occurrence)
@@ -48,14 +48,15 @@ void	prepare_error_msg(char *str, size_t *i)
 		*i = 0;
 }
 
-bool	is_bad_substitution(char *str)
+bool	is_bad_substitution(char *str, t_expander_op op_mask)
 {
 	size_t	i;
 
 	i = 0;
 	while (str[i])
 	{
-		skip_to_dollar_not_in_single_quotes(str, &i);
+		if (op_mask & ~E_HEREDOC)
+			skip_to_dollar_not_in_single_quotes(str, &i);
 		if (!str[i])
 			break ;
 		i++;
@@ -64,10 +65,10 @@ bool	is_bad_substitution(char *str)
 			prepare_error_msg(str, &i);
 			ft_dprintf(STDERR_FILENO, ERROR_EXPANDER_BAD_SUBSTITUTION,
 				PROGRAM_NAME, &str[i]);
-			is_open_pair('"', RESET);
+			is_open_pair('"', OP_RESET);
 			return (true);
 		}
 	}
-	is_open_pair('"', RESET);
+	is_open_pair('"', OP_RESET);
 	return (false);
 }

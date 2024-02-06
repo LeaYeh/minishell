@@ -61,7 +61,7 @@
 # define SUCCESS            0
 # define EXIT_SUCCESS       0
 # define GENERAL_ERROR      1
-# define BAD_SUBSTITUTION   2
+# define BAD_SUBSTITUTION   1
 # define MISUSE_BUILTIN     2
 # define SYNTAX_ERROR       2
 # define MALLOC_ERROR       2
@@ -144,14 +144,14 @@
 
 typedef enum e_heredoc_status
 {
-	HEREDOC_SUCCESS = 0,
+	HEREDOC_SUCCESS	= 0,
 	HEREDOC_ERROR,
 	HEREDOC_ABORT
 }	t_heredoc_status;
 
 typedef enum e_state
 {
-	SIG_HEREDOC = 0,
+	SIG_HEREDOC		= 0,
 	SIG_STD,
 	SIG_SUBSHELL,
 	SIG_DEFAULT,
@@ -160,7 +160,7 @@ typedef enum e_state
 
 typedef enum e_pt_col
 {
-	PT_COL_STATE = 0,
+	PT_COL_STATE	= 0,
 	PT_COL_TOKEN_TYPE,
 	PT_COL_ACTION,
 	PT_COL_NEXT_STATE,
@@ -169,16 +169,16 @@ typedef enum e_pt_col
 
 typedef enum e_action_type
 {
-	A_REJECT	= -2,
-	A_ACCEPT	= 0,
-	A_SHIFT		= 0b001,
-	A_REDUCE	= 0b010,
-	A_GOTO		= 0b100
+	A_REJECT		= -2,
+	A_ACCEPT		= 0,
+	A_SHIFT			= 0b001,
+	A_REDUCE		= 0b010,
+	A_GOTO			= 0b100
 }	t_action_type;
 
 typedef enum e_rules
 {
-	R_AND_OR = 100,
+	R_AND_OR		= 100,
 	R_PIPE_SEQ,
 	R_CMD,
 	R_SUBSHELL,
@@ -197,9 +197,9 @@ typedef enum e_rules
 
 typedef enum e_token_type
 {
-	T_END = -2,
-	T_NONE = -1,
-	T_WORD = 0,
+	T_END			= -2,
+	T_NONE			= -1,
+	T_WORD			= 0,
 	T_ASSIGNMENT_WORD,
 	T_RED_IN,
 	T_RED_OUT,
@@ -225,16 +225,17 @@ typedef enum e_cmdtable_type
 
 typedef enum e_is_open_pair_op
 {
-	GET = 0,
-	TOGGLE,
-	RESET,
-	CLEAN
+	OP_GET			= 0,
+	OP_TOGGLE,
+	OP_RESET,
+	OP_CLEAN
 }	t_is_open_pair_op;
 
 typedef enum e_expander_op
 {
-	EXPAND			= 0b01,
-	RM_QUOTES		= 0b10
+	E_EXPAND		= 0b001,
+	E_RM_QUOTES		= 0b010,
+	E_HEREDOC		= 0b100
 }	t_expander_op;
 
 typedef struct s_env

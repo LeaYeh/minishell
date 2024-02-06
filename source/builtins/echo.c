@@ -43,10 +43,9 @@ char	*combine_args(char **args, bool end_with_newline)
 	{
 		arg_len = ft_strlen(args[i]);
 		if (i == 0)
-			ft_snprintf(&str[cur_len], arg_len + 1, "%s", args[i]);
+			cur_len += ft_snprintf(&str[cur_len], arg_len + 1, "%s", args[i]);
 		else
-			ft_snprintf(&str[cur_len++], arg_len + 2, " %s", args[i]);
-		cur_len += arg_len;
+			cur_len += ft_snprintf(&str[cur_len], arg_len + 2, " %s", args[i]);
 		i++;
 	}
 	if (end_with_newline)

@@ -156,14 +156,15 @@ int	ft_expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 	dup = ft_strdup(str);
 	if (!dup)
 		return (MALLOC_ERROR);
-	if (op_mask & EXPAND)
+	if (op_mask & (E_EXPAND | E_HEREDOC))
 	{
-		if (is_bad_substitution(str))
+		if (is_bad_substitution(str, op_mask))
 			return (free(dup), BAD_SUBSTITUTION);
-		if (!handle_parameter_expansion(&dup, lst, shell))
+		if (!handle_parameter_expansion(&dup, lst, shell, op_mask))
 			return (free(dup), MALLOC_ERROR);
 		// TODO: Potentially split into multiple nodes by whitespace here.
 		// The keyword in the bash manual is "Word Splitting".
+		// Don't do it for heredoc.
 	}
 	else
 	{
@@ -171,7 +172,7 @@ int	ft_expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 		if (!*lst)
 			return (free(dup), MALLOC_ERROR);
 	}
-	if (op_mask & RM_QUOTES)
+	if (op_mask & E_RM_QUOTES)
 		if (!handle_remove_quotes(lst))
 			return (MALLOC_ERROR);
 	return (SUCCESS);

@@ -32,19 +32,20 @@ void	remove_file(char *filename)
 		ft_dprintf(2, ERROR_REMOVE_FILE, PROGRAM_NAME, filename);
 }
 
-bool	append_line_to_file(char *line, char *filename)
+bool	write_content_to_file(char *content, char *filename)
 {
 	int	fd;
 
 	fd = open(filename,
-			O_CREAT | O_RDWR | O_APPEND,
+			O_CREAT | O_RDWR | O_TRUNC,
 			(S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
 	if (fd < 0)
 	{
 		perror(PROGRAM_NAME);
 		return (false);
 	}
-	ft_putendl_fd(line, fd);
+	if (content)
+		ft_dprintf(fd, "%s", content);
 	return (close(fd) != -1);
 }
 

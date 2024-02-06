@@ -10,52 +10,68 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "defines.h"
-#include "utils.h"
-#include "signals.h"
+#include "heredoc.h"
 
-bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
+int	handle_heredoc_content(t_shell *shell,
+		char *filename, t_list **line_list, bool need_content_expansion)
 {
-	int	fd;
+	char	*content;
+	int		ret;
 
-	io_red->in_file = generate_tmp_filename(cmdtable_id, "hd");
-	if (!io_red->in_file)
-		return (false);
-	fd = open(io_red->in_file,
-			O_CREAT | O_RDWR | O_TRUNC,
-			(S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
-	if (fd < 0 || close(fd) == -1)
+	content = concat_list_to_string(*line_list, "\n");
+	if (!content)
+		return (HEREDOC_ERROR);
+	if (need_content_expansion)
 	{
-		perror(PROGRAM_NAME);
-		return (ft_free_and_null((void **)&io_red->in_file), false);
+		ret = expand_heredoc_content(shell, &content);
+		if (ret != SUCCESS)
+			return (free(content), ret);
 	}
-	return (true);
+	if (!write_content_to_file(content, filename))
+		return (free(content), HEREDOC_ERROR);
+	return (free(content), HEREDOC_SUCCESS);
 }
 
-int	exec_heredoc(t_shell *shell, int cmdtable_id, t_io_red *io_red)
+int	read_heredoc(t_shell *shell, t_list **line_list, char *here_end)
 {
 	char	*line;
 
-	if (!setup_tmp_hdfile(cmdtable_id, io_red))
-		return (HEREDOC_ERROR);
 	while (true)
 	{
 		line = readline(HEREDOC_PROMPT);
 		if (shell->exit_code == TERM_BY_SIGNAL + SIGINT)
-			return (remove_file(io_red->in_file), free(line), HEREDOC_ABORT);
+			return (free(line), HEREDOC_ABORT);
 		if (!line)
-		{
-			ft_dprintf(STDERR_FILENO, ERROR_HEREDOC_UNEXPECTED_EOF,
-				PROGRAM_NAME, io_red->here_end);
-			return (HEREDOC_SUCCESS);
-		}
-		if (ft_strcmp(line, io_red->here_end) == 0)
+			return (ft_dprintf(STDERR_FILENO, ERROR_HEREDOC_UNEXPECTED_EOF,
+					PROGRAM_NAME, here_end), SUCCESS);
+		if (ft_strcmp(line, here_end) == 0)
 			break ;
-		if (!append_line_to_file(line, io_red->in_file))
-			return (remove_file(io_red->in_file), free(line), HEREDOC_ERROR);
-		free(line);
+		if (!append_line_to_list(line_list, line))
+			return (free(line), HEREDOC_ERROR);
+		ft_free_and_null((void **)&line);
 	}
 	free(line);
+	return (SUCCESS);
+}
+
+int	exec_heredoc(t_shell *shell,
+		int cmdtable_id, t_io_red *io_red, bool need_content_expansion)
+{
+	t_list	*line_list;
+	int		ret;
+
+	if (!setup_tmp_hdfile(cmdtable_id, io_red))
+		return (HEREDOC_ERROR);
+	line_list = NULL;
+	ret = read_heredoc(shell, &line_list, io_red->here_end);
+	if (ret != SUCCESS)
+		return (ft_lstclear(&line_list, free),
+			remove_file(io_red->in_file), ret);
+	ret = handle_heredoc_content(
+			shell, io_red->in_file, &line_list, need_content_expansion);
+	ft_lstclear(&line_list, free);
+	if (ret != HEREDOC_SUCCESS)
+		return (remove_file(io_red->in_file), ret);
 	return (HEREDOC_SUCCESS);
 }
 
@@ -63,14 +79,19 @@ int	handle_heredoc(t_shell *shell, int cmdtable_id, t_list *io_red_list)
 {
 	t_io_red	*io_red;
 	int			ret;
+	bool		need_content_expansion;
 
 	while (io_red_list && io_red_list->content)
 	{
+		need_content_expansion = true;
 		io_red = (t_io_red *)io_red_list->content;
 		if (io_red->type == T_HERE_DOC)
 		{
+			if (!remove_here_end_quote(shell, io_red, &need_content_expansion))
+				return (HEREDOC_ERROR);
 			shell->exit_code = SUCCESS;
-			ret = exec_heredoc(shell, cmdtable_id, io_red);
+			ret = exec_heredoc(
+					shell, cmdtable_id, io_red, need_content_expansion);
 			if (ret != HEREDOC_SUCCESS)
 				return (ret);
 		}
