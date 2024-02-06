@@ -64,7 +64,7 @@ bool	ft_setup_env(t_shell *shell, char **env)
 	{
 		if (!extract_string(&key, env[i], "="))
 			break ;
-		if (!extract_string(&value, NULL, "\n\0"))
+		if (!extract_string(&value, NULL, ""))
 			break ;
 		if (!ft_append_env(&shell->env_list, key, value))
 			break ;
