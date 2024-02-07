@@ -73,28 +73,45 @@ bool	setup_assignment_array(
 	return (true);
 }
 
+int	get_envp_size(t_list *env_list)
+{
+	t_env	*env_node;
+	int		size;
+
+	size = 0;
+	while (env_list)
+	{
+		env_node = (t_env *)env_list->content;
+		if (env_node->export && env_node->value)
+			size++;
+		env_list = env_list->next;
+	}
+	return (size);
+}
+
 bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 {
 	t_env	*env_node;
 	char	*tmp;
 	int		i;
 
-	if (!env_list)
-		return (true);
 	final_cmd_table->envp = (char **)malloc(
-			(ft_lstsize(env_list) + 1) * sizeof(char *));
+			(get_envp_size(env_list) + 1) * sizeof(char *));
 	if (!final_cmd_table->envp)
 		return (false);
 	i = 0;
 	while (env_list)
 	{
 		env_node = (t_env *)env_list->content;
-		tmp = (char *)malloc((ft_strlen(env_node->key) + 1
-					+ ft_strlen(env_node->value) + 1) * sizeof(char));
-		if (!tmp)
-			return (free_array(&final_cmd_table->envp), false);
-		sprintf(tmp, "%s=%s", env_node->key, env_node->value);	// TODO: This is really dangerous, bc the user could set a very long key or value and go beyond the memory of size PATH_MAX.
-		final_cmd_table->envp[i++] = tmp;
+		if (env_node->export && env_node->value)
+		{
+			tmp = (char *)malloc((ft_strlen(env_node->key) + 1
+						+ ft_strlen(env_node->value) + 1) * sizeof(char));
+			if (!tmp)
+				return (free_array(&final_cmd_table->envp), false);
+			sprintf(tmp, "%s=%s", env_node->key, env_node->value);	// TODO: This is really dangerous, bc the user could set a very long key or value and go beyond the memory of size PATH_MAX.
+			final_cmd_table->envp[i++] = tmp;
+		}
 		env_list = env_list->next;
 	}
 	final_cmd_table->envp[i] = NULL;
