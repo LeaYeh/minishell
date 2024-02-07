@@ -1,7 +1,9 @@
 #include "defines.h"
+#include "utils.h"
 
-int	ft_exec_pwd(void)
+int	ft_exec_pwd(char **envp)
 {
+	char	*env_pwd;
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
@@ -11,7 +13,11 @@ int	ft_exec_pwd(void)
 		perror(NULL);
 		return (CMD_EXEC_FAILED);
 	}
-	printf("%s\n", pwd);
+	env_pwd = get_value_from_env(envp, "PWD");
+	if (ft_strncmp(env_pwd, "//", 2) == 0)
+		printf("/%s\n", pwd);
+	else
+		printf("%s\n", pwd);
 	free(pwd);
 	return (EXIT_SUCCESS);
 }
