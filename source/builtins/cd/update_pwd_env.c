@@ -42,7 +42,7 @@ bool	handle_existing_pwd(t_list **env_list, char *old_pwd)
 		key = ft_strdup("OLDPWD");
 		if (!key)
 			return (false);
-		if (!ft_append_env(env_list, key, old_pwd))
+		if (!ft_append_env(env_list, key, old_pwd, X_EXPORT_NO))
 			return (free(key), false);
 	}
 	return (true);
@@ -55,7 +55,7 @@ bool	handle_non_existing_pwd(t_list **env_list, char *new_pwd)
 	key = ft_strdup("PWD");
 	if (!key)
 		return (false);
-	if (!ft_append_env(env_list, key, new_pwd))
+	if (!ft_append_env(env_list, key, new_pwd, X_EXPORT_NO))
 		return (free(key), false);
 	remove_env_node(env_list, "OLDPWD", NULL);
 	return (true);

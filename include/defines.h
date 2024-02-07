@@ -238,10 +238,17 @@ typedef enum e_expander_op
 	E_HEREDOC		= 0b100
 }	t_expander_op;
 
+typedef enum e_export
+{
+	X_EXPORT_NO		= 0,
+	X_EXPORT_YES
+}	t_export;
+
 typedef struct s_env
 {
 	char			*key;
 	char			*value;
+	t_export		export;
 }	t_env;
 
 typedef struct s_token
