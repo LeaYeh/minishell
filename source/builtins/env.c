@@ -12,17 +12,15 @@
 
 #include "minishell.h"
 
-int	ft_exec_env(t_shell *shell)
+int	ft_exec_env(char **envp)
 {
-	t_list	*cur;
-	t_env	*env;
+	int	i;
 
-	cur = shell->env_list;
-	while (cur)
+	i = 0;
+	while (envp[i])
 	{
-		env = (t_env *)cur->content;
-		printf("%s=%s\n", env->key, env->value);
-		cur = cur->next;
+		printf("%s\n", envp[i]);
+		i++;
 	}
-	return (0);
+	return (SUCCESS);
 }

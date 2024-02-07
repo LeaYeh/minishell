@@ -18,6 +18,4 @@ bool	mock_lexer(t_shell *shell);
 
 char	*ft_get_token_type_str(int type);
 
-int 	ft_exec_env(t_shell *shell);
-
 #endif
