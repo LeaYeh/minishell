@@ -101,6 +101,7 @@ char		*generate_tmp_filename(int cmdtable_id, char *category);
 void		remove_file(char *filename);
 bool		append_line_to_file(char *line, char *filename);
 void		safe_close(int *fd);
+bool		is_dir(char *dir);
 
 /* Stack utils */
 int			get_state_from_stack(t_list *node);

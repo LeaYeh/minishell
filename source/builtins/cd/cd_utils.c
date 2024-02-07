@@ -11,20 +11,14 @@
 /* ************************************************************************** */
 
 #include "cd.h"
+#include "utils.h"
 
 bool	check_dir(char *dir, char *target_dir)
 {
-	struct stat	path_stat;
-
-	if (access(dir, F_OK) != -1)
-	{
-		stat(dir, &path_stat);
-		if (S_ISDIR(path_stat.st_mode))
-			return (true);
-	}
+	if (is_dir(dir))
+		return (true);
 	ft_dprintf(2, "%s: cd: %s: ", PROGRAM_NAME, target_dir);
 	perror(NULL);
-	(void)dir;
 	return (false);
 }
 

@@ -21,11 +21,13 @@ static bool	extract_string(char **res, char *str, char *delim)
 
 	tmp = ft_strtok(str, delim);
 	if (tmp)
+	{
 		*res = ft_strdup(tmp);
+		if (!*res)
+			return (false);
+	}
 	else
-		*res = ft_strdup("");
-	if (!*res)
-		return (false);
+		*res = NULL;
 	return (true);
 }
 
@@ -71,45 +73,49 @@ bool	setup_default_env_list(t_shell *shell, char **env)
 	return (true);
 }
 
+bool	process_env_str_to_env_list(char *env_str, t_list **env_list)
+{
+	char	*key;
+	char	*value;
+
+	if (!extract_string(&key, env_str, "="))
+		return (false);
+	if (ft_strcmp(key, "PWD") == 0)
+	{
+		value = getcwd(NULL, 0);
+		if (!value)
+			return (free(key), false);
+	}
+	else if (!extract_string(&value, NULL, ""))
+		return (free(key), false);
+	if (ft_strcmp(key, "OLDPWD") == 0 && value && !is_dir(value))
+	{
+		free(key);
+		free(value);
+	}
+	else if (!append_env_node(env_list, key, value, X_EXPORT_YES))
+		return (free(key), free(value), false);
+	return (true);
+}
+
 // PWD should always be set by current shell
-// TODO: If OLDPWD exists and has value, if value is not a real directory, delete OLDPWD entirely (permissions don't matter)
+// If OLDPWD exists and has value, if value is not a real directory,
+// delete OLDPWD entirely (permissions don't matter)
 bool	setup_env_list(t_shell *shell, char **env)
 {
 	int		i;
-	char	*key;
-	char	*value;
 
 	if (!setup_default_env_list(shell, env))
 		return (false);
 	if (!env)
 		return (true);
-	key = NULL;
-	value = NULL;
 	i = 0;
 	while (env[i])
 	{
-		if (!extract_string(&key, env[i], "="))
-			break ;
-		if (ft_strcmp(key, "PWD") == 0)
-		{
-			value = getcwd(NULL, 0);
-			if (!value)
-				break ;
-		}
-		else if (!extract_string(&value, NULL, ""))
-			break ;
-		// if (ft_strcmp(key, "OLDPWD") == 0 && value)
-		// {
-		// 	if (!is_dir(value))
-		// 		remove_env_node(&shell->env_list, "OLDPWD", NULL);
-		// }
-		if (!append_env_node(&shell->env_list, key, value, X_EXPORT_YES))
-			break ;
+		if (!process_env_str_to_env_list(env[i], &shell->env_list))
+			return (false);
 		i++;
 	}
-	if (env[i])
-		return (ft_lstclear(&shell->env_list, (void *)free_env_node),
-			free(key), free(value), false);
 	return (true);
 }
 

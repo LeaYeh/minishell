@@ -57,3 +57,16 @@ void	safe_close(int *fd)
 		*fd = -1;
 	}
 }
+
+bool	is_dir(char *dir)
+{
+	struct stat	path_stat;
+
+	if (access(dir, F_OK) != -1)
+	{
+		stat(dir, &path_stat);
+		if (S_ISDIR(path_stat.st_mode))
+			return (true);
+	}
+	return (false);
+}
