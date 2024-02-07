@@ -17,6 +17,11 @@ static bool	extract_string(char **res, char *str, char *delim)
 	return (true);
 }
 
+/*
+ * PWD should always be set by current shell.
+ * If OLDPWD exists and has value, if value is not a real directory,
+ * delete OLDPWD entirely (permissions don't matter).
+ */
 bool	process_env_str_to_env_list(char *env_str, t_list **env_list)
 {
 	char	*key;
@@ -42,9 +47,6 @@ bool	process_env_str_to_env_list(char *env_str, t_list **env_list)
 	return (true);
 }
 
-// PWD should always be set by current shell
-// If OLDPWD exists and has value, if value is not a real directory,
-// delete OLDPWD entirely (permissions don't matter)
 bool	setup_env_list(t_shell *shell, char **env)
 {
 	int		i;
