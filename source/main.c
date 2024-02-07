@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "clean.h"
+#include "init.h"
 #include "lexer.h"
 #include "parser.h"
 #include "executor.h"

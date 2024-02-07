@@ -14,8 +14,6 @@
 # define MINISHELL_H
 # include "defines.h"
 
-bool	init_shell(t_shell *shell, char **env);
-
 bool	mock_lexer(t_shell *shell);
 
 char	*ft_get_token_type_str(int type);
