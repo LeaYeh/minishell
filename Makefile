@@ -82,8 +82,8 @@ VALGRINDFLAGS	=	--errors-for-leak-kinds=all \
 
 VALGRINDFDFLAGS	:=	--track-fds=all
 
-VALGRINDIGNORE	:=	cat cp diff find git grep head ls make man mkdir mv ncdu \
-					norminette ps rm tail time top touch wc which yes
+VALGRINDIGNORE	:=	cat chmod cp diff find git grep head ls make man mkdir mv \
+					ncdu norminette ps rm sort tail time top touch wc which yes
 
 ABSOLUTE_PATHS	:=	$(foreach cmd,$(VALGRINDIGNORE),$(shell which $(cmd)))
 
