@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **env)
 	t_shell	shell;
 
 	((void)argc, (void)argv);
-	if (!DEFINITIONS_OK || !ft_init_shell(&shell, env))
+	if (!DEFINITIONS_OK || !init_shell(&shell, env))
 		raise_error_and_escape(&shell, "init shell failed");
 	while (true)
 	{

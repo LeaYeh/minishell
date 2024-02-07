@@ -10,9 +10,58 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cd.h"
-#include "clean.h"
 #include "minishell.h"
+#include "clean.h"
+
+bool	append_env_node(
+	t_list **env_list, char *key, char *value, t_export export)
+{
+	t_env	*env_node;
+
+
+	env_node = (t_env *)malloc(sizeof(t_env));
+	if (!env_node)
+		return (false);
+	env_node->key = key;
+	env_node->value = value;
+	env_node->export = export;
+	if (!ft_lstnew_back(env_list, env_node))
+		return (free(env_node), false);
+	return (true);
+}
+
+bool	is_exported_env_node(t_list *env_list, char *key)
+{
+	t_env	*env_node;
+
+	while (env_list)
+	{
+		env_node = env_list->content;
+		if (ft_strcmp(env_node->key, key) == 0 && \
+			env_node->export == X_EXPORT_YES)
+			return (true);
+		env_list = env_list->next;
+	}
+	return (false);
+}
+
+bool	is_key_in_env_list(t_list *env_list, char *key)
+{
+	t_list	*cur;
+	t_env	*env_node;
+
+	if (!env_list || !key)
+		return (false);
+	cur = env_list;
+	while (cur)
+	{
+		env_node = (t_env *)cur->content;
+		if (ft_strcmp(env_node->key, key) == 0)
+			return (true);
+		cur = cur->next;
+	}
+	return (false);
+}
 
 t_env	*find_env_node(t_list *env_list, char *key, char *value)
 {
@@ -76,15 +125,15 @@ void	remove_env_node(t_list **env_list, char *key, char *value)
 	}
 }
 
-char	*replace_env_value(t_list *env_list, char *key, char *value)
+bool	replace_env_value(
+	t_list *env_list, char *key, char *value, char **old_value)
 {
 	t_env	*env_node;
-	char	*old_value;
 
 	env_node = find_env_node(env_list, key, NULL);
 	if (!env_node)
-		return (NULL);
-	old_value = env_node->value;
+		return (*old_value = NULL, false);
+	*old_value = env_node->value;
 	env_node->value = value;
-	return (old_value);
+	return (true);
 }

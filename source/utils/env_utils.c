@@ -34,3 +34,22 @@ char	*get_value_from_env(char **envp, char *key)
 	}
 	return (value);
 }
+
+bool	is_key_in_env(char **envp, char *key)
+{
+	int	i;
+	int	key_len;
+
+	if (!envp || !key)
+		return (false);
+	key_len = ft_strlen(key);
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], key, key_len) == 0 && \
+			(envp[i][key_len] == '=' || envp[i][key_len] == '\0'))
+			return (true);
+		i++;
+	}
+	return (false);
+}

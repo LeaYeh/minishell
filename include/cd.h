@@ -47,12 +47,6 @@ void		rm_dot_cmpnts(t_list_d **cmpnt_list);
 int			rm_dotdot_cmptnts(t_list_d **cmpnt_list, char *target_dir);
 bool		is_dot_cmpnt(char *dir);
 
-/* environment_utils.c */
-t_env		*find_env_node(t_list *env_list, char *key, char *value);
-char		*get_value_from_env_list(t_list *env_list, char *key);
-void		remove_env_node(t_list **env_list, char *key, char *value);
-char		*replace_env_value(t_list *env_list, char *key, char *value);
-
 /* get_target_dir.c */
 char		*get_target_dir(char **args, t_list *env_list);
 

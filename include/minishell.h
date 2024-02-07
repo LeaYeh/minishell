@@ -14,8 +14,7 @@
 # define MINISHELL_H
 # include "defines.h"
 
-bool	ft_init_shell(t_shell *shell, char **env);
-bool	ft_append_env(t_list **env_list, char *key, char *value);
+bool	init_shell(t_shell *shell, char **env);
 
 bool	mock_lexer(t_shell *shell);
 
