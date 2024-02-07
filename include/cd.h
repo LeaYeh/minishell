@@ -63,7 +63,7 @@ char		*try_to_convert_abs_to_rel_path(char *abs_path, char *pwd);
 
 /* update_pwd_env.c */
 bool		update_pwd_env(t_list **env_list, char *new_pwd);
-bool		handle_existing_pwd(t_list **env_list, char *old_pwd);
+bool		handle_existing_pwd(t_list **env_list, char *prev_pwd);
 bool		handle_non_existing_pwd(t_list **env_list, char *new_pwd);
 
 #endif

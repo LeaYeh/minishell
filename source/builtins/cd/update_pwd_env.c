@@ -11,17 +11,16 @@
 /* ************************************************************************** */
 
 #include "cd.h"
-#include "minishell.h"
+#include "utils.h"
 
 bool	update_pwd_env(t_list **env_list, char *new_pwd)
 {
-	char	*old_pwd;
+	char	*prev_pwd;
 
-	old_pwd = replace_env_value(*env_list, "PWD", new_pwd);
-	if (old_pwd)
+	if (replace_env_value(*env_list, "PWD", new_pwd, &prev_pwd))
 	{
-		if (!handle_existing_pwd(env_list, old_pwd))
-			return (free(old_pwd), false);
+		if (!handle_existing_pwd(env_list, prev_pwd))
+			return (free(prev_pwd), false);
 	}
 	else
 		if (!handle_non_existing_pwd(env_list, new_pwd))
@@ -29,20 +28,19 @@ bool	update_pwd_env(t_list **env_list, char *new_pwd)
 	return (true);
 }
 
-bool	handle_existing_pwd(t_list **env_list, char *old_pwd)
+bool	handle_existing_pwd(t_list **env_list, char *prev_pwd)
 {
 	char	*key;
-	char	*tmp;
+	char	*prev_oldpwd;
 
-	tmp = replace_env_value(*env_list, "OLDPWD", old_pwd);
-	if (tmp)
-		free(tmp);
+	if (replace_env_value(*env_list, "OLDPWD", prev_pwd, &prev_oldpwd))
+		free(prev_oldpwd);
 	else
 	{
 		key = ft_strdup("OLDPWD");
 		if (!key)
 			return (false);
-		if (!ft_append_env(env_list, key, old_pwd, X_EXPORT_NO))
+		if (!append_env_node(env_list, key, prev_pwd, X_EXPORT_NO))
 			return (free(key), false);
 	}
 	return (true);
@@ -55,7 +53,7 @@ bool	handle_non_existing_pwd(t_list **env_list, char *new_pwd)
 	key = ft_strdup("PWD");
 	if (!key)
 		return (false);
-	if (!ft_append_env(env_list, key, new_pwd, X_EXPORT_NO))
+	if (!append_env_node(env_list, key, new_pwd, X_EXPORT_NO))
 		return (free(key), false);
 	remove_env_node(env_list, "OLDPWD", NULL);
 	return (true);
