@@ -9,6 +9,8 @@ static bool	extract_string(char **res, char *str, char *delim)
 	if (tmp)
 	{
 		*res = ft_strdup(tmp);
+		if (str)
+			str[ft_strlen(str)] = '=';
 		if (!*res)
 			return (false);
 	}
