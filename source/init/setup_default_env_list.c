@@ -31,12 +31,14 @@ bool	add_default_pwd_env_node(t_list **env_list)
 	return (true);
 }
 
-bool	setup_default_env_list(t_shell *shell, char **env)
+bool	setup_default_env_list(t_shell *shell)
 {
-	if (!is_key_in_env(env, "OLDPWD") && \
+	extern char	**environ;
+
+	if (!is_key_in_env(environ, "OLDPWD") && \
 		!add_default_oldpwd_env_node(&shell->env_list))
 		return (false);
-	if (!is_key_in_env(env, "PWD") && \
+	if (!is_key_in_env(environ, "PWD") && \
 		!add_default_pwd_env_node(&shell->env_list))
 		return (false);
 	return (true);

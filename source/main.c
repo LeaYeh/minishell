@@ -25,12 +25,12 @@ bool	ft_read_input(t_shell *shell);
 
 // If general error occurs, exit entire shell
 // if syntax error occurs, continue to next input
-int	main(int argc, char **argv, char **env)
+int	main(int argc, char *argv[])
 {
 	t_shell	shell;
 
 	((void)argc, (void)argv);
-	if (!DEFINITIONS_OK || !init_shell(&shell, env))
+	if (!DEFINITIONS_OK || !init_shell(&shell))
 		raise_error_and_escape(&shell, "init shell failed");
 	while (true)
 	{

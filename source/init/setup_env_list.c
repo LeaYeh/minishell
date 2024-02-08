@@ -47,18 +47,19 @@ bool	process_env_str_to_env_list(char *env_str, t_list **env_list)
 	return (true);
 }
 
-bool	setup_env_list(t_shell *shell, char **env)
+bool	setup_env_list(t_shell *shell)
 {
-	int		i;
+	extern char	**environ;
+	int	i;
 
-	if (!setup_default_env_list(shell, env))
+	if (!setup_default_env_list(shell))
 		return (false);
-	if (!env)
+	if (!environ)
 		return (true);
 	i = 0;
-	while (env[i])
+	while (environ[i])
 	{
-		if (!process_env_str_to_env_list(env[i], &shell->env_list))
+		if (!process_env_str_to_env_list(environ[i], &shell->env_list))
 			return (false);
 		i++;
 	}

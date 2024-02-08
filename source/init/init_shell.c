@@ -14,7 +14,7 @@
 #include "utils.h"
 #include "signals.h"
 
-bool	init_shell(t_shell *shell, char **env)
+bool	init_shell(t_shell *shell)
 {
 	shell->pid = getpid();
 	shell->subshell_pid = -1;
@@ -30,7 +30,7 @@ bool	init_shell(t_shell *shell, char **env)
 	// shell->ast = NULL;
 	shell->cmd_table_list = NULL;
 	shell->input_line = NULL;
-	if (!setup_env_list(shell, env))
+	if (!setup_env_list(shell))
 		return (false);
 	handle_signal_std(0, NULL, shell);
 	handle_signal_heredoc(0, NULL, shell);
