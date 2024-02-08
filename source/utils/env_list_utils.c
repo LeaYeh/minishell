@@ -89,24 +89,18 @@ t_env	*find_env_node(t_list *env_list, char *key, char *value)
 	return (NULL);
 }
 
-// TODO: Almost the same function as get_replacement() from expander and get_value_from_env() from executor_utils
 char	*get_value_from_env_list(t_list *env_list, char *key)
 {
 	t_env	*env_node;
-	char	*value;
 
-	value = NULL;
 	while (env_list)
 	{
 		env_node = env_list->content;
 		if (ft_strcmp(env_node->key, key) == 0)
-		{
-			value = env_node->value;
-			break ;
-		}
+			return (env_node->value);
 		env_list = env_list->next;
 	}
-	return (value);
+	return (NULL);
 }
 
 void	remove_env_node(t_list **env_list, char *key, char *value)

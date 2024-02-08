@@ -24,7 +24,6 @@ bool	expand_exit_code(char **str, size_t *i, int exit_code);
 /* expand_variable.c */
 bool	expand_variable(char **str, size_t *i, size_t offset, t_list *env_list);
 size_t	count_var_len(char *str);
-char	*get_replacement(char *var, t_list *env_list);
 
 /* expander.c */
 int		ft_expander(char *str, t_list **lst, t_shell *shell, \
