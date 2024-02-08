@@ -118,6 +118,9 @@
 # define OPENING_BRACE		'{'
 # define CLOSING_BRACE		'}'
 
+/* Export */
+# define EXPORT_PREFIX		"export "
+
 /* Error Messages */
 // TODO Add minishell name in the front of messages
 # define ERROR_PARSER_SYNTAX				\
@@ -136,6 +139,8 @@
 "%s: cd: HOME not set\n"
 # define ERROR_CD_OLDPWD_NOT_SET			\
 "%s: cd: OLDPWD not set\n"
+# define ERROR_EXPORT_INVALID_IDENTIFIER	\
+"%s: export: `%s': not a valid identifier\n"
 // TODO: Replace with OS error message
 # define ERROR_REMOVE_FILE					\
 "%s: warning: failed to remove file `%s'\n"
