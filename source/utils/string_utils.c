@@ -26,13 +26,13 @@ bool	replace_string_content(char **str, char *new_content)
 
 bool	is_valid_varname(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str || !is_valid_varname_start(str[i]))
 		return (false);
 	i++;
-	while (str[i])
+	while (str[i] && str[i] != '=')
 	{
 		if (!is_valid_varname_char(str[i]))
 			return (false);
