@@ -3,6 +3,11 @@
 
 # include "defines.h"
 
+/* export.c */
+
+bool	handle_var_export(char *str, t_list **env_list);
+void	change_export_flag(t_list *env_list, char *key, t_export export);
+
 /* print_exported_env.c */
 int		print_exported_env(t_list *env_list);
 int		get_total_export_printout_len(t_list *env_list,
