@@ -33,7 +33,7 @@ bool	check_executable(t_shell *shell, char *filename);
 bool	check_file(char *filename, int o_flag, int permission);
 
 /* Utils */
-char	*get_exec_path(char *cmd_name, char *envp[]);
+char	*get_exec_path(char *cmd_name, char *env[]);
 
 /* Redirection */
 bool	restore_std_io(int saved_std_io[2]);

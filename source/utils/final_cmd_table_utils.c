@@ -53,7 +53,7 @@ bool	setup_exec_path(t_final_cmd_table *final_cmd_table)
 		return (true);
 	}
 	final_cmd_table->exec_path = get_exec_path(
-			final_cmd_table->simple_cmd[0], final_cmd_table->envp);
+			final_cmd_table->simple_cmd[0], final_cmd_table->env);
 	if (!final_cmd_table->exec_path)
 		return (false);
 	return (true);
@@ -73,7 +73,7 @@ bool	setup_assignment_array(
 	return (true);
 }
 
-int	get_envp_size(t_list *env_list)
+int	get_env_size(t_list *env_list)
 {
 	t_env	*env_node;
 	int		size;
@@ -95,9 +95,9 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 	char	*tmp;
 	int		i;
 
-	final_cmd_table->envp = (char **)malloc(
-			(get_envp_size(env_list) + 1) * sizeof(char *));
-	if (!final_cmd_table->envp)
+	final_cmd_table->env = (char **)malloc(
+			(get_env_size(env_list) + 1) * sizeof(char *));
+	if (!final_cmd_table->env)
 		return (false);
 	i = 0;
 	while (env_list)
@@ -108,13 +108,13 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 			tmp = (char *)malloc((ft_strlen(env_node->key) + 1
 						+ ft_strlen(env_node->value) + 1) * sizeof(char));
 			if (!tmp)
-				return (free_array(&final_cmd_table->envp), false);
+				return (free_array(&final_cmd_table->env), false);
 			sprintf(tmp, "%s=%s", env_node->key, env_node->value);	// TODO: This is really dangerous, bc the user could set a very long key or value and go beyond the memory of size PATH_MAX.
-			final_cmd_table->envp[i++] = tmp;
+			final_cmd_table->env[i++] = tmp;
 		}
 		env_list = env_list->next;
 	}
-	final_cmd_table->envp[i] = NULL;
+	final_cmd_table->env[i] = NULL;
 	return (true);
 }
 
@@ -133,7 +133,7 @@ void	free_final_cmd_table(t_final_cmd_table **final_cmd_table, bool close_fd)
 {
 	if (!final_cmd_table || !*final_cmd_table)
 		return ;
-	free_array(&(*final_cmd_table)->envp);
+	free_array(&(*final_cmd_table)->env);
 	free_array(&(*final_cmd_table)->simple_cmd);
 	free((*final_cmd_table)->exec_path);
 	free_array(&(*final_cmd_table)->assignment_array);

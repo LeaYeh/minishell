@@ -318,7 +318,7 @@ typedef struct s_final_cmd_table
 	char			**simple_cmd;
 	char			*exec_path;
 	char			**assignment_array;
-	char			**envp;
+	char			**env;
 	int				read_fd;
 	int				write_fd;
 }	t_final_cmd_table;

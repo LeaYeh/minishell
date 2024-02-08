@@ -16,18 +16,18 @@ static char	*get_value_from_str(char *str, char *key)
 	return (NULL);
 }
 
-char	*get_value_from_env(char *envp[], char *key)
+char	*get_value_from_env(char *env[], char *key)
 {
 	int		i;
 	char	*value;
 
-	if (!envp || !key)
+	if (!env || !key)
 		return (NULL);
 	value = NULL;
 	i = 0;
-	while (envp[i])
+	while (env[i])
 	{
-		value = get_value_from_str(envp[i], key);
+		value = get_value_from_str(env[i], key);
 		if (value)
 			break ;
 		i++;
@@ -35,19 +35,19 @@ char	*get_value_from_env(char *envp[], char *key)
 	return (value);
 }
 
-bool	is_key_in_env(char *envp[], char *key)
+bool	is_key_in_env(char *env[], char *key)
 {
 	int	i;
 	int	key_len;
 
-	if (!envp || !key)
+	if (!env || !key)
 		return (false);
 	key_len = ft_strlen(key);
 	i = 0;
-	while (envp[i])
+	while (env[i])
 	{
-		if (ft_strncmp(envp[i], key, key_len) == 0 && \
-			(envp[i][key_len] == '=' || envp[i][key_len] == '\0'))
+		if (ft_strncmp(env[i], key, key_len) == 0 && \
+			(env[i][key_len] == '=' || env[i][key_len] == '\0'))
 			return (true);
 		i++;
 	}

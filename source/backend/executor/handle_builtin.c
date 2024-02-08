@@ -23,7 +23,7 @@ void	exec_builtin_cmd(t_shell *shell)
 
 	final_cmd_table = shell->final_cmd_table;
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "env") == 0)
-		shell->exit_code = ft_exec_env(final_cmd_table->envp);
+		shell->exit_code = ft_exec_env(final_cmd_table->env);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "unset") == 0)
 		shell->exit_code = 123;
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "echo") == 0)

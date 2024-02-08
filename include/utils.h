@@ -56,8 +56,8 @@ void		free_final_cmd_table(
 bool		set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
 
 /* Environment utils */
-char		*get_value_from_env(char *envp[], char *key);
-bool		is_key_in_env(char *envp[], char *key);
+char		*get_value_from_env(char *env[], char *key);
+bool		is_key_in_env(char *env[], char *key);
 
 bool		append_env_node(
 				t_list **env_list, char *key, char *value, t_export export);

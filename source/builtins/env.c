@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int	ft_exec_env(char *envp[])
+int	ft_exec_env(char *env[])
 {
 	int	i;
 
 	i = 0;
-	while (envp[i])
+	while (env[i])
 	{
-		printf("%s\n", envp[i]);
+		printf("%s\n", env[i]);
 		i++;
 	}
 	return (SUCCESS);
