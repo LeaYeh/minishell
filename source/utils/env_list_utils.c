@@ -72,7 +72,7 @@ t_env	*find_env_node(t_list *env_list, char *key, char *value)
 		env_node = env_list->content;
 		if (key && value)
 		{
-			if (ft_strcmp(env_node->key, key) == 0 && \
+			if (env_node->value && ft_strcmp(env_node->key, key) == 0 && \
 				ft_strcmp(env_node->value, value) == 0)
 				return (env_node);
 		}
@@ -82,7 +82,7 @@ t_env	*find_env_node(t_list *env_list, char *key, char *value)
 				return (env_node);
 		}
 		else if (value)
-			if (ft_strcmp(env_node->value, value) == 0)
+			if (env_node->value && ft_strcmp(env_node->value, value) == 0)
 				return (env_node);
 		env_list = env_list->next;
 	}
