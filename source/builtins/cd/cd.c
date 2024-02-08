@@ -80,7 +80,7 @@
 #include "minishell.h"
 #include "utils.h"
 
-int	exec_cd(char **args, t_list **env_list)
+int	exec_cd(char *args[], t_list **env_list)
 {
 	char	*final_path;
 	char	*new_pwd;

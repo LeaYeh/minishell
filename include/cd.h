@@ -48,7 +48,7 @@ int			rm_dotdot_cmptnts(t_list_d **cmpnt_list, char *target_dir);
 bool		is_dot_cmpnt(char *dir);
 
 /* get_target_dir.c */
-char		*get_target_dir(char **args, t_list *env_list);
+char		*get_target_dir(char *args[], t_list *env_list);
 
 /* process_path.c */
 int			set_final_path(char **final_path, char **new_pwd, char *target_dir);

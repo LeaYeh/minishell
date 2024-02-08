@@ -31,7 +31,7 @@ char	*get_base_filename(char	*full_name)
 	return (ret);
 }
 
-bool	set_all_path(char ***all_path, char **envp)
+bool	set_all_path(char ***all_path, char *envp[])
 {
 	char	*path_value;
 
@@ -44,7 +44,7 @@ bool	set_all_path(char ***all_path, char **envp)
 	return (true);
 }
 
-char	*find_exec_path(char **all_path, char *cmd_name)
+char	*find_exec_path(char *all_path[], char *cmd_name)
 {
 	char	*exec_path;
 	int		exec_path_len;
@@ -69,7 +69,7 @@ char	*find_exec_path(char **all_path, char *cmd_name)
 	return (ft_strdup(cmd_name));
 }
 
-char	*get_exec_path(char *cmd_name, char **envp)
+char	*get_exec_path(char *cmd_name, char *envp[])
 {
 	char	*exec_path;
 	char	**all_path;
@@ -84,7 +84,7 @@ char	*get_exec_path(char *cmd_name, char **envp)
 	return (free_array(&all_path), exec_path);
 }
 
-// char	*get_exec_path(char *cmd_name, char **envp)
+// char	*get_exec_path(char *cmd_name, char *envp[])
 // {
 // 	char	**all_path;
 // 	char	*part_path;

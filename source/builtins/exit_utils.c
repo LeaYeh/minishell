@@ -48,17 +48,17 @@ bool	is_atol_overflow(char *str)
 	return (true);
 }
 
-int	get_args_error(char **args)
+int	get_args_error(char *args[])
 {
 	int	type;
 	// int	i;
 
-	if (!*args)
+	if (!args[1])
 		return (NO_ARGS);
 	type = NORM_ARGS;
-	if (!valid_number(args[0]) || is_atol_overflow(args[0]))
+	if (!valid_number(args[1]) || is_atol_overflow(args[1]))
 		type = NOT_NUMERIC;
-	else if (get_array_len(args) > 1)
+	else if (get_array_len(args) > 2)
 	{
 		type = TOO_MANY_ARGS;
 		// i = 1;

@@ -56,8 +56,8 @@ void		free_final_cmd_table(
 bool		set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
 
 /* Environment utils */
-char		*get_value_from_env(char **envp, char *key);
-bool		is_key_in_env(char **envp, char *key);
+char		*get_value_from_env(char *envp[], char *key);
+bool		is_key_in_env(char *envp[], char *key);
 
 bool		append_env_node(
 				t_list **env_list, char *key, char *value, t_export export);
@@ -72,16 +72,16 @@ char		*replace_env_value(
 /* Expansion utils */
 int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
 						t_expander_op op_mask);
-int			expand_array(t_shell *shell, char ***array, t_expander_op op_mask);
+int			expand_array(t_shell *shell, char **array[], t_expander_op op_mask);
 
 /* Pipe utils */
 void		init_pipe(t_pipe *pipe);
 
 /* Array utils */
-void		free_array(char ***array);
-int			get_array_len(char **arr);
+void		free_array(char **array[]);
+int			get_array_len(char *arr[]);
 char		**convert_list_to_string_array(t_list *list);
-char		**append_string_array(char **array, char *str);
+char		**append_string_array(char *array[], char *str);
 
 /* Process utils */
 void		wait_process(t_shell *shell, pid_t pid);

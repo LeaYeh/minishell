@@ -16,7 +16,7 @@ static char	*get_value_from_str(char *str, char *key)
 	return (NULL);
 }
 
-char	*get_value_from_env(char **envp, char *key)
+char	*get_value_from_env(char *envp[], char *key)
 {
 	int		i;
 	char	*value;
@@ -35,7 +35,7 @@ char	*get_value_from_env(char **envp, char *key)
 	return (value);
 }
 
-bool	is_key_in_env(char **envp, char *key)
+bool	is_key_in_env(char *envp[], char *key)
 {
 	int	i;
 	int	key_len;

@@ -36,7 +36,7 @@ int	expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
 	return (ret);
 }
 
-int	expand_array(t_shell *shell, char ***array, t_expander_op op_mask)
+int	expand_array(t_shell *shell, char **array[], t_expander_op op_mask)
 {
 	t_list	*expanded_list;
 	int		i;

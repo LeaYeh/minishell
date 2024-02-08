@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_exec_env(char **envp)
+int	ft_exec_env(char *envp[])
 {
 	int	i;
 

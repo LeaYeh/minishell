@@ -36,7 +36,7 @@ void	exec_builtin_cmd(t_shell *shell)
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "export") == 0)
 		shell->exit_code = 123;
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") == 0)
-		exec_exit(shell);
+		exec_exit(shell, final_cmd_table->simple_cmd);
 }
 
 void	safe_redirect_io_and_exec_builtin(t_shell *shell)
@@ -61,7 +61,7 @@ void	safe_redirect_io_and_exec_builtin(t_shell *shell)
 		safe_close(&saved_std_io[1]);
 	}
 	else
-		exec_exit(shell);
+		exec_exit(shell, final_cmd_table->simple_cmd);
 	if (ret == SUBSHELL_ERROR)
 		raise_error_to_own_subprocess(shell, CREATE_FD_ERROR, NULL);
 }
