@@ -34,7 +34,8 @@ void	exec_builtin_cmd(t_shell *shell)
 		shell->exit_code = exec_cd(final_cmd_table->simple_cmd,
 				&shell->env_list);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "export") == 0)
-		shell->exit_code = 123;
+		shell->exit_code = exec_export(final_cmd_table->simple_cmd,
+				&shell->env_list);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") == 0)
 		exec_exit(shell, final_cmd_table->simple_cmd);
 }

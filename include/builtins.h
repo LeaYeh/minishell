@@ -28,6 +28,7 @@ int		ft_exec_echo(char *args[]);
 int		ft_exec_pwd(void);
 void	exec_exit(t_shell *shell, char *args[]);
 int		exec_cd(char *args[], t_list **env_list);
+int		exec_export(char *args[], t_list **env_list);
 
 int		get_args_error(char *args[]);
 
