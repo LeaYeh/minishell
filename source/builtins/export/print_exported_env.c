@@ -19,7 +19,7 @@ int	print_exported_env(t_list *env_list)
 	format_len = ft_strlen("=\"\"\n");
 	total_len = get_total_export_printout_len(env_list, prefix_len, format_len);
 	if (total_len == 0)
-		return (printf("\n"), SUCCESS);
+		return (SUCCESS);
 	export_printout = (char *)malloc(total_len + 1);
 	if (!export_printout)
 		return (SUBSHELL_ERROR);
