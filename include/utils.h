@@ -56,17 +56,20 @@ void		free_final_cmd_table(
 bool		set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
 
 /* Environment utils */
+bool		extract_env_key(char **res, const char *str);
+bool		extract_env_value(char **res, const char *str);
 char		*get_value_from_env(char *env[], char *key);
 bool		is_key_in_env(char *env[], char *key);
 
 bool		append_env_node(
 				t_list **env_list, char *key, char *value, t_export export);
-bool		is_key_in_env_list(t_list *env_list, char *key);
-
 t_env		*find_env_node(t_list *env_list, char *key, char *value);
 char		*get_value_from_env_list(t_list *env_list, char *key);
+bool		is_key_in_env_list(t_list *env_list, char *key);
+bool		process_str_to_env_list(
+				char *str, t_list **env_list, t_export export);
 void		remove_env_node(t_list **env_list, char *key, char *value);
-char		*replace_env_value(
+bool		replace_env_value(
 				t_list *env_list, char *key, char *value, char **old_value);
 
 /* Expansion utils */
