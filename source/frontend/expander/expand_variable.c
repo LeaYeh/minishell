@@ -46,7 +46,7 @@ size_t	count_var_len(char *str)
 			str++;
 	}
 	len = 0;
-	while (is_valid_varname(*str))
+	while (is_valid_varname_char(*str))
 	{
 		len++;
 		str++;

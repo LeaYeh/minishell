@@ -73,7 +73,7 @@ bool	is_assignment_word(char *str)
 	i = 0;
 	if (str && is_valid_varname_start(str[i]))
 	{
-		while (is_valid_varname(str[i]))
+		while (is_valid_varname_char(str[i]))
 			i++;
 		if (str[i] == '=')
 			return (true);
