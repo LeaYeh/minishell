@@ -44,7 +44,7 @@ size_t	count_replace_len(char *str)
 	else if (str[replace_len] == '?')
 		replace_len++;
 	else
-		while (is_valid_varname(str[replace_len]))
+		while (is_valid_varname_char(str[replace_len]))
 			replace_len++;
 	return (replace_len);
 }

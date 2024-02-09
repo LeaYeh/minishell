@@ -22,7 +22,7 @@ bool	check_braces(char *str, size_t *i)
 		return (false);
 	(*i)++;
 	if (str[*i - 1] != '?')
-		while (is_valid_varname(str[*i]))
+		while (is_valid_varname_char(str[*i]))
 			(*i)++;
 	if (str[*i] == '?')
 		while (str[*i] && str[*i] != CLOSING_BRACE)
