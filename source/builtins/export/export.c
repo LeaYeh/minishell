@@ -39,19 +39,19 @@ bool	handle_var_export(char *str, t_list **env_list)
 			return (free(key), false);
 		if (value && replace_env_value(*env_list, key, value, &old_value))
 			free(old_value);
-		change_export_flag(*env_list, key, X_EXPORT_YES);
+		change_export_flag(*env_list, key, V_EXPORT_YES);
 		free(key);
 	}
 	else
 	{
 		free(key);
-		if (!process_str_to_env_list(str, env_list, X_EXPORT_YES))
+		if (!process_str_to_env_list(str, env_list, V_EXPORT_YES))
 			return (false);
 	}
 	return (true);
 }
 
-void	change_export_flag(t_list *env_list, char *key, t_export export)
+void	change_export_flag(t_list *env_list, char *key, t_env_state state)
 {
 	t_env	*env_node;
 
@@ -60,7 +60,7 @@ void	change_export_flag(t_list *env_list, char *key, t_export export)
 		env_node = env_list->content;
 		if (ft_strcmp(env_node->key, key) == 0)
 		{
-			env_node->export = export;
+			env_node->state = state;
 			return ;
 		}
 		env_list = env_list->next;

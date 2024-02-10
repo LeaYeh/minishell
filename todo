@@ -1,3 +1,9 @@
+# assignment:
+
+Problem:
+- If just one builtin not in a pipeline, how to set a variable only for its environment?
+
+
 # export:
 
 - [x] If args_len < 2, print all exported env vars in ASCII order, with "export " prepended.
@@ -16,7 +22,6 @@ The error message gets printed for every invalid identifier.
 ### Test cases:
 - [x] export "" -> export: `': not a valid identifier
 - [ ] export without any variable in env left -> just a newline.
-
 
 
 env -i /usr/bin/valgrind ./minishell

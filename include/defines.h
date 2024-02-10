@@ -154,14 +154,14 @@ typedef enum e_heredoc_status
 	HEREDOC_ABORT
 }	t_heredoc_status;
 
-typedef enum e_state
+typedef enum e_sig_state
 {
 	SIG_HEREDOC		= 0,
 	SIG_STD,
 	SIG_SUBSHELL,
 	SIG_DEFAULT,
 	SIG_IGNORE
-}	t_state;
+}	t_sig_state;
 
 typedef enum e_pt_col
 {
@@ -243,17 +243,18 @@ typedef enum e_expander_op
 	E_HEREDOC		= 0b100
 }	t_expander_op;
 
-typedef enum e_export
+typedef enum e_env_state
 {
-	X_EXPORT_NO		= 0,
-	X_EXPORT_YES
-}	t_export;
+	V_EXPORT_NO		= 0,
+	V_EXPORT_YES,
+	V_TEMP
+}	t_env_state;
 
 typedef struct s_env
 {
 	char			*key;
 	char			*value;
-	t_export		export;
+	t_env_state		state;
 }	t_env;
 
 typedef struct s_token

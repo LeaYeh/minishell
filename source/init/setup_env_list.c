@@ -15,7 +15,7 @@ bool	setup_env_list(t_shell *shell)
 	while (environ[i])
 	{
 		tmp_list = NULL;
-		if (!process_str_to_env_list(environ[i], &tmp_list, X_EXPORT_YES))
+		if (!process_str_to_env_list(environ[i], &tmp_list, V_EXPORT_YES))
 			return (false);
 		if (!check_special_env_vars(&tmp_list))
 			return (ft_lstclear(&tmp_list, free), false);

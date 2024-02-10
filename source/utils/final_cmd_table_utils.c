@@ -82,7 +82,7 @@ int	get_env_size(t_list *env_list)
 	while (env_list)
 	{
 		env_node = (t_env *)env_list->content;
-		if (env_node->export && env_node->value)
+		if (env_node->state && env_node->value)
 			size++;
 		env_list = env_list->next;
 	}
@@ -103,7 +103,7 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 	while (env_list)
 	{
 		env_node = (t_env *)env_list->content;
-		if (env_node->export && env_node->value)
+		if (env_node->state && env_node->value)
 		{
 			tmp = (char *)malloc((ft_strlen(env_node->key) + 1
 						+ ft_strlen(env_node->value) + 1) * sizeof(char));

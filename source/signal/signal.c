@@ -96,7 +96,7 @@ void	handle_signal_heredoc(int signo, siginfo_t *info, void *context)
 	}
 }
 
-void	setup_signal(t_shell *shell, int signo, t_state state)
+void	setup_signal(t_shell *shell, int signo, t_sig_state state)
 {
 	struct sigaction	sa;
 
