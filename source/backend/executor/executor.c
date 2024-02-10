@@ -30,7 +30,10 @@ void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
 	}
 	if (is_builtin(shell->final_cmd_table->simple_cmd[0]) && \
 		!is_scmd_in_pipeline(*cmd_table_node))
-		handle_builtin(shell, cmd_table_node);
+	{
+		handle_builtin(shell, cmd_table);
+		*cmd_table_node = (*cmd_table_node)->next;
+	}
 	else
 		handle_pipeline(shell, cmd_table_node);
 }
@@ -44,7 +47,7 @@ void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
 		cmd_table = cmd_table_node->content;
 		if (cmd_table->type == C_SUBSHELL_END)
 			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
-		else if (is_control_op_cmd_table(cmd_table->type))
+		else if (is_control_op_cmd_table(cmd_table))
 			handle_control_op(shell, &cmd_table_node);
 		else if (cmd_table->type == C_SIMPLE_CMD)
 			handle_cmd_execution(shell, &cmd_table_node);

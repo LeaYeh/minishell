@@ -24,10 +24,12 @@ int	get_cmd_table_type_from_list(t_list_d *cmd_table_list)
 	return (cmd_table->type);
 }
 
-bool	is_control_op_cmd_table(int cmd_table_type)
+bool	is_control_op_cmd_table(t_cmd_table *cmd_table)
 {
-	return (cmd_table_type == C_AND || cmd_table_type == C_OR || \
-		cmd_table_type == C_PIPE);
+	if (!cmd_table)
+		return (false);
+	return (cmd_table->type == C_AND || cmd_table->type == C_OR || \
+		cmd_table->type == C_PIPE);
 }
 
 bool	is_builtin(char *cmd_name)

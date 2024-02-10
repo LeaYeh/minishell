@@ -86,10 +86,7 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 
 void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
-	int	cmd_table_type;
-
-	cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
-	if (is_control_op_cmd_table(cmd_table_type))
+	if (is_control_op_cmd_table(get_cmd_table_from_list(*cmd_table_node)))
 		handle_control_op(shell, cmd_table_node);
 	else
 	{

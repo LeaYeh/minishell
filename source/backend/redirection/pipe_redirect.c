@@ -65,9 +65,12 @@ void	safe_close_all_pipes(t_shell *shell)
 
 bool	need_pipe(t_list_d *cmd_table_node)
 {
-	if (get_cmd_table_type_from_list(cmd_table_node) == C_SUBSHELL_START)
+	int	cmd_table_type;
+
+	cmd_table_type = get_cmd_table_type_from_list(cmd_table_node);
+	if (cmd_table_type == C_SUBSHELL_START)
 		move_past_subshell(&cmd_table_node);
-	else if (get_cmd_table_type_from_list(cmd_table_node) == C_SIMPLE_CMD)
+	else if (cmd_table_type == C_SIMPLE_CMD)
 		cmd_table_node = cmd_table_node->next;
 	if (get_cmd_table_type_from_list(cmd_table_node) == C_PIPE)
 		return (true);
