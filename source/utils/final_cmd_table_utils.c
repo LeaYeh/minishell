@@ -73,7 +73,7 @@ bool	setup_assignment_array(
 	return (true);
 }
 
-int	get_env_size(t_list *env_list)
+int	get_env_size(t_list *env_list, t_list *assignment_list)
 {
 	t_env	*env_node;
 	int		size;
@@ -86,27 +86,83 @@ int	get_env_size(t_list *env_list)
 			size++;
 		env_list = env_list->next;
 	}
+	// Increase size for every key from assignment_list that is not in env_list.
+	while (assignment_list)
+	{
+		env_node = (t_env *)assignment_list->content;
+		if (!is_key_in_env_list(env_list, env_node->key))
+			size++;
+		assignment_list = assignment_list->next;
+	}
 	return (size);
 }
 
-bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
+bool	update_env(char *env[], t_list *assignment_list)
+{
+	t_env	*env_node;
+	int		i;
+
+	while (assignment_list)
+	{
+		env_node = (t_env *)assignment_list->content;
+		if (is_key_in_env(env, env_node->key))
+		{
+			if (!replace_env_value(env, env_node->key, env_node->value, NULL))
+				return (false);
+		}
+		assignment_list = assignment_list->next;
+	}
+}
+
+bool	update_env(char *env[], t_list *assignment_list)
+{
+	char	*assignment_str;
+	int		i;
+	char	*key;
+
+	while (assignment_list)
+	{
+		assignment_str = (char *)assignment_list->content;
+		key = get_key_from_str(assignment_str);
+		if (is_key_in_env(env, key))
+		{
+			if (!replace_env_str(env, key, assignment_str))
+				return (false);
+		}
+		else
+		{
+
+		}
+		assignment_list = assignment_list->next;
+	}
+}
+
+// TODO: Do assignment here, bc it will only apply to environment of the command to be executed. Builtin interfaces would have to change to also use this updated environment.
+// Duplicate the list, then modify the duped linked list. Then convert to array.
+bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list,
+			t_list *assignment_str_list)
 {
 	t_env	*env_node;
 	char	*tmp;
 	int		i;
+	t_list	*assignment_list;	// Not freed in all cases yet.
 
+	assignment_list = NULL;
+	if (!process_str_list_to_env_list(assignment_str_list, &assignment_list))
+		return (false);
 	final_cmd_table->env = (char **)malloc(
-			(get_env_size(env_list) + 1) * sizeof(char *));
+			(get_env_size(env_list, assignment_list) + 1) * sizeof(char *));
 	if (!final_cmd_table->env)
 		return (false);
 	i = 0;
+	// Convert current env_list to env array:
 	while (env_list)
 	{
 		env_node = (t_env *)env_list->content;
-		if (env_node->state && env_node->value)
+		if (env_node->state && env_node->value /* && not in assignment_list */)
 		{
 			tmp = (char *)malloc((ft_strlen(env_node->key) + 1
-						+ ft_strlen(env_node->value) + 1) * sizeof(char));
+						+ ft_strlen(env_node->value) + 1) * sizeof(char)); // Make function to get the size, for readability.
 			if (!tmp)
 				return (free_array(&final_cmd_table->env), false);
 			sprintf(tmp, "%s=%s", env_node->key, env_node->value);	// TODO: This is really dangerous, bc the user could set a very long key or value and go beyond the memory of size PATH_MAX.
@@ -114,6 +170,10 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 		}
 		env_list = env_list->next;
 	}
+	// Prepend the env array with the assignment_list.
+	// Last assignment -> first in the array / First assignment, first appended.
+	if (!update_env(&final_cmd_table->env, assignment_list))
+		return (free_array(&final_cmd_table->env), false);
 	final_cmd_table->env[i] = NULL;
 	return (true);
 }
@@ -150,11 +210,12 @@ bool	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 	free_final_cmd_table(&shell->final_cmd_table, false);
 	shell->final_cmd_table = ft_calloc(1, sizeof(t_final_cmd_table));
 	if (!shell->final_cmd_table || \
-		!setup_env(shell->final_cmd_table, shell->env_list) || \
+		!setup_env(shell->final_cmd_table,
+			shell->env_list, cmd_table->assignment_list) || \
 		!setup_simple_cmd(shell, cmd_table->simple_cmd_list) || \
-		!setup_exec_path(shell->final_cmd_table) || \
+		!setup_exec_path(shell->final_cmd_table))/* || \
 		!setup_assignment_array(
-			shell->final_cmd_table, cmd_table->assignment_list))
+			shell->final_cmd_table, cmd_table->assignment_list))*/
 		return (false);
 	setup_fd(shell, shell->final_cmd_table);
 	return (true);

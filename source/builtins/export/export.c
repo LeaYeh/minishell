@@ -18,14 +18,14 @@ int	exec_export(char *args[], t_list **env_list)
 				PROGRAM_NAME, args[i]);
 			ret = GENERAL_ERROR;
 		}
-		else if (!handle_var_export(args[i], env_list))
+		else if (!handle_var_export(args[i], env_list, V_EXPORT_YES))
 			return (SUBSHELL_ERROR);
 		i++;
 	}
 	return (ret);
 }
 
-bool	handle_var_export(char *str, t_list **env_list)
+bool	handle_var_export(char *str, t_list **env_list, t_env_state state)
 {
 	char	*key;
 	char	*old_value;
@@ -39,13 +39,13 @@ bool	handle_var_export(char *str, t_list **env_list)
 			return (free(key), false);
 		if (value && replace_env_value(*env_list, key, value, &old_value))
 			free(old_value);
-		change_export_flag(*env_list, key, V_EXPORT_YES);
+		change_export_flag(*env_list, key, state);
 		free(key);
 	}
 	else
 	{
 		free(key);
-		if (!process_str_to_env_list(str, env_list, V_EXPORT_YES))
+		if (!process_str_to_env_list(str, env_list, state))
 			return (false);
 	}
 	return (true);

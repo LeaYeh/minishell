@@ -65,7 +65,7 @@ char	*get_value_from_env_list(t_list *env_list, char *key)
 	{
 		env_node = env_list->content;
 		if (ft_strcmp(env_node->key, key) == 0)
-			return (env_node->value);
+			return (printf("env_node->state: %d\n", env_node->state), env_node->value);
 		env_list = env_list->next;
 	}
 	return (NULL);
@@ -102,6 +102,18 @@ bool	is_key_in_env_list(t_list *env_list, char *key)
 		cur = cur->next;
 	}
 	return (false);
+}
+
+bool	process_str_list_to_env_list(t_list *str_list, t_list **env_list)
+{
+	while (str_list)
+	{
+		if (!process_str_to_env_list(str_list->content, env_list, V_EXPORT_YES))
+			return (false);
+		str_list = str_list->next;
+	}
+	return (true);
+
 }
 
 bool	process_str_to_env_list(char *str, t_list **env_list, t_env_state state)

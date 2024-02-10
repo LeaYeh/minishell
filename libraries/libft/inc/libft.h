@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/29 05:52:35 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/02/11 00:43:31 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,12 @@ t_list_d	*ft_lstnew_d(void *content);
 /* Lists singly-linked */
 
 void		ft_lstadd_back(t_list **lst, t_list *new);
+void		ft_lstadd_back_eff(t_list **lst, t_list **tail, t_list *new);
 void		ft_lstadd_front(t_list **lst, t_list *new);
 void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstdelone(t_list *lst, void (*del)(void *));
 void		ft_lstdrop_node(t_list **lst, t_list **node, void (*del)(void *));
+t_list		*ft_lstdup(t_list *lst, void *(*dup)(void *), void (*del)(void *));
 void		ft_lstinsert_after(t_list **lst, t_list *new);
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstlast(t_list *lst);

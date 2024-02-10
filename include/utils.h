@@ -66,6 +66,7 @@ bool		append_env_node(
 t_env		*find_env_node(t_list *env_list, char *key, char *value);
 char		*get_value_from_env_list(t_list *env_list, char *key);
 bool		is_key_in_env_list(t_list *env_list, char *key);
+bool		process_str_list_to_env_list(t_list *str_list, t_list **env_list);
 bool		process_str_to_env_list(
 				char *str, t_list **env_list, t_env_state state);
 void		remove_env_node(t_list **env_list, char *key, char *value);

@@ -5,7 +5,7 @@
 
 /* export.c */
 
-bool	handle_var_export(char *str, t_list **env_list);
+bool	handle_var_export(char *str, t_list **env_list, t_env_state state);
 void	change_export_flag(t_list *env_list, char *key, t_env_state state);
 
 /* print_exported_env.c */

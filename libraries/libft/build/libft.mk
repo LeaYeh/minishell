@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/01/29 05:39:01 by ldulling         ###   ########.fr        #
+#    Updated: 2024/02/11 00:43:58 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,10 +60,12 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 SUBDIR	:=	lists/singly_linked/
 TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstadd_back.c \
+			ft_lstadd_back_eff.c \
 			ft_lstadd_front.c \
 			ft_lstclear.c \
 			ft_lstdelone.c \
 			ft_lstdrop_node.c \
+			ft_lstdup.c \
 			ft_lstinsert_after.c \
 			ft_lstiter.c \
 			ft_lstlast.c \
