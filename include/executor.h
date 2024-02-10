@@ -39,7 +39,7 @@ char	*get_exec_path(char *cmd_name, char *env[]);
 bool	restore_std_io(int saved_std_io[2]);
 bool	save_std_io(int saved_std_io[2]);
 bool	redirect_io(t_shell *shell);
-bool	handle_io_redirect(
+bool	open_io_files(
 			t_final_cmd_table *final_cmd_table, t_list *io_red_node);
 
 /* Redirection - Pipe */

@@ -14,7 +14,7 @@
 #include "utils.h"
 #include "clean.h"
 
-bool	handle_red_in(t_final_cmd_table *final_cmd_table, char *filename)
+static bool	open_in_file(t_final_cmd_table *final_cmd_table, char *filename)
 {
 	int	fd;
 
@@ -29,7 +29,7 @@ bool	handle_red_in(t_final_cmd_table *final_cmd_table, char *filename)
 	return (true);
 }
 
-bool	handle_red_out(
+static bool	open_out_file(
 	t_final_cmd_table *final_cmd_table, char *filename, int o_flags)
 {
 	int	fd;
@@ -45,29 +45,29 @@ bool	handle_red_out(
 	return (true);
 }
 
-bool	handle_redirect_by_type(
+static bool	open_io_files_by_type(
 	t_final_cmd_table *final_cmd_table, t_io_red *io_red)
 {
 	if (io_red->type == T_RED_IN || io_red->type == T_HERE_DOC)
-		return (handle_red_in(final_cmd_table, io_red->in_file));
+		return (open_in_file(final_cmd_table, io_red->in_file));
 	else if (io_red->type == T_RED_OUT)
-		return (handle_red_out(
+		return (open_out_file(
 				final_cmd_table, io_red->out_file, O_CREAT | O_RDWR | O_TRUNC));
 	else if (io_red->type == T_APPEND)
-		return (handle_red_out(
+		return (open_out_file(
 				final_cmd_table,
 				io_red->out_file, O_CREAT | O_RDWR | O_APPEND));
 	return (true);
 }
 
-bool	handle_io_redirect(
+bool	open_io_files(
 	t_final_cmd_table *final_cmd_table, t_list *io_red_node)
 {
 	if (ft_lstsize_non_null(io_red_node) == 0)
 		return (true);
 	while (io_red_node)
 	{
-		if (!handle_redirect_by_type(final_cmd_table, io_red_node->content))
+		if (!open_io_files_by_type(final_cmd_table, io_red_node->content))
 		{
 			// safe_close(&final_cmd_table->read_fd);
 			// safe_close(&final_cmd_table->write_fd);
