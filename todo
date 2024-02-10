@@ -1,27 +1,30 @@
 # assignment:
 
-Problem:
+Problems:
 - If just one builtin not in a pipeline, how to set a variable only for its environment?
+-! How to differentiate if a temp variable was newly created or just a value was replaced?
+
+I want an `update_env()` function that handles var creation or replacement automatically.
 
 
 # export:
 
-- [x] If args_len < 2, print all exported env vars in ASCII order, with "export " prepended.
-	- [x] The value gets put in double-quotes.
+- [X] If args_len < 2, print all exported env vars in ASCII order, with "export " prepended.
+	- [X] The value gets put in double-quotes.
 	- [ ] Quotes, dollar signs, backslash and '`' are escaped with a backslash.
 
-- [x] If one of the variable assignments is not a valid variable name, return value will be GENERAL_ERROR (1), but export will still go through all arguments.
+- [X] If one of the variable assignments is not a valid variable name, return value will be GENERAL_ERROR (1), but export will still go through all arguments.
 The error message gets printed for every invalid identifier.
 
-- [x] If the argument string does not have an '=' and the key does not already exist, the value will be set to NULL.
-- [x] If the key already exists, the env_node will be set to be exported.
+- [X] If the argument string does not have an '=' and the key does not already exist, the value will be set to NULL.
+- [X] If the key already exists, the env_node will be set to be exported.
 
 ### Error messages:
 - bash: export: `<invalid name>': not a valid identifier
 
 ### Test cases:
-- [x] export "" -> export: `': not a valid identifier
-- [ ] export without any variable in env left -> just a newline.
+- [X] export "" -> export: `': not a valid identifier
+- [X] export without any variable in env left -> just a newline.
 
 
 env -i /usr/bin/valgrind ./minishell

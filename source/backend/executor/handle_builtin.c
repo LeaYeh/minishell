@@ -80,7 +80,9 @@ void	handle_builtin(t_shell *shell, t_cmd_table *cmd_table)
 			return ;
 		}
 	}
-	if (shell->subshell_level == 0)
+	if (!shell->final_cmd_table->simple_cmd[0])
+		return ;
+	else if (shell->subshell_level == 0)
 		safe_redirect_io_and_exec_builtin(shell);
 	else
 	{
