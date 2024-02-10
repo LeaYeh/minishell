@@ -4,9 +4,12 @@
 
 // TODO: Add the assignments to the local shell variables list
 // TODO: Also add flags if a variable is exported or not
-void	handle_assignment(t_shell *shell, t_final_cmd_table *final_cmd_table)
+bool	handle_assignment(t_shell *shell)
 {
-	(void)shell;
-	(void)final_cmd_table;
+	char		**assignment_array;
+
+	assignment_array = shell->final_cmd_table->assignment_array;
+	if (!assignment_array)
+		return (true);
 	printf("handle_assignment\n");
 }

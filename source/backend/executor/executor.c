@@ -32,7 +32,10 @@ void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
 		(is_builtin(shell->final_cmd_table->simple_cmd[0]) && \
 		!is_scmd_in_pipeline(*cmd_table_node)))
 	{
+		handle_assignment(shell);
 		handle_builtin(shell, cmd_table);
+		if (shell->final_cmd_table->simple_cmd[0])
+			// remove_temp_env_vars(&shell->env_list);
 		*cmd_table_node = (*cmd_table_node)->next;
 	}
 	else
