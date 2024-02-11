@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/05/21 14:58:39 by ldulling         ###   ########.fr        #
+#    Updated: 2024/06/07 18:28:14 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,7 @@ SRC		+=	$(addprefix $(DIR), \
 DIR		:=	lists/singly_linked/
 SRC		+=	$(addprefix $(DIR), \
 			ft_lstadd_back.c \
+			ft_lstadd_back_eff.c \
 			ft_lstadd_front.c \
 			ft_lstclear.c \
 			ft_lstdelone.c \
@@ -95,6 +96,7 @@ SRC		+=	$(addprefix $(DIR), \
 			ft_lstmap.c \
 			ft_lstnew.c \
 			ft_lstnew_back.c \
+			ft_lstnew_back_eff.c \
 			ft_lstnew_front.c \
 			ft_lstpop_front.c \
 			ft_lstpop_front_content.c \
