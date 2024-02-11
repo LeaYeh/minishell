@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "executor.h"
-#include "defines.h"
 #include "utils.h"
 #include "expander.h"
 #include "debug.h"
@@ -59,62 +58,38 @@ bool	setup_exec_path(t_final_cmd_table *final_cmd_table)
 	return (true);
 }
 
-bool	setup_assignment_array(
-			t_final_cmd_table *final_cmd_table,
+// bool	setup_assignment_array(
+// 			t_final_cmd_table *final_cmd_table,
+// 			t_list *assignment_list)
+// {
+// 	final_cmd_table->assignment_array = NULL;
+// 	if (!assignment_list)
+// 		return (true);
+// 	final_cmd_table->assignment_array = \
+// 		convert_list_to_string_array(assignment_list);
+// 	if (!final_cmd_table->assignment_array)
+// 		return (false);
+// 	return (true);
+// }
+
+// Do assignment here, bc it will only apply to environment of the command to be executed.
+// TODO: Builtin interfaces would have to change to also use this updated environment.
+// Duplicate the list, modify the duped linked list, then convert to array.
+bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list,
 			t_list *assignment_list)
 {
-	final_cmd_table->assignment_array = NULL;
-	if (!assignment_list)
-		return (true);
-	final_cmd_table->assignment_array = \
-		convert_list_to_string_array(assignment_list);
-	if (!final_cmd_table->assignment_array)
+	t_list	*final_env_list;
+
+	final_env_list = ft_lstdup(env_list,
+			(void *)dup_env_node, (void *)free_env_node);
+	if (!final_env_list)
 		return (false);
-	return (true);
-}
-
-int	get_env_size(t_list *env_list)
-{
-	t_env	*env_node;
-	int		size;
-
-	size = 0;
-	while (env_list)
-	{
-		env_node = (t_env *)env_list->content;
-		if (env_node->state && env_node->value)
-			size++;
-		env_list = env_list->next;
-	}
-	return (size);
-}
-
-bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
-{
-	t_env	*env_node;
-	char	*tmp;
-	int		i;
-
-	final_cmd_table->env = (char **)malloc(
-			(get_env_size(env_list) + 1) * sizeof(char *));
+	if (assignment_list && !update_env_list(&final_env_list, assignment_list))
+		return (ft_lstclear(&final_env_list, (void *)free_env_node), false);
+	final_cmd_table->env = convert_env_list_to_array(final_env_list);
+	ft_lstclear(&final_env_list, (void *)free_env_node);
 	if (!final_cmd_table->env)
 		return (false);
-	i = 0;
-	while (env_list)
-	{
-		env_node = (t_env *)env_list->content;
-		if (env_node->state && env_node->value)
-		{
-			tmp = (char *)malloc((ft_strlen(env_node->key) + 1
-						+ ft_strlen(env_node->value) + 1) * sizeof(char));
-			if (!tmp)
-				return (free_array(&final_cmd_table->env), false);
-			sprintf(tmp, "%s=%s", env_node->key, env_node->value);	// TODO: This is really dangerous, bc the user could set a very long key or value and go beyond the memory of size PATH_MAX.
-			final_cmd_table->env[i++] = tmp;
-		}
-		env_list = env_list->next;
-	}
-	final_cmd_table->env[i] = NULL;
 	return (true);
 }
 
@@ -150,11 +125,10 @@ bool	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 	free_final_cmd_table(&shell->final_cmd_table, false);
 	shell->final_cmd_table = ft_calloc(1, sizeof(t_final_cmd_table));
 	if (!shell->final_cmd_table || \
-		!setup_env(shell->final_cmd_table, shell->env_list) || \
+		!setup_env(shell->final_cmd_table,
+			shell->env_list, cmd_table->assignment_list) || \
 		!setup_simple_cmd(shell, cmd_table->simple_cmd_list) || \
-		!setup_exec_path(shell->final_cmd_table) || \
-		!setup_assignment_array(
-			shell->final_cmd_table, cmd_table->assignment_list))
+		!setup_exec_path(shell->final_cmd_table))
 		return (false);
 	setup_fd(shell, shell->final_cmd_table);
 	return (true);

@@ -31,6 +31,29 @@ bool	append_env_node(
 	return (true);
 }
 
+t_env	*dup_env_node(t_env *env_node)
+{
+	t_env	*new_env_node;
+
+	new_env_node = (t_env *)malloc(sizeof(t_env));
+	if (!new_env_node)
+		return (NULL);
+	new_env_node->value = NULL;
+	new_env_node->key = ft_strdup(env_node->key);
+	if (!new_env_node->key)
+		return (free_env_node(new_env_node), NULL);
+	if (env_node->value)
+	{
+		new_env_node->value = ft_strdup(env_node->value);
+		if (!new_env_node->value)
+			return (free_env_node(new_env_node), NULL);
+	}
+	else
+		new_env_node->value = NULL;
+	new_env_node->state = env_node->state;
+	return (new_env_node);
+}
+
 t_env	*find_env_node(t_list *env_list, char *key, char *value)
 {
 	t_env	*env_node;

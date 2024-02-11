@@ -2,7 +2,10 @@
 
 Problems:
 - If just one builtin not in a pipeline, how to set a variable only for its environment?
+
 -! How to differentiate if a temp variable was newly created or just a value was replaced?
+-> Instead of using a V_TEMP enum, do the assignment while creating the assignment_array for the final_command_table.
+  -> This entails that the builtins will have to use the the env_array as well.
 
 I want an `update_env()` function that handles var creation or replacement automatically.
 

@@ -55,6 +55,10 @@ void		free_final_cmd_table(
 				t_final_cmd_table **final_cmd_table, bool close_fd);
 bool		set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
 
+/* Final env utils */
+bool		update_env_list(t_list **env_list, t_list *assignment_list);
+char		**convert_env_list_to_array(t_list *env_list);
+
 /* Environment utils */
 bool		extract_env_key(char **res, const char *str);
 bool		extract_env_value(char **res, const char *str);
@@ -63,6 +67,7 @@ bool		is_key_in_env(char *env[], char *key);
 
 bool		append_env_node(
 				t_list **env_list, char *key, char *value, t_env_state state);
+t_env		*dup_env_node(t_env *env_node);
 t_env		*find_env_node(t_list *env_list, char *key, char *value);
 char		*get_value_from_env_list(t_list *env_list, char *key);
 bool		is_key_in_env_list(t_list *env_list, char *key);
