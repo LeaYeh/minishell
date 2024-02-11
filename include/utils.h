@@ -55,19 +55,33 @@ void		free_final_cmd_table(
 				t_final_cmd_table **final_cmd_table, bool close_fd);
 bool		set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
 
+/* Environment utils */
+char		*get_value_from_env(char *env[], char *key);
+bool		is_key_in_env(char *env[], char *key);
+
+bool		append_env_node(
+				t_list **env_list, char *key, char *value, t_export export);
+bool		is_key_in_env_list(t_list *env_list, char *key);
+
+t_env		*find_env_node(t_list *env_list, char *key, char *value);
+char		*get_value_from_env_list(t_list *env_list, char *key);
+void		remove_env_node(t_list **env_list, char *key, char *value);
+char		*replace_env_value(
+				t_list *env_list, char *key, char *value, char **old_value);
+
 /* Expansion utils */
 int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
 						t_expander_op op_mask);
-int			expand_array(t_shell *shell, char ***array, t_expander_op op_mask);
+int			expand_array(t_shell *shell, char **array[], t_expander_op op_mask);
 
 /* Pipe utils */
 void		init_pipe(t_pipe *pipe);
 
 /* Array utils */
-void		free_array(char ***array);
-int			get_array_len(char **arr);
+void		free_array(char **array[]);
+int			get_array_len(char *arr[]);
 char		**convert_list_to_string_array(t_list *list);
-char		**append_string_array(char **array, char *str);
+char		**append_string_array(char *array[], char *str);
 
 /* Process utils */
 void		wait_process(t_shell *shell, pid_t pid);
@@ -87,6 +101,7 @@ char		*generate_tmp_filename(int cmdtable_id, char *category);
 void		remove_file(char *filename);
 bool		append_line_to_file(char *line, char *filename);
 void		safe_close(int *fd);
+bool		is_dir(char *dir);
 
 /* Stack utils */
 int			get_state_from_stack(t_list *node);

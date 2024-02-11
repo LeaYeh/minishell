@@ -23,12 +23,12 @@ typedef enum e_exit_args_error
 	NOT_NUMERIC,
 }	t_exit_args_error;
 
-int		ft_exec_env(t_shell *shell);
-int		ft_exec_echo(char **args);
+int		ft_exec_env(char *env[]);
+int		ft_exec_echo(char *args[]);
 int		ft_exec_pwd(void);
-void	exec_exit(t_shell *shell);
-int		exec_cd(char **args, t_list **env_list);
+void	exec_exit(t_shell *shell, char *args[]);
+int		exec_cd(char *args[], t_list **env_list);
 
-int		get_args_error(char **args);
+int		get_args_error(char *args[]);
 
 #endif

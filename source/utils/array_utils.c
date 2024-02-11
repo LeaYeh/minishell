@@ -12,7 +12,7 @@
 
 #include "defines.h"
 
-int	get_array_len(char **arr)
+int	get_array_len(char *arr[])
 {
 	int	i;
 
@@ -24,7 +24,7 @@ int	get_array_len(char **arr)
 	return (i);
 }
 
-void	free_array(char ***array)
+void	free_array(char **array[])
 {
 	int	i;
 
@@ -65,7 +65,7 @@ char	**convert_list_to_string_array(t_list *list)
 }
 
 // Not used anywhere at the moment
-char	**append_string_array(char **array, char *str)
+char	**append_string_array(char *array[], char *str)
 {
 	char	**new_array;
 	int		i;

@@ -25,7 +25,9 @@ bool	expand_variable(char **str, size_t *i, size_t offset, t_list *env_list)
 	if (!var)
 		return (false);
 	replace_len = count_replace_len(&(*str)[*i]);
-	replacement = get_replacement(var, env_list);
+	replacement = get_value_from_env_list(env_list, var);
+	if (!replacement)
+		replacement = "";
 	free(var);
 	if (!ft_rplc_part_of_str(str, replacement, *i, replace_len))
 		return (false);
@@ -50,18 +52,4 @@ size_t	count_var_len(char *str)
 		str++;
 	}
 	return (len);
-}
-
-char	*get_replacement(char *var, t_list *env_list)
-{
-	t_env	*env_node;
-
-	while (env_list)
-	{
-		env_node = env_list->content;
-		if (ft_strcmp(env_node->key, var) == 0)
-			return (env_node->value);
-		env_list = env_list->next;
-	}
-	return ("");
 }

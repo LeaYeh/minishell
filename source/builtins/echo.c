@@ -8,7 +8,7 @@ bool	is_newline_option(char *str)
 	return (false);
 }
 
-int	get_combined_args_len(char **args, bool end_with_newline)
+int	get_combined_args_len(char *args[], bool end_with_newline)
 {
 	int		i;
 	int		len;
@@ -26,7 +26,7 @@ int	get_combined_args_len(char **args, bool end_with_newline)
 	return (len);
 }
 
-char	*combine_args(char **args, bool end_with_newline)
+char	*combine_args(char *args[], bool end_with_newline)
 {
 	int		i;
 	char	*str;
@@ -53,7 +53,7 @@ char	*combine_args(char **args, bool end_with_newline)
 	return (str);
 }
 
-int	ft_exec_echo(char **args)
+int	ft_exec_echo(char *args[])
 {
 	int		i;
 	bool	end_with_newline;

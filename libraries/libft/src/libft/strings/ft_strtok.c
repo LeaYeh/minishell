@@ -26,9 +26,10 @@
  *                 string.
  *                 If there are no more tokens, it returns NULL.
  *
- * @note           Calling ft_strtok the first time with str equal to NULL will
- *                 cause a segmentation fault (mirrors the behavior of the
- *                 original strtok).
+ * @note           Calling ft_strtok the first time with str equal to NULL, or
+ *                 at any point with delim equal to NULL, will cause a
+ *                 segmentation fault (mirrors the behavior of the original
+ *                 strtok).
  *
  */
 char	*ft_strtok(char *str, const char *delim)

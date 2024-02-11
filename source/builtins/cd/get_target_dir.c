@@ -13,7 +13,7 @@
 #include "cd.h"
 #include "utils.h"
 
-char	*get_target_dir(char **args, t_list *env_list)
+char	*get_target_dir(char *args[], t_list *env_list)
 {
 	char	*target_dir;
 

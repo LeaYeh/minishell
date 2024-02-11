@@ -13,7 +13,7 @@
 #include "defines.h"
 // #include "utils.h"
 
-void	print_simple_cmd_array(char **simple_cmd)
+void	print_simple_cmd_array(char *simple_cmd[])
 {
 	int	i;
 
@@ -27,7 +27,7 @@ void	print_simple_cmd_array(char **simple_cmd)
 	printf("(NULL)\n");
 }
 
-void	print_assignment_array(char **assignment_array)
+void	print_assignment_array(char *assignment_array[])
 {
 	int	i;
 

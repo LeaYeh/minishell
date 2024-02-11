@@ -31,46 +31,11 @@ char	*get_base_filename(char	*full_name)
 	return (ret);
 }
 
-char	*get_value_with_key(char *str, char *key)
-{
-	int		key_len;
-	char	*value;
-
-	if (!str || !key)
-		return (NULL);
-	key_len = ft_strlen(key);
-	if (ft_strncmp(str, key, key_len) == 0 && str[key_len] == '=')
-	{
-		value = str + key_len + 1;
-		return (value);
-	}
-	return (NULL);
-}
-
-char	*get_value_from_env(char **envp, char *key)
-{
-	int		i;
-	char	*value;
-
-	if (!envp || !key)
-		return (NULL);
-	value = NULL;
-	i = 0;
-	while (envp[i])
-	{
-		value = get_value_with_key(envp[i], key);
-		if (value)
-			break ;
-		i++;
-	}
-	return (value);
-}
-
-bool	set_all_path(char ***all_path, char **envp)
+bool	set_all_path(char ***all_path, char *env[])
 {
 	char	*path_value;
 
-	path_value = get_value_from_env(envp, "PATH");
+	path_value = get_value_from_env(env, "PATH");
 	if (!path_value)
 		return (*all_path = NULL, true);
 	*all_path = ft_split(path_value, ':');
@@ -79,7 +44,7 @@ bool	set_all_path(char ***all_path, char **envp)
 	return (true);
 }
 
-char	*find_exec_path(char **all_path, char *cmd_name)
+char	*find_exec_path(char *all_path[], char *cmd_name)
 {
 	char	*exec_path;
 	int		exec_path_len;
@@ -104,14 +69,14 @@ char	*find_exec_path(char **all_path, char *cmd_name)
 	return (ft_strdup(cmd_name));
 }
 
-char	*get_exec_path(char *cmd_name, char **envp)
+char	*get_exec_path(char *cmd_name, char *env[])
 {
 	char	*exec_path;
 	char	**all_path;
 
 	if (ft_strchr(cmd_name, '/'))
 		return (ft_strdup(cmd_name));
-	if (!set_all_path(&all_path, envp))
+	if (!set_all_path(&all_path, env))
 		return (NULL);
 	if (!all_path)
 		return (ft_strdup(cmd_name));
@@ -119,7 +84,7 @@ char	*get_exec_path(char *cmd_name, char **envp)
 	return (free_array(&all_path), exec_path);
 }
 
-// char	*get_exec_path(char *cmd_name, char **envp)
+// char	*get_exec_path(char *cmd_name, char *env[])
 // {
 // 	char	**all_path;
 // 	char	*part_path;
@@ -128,7 +93,7 @@ char	*get_exec_path(char *cmd_name, char **envp)
 
 // 	if (ft_strchr(cmd_name, '/') && access(cmd_name, F_OK) == 0)
 // 		return (ft_strdup(cmd_name));
-// 	exec_path = get_value_from_env(envp, "PATH");
+// 	exec_path = get_value_from_env(env, "PATH");
 // 	all_path = ft_split(exec_path, ':');
 // 	ft_free_and_null((void **)&exec_path);
 // 	i = 0;
