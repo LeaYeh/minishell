@@ -85,6 +85,7 @@ SRC		+=	$(addprefix $(DIR), \
 DIR		:=	lists/singly_linked/
 SRC		+=	$(addprefix $(DIR), \
 			ft_lstadd_back.c \
+			ft_lstadd_back_eff.c \
 			ft_lstadd_front.c \
 			ft_lstclear.c \
 			ft_lstdelone.c \
@@ -96,6 +97,7 @@ SRC		+=	$(addprefix $(DIR), \
 			ft_lstmap.c \
 			ft_lstnew.c \
 			ft_lstnew_back.c \
+			ft_lstnew_back_eff.c \
 			ft_lstnew_front.c \
 			ft_lstpop_front.c \
 			ft_lstpop_front_content.c \
