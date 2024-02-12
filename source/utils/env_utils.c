@@ -1,6 +1,38 @@
 #include "defines.h"
 
-static char	*get_value_from_str(char *str, char *key)
+bool	extract_env_key(char **res, const char *str)
+{
+	char	*equal_sign;
+	int		res_len;
+
+	equal_sign = ft_strchr(str, '=');
+	if (equal_sign)
+		res_len = equal_sign - str;
+	else
+		res_len = ft_strlen(str);
+	*res = ft_substr(str, 0, res_len);
+	if (!*res)
+		return (false);
+	return (true);
+}
+
+bool	extract_env_value(char **res, const char *str)
+{
+	char	*equal_sign;
+
+	equal_sign = ft_strchr(str, '=');
+	if (!equal_sign)
+		*res = NULL;
+	else
+	{
+		*res = ft_strdup(equal_sign + 1);
+		if (!*res)
+			return (false);
+	}
+	return (true);
+}
+
+static char	*get_value_with_key(char *str, char *key)
 {
 	int		key_len;
 	char	*value;
@@ -27,7 +59,7 @@ char	*get_value_from_env(char *env[], char *key)
 	i = 0;
 	while (env[i])
 	{
-		value = get_value_from_str(env[i], key);
+		value = get_value_with_key(env[i], key);
 		if (value)
 			break ;
 		i++;

@@ -24,7 +24,24 @@ bool	replace_string_content(char **str, char *new_content)
 	return (true);
 }
 
-bool	is_valid_varname(char c)
+bool	is_valid_varname(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || !is_valid_varname_start(str[i]))
+		return (false);
+	i++;
+	while (str[i] && str[i] != '=')
+	{
+		if (!is_valid_varname_char(str[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+bool	is_valid_varname_char(char c)
 {
 	return (ft_isalnum(c) || c == '_');
 }
