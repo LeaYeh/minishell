@@ -18,14 +18,14 @@ int	exec_export(char *args[], t_list **env_list)
 				PROGRAM_NAME, args[i]);
 			ret = GENERAL_ERROR;
 		}
-		else if (!handle_var_export(args[i], env_list))
+		else if (!handle_var_export(args[i], env_list, ENV_EXPORT))
 			return (SUBSHELL_ERROR);
 		i++;
 	}
 	return (ret);
 }
 
-bool	handle_var_export(char *str, t_list **env_list)
+bool	handle_var_export(char *str, t_list **env_list, t_env_scope scope)
 {
 	char	*key;
 	char	*old_value;
@@ -39,19 +39,19 @@ bool	handle_var_export(char *str, t_list **env_list)
 			return (free(key), false);
 		if (value && replace_env_value(*env_list, key, value, &old_value))
 			free(old_value);
-		change_export_flag(*env_list, key, V_EXPORT_YES);
+		change_export_flag(*env_list, key, scope);
 		free(key);
 	}
 	else
 	{
 		free(key);
-		if (!process_str_to_env_list(str, env_list, V_EXPORT_YES))
+		if (!prepend_str_to_env_list(env_list, str, scope))
 			return (false);
 	}
 	return (true);
 }
 
-void	change_export_flag(t_list *env_list, char *key, t_env_state state)
+void	change_export_flag(t_list *env_list, char *key, t_env_scope scope)
 {
 	t_env	*env_node;
 
@@ -60,7 +60,7 @@ void	change_export_flag(t_list *env_list, char *key, t_env_state state)
 		env_node = env_list->content;
 		if (ft_strcmp(env_node->key, key) == 0)
 		{
-			env_node->state = state;
+			env_node->scope = scope;
 			return ;
 		}
 		env_list = env_list->next;

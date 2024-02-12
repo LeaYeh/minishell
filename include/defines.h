@@ -243,18 +243,19 @@ typedef enum e_expander_op
 	E_HEREDOC		= 0b100
 }	t_expander_op;
 
-typedef enum e_env_state
+typedef enum e_env_scope
 {
-	V_EXPORT_NO		= 0,
-	V_EXPORT_YES,
-	V_TEMP
-}	t_env_state;
+	ENV_CMD			= 0,
+	ENV_LOCAL,
+	ENV_EXPORT
+}	t_env_scope;
 
 typedef struct s_env
 {
 	char			*key;
 	char			*value;
-	t_env_state		state;
+	struct s_env	*saved_state;
+	t_env_scope		scope;
 }	t_env;
 
 typedef struct s_token

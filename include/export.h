@@ -5,8 +5,8 @@
 
 /* export.c */
 
-bool	handle_var_export(char *str, t_list **env_list);
-void	change_export_flag(t_list *env_list, char *key, t_env_state state);
+bool	handle_var_export(char *str, t_list **env_list, t_env_scope scope);
+void	change_export_flag(t_list *env_list, char *key, t_env_scope scope);
 
 /* print_exported_env.c */
 int		print_exported_env(t_list *env_list);

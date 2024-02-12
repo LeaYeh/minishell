@@ -85,3 +85,28 @@ bool	is_key_in_env(char *env[], char *key)
 	}
 	return (false);
 }
+
+bool	replace_env_str(char *env[], const char *key, char *new_str)
+{
+	int		i;
+	int		key_len;
+	char	*tmp;
+
+	key_len = ft_strlen(key);
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], key, key_len) == 0 && \
+			(env[i][key_len] == '=' || env[i][key_len] == '\0'))
+		{
+			tmp = ft_strdup(new_str);
+			if (!tmp)
+				return (false);
+			free(env[i]);
+			env[i] = tmp;
+			return (true);
+		}
+		i++;
+	}
+	return (true);
+}

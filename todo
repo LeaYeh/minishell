@@ -3,11 +3,60 @@
 Problems:
 - If just one builtin not in a pipeline, how to set a variable only for its environment?
 
--! How to differentiate if a temp variable was newly created or just a value was replaced?
--> Instead of using a V_TEMP enum, do the assignment while creating the assignment_array for the final_command_table.
+- How to differentiate if a temp variable was newly created or just a value was replaced?
+-> Instead of using a ENV_CMD enum, do the assignment while creating the assignment_array for the final_command_table.
   -> This entails that the builtins will have to use the the env_array as well.
+	-> But how should they update the shell environment then?
+
+- `PWD=/ unset PWD` -> PWD still is what it was before.
+
+- `USER=bla unset USER` -> USER still is what it was before.
+- `USER=bla unset STHELSE` -> USER is now bla.
+	-> same behavior with all special builtins: exit, export, unset
+
+- `VAR1=1 export STHELSE` -> VAR1 is now exported.
+- `VAR2=2 export` -> VAR2 does not get printed yet, but after export finished, it is exported.
+- `VAR2=bla export` -> VAR2 gets printed as VAR2=2, but after export finished, it is now VAR2=bla.
+
 
 I want an `update_env()` function that handles var creation or replacement automatically.
+
+Command Scenarios:
+1. Just assignment, no cmd.
+	-> In shell. Must stay.
+	-> Final: shell->env_list
+		-> not exist: ENV_LOCAL
+		-> yes exist: No change.
+2. Assignment before solely one builtin.
+	-> In shell. Must disappear.
+	-> Final: shell->env_list
+		-> ENV_CMD
+3. Assignment before builtin in pipeline.
+	-> In child.
+	-> Final: shell->env_list
+		-> ENV_CMD (doesn_'t matter)
+4. Assignment before external cmd.
+	-> In child.
+	-> Final: env array
+		-> ENV_EXPORT + ENV_CMD (always tmp_value)
+
+Env Scenarios:
+1. Does not already exist.
+	-> ENV_CMD (delete after cmd)
+2. Already exists, but no value.
+	-> tmp_value
+3. Already exists, with value.
+	-> tmp_value
+
+Scope Scenarios:
+1. Local.
+2. Exported.
+
+Whenever an env_node gets modified, put it to the front.
+This would make sense to me bc the change will likely be accessed soon. (except in cd)
+
+However, I would lose the order of the initial env (sorted by hash table).
+
 
 
 # export:

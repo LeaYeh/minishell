@@ -65,14 +65,19 @@ bool		extract_env_value(char **res, const char *str);
 char		*get_value_from_env(char *env[], char *key);
 bool		is_key_in_env(char *env[], char *key);
 
+t_env	*init_env_node(char *key, char *value, t_env_scope scope);
 bool		append_env_node(
-				t_list **env_list, char *key, char *value, t_env_state state);
+				t_list **env_list, char *key, char *value, t_env_scope scope);
+bool		prepend_env_node(
+				t_list **env_list, char *key, char *value, t_env_scope scope);
+bool		append_str_to_env_list(
+				t_list **env_list, char *str, t_env_scope scope);
+bool		prepend_str_to_env_list(
+				t_list **env_list, char *str, t_env_scope scope);
 t_env		*dup_env_node(t_env *env_node);
 t_env		*find_env_node(t_list *env_list, char *key, char *value);
 char		*get_value_from_env_list(t_list *env_list, char *key);
 bool		is_key_in_env_list(t_list *env_list, char *key);
-bool		process_str_to_env_list(
-				char *str, t_list **env_list, t_env_state state);
 void		remove_env_node(t_list **env_list, char *key, char *value);
 bool		replace_env_value(
 				t_list *env_list, char *key, char *value, char **old_value);
