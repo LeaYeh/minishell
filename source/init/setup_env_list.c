@@ -15,7 +15,7 @@ bool	setup_env_list(t_shell *shell)
 	while (environ[i])
 	{
 		tmp_list = NULL;
-		if (!process_str_to_env_list(environ[i], &tmp_list, V_EXPORT_YES))
+		if (!append_str_to_env_list(&tmp_list, environ[i], ENV_EXPORT))
 			return (false);
 		if (!check_special_env_vars(&tmp_list))
 			return (ft_lstclear(&tmp_list, free), false);
@@ -30,11 +30,11 @@ bool	setup_env_list(t_shell *shell)
  * If OLDPWD exists and its value is not a real directory,
  * delete OLDPWD entirely (permissions don't matter).
  */
-bool	check_special_env_vars(t_list **env_list)
+bool	check_special_env_vars(t_list **tmp_list)
 {
 	t_env	*env_node;
 
-	env_node = (*env_list)->content;
+	env_node = (*tmp_list)->content;
 	if (ft_strcmp(env_node->key, "PWD") == 0)
 	{
 		free(env_node->value);
@@ -44,6 +44,6 @@ bool	check_special_env_vars(t_list **env_list)
 	}
 	else if (ft_strcmp(env_node->key, "OLDPWD") == 0 && \
 			env_node->value && !is_dir(env_node->value))
-		ft_lstclear(env_list, free);
+		ft_lstclear(tmp_list, free);
 	return (true);
 }

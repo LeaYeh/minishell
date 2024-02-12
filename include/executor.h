@@ -35,6 +35,9 @@ bool	check_file(char *filename, int o_flag, int permission);
 /* Utils */
 char	*get_exec_path(char *cmd_name, char *env[]);
 
+/* Assignment */
+void	remove_tmp_env_vars(t_list **env_list);
+
 /* Redirection */
 bool	restore_std_io(int saved_std_io[2]);
 bool	save_std_io(int saved_std_io[2]);

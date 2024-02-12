@@ -14,20 +14,70 @@
 #include "clean.h"
 #include "utils.h"
 
-bool	append_env_node(
-	t_list **env_list, char *key, char *value, t_env_state state)
+t_env	*init_env_node(char *key, char *value, t_env_scope scope)
 {
 	t_env	*env_node;
 
-
 	env_node = (t_env *)malloc(sizeof(t_env));
 	if (!env_node)
-		return (false);
+		return (NULL);
 	env_node->key = key;
 	env_node->value = value;
-	env_node->state = state;
+	env_node->scope = scope;
+	return (env_node);
+}
+
+bool	append_env_node(
+	t_list **env_list, char *key, char *value, t_env_scope scope)
+{
+	t_env	*env_node;
+
+	env_node = init_env_node(key, value, scope);
+	if (!env_node)
+		return (false);
 	if (!ft_lstnew_back(env_list, env_node))
 		return (free(env_node), false);
+	return (true);
+}
+
+bool	prepend_env_node(
+	t_list **env_list, char *key, char *value, t_env_scope scope)
+{
+	t_env	*env_node;
+
+	env_node = init_env_node(key, value, scope);
+	if (!env_node)
+		return (false);
+	if (!ft_lstnew_front(env_list, env_node))
+		return (free(env_node), false);
+	return (true);
+}
+
+bool	append_str_to_env_list(t_list **env_list, char *str, t_env_scope scope)
+{
+	char	*key;
+	char	*value;
+
+	if (!extract_env_key(&key, str))
+		return (false);
+	if (!extract_env_value(&value, str))
+		return (free(key), false);
+	if (!append_env_node(env_list, key, value, scope))
+		return (free(key), free(value), false);
+	return (true);
+}
+
+bool	prepend_str_to_env_list(t_list **env_list, char *str, t_env_scope scope)
+{
+	char	*key;
+	char	*value;
+
+	if (!extract_env_key(&key, str))
+		return (false);
+	if (!extract_env_value(&value, str))
+		return (free(key), false);
+	if (!prepend_env_node(env_list, key, value, scope))
+		return (free(key), free(value), false);
 	return (true);
 }
 
@@ -50,7 +100,7 @@ t_env	*dup_env_node(t_env *env_node)
 	}
 	else
 		new_env_node->value = NULL;
-	new_env_node->state = env_node->state;
+	new_env_node->scope = env_node->scope;
 	return (new_env_node);
 }
 
@@ -88,7 +138,7 @@ char	*get_value_from_env_list(t_list *env_list, char *key)
 	{
 		env_node = env_list->content;
 		if (ft_strcmp(env_node->key, key) == 0)
-			return (env_node->value);
+			return (printf("env_node->scope: %d\n", env_node->scope), env_node->value);
 		env_list = env_list->next;
 	}
 	return (NULL);
@@ -102,7 +152,7 @@ bool	is_exported_env_node(t_list *env_list, char *key)
 	{
 		env_node = env_list->content;
 		if (ft_strcmp(env_node->key, key) == 0 && \
-			env_node->state == V_EXPORT_YES)
+			env_node->scope == ENV_EXPORT)
 			return (true);
 		env_list = env_list->next;
 	}
@@ -125,20 +175,6 @@ bool	is_key_in_env_list(t_list *env_list, char *key)
 		cur = cur->next;
 	}
 	return (false);
-}
-
-bool	process_str_to_env_list(char *str, t_list **env_list, t_env_state state)
-{
-	char	*key;
-	char	*value;
-
-	if (!extract_env_key(&key, str))
-		return (false);
-	if (!extract_env_value(&value, str))
-		return (free(key), false);
-	if (!append_env_node(env_list, key, value, state))
-		return (free(key), free(value), false);
-	return (true);
 }
 
 void	remove_env_node(t_list **env_list, char *key, char *value)

@@ -34,7 +34,7 @@ char	**convert_env_list_to_array(t_list *env_list)
 	while (env_list)
 	{
 		env_node = (t_env *)env_list->content;
-		if (env_node->state && env_node->value)
+		if (env_node->scope && env_node->value)
 		{
 			tmp = (char *)malloc((get_env_strlen(env_node) + 1) * sizeof(char));
 			if (!tmp)
@@ -48,21 +48,17 @@ char	**convert_env_list_to_array(t_list *env_list)
 	return (env);
 }
 
-// Last assignment -> first in env
+// Last assignment -> first in env ; NOT TRUE, it's bc of a hash table.
 static t_list	*convert_assignment_to_env_list(t_list *assignment_list)
 {
 	t_list	*env_list;
-	t_list	*new_node;
 
 	env_list = NULL;
 	while (assignment_list)
 	{
-		new_node = NULL;
-		if (!process_str_to_env_list(assignment_list->content,
-				&new_node, V_EXPORT_YES))
-			return (ft_lstclear(&assignment_list, (void *)free_env_node),
-				NULL);
-		ft_lstadd_front(&env_list, new_node);
+		if (!prepend_str_to_env_list(&env_list,
+				assignment_list->content, ENV_EXPORT))
+			return (ft_lstclear(&env_list, (void *)free_env_node), NULL);
 		assignment_list = assignment_list->next;
 	}
 	return (env_list);
@@ -94,7 +90,7 @@ static int	get_env_size(t_list *env_list)
 	while (env_list)
 	{
 		env_node = (t_env *)env_list->content;
-		if (env_node->state && env_node->value)
+		if (env_node->scope && env_node->value)
 			size++;
 		env_list = env_list->next;
 	}
