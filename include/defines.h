@@ -234,7 +234,7 @@ typedef enum e_cmdtable_type
 typedef enum e_is_open_pair_op
 {
 	OP_GET			= 0,
-	OP_TOGGLE,
+	OP_SET,
 	OP_RESET,
 	OP_CLEAN
 }	t_is_open_pair_op;
