@@ -12,6 +12,17 @@
 
 #include "utils.h"
 
+void	print_missing_pair_error(char *str)
+{
+	char	missing_pair;
+
+	if (ft_strncmp(str, DOLLAR_BRACE, 2) == 0)
+		missing_pair = CLOSING_BRACE;
+	else
+		missing_pair = *str;
+	ft_dprintf(STDERR_FILENO, ERROR_LEXER_SYNTAX, PROGRAM_NAME, missing_pair);
+}
+
 void	skip_operator(char *token_data, size_t *i)
 {
 	if (token_data[*i] == '<' || token_data[*i] == '>' || \

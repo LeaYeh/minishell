@@ -26,9 +26,10 @@ bool	create_token_data_list(t_list **token_data_list, char *input_line)
 			i++;
 		if (!input_line[i])
 			break ;
-		token_data = get_token_data(input_line, &i);
-		if (!token_data)
+		if (!set_token_data(&token_data, input_line, &i))
 			return (false);
+		if (!token_data)
+			return (ft_lstclear(token_data_list, free), true);
 		new_node = ft_lstnew(token_data);
 		if (!new_node)
 			return (free(token_data), false);
@@ -37,17 +38,30 @@ bool	create_token_data_list(t_list **token_data_list, char *input_line)
 	return (true);
 }
 
-char	*get_token_data(char *input_line, size_t *i)
+bool	set_token_data(char **token_data, char *input_line, size_t *i)
 {
+	bool	is_missing_pair;
 	size_t	start;
 
 	start = *i;
-	while (input_line[*i] && !ft_strchr(WHITESPACE, input_line[*i]))
+	is_missing_pair = false;
+	while (input_line[*i] && !is_missing_pair && \
+		!ft_strchr(WHITESPACE, input_line[*i]))
 	{
-		if (ft_strchr(QUOTES, input_line[*i])
-			&& !skip_to_same_quote(input_line, i))
-			break ;
-		(*i)++;
+		if (ft_strncmp(&input_line[*i], DOLLAR_BRACE, 2) == 0)
+			is_missing_pair = !skip_dollar_brace(input_line, i, false);
+		else if (input_line[*i] == '"')
+			is_missing_pair = !skip_double_quote(input_line, i);
+		else if (input_line[*i] == '\'')
+			is_missing_pair = !skip_single_quote(input_line, i);
+		if (!is_missing_pair)
+			(*i)++;
 	}
-	return (ft_substr(input_line, start, *i - start));
+	if (is_missing_pair)
+		return (print_missing_pair_error(&input_line[*i]),
+			*token_data = NULL, true);
+	*token_data = ft_substr(input_line, start, *i - start);
+	if (!*token_data)
+		return (false);
+	return (true);
 }

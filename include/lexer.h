@@ -17,7 +17,7 @@
 
 /* create_token_data_list.c */
 bool	create_token_data_list(t_list **token_data_list, char *input_line);
-char	*get_token_data(char *input_line, size_t *i);
+bool	set_token_data(char **token_data, char *input_line, size_t *i);
 
 /* create_token_list.c */
 bool	create_token_list(t_list **token_list, t_list **token_data_list);
@@ -33,6 +33,7 @@ void	adjust_assignment_word_tokens(t_list *token_list);
 bool	ft_lexer(t_shell *shell);
 
 /* lexer_utils.c */
+void	print_missing_pair_error(char *str);
 void	skip_operator(char *token_data, size_t *i);
 bool	split_token_node(t_list *lst_node1, size_t i);
 
