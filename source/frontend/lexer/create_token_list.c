@@ -25,7 +25,9 @@ bool	create_token_list(t_list **token_list, t_list **token_data_list)
 		if (!token)
 			break ;
 		new_nodes = ft_lstnew(token);
-		if (!new_nodes || !separate_operators(new_nodes, 0))
+		if (!new_nodes)
+			break ;
+		if (!separate_operators(new_nodes, 0))
 			break ;
 		ft_lstadd_back(token_list, new_nodes);
 		free(ft_lstpop_front(token_data_list));
@@ -43,15 +45,18 @@ bool	separate_operators(t_list *lst_node, size_t i)
 	token_data = get_token_data_from_list(lst_node);
 	while (token_data[i])
 	{
-		if (ft_strchr(TOK_SYMBOLS, token_data[i]))
+		if (token_data[i] == '"')
+			skip_double_quote(token_data, &i);
+		else if (token_data[i] == '\'')
+			skip_single_quote(token_data, &i);
+		else if (ft_strncmp(&token_data[i], DOLLAR_BRACE, 2) == 0)
+			skip_dollar_brace(token_data, &i, false);
+		else if (ft_strchr(TOK_SYMBOLS, token_data[i]))
 		{
 			if (!split_and_advance_node(&lst_node, &token_data, &i))
 				return (false);
 			continue ;
 		}
-		if (ft_strchr(QUOTES, token_data[i])
-			&& !skip_to_same_quote(token_data, &i))
-			break ;
 		i++;
 	}
 	return (true);

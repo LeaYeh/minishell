@@ -48,12 +48,12 @@ bool	set_token_data(char **token_data, char *input_line, size_t *i)
 	while (input_line[*i] && !is_missing_pair && \
 		!ft_strchr(WHITESPACE, input_line[*i]))
 	{
-		if (ft_strncmp(&input_line[*i], DOLLAR_BRACE, 2) == 0)
-			is_missing_pair = !skip_dollar_brace(input_line, i, false);
-		else if (input_line[*i] == '"')
+		if (input_line[*i] == '"')
 			is_missing_pair = !skip_double_quote(input_line, i);
 		else if (input_line[*i] == '\'')
 			is_missing_pair = !skip_single_quote(input_line, i);
+		else if (ft_strncmp(&input_line[*i], DOLLAR_BRACE, 2) == 0)
+			is_missing_pair = !skip_dollar_brace(input_line, i, false);
 		if (!is_missing_pair)
 			(*i)++;
 	}

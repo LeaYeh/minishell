@@ -74,12 +74,7 @@ bool	skip_dollar_brace(char *str, size_t *i, bool is_in_dquote)
 	start = *i;
 	while (str[(*i)++])
 	{
-		if (ft_strncmp(&str[*i], DOLLAR_BRACE, 2) == 0)
-		{
-			if (!skip_dollar_brace(str, i, is_in_dquote))
-				return (false);
-		}
-		else if (str[*i] == '"')
+		if (str[*i] == '"')
 		{
 			if (!skip_double_quote(str, i))
 				return (false);
@@ -87,6 +82,11 @@ bool	skip_dollar_brace(char *str, size_t *i, bool is_in_dquote)
 		else if (str[*i] == '\'' && !is_in_dquote)
 		{
 			if (!skip_single_quote(str, i))
+				return (false);
+		}
+		else if (ft_strncmp(&str[*i], DOLLAR_BRACE, 2) == 0)
+		{
+			if (!skip_dollar_brace(str, i, is_in_dquote))
 				return (false);
 		}
 		else if (str[*i] == CLOSING_BRACE)
