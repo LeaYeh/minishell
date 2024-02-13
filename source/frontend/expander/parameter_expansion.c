@@ -49,8 +49,7 @@ bool	expand(char **str, size_t *i, t_shell *shell, t_expander_op op_mask)
 			return (expand_exit_code(str, i, shell->exit_code));
 		else if (is_valid_varname_start((*str)[*i + offset]))
 			return (expand_variable(str, i, offset, shell->env_list));
-		else if (op_mask & ~E_HEREDOC && \
-				ft_strchr(QUOTES, (*str)[*i + offset]))
+		else if (op_mask & ~E_HEREDOC && ft_strchr(QUOTES, (*str)[*i + offset]))
 			return (handle_dollar_quotes(str, i));
 		*i += offset;
 	}
@@ -58,9 +57,6 @@ bool	expand(char **str, size_t *i, t_shell *shell, t_expander_op op_mask)
 	return (true);
 }
 
-// Currently removes the dollar sign for this test case: $"$$$$'
-// It better shouldn't.
-// TODO We have have to check for unclosed quotes somewhere
 bool	handle_dollar_quotes(char **str, size_t *i)
 {
 	if (!is_open_pair('"', OP_GET))

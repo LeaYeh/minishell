@@ -42,8 +42,10 @@ bool	remove_quotes(char **str)
 		if (!(*str)[i])
 			return (true);
 		first_quote = i;
-		if (!skip_to_same_quote(*str, &i))
-			return (true);
+		if ((*str)[i] == '\'')
+			skip_single_quote(*str, &i);
+		else if ((*str)[i] == '"')
+			skip_double_quote(*str, &i);
 		if (!ft_rplc_part_of_str(str, "", first_quote, 1))
 			return (false);
 		if (!ft_rplc_part_of_str(str, "", --i, 1))

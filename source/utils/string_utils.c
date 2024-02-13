@@ -51,22 +51,6 @@ bool	is_valid_varname_start(char c)
 	return (ft_isalpha(c) || c == '_');
 }
 
-bool	skip_to_same_quote(char *str, size_t *i)
-{
-	char	*open_quote;
-
-	open_quote = ft_strchr(QUOTES, str[*i]);
-	if (!open_quote)
-		return (true);
-	while (str[*i])
-	{
-		(*i)++;
-		if (str[*i] == *open_quote)
-			return (true);
-	}
-	return (false);
-}
-
 bool	skip_dollar_brace(char *str, size_t *i, bool is_in_dquote)
 {
 	size_t	start;
@@ -74,14 +58,14 @@ bool	skip_dollar_brace(char *str, size_t *i, bool is_in_dquote)
 	start = *i;
 	while (str[(*i)++])
 	{
-		if (str[*i] == '"')
-		{
-			if (!skip_double_quote(str, i))
-				return (false);
-		}
-		else if (str[*i] == '\'' && !is_in_dquote)
+		if (str[*i] == '\'' && !is_in_dquote)
 		{
 			if (!skip_single_quote(str, i))
+				return (false);
+		}
+		else if (str[*i] == '"')
+		{
+			if (!skip_double_quote(str, i))
 				return (false);
 		}
 		else if (ft_strncmp(&str[*i], DOLLAR_BRACE, 2) == 0)

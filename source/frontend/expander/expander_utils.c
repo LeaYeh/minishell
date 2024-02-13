@@ -100,8 +100,7 @@ void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
 		else if (str[*i] == '"')
 			is_open_pair('"', OP_SET);
 		else if (str[*i] == '\'' && !is_open_pair('"', OP_GET))
-			if (!skip_to_same_quote(str, i))
-				return ;
+			skip_single_quote(str, i);
 		(*i)++;
 	}
 }

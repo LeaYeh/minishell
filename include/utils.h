@@ -119,7 +119,6 @@ t_list		*pop_num_stack(t_list **stack, int num);
 bool		is_valid_varname(char *str);
 bool		is_valid_varname_char(char c);
 bool		is_valid_varname_start(char c);
-bool		skip_to_same_quote(char *str, size_t *i);
 bool		skip_dollar_brace(char *str, size_t *i, bool is_in_dquote);
 bool		skip_double_quote(char *str, size_t *i);
 bool		skip_single_quote(char *str, size_t *i);
