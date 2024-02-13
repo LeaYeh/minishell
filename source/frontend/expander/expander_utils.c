@@ -37,8 +37,7 @@ size_t	count_replace_len(char *str)
 		replace_len++;
 	if (str[replace_len] == OPENING_BRACE)
 	{
-		while (str[++replace_len] != CLOSING_BRACE)
-			;
+		skip_dollar_brace(str, &replace_len, is_open_pair('"', OP_GET));
 		replace_len++;
 	}
 	else if (str[replace_len] == '?')

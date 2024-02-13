@@ -32,20 +32,23 @@ bool	check_braces(char *str, size_t *i)
 	return (true);
 }
 
-void	prepare_error_msg(char *str, size_t *i)
+void	print_bad_substitution_error(char *str, size_t i)
 {
-	char	*occurrence;
+	char	*start;
 
 	if (is_open_pair('"', OP_GET))
 	{
-		occurrence = ft_strchr(&str[*i], '"');
-		if (occurrence)
-			*occurrence = '\0';
-		while (str[*i - 1] != '"')
-			(*i)--;
+		while (str[i - 1] != '"')
+			i--;
+		start = &str[i--];
+		skip_double_quote(str, &i);
+		str[i] = '\0';
+
 	}
 	else
-		*i = 0;
+		start = str;
+	ft_dprintf(STDERR_FILENO, ERROR_EXPANDER_BAD_SUBSTITUTION,
+		PROGRAM_NAME, start);
 }
 
 bool	is_bad_substitution(char *str, t_expander_op op_mask)
@@ -62,9 +65,7 @@ bool	is_bad_substitution(char *str, t_expander_op op_mask)
 		i++;
 		if (!check_braces(str, &i))
 		{
-			prepare_error_msg(str, &i);
-			ft_dprintf(STDERR_FILENO, ERROR_EXPANDER_BAD_SUBSTITUTION,
-				PROGRAM_NAME, &str[i]);
+			print_bad_substitution_error(str, i);
 			is_open_pair('"', OP_RESET);
 			return (true);
 		}
