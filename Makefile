@@ -119,7 +119,7 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
-.PHONY			:	all test run val valfd build lib clean fclean re
+.PHONY			:	all test run val noenv valfd build lib clean fclean re
 
 
 #	Compilation
@@ -139,6 +139,9 @@ run				:	all
 
 val				:	all
 					$(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
+
+noenv			:	all
+					env -i $(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
 valfd			:	all
 ifneq ($(TERMINAL),)
