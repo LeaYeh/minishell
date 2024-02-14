@@ -40,12 +40,6 @@
 #  define TEST_MODE false
 # endif
 
-# if TEST_MODE
-#  define EXIT_STR			""
-# else
-#  define EXIT_STR			"exit"
-# endif
-
 # ifndef PARSING_TABLE
 #  define DEFINITIONS_OK	false
 # else
@@ -55,6 +49,8 @@
 // # define PROGRAM_NAME       "🌊rash"
 // # define PROGRAM_NAME       "minishell: "
 # define PROGRAM_NAME       "\e[1;34m🌊rash\e[0m"
+
+# define EXIT_STR			"exit\n"
 
 /* Error codes */
 # define SUCCESS            0

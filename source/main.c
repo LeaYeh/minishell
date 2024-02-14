@@ -38,7 +38,7 @@ int	main(void)
 		if (!shell.input_line)
 		{
 			if (!TEST_MODE)
-				printf("\n"EXIT_STR);
+				printf("\n" EXIT_STR);
 			ft_clean_and_exit_shell(&shell, shell.exit_code, NULL);
 		}
 		if (!ft_lexer(&shell) || !ft_parser(&shell))
