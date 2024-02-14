@@ -117,12 +117,15 @@
 /* Expander */
 # define OPENING_BRACE		'{'
 # define CLOSING_BRACE		'}'
+# define DOLLAR_BRACE		"${"
 
 /* Export */
 # define EXPORT_PREFIX		"export "
 
 /* Error Messages */
 // TODO Add minishell name in the front of messages
+# define ERROR_LEXER_SYNTAX					\
+"%s: syntax error: missing `%c'\n"
 # define ERROR_PARSER_SYNTAX				\
 "%s: syntax error near unexpected token `%s'\n"
 # define ERROR_HEREDOC_UNEXPECTED_EOF		\
@@ -231,7 +234,7 @@ typedef enum e_cmdtable_type
 typedef enum e_is_open_pair_op
 {
 	OP_GET			= 0,
-	OP_TOGGLE,
+	OP_SET,
 	OP_RESET,
 	OP_CLEAN
 }	t_is_open_pair_op;

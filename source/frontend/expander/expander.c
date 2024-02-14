@@ -158,7 +158,7 @@ int	ft_expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 		return (MALLOC_ERROR);
 	if (op_mask & (E_EXPAND | E_HEREDOC))
 	{
-		if (is_bad_substitution(str, op_mask))
+		if (is_bad_substitution(dup, op_mask))
 			return (free(dup), BAD_SUBSTITUTION);
 		if (!handle_parameter_expansion(&dup, lst, shell, op_mask))
 			return (free(dup), MALLOC_ERROR);

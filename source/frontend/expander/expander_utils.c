@@ -37,8 +37,7 @@ size_t	count_replace_len(char *str)
 		replace_len++;
 	if (str[replace_len] == OPENING_BRACE)
 	{
-		while (str[++replace_len] != CLOSING_BRACE)
-			;
+		skip_dollar_brace(str, &replace_len, is_open_pair('"', OP_GET));
 		replace_len++;
 	}
 	else if (str[replace_len] == '?')
@@ -49,20 +48,37 @@ size_t	count_replace_len(char *str)
 	return (replace_len);
 }
 
+static int	get_open_pair_index(unsigned char c, t_is_open_pair_op operation)
+{
+	if (operation == OP_CLEAN)
+		return (0);
+	if (c == '\'')
+		return (0);
+	if (c == '"')
+		return (1);
+	return (-1);
+}
+
 bool	is_open_pair(unsigned char c, t_is_open_pair_op operation)
 {
-	static bool	is_open_pair[UCHAR_MAX];
+	static bool	status[2];
+	int			i;
 
+	if (c == 0 && operation == OP_GET)
+		return (status[0] || status[1]);
+	i = get_open_pair_index(c, operation);
+	if (i == -1)
+		return (false);
 	if (operation == OP_GET)
-		return (is_open_pair[c]);
-	else if (operation == OP_TOGGLE)
-		is_open_pair[c] ^= true;
+		return (status[i]);
+	else if (operation == OP_SET)
+		status[i] ^= true;
 	else if (operation == OP_RESET)
-		is_open_pair[c] = false;
+		status[i] = false;
 	else if (operation == OP_CLEAN)
-		while (c < UCHAR_MAX)
-			is_open_pair[c++] = false;
-	return (is_open_pair[c]);
+		while (i < 2)
+			status[i++] = false;
+	return (status[i]);
 }
 
 void	skip_to_dollar(char *str, size_t *i)
@@ -82,10 +98,9 @@ void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
 		if (str[*i] == '$')
 			return ;
 		else if (str[*i] == '"')
-			is_open_pair('"', OP_TOGGLE);
+			is_open_pair('"', OP_SET);
 		else if (str[*i] == '\'' && !is_open_pair('"', OP_GET))
-			if (!skip_to_same_quote(str, i))
-				return ;
+			skip_single_quote(str, i);
 		(*i)++;
 	}
 }
