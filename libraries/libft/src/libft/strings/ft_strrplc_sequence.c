@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 23:36:36 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/28 02:12:54 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/02/15 02:52:03 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_strrplc_sequence(const char *str, const char *sequence,
 	occurance = ft_strnstr(result, sequence, ft_strlen(result));
 	while (occurance)
 	{
-		if (!ft_rplc_part_of_str(&result, rplcmt, occurance - result, seq_len))
+		if (!ft_strrplc_part(&result, rplcmt, occurance - result, seq_len))
 			return (free(result), NULL);
 		occurance = ft_strnstr(occurance + rplcmt_len, sequence,
 				ft_strlen(occurance + rplcmt_len));

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_rplc_part_of_str.c                              :+:      :+:    :+:   */
+/*   ft_strrplc_part.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 15:19:37 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/28 02:24:32 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/02/15 02:50:14 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static char	*join_front_and_rplcmt(const char *str, const char *rplcmt, \
 static char	*join_new_and_back(char *str_new, const char *str, size_t end);
 
 /**
- * The ft_rplc_part_of_str function replaces a part of a string with a
- * replacement string.
+ * The ft_strrplc_part function replaces a part of a string with a replacement
+ * string.
  *
  * @param str       The address of the string to modify.
  *                  If str is NULL or points to NULL, the function does nothing.
@@ -33,8 +33,8 @@ static char	*join_new_and_back(char *str_new, const char *str, size_t end);
  *                  If an error occurs, the function returns false.
  *
  */
-bool	ft_rplc_part_of_str(char **str, const char *rplcmt,
-							size_t start, size_t len)
+bool	ft_strrplc_part(char **str, const char *rplcmt, size_t start, \
+						size_t len)
 {
 	size_t	end;
 	char	*str_new;
