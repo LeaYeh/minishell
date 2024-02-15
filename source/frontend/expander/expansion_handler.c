@@ -8,10 +8,10 @@ bool	expand(char **new_str, t_list **lst, t_shell *shell,
 	task_stack = NULL;
 	if (!create_expander_task_stack(&task_stack, *new_str, op_mask) || \
 		!execute_expander_task_stack(new_str, task_stack, lst, shell))
-		return (ft_lstclear(&task_stack, free), false);
+		return (ft_lstclear(&task_stack, (void *)free_expander_task), false);
 	if (is_null_expansion(*new_str, task_stack))
 		ft_free_and_null((void **)new_str);
-	ft_lstclear(&task_stack, free);
+	ft_lstclear(&task_stack, (void *)free_expander_task);
 	return (true);
 }
 
