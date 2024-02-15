@@ -1,0 +1,19 @@
+# .github/actions/memory_leak_test/action.yml
+name: 'Memory Leak Test'
+description: 'Runs memory leak tests'
+inputs:
+  test_script:
+    description: 'The test script to run'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    steps:
+    - name: Delete all but one test script
+      run: |
+        for file in $HOME/42_minishell_tester/cmds/**/*.sh; do
+          if [[ "$(basename "$file")" != "${{ matrix.test_script }}" ]]; then
+            rm "$file"
+          fi
+        done
+      shell: bash

@@ -1,0 +1,12 @@
+# .github/actions/compilation_test/action.yml
+name: 'Compilation Test'
+description: 'Compilation test action'
+runs:
+  using: "composite"
+  steps:
+    - name: Check current branch
+      run: git branch
+      shell: bash
+    - name: 🔨 Compile with Makefile
+      run: make
+      shell: bash
