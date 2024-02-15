@@ -39,7 +39,6 @@ t_expander_task	*init_expander_task(t_expander_task_type type, size_t start,
 /* expander_utils.c */
 size_t			get_offset(char *str);
 size_t			get_replace_len(char *str);
-bool			is_open_pair(unsigned char c, t_is_open_pair_op operation);
 void			skip_to_dollar_not_in_single_quotes(char *str, size_t *i);
 void			skip_to_expander_symbol(char *str, size_t *i);
 

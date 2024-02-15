@@ -24,6 +24,39 @@ bool	replace_string_content(char **str, char *new_content)
 	return (true);
 }
 
+static int	get_open_pair_index(unsigned char c, t_is_open_pair_op operation)
+{
+	if (operation == OP_CLEAN)
+		return (0);
+	if (c == '\'')
+		return (0);
+	if (c == '"')
+		return (1);
+	return (-1);
+}
+
+bool	is_open_pair(unsigned char c, t_is_open_pair_op operation)
+{
+	static bool	status[2];
+	int			i;
+
+	if (c == 0 && operation == OP_GET)
+		return (status[0] || status[1]);
+	i = get_open_pair_index(c, operation);
+	if (i == -1)
+		return (false);
+	if (operation == OP_GET)
+		return (status[i]);
+	else if (operation == OP_SET)
+		status[i] ^= true;
+	else if (operation == OP_RESET)
+		status[i] = false;
+	else if (operation == OP_CLEAN)
+		while (i < 2)
+			status[i++] = false;
+	return (status[i]);
+}
+
 bool	is_valid_varname(char *str)
 {
 	int	i;
@@ -103,6 +136,8 @@ bool	skip_single_quote(char *str, size_t *i)
 {
 	size_t	start;
 
+	if (is_open_pair('\'', OP_GET))
+		return (false);
 	start = *i;
 	while (str[(*i)++])
 	{
