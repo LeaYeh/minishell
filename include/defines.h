@@ -276,7 +276,8 @@ typedef struct s_expander_task
 {
 	t_expander_task_type	type;
 	size_t					start;
-	size_t					len;
+	size_t					replace_len;
+	char					*varname;
 }	t_expander_task;
 
 typedef struct s_ast

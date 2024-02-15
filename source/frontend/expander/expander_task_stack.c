@@ -1,17 +1,25 @@
 #include "expander.h"
 #include "utils.h"
 
-t_expander_task	*init_expander_task(t_expander_task_type type, size_t start, size_t len)
+bool	create_expander_task_stack(t_list **task_stack, char *new_str,
+			t_expander_op op_mask)
 {
-	t_expander_task	*task;
+	size_t	i;
+	bool	ret;
 
-	task = (t_expander_task *)malloc(sizeof(t_expander_task));
-	if (!task)
-		return (NULL);
-	task->start = start;
-	task->len = len;
-	task->type = type;
-	return (task);
+	ret = true;
+	i = 0;
+	while (new_str[i] && ret)
+	{
+		if (ft_strchr(QUOTES, new_str[i]) && op_mask & E_RM_QUOTES)
+			ret = push_quote_task(task_stack, new_str, &i);
+		else if (new_str[i] == '$' && op_mask & (E_EXPAND | E_HEREDOC))
+			ret = push_parameter_task(task_stack, new_str, &i);
+		else
+			i++;
+		skip_to_expander_symbol(new_str, &i);
+	}
+	return (is_open_pair(0, OP_CLEAN), ret);
 }
 
 bool	push_quote_task(t_list **task_stack, char *new_str, size_t *i)
@@ -21,9 +29,9 @@ bool	push_quote_task(t_list **task_stack, char *new_str, size_t *i)
 	if ((new_str[*i] == '"' && !is_open_pair('\'', OP_GET)) || \
 		(new_str[*i] == '\'' && !is_open_pair('"', OP_GET)))
 	{
-		task = init_expander_task(ET_QUOTE, *i, 1);
+		task = init_expander_task(ET_QUOTE, *i, 1, &new_str[*i]);
 		if (!task || !ft_lstnew_front(task_stack, task))
-			return (free(task), false);
+			return (free_expander_task(task), false);
 		is_open_pair(new_str[*i], OP_SET);
 	}
 	return ((*i)++, true);
@@ -46,29 +54,8 @@ bool	push_parameter_task(t_list **task_stack, char *new_str, size_t *i)
 		type = ET_EXIT_CODE;
 	else
 		return (*i += replace_len, true);
-	task = init_expander_task(type, *i, replace_len);
+	task = init_expander_task(type, *i, replace_len, &new_str[*i + offset]);
 	if (!task || !ft_lstnew_front(task_stack, task))
-		return (free(task), false);
+		return (free_expander_task(task), false);
 	return (*i += replace_len, true);
-}
-
-bool	create_expander_task_stack(t_list **task_stack, char *new_str, \
-									t_expander_op op_mask)
-{
-	size_t	i;
-	bool	ret;
-
-	ret = true;
-	i = 0;
-	while (new_str[i] && ret)
-	{
-		if (ft_strchr(QUOTES, new_str[i]) && op_mask & E_RM_QUOTES)
-			ret = push_quote_task(task_stack, new_str, &i);
-		else if (new_str[i] == '$' && op_mask & (E_EXPAND | E_HEREDOC))
-			ret = push_parameter_task(task_stack, new_str, &i);
-		else
-			i++;
-		skip_to_expander_symbol(new_str, &i);
-	}
-	return (is_open_pair(0, OP_CLEAN), ret);
 }

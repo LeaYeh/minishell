@@ -14,7 +14,7 @@
 
 bool	remove_quote(char **new_str, t_expander_task *task)
 {
-	if (!ft_strrplc_part(new_str, "", task->start, task->len))
+	if (!ft_strrplc_part(new_str, "", task->start, task->replace_len))
 		return (false);
 	return (true);
 }

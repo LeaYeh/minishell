@@ -1,7 +1,7 @@
 #include "expander.h"
 
-bool	expand(char **new_str, t_list **lst, t_shell *shell, \
-				t_expander_op op_mask)
+bool	expand(char **new_str, t_list **lst, t_shell *shell,
+			t_expander_op op_mask)
 {
 	t_list	*task_stack;
 
@@ -15,8 +15,8 @@ bool	expand(char **new_str, t_list **lst, t_shell *shell, \
 	return (true);
 }
 
-bool	execute_expander_task_stack(char **new_str, t_list *task_stack, \
-									t_list **lst, t_shell *shell)
+bool	execute_expander_task_stack(char **new_str, t_list *task_stack,
+			t_list **lst, t_shell *shell)
 {
 	bool			ret;
 	t_expander_task	*task;

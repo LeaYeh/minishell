@@ -19,7 +19,8 @@ bool	expand_exit_code(char **new_str, t_expander_task *task, int exit_code)
 	exit_code_str = ft_itoa(exit_code);
 	if (!exit_code_str)
 		return (false);
-	if (!ft_strrplc_part(new_str, exit_code_str, task->start, task->len))
+	if (!ft_strrplc_part(new_str, exit_code_str, task->start,
+			task->replace_len))
 		return (free(exit_code_str), false);
 	return (free(exit_code_str), true);
 }
