@@ -111,7 +111,6 @@
 
 /* Lexer */
 # define QUOTES				"'\""
-# define TOK_SYMBOLS		"<>|&()"
 # define T_UNINITIALIZED	-1		//TODO Replace with Lea's UNDEFINED_TYPE -99
 
 /* Expander */

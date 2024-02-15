@@ -12,6 +12,18 @@
 
 #include "utils.h"
 
+bool	is_operator(char *token_data)
+{
+	if (ft_strncmp(token_data, "&&", 2) == 0 || \
+		ft_strncmp(token_data, "|", 1) == 0 || \
+		ft_strncmp(token_data, "<", 1) == 0 || \
+		ft_strncmp(token_data, ">", 1) == 0 || \
+		ft_strncmp(token_data, "(", 1) == 0 || \
+		ft_strncmp(token_data, ")", 1) == 0)
+		return (true);
+	return (false);
+}
+
 void	print_missing_pair_error(char *str)
 {
 	char	missing_pair;

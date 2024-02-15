@@ -33,6 +33,7 @@ void	adjust_assignment_word_tokens(t_list *token_list);
 bool	ft_lexer(t_shell *shell);
 
 /* lexer_utils.c */
+bool	is_operator(char *token_data);
 void	print_missing_pair_error(char *str);
 void	skip_operator(char *token_data, size_t *i);
 bool	split_token_node(t_list *lst_node1, size_t i);
