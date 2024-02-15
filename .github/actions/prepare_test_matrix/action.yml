@@ -1,0 +1,25 @@
+# .github/actions/prepare_test_matrix/action.yml
+name: 'Prepare Test Matrix'
+description: 'Clones the tester repository and prepares the test matrix'
+outputs:
+  test_matrix:
+    description: 'The prepared test matrix'
+runs:
+  using: 'composite'
+  steps:
+    - name: Clone tester repository
+      run: git clone https://github.com/LeaYeh/42_minishell_tester.git
+      shell: bash
+    - name: Prepare matrix
+      id: prepare_test
+      run: |
+        FILES=$(find 42_minishell_tester/cmds -type f -name "*.sh" \
+        -exec basename {} \; | jq -R -s -c 'split("\n")[:-1]')
+        echo "test_matrix=${FILES}" >> $GITHUB_ENV
+        echo "::set-output name=TEST_MATRIX::${FILES}"
+        echo "TEST_MATRIX is: ||$TEST_MATRIX||"
+      shell: bash
+  
+    - name: Print Test Matrix 0
+      run: echo " here ${{ toJson(steps.prepare_test.outputs.test_matrix) }}"
+      shell: bash

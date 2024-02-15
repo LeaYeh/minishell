@@ -1,0 +1,17 @@
+# .github/actions/setup/action.yml
+name: 'Setup Testing Environment'
+description: 'Setup action'
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential clang-12 valgrind
+      shell: bash
+    - run: |
+        git clone https://github.com/LeaYeh/42_minishell_tester.git
+        cp -r 42_minishell_tester $HOME
+        chmod +x $HOME/42_minishell_tester/tester.sh
+        find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
+        cp .github/scripts/*.sh $HOME
+      shell: bash
