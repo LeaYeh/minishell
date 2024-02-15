@@ -113,7 +113,7 @@ bool	skip_single_quote(char *str, size_t *i)
 	return (false);
 }
 
-int	count_total_strlen(t_list *list, char *delim)
+int	get_list_strlen(t_list *list, char *delim)
 {
 	int		total_length;
 	t_list	*node;
@@ -136,7 +136,7 @@ char	*concat_list_to_string(t_list *list, char *delim)
 	int		cur_len;
 	int		delim_len;
 
-	str = (char *)ft_calloc(count_total_strlen(list, delim) + 1, sizeof(char));
+	str = (char *)ft_calloc(get_list_strlen(list, delim) + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	if (delim)

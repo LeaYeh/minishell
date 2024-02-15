@@ -13,7 +13,7 @@
 #include "expander.h"
 #include "utils.h"
 
-size_t	count_offset(char *str)
+size_t	get_offset(char *str)
 {
 	size_t	offset;
 
@@ -28,7 +28,7 @@ size_t	count_offset(char *str)
 	return (offset);
 }
 
-size_t	count_replace_len(char *str)
+size_t	get_replace_len(char *str)
 {
 	size_t	replace_len;
 
@@ -81,16 +81,6 @@ bool	is_open_pair(unsigned char c, t_is_open_pair_op operation)
 	return (status[i]);
 }
 
-void	skip_to_dollar(char *str, size_t *i)
-{
-	while (str[*i])
-	{
-		if (str[*i] == '$')
-			return ;
-		(*i)++;
-	}
-}
-
 void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
 {
 	while (str[*i])
@@ -101,6 +91,16 @@ void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
 			is_open_pair('"', OP_SET);
 		else if (str[*i] == '\'' && !is_open_pair('"', OP_GET))
 			skip_single_quote(str, i);
+		(*i)++;
+	}
+}
+
+void	skip_to_expander_symbol(char *str, size_t *i)
+{
+	while (str[*i])
+	{
+		if (ft_strchr(EXPANDER_SYMBOLS, str[*i]))
+			return ;
 		(*i)++;
 	}
 }

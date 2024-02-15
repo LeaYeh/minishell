@@ -114,6 +114,7 @@
 # define T_UNINITIALIZED	-1		//TODO Replace with Lea's UNDEFINED_TYPE -99
 
 /* Expander */
+# define EXPANDER_SYMBOLS	"$*\"'"
 # define OPENING_BRACE		'{'
 # define CLOSING_BRACE		'}'
 # define DOLLAR_BRACE		"${"
@@ -245,6 +246,13 @@ typedef enum e_expander_op
 	E_HEREDOC		= 0b100
 }	t_expander_op;
 
+typedef enum e_expander_task_type
+{
+	ET_VAR			= 0,
+	ET_EXIT_CODE,
+	ET_QUOTE
+}	t_expander_task_type;
+
 typedef enum e_export
 {
 	X_EXPORT_NO		= 0,
@@ -263,6 +271,13 @@ typedef struct s_token
 	int				type;
 	char			*data;
 }	t_token;
+
+typedef struct s_expander_task
+{
+	t_expander_task_type	type;
+	size_t					start;
+	size_t					len;
+}	t_expander_task;
 
 typedef struct s_ast
 {

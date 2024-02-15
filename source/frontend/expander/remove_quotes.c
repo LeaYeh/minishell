@@ -11,45 +11,10 @@
 /* ************************************************************************** */
 
 #include "expander.h"
-#include "utils.h"
 
-bool	handle_remove_quotes(t_list **lst)
+bool	remove_quote(char **new_str, t_expander_task *task)
 {
-	t_list	*cur;
-
-	cur = *lst;
-	while (cur)
-	{
-		if (!remove_quotes((char **)&cur->content))
-			return (false);
-		cur = cur->next;
-	}
-	return (true);
-}
-
-bool	remove_quotes(char **str)
-{
-	size_t	first_quote;
-	size_t	i;
-
-	if (!*str)
-		return (true);
-	i = 0;
-	while ((*str)[i])
-	{
-		while (!ft_strchr(QUOTES, (*str)[i]))
-			i++;
-		if (!(*str)[i])
-			return (true);
-		first_quote = i;
-		if ((*str)[i] == '\'')
-			skip_single_quote(*str, &i);
-		else if ((*str)[i] == '"')
-			skip_double_quote(*str, &i);
-		if (!ft_rplc_part_of_str(str, "", first_quote, 1))
-			return (false);
-		if (!ft_rplc_part_of_str(str, "", --i, 1))
-			return (false);
-	}
+	if (!ft_strrplc_part(new_str, "", task->start, task->len))
+		return (false);
 	return (true);
 }

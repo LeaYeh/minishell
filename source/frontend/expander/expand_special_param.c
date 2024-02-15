@@ -12,17 +12,14 @@
 
 #include "expander.h"
 
-bool	expand_exit_code(char **str, size_t *i, int exit_code)
+bool	expand_exit_code(char **new_str, t_expander_task *task, int exit_code)
 {
 	char	*exit_code_str;
-	size_t	replace_len;
 
 	exit_code_str = ft_itoa(exit_code);
 	if (!exit_code_str)
 		return (false);
-	replace_len = count_replace_len(&(*str)[*i]);
-	if (!ft_rplc_part_of_str(str, exit_code_str, *i, replace_len))
+	if (!ft_strrplc_part(new_str, exit_code_str, task->start, task->len))
 		return (free(exit_code_str), false);
-	*i += ft_strlen(exit_code_str);
 	return (free(exit_code_str), true);
 }

@@ -13,43 +13,34 @@
 #include "expander.h"
 #include "utils.h"
 
-bool	expand_variable(char **str, size_t *i, size_t offset, t_list *env_list)
+bool	expand_variable(char **new_str, t_expander_task *task, t_list *env_list)
 {
-	size_t	replace_len;
-	char	*replacement;
-	char	*var;
-	size_t	var_len;
+	size_t	offset;
+	char	tmp;
+	char	*value;
+	char	*varname;
+	size_t	varname_len;
 
-	var_len = count_var_len(&(*str)[*i]);
-	var = ft_substr(*str, *i + offset, var_len);
-	if (!var)
+	offset = get_offset(&(*new_str)[task->start]);
+	varname = &(*new_str)[task->start + offset];
+	varname_len = get_varname_len(varname);
+	tmp = varname[varname_len];
+	varname[varname_len] = '\0';
+	value = get_value_from_env_list(env_list, varname);
+	if (!value)
+		value = "";
+	varname[varname_len] = tmp;
+	if (!ft_strrplc_part(new_str, value, task->start, task->len))
 		return (false);
-	replace_len = count_replace_len(&(*str)[*i]);
-	replacement = get_value_from_env_list(env_list, var);
-	if (!replacement)
-		replacement = "";
-	free(var);
-	if (!ft_rplc_part_of_str(str, replacement, *i, replace_len))
-		return (false);
-	*i += ft_strlen(replacement);
 	return (true);
 }
 
-size_t	count_var_len(char *str)
+size_t	get_varname_len(char *str)
 {
 	size_t	len;
 
-	if (*str == '$')
-	{
-		str++;
-		if (*str == OPENING_BRACE)
-			str++;
-	}
 	len = 0;
-	while (is_valid_varname_char(*str))
-	{
+	while (is_valid_varname_char(str[len]))
 		len++;
-		str++;
-	}
 	return (len);
 }
