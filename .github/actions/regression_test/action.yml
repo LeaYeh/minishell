@@ -1,0 +1,42 @@
+# .github/actions/regression_test/action.yml
+name: 'Regression Test'
+description: 'Run regression tests'
+inputs:
+  test_type:
+    description: 'Type of test to run'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Set up test environment
+      uses: ./.github/actions/setup
+    - name: 🌱 Test source branch of pull request
+      run: |
+        make fclean test
+        $HOME/42_minishell_tester/tester.sh ${{ inputs.test_type }} > $HOME/source_test_result.txt
+      shell: bash
+      env:
+        GH_BRANCH: "SOURCE_FAILED_COUNT"
+    - name: 📝 Print all test cases that failed on source branch
+      run: |
+        export RESULT_FILE="$HOME/source_test_result.txt"
+        $HOME/print_all_failed_test_cases.sh
+      shell: bash
+    - name: Checkout target branch of pull request
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.base_ref }}
+    - name: 🎯 Test target branch of pull request
+      run: |
+        make fclean test
+        $HOME/42_minishell_tester/tester.sh ${{ inputs.test_type }} > $HOME/target_test_result.txt
+      shell: bash
+      env:
+        GH_BRANCH: "TARGET_FAILED_COUNT"
+    - name: Checkout source branch of pull request
+      uses: actions/checkout@v4
+    - name: Summary regression test result
+      uses: ./.github/actions/summary_test_result
+      with:
+        source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
+        target_failed_count: ${{ env.TARGET_FAILED_COUNT }}
