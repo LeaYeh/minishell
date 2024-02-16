@@ -15,7 +15,6 @@ runs:
       run: |
         make fclean test
         $HOME/42_minishell_tester/tester.sh ${{ inputs.test_type }} > $HOME/source_test_result.txt
-        echo "Testing source branch of pull request" >> $GITHUB_ENV
       shell: bash
       env:
         GH_BRANCH: "SOURCE_FAILED_COUNT"
@@ -23,8 +22,7 @@ runs:
       id: print_failed_source
       run: |
         export RESULT_FILE="$HOME/source_test_result.txt"
-        $HOME/print_all_failed_test_cases.sh
-        echo "Printing all test cases that failed on source branch" >> $GITHUB_ENV
+        $HOME/print_all_failed_test_cases.sh > $HOME/source_failed_test_cases.txt
       shell: bash
     - name: Checkout target branch of pull request
       uses: actions/checkout@v4
@@ -35,7 +33,6 @@ runs:
       run: |
         make fclean test
         $HOME/42_minishell_tester/tester.sh ${{ inputs.test_type }} > $HOME/target_test_result.txt
-        echo "Testing target branch of pull request" >> $GITHUB_ENV
       shell: bash
       env:
         GH_BRANCH: "TARGET_FAILED_COUNT"
@@ -50,13 +47,7 @@ runs:
       id: create_summary
       run: |
         echo "## Summary" >> $GITHUB_STEP_SUMMARY
-        echo "- [Test source](#test-source)" >> $GITHUB_STEP_SUMMARY
         echo "- [Print failed source](#print-failed-source)" >> $GITHUB_STEP_SUMMARY
-        echo "- [Test target](#test-target)" >> $GITHUB_STEP_SUMMARY
-        echo "### Test source" >> $GITHUB_STEP_SUMMARY
-        echo "${{ env.test_source }}" >> $GITHUB_STEP_SUMMARY
         echo "### Print failed source" >> $GITHUB_STEP_SUMMARY
-        echo "${{ env.print_failed_source }}" >> $GITHUB_STEP_SUMMARY
-        echo "### Test target" >> $GITHUB_STEP_SUMMARY
-        echo "${{ env.test_target }}" >> $GITHUB_STEP_SUMMARY
+        cat $HOME/source_failed_test_cases.txt >> $GITHUB_STEP_SUMMARY
       shell: bash
