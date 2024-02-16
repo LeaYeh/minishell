@@ -149,6 +149,11 @@
 "%s: warning: failed to remove file `%s'\n"
 # define ERROR_CREATE_PIPE					\
 "pipe error: Too many open files\n"
+# define ERROR_CMD_NOT_FOUND				\
+"%s: %s: command not found\n"
+# define ERROR_PATH_NOT_FOUND				\
+"%s: %s: No such file or directory\n"
+
 
 typedef enum e_heredoc_status
 {
