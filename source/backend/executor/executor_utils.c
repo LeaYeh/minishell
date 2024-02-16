@@ -61,7 +61,7 @@ char	*find_exec_path(char *all_path[], char *cmd_name)
 			return (NULL);
 		ft_snprintf(exec_path, exec_path_len + 1, "%s/%s",
 			all_path[i], cmd_name);
-		if (access(exec_path, F_OK) == 0)
+		if (access(exec_path, F_OK) == 0 && !is_dir(exec_path))
 			return (exec_path);
 		free(exec_path);
 		i++;
