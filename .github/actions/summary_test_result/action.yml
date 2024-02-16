@@ -1,0 +1,42 @@
+# .github/actions/summary_test_result/action.yml
+name: 'Summary Test Result Action'
+description: 'Compares failed counts between source and target branches'
+
+inputs:
+  source-failed-count:
+    description: 'Failed count on the source branch'
+    required: true
+  target-failed-count:
+    description: 'Failed count on the target branch'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🆚 Compare failed count
+      id: comparison
+      run: |
+        echo "TARGET_FAILED_COUNT: $TARGET_FAILED_COUNT"
+        echo "SOURCE_FAILED_COUNT: $SOURCE_FAILED_COUNT"
+        if [ $SOURCE_FAILED_COUNT -gt $TARGET_FAILED_COUNT ]; then
+          echo "SOURCE_FAILED_COUNT is greater than TARGET_FAILED_COUNT"
+          exit 1
+        else
+          echo "SOURCE_FAILED_COUNT is less than or equal to TARGET_FAILED_COUNT"
+          exit 0
+        fi
+      env:
+        SOURCE_FAILED_COUNT: ${{ inputs.source-failed-count }}
+        TARGET_FAILED_COUNT: ${{ inputs.target-failed-count }}
+      continue-on-error: true
+      shell: bash
+
+    - name: 📈 Show the regressions between SOURCE and TARGET branch
+      if: steps.comparison.outcome == 'failure'
+      run: $HOME/print_changed_test_cases.sh
+      shell: bash
+
+    - name: 📉 Show the improvements between SOURCE and TARGET branch
+      if: steps.comparison.outcome == 'success'
+      run: $HOME/print_changed_test_cases.sh || true
+      shell: bash
