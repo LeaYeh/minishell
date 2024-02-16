@@ -143,3 +143,79 @@ jobs:
         with:
           source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
           target_failed_count: ${{ env.TARGET_FAILED_COUNT }}
+
+  empty_env_regression_test:
+    name: Empty Environment Regression Test
+    runs-on: ubuntu-latest
+    needs: compilation_test
+    timeout-minutes: 10
+    steps:
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
+      - name: Set up test environment
+        uses: ./.github/actions/setup
+      - name: 🌱 Test source branch of pull request
+        run: |
+          make fclean test
+          $HOME/42_minishell_tester/tester.sh ne > $HOME/source_test_result.txt
+        env:
+          GH_BRANCH: "SOURCE_FAILED_COUNT"
+      - name: 📝 Print all test cases that failed on source branch
+        run: |
+          export RESULT_FILE="$HOME/source_test_result.txt"
+          $HOME/print_all_failed_test_cases.sh
+      - name: Checkout target branch of pull request
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+      - name: 🎯 Test target branch of pull request
+        run: |
+          make fclean test
+          $HOME/42_minishell_tester/tester.sh ne > $HOME/target_test_result.txt
+        env:
+          GH_BRANCH: "TARGET_FAILED_COUNT"
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
+      - name: Summary regression test result
+        uses: ./.github/actions/summary_test_result
+        with:
+          source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
+          target_failed_count: ${{ env.TARGET_FAILED_COUNT }}
+
+  hardcore_regression_test:
+    name: Hardcore Regression Test
+    runs-on: ubuntu-latest
+    needs: compilation_test
+    timeout-minutes: 10
+    steps:
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
+      - name: Set up test environment
+        uses: ./.github/actions/setup
+      - name: 🌱 Test source branch of pull request
+        run: |
+          make fclean test
+          $HOME/42_minishell_tester/tester.sh d > $HOME/source_test_result.txt
+        env:
+          GH_BRANCH: "SOURCE_FAILED_COUNT"
+      - name: 📝 Print all test cases that failed on source branch
+        run: |
+          export RESULT_FILE="$HOME/source_test_result.txt"
+          $HOME/print_all_failed_test_cases.sh
+      - name: Checkout target branch of pull request
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+      - name: 🎯 Test target branch of pull request
+        run: |
+          make fclean test
+          $HOME/42_minishell_tester/tester.sh d > $HOME/target_test_result.txt
+        env:
+          GH_BRANCH: "TARGET_FAILED_COUNT"
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
+      - name: Summary regression test result
+        uses: ./.github/actions/summary_test_result
+        with:
+          source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
+          target_failed_count: ${{ env.TARGET_FAILED_COUNT }}
