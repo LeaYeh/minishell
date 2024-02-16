@@ -58,7 +58,7 @@ jobs:
           make fclean test
           $HOME/42_minishell_tester/tester.sh va
         env:
-          GH_BRANCH: "IGNORE"
+          GH_BRANCH: IGNORE
 
   combine_memory_leak_test_results:
     name: Combine Memory Leak Test Results
@@ -83,7 +83,7 @@ jobs:
           make fclean test
           $HOME/42_minishell_tester/tester.sh m > $HOME/source_test_result.txt
         env:
-          GH_BRANCH: "SOURCE_FAILED_COUNT"
+          GH_BRANCH: SOURCE_FAILED_COUNT
       - name: 📝 Print all test cases that failed on source branch
         run: |
           export RESULT_FILE="$HOME/source_test_result.txt"
@@ -97,10 +97,10 @@ jobs:
           make fclean test
           $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
         env:
-          GH_BRANCH: "TARGET_FAILED_COUNT"
+          GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
-      - name: Summary regression test result
+      - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
         with:
           source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
@@ -121,7 +121,7 @@ jobs:
           make fclean test
           $HOME/42_minishell_tester/tester.sh b > $HOME/source_test_result.txt
         env:
-          GH_BRANCH: "SOURCE_FAILED_COUNT"
+          GH_BRANCH: SOURCE_FAILED_COUNT
       - name: 📝 Print all test cases that failed on source branch
         run: |
           export RESULT_FILE="$HOME/source_test_result.txt"
@@ -135,10 +135,10 @@ jobs:
           make fclean test
           $HOME/42_minishell_tester/tester.sh b > $HOME/target_test_result.txt
         env:
-          GH_BRANCH: "TARGET_FAILED_COUNT"
+          GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
-      - name: Summary regression test result
+      - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
         with:
           source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
@@ -159,7 +159,7 @@ jobs:
           make fclean test
           $HOME/42_minishell_tester/tester.sh ne > $HOME/source_test_result.txt
         env:
-          GH_BRANCH: "SOURCE_FAILED_COUNT"
+          GH_BRANCH: SOURCE_FAILED_COUNT
       - name: 📝 Print all test cases that failed on source branch
         run: |
           export RESULT_FILE="$HOME/source_test_result.txt"
@@ -173,10 +173,10 @@ jobs:
           make fclean test
           $HOME/42_minishell_tester/tester.sh ne > $HOME/target_test_result.txt
         env:
-          GH_BRANCH: "TARGET_FAILED_COUNT"
+          GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
-      - name: Summary regression test result
+      - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
         with:
           source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
@@ -197,7 +197,7 @@ jobs:
           make fclean test
           $HOME/42_minishell_tester/tester.sh d > $HOME/source_test_result.txt
         env:
-          GH_BRANCH: "SOURCE_FAILED_COUNT"
+          GH_BRANCH: SOURCE_FAILED_COUNT
       - name: 📝 Print all test cases that failed on source branch
         run: |
           export RESULT_FILE="$HOME/source_test_result.txt"
@@ -211,10 +211,10 @@ jobs:
           make fclean test
           $HOME/42_minishell_tester/tester.sh d > $HOME/target_test_result.txt
         env:
-          GH_BRANCH: "TARGET_FAILED_COUNT"
+          GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
-      - name: Summary regression test result
+      - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
         with:
           source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}

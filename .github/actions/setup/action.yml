@@ -1,8 +1,8 @@
 # .github/actions/setup/action.yml
-name: 'Setup Testing Environment'
-description: 'Setup action'
+name: Set Up Test Environment Action
+description: Setup action
 runs:
-  using: "composite"
+  using: composite
   steps:
     - run: |
         sudo apt-get update

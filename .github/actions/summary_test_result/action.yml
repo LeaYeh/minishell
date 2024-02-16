@@ -1,17 +1,15 @@
 # .github/actions/summary_test_result/action.yml
-name: 'Summary Test Result Action'
-description: 'Compares failed counts between source and target branches'
-
+name: Test Result Summary Action
+description: Compares failed counts between source and target branches
 inputs:
   source_failed_count:
-    description: 'Failed count on the source branch'
+    description: Failed count on the source branch
     required: true
   target_failed_count:
-    description: 'Failed count on the target branch'
+    description: Failed count on the target branch
     required: true
-
 runs:
-  using: 'composite'
+  using: composite
   steps:
     - name: 🆚 Compare failed count
       id: comparison
@@ -30,13 +28,11 @@ runs:
         TARGET_FAILED_COUNT: ${{ inputs.target_failed_count }}
       continue-on-error: true
       shell: bash
-
-    - name: 📈 Show the regressions between SOURCE and TARGET branch
+    - name: 📈 Show the regressions between source and target branch
       if: steps.comparison.outcome == 'failure'
       run: $HOME/print_changed_test_cases.sh
       shell: bash
-
-    - name: 📉 Show the improvements between SOURCE and TARGET branch
+    - name: 📉 Show the improvements between source and target branch
       if: steps.comparison.outcome == 'success'
       run: $HOME/print_changed_test_cases.sh || true
       shell: bash
