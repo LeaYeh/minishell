@@ -59,3 +59,4 @@ runs:
         echo "${{ env.print_failed_source }}" >> $GITHUB_STEP_SUMMARY
         echo "### Test target" >> $GITHUB_STEP_SUMMARY
         echo "${{ env.test_target }}" >> $GITHUB_STEP_SUMMARY
+      shell: bash
