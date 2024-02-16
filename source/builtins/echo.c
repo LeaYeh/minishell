@@ -1,9 +1,19 @@
-#include "defines.h"
 #include "utils.h"
 
-bool	is_newline_option(char *str)
+bool	is_newline_option(char *args[], int *i)
 {
-	if (str && ft_strcmp(str, "-n") == 0)
+	int	j;
+
+	while (args[*i] && ft_strncmp(args[*i], "-n", 2) == 0)
+	{
+		j = 2;
+		while (args[*i][j] == 'n')
+			j++;
+		if (args[*i][j] != '\0')
+			break ;
+		(*i)++;
+	}
+	if (*i > 1)
 		return (true);
 	return (false);
 }
@@ -60,11 +70,8 @@ int	ft_exec_echo(char *args[])
 	char	*combined_str;
 
 	i = 1;
-	if (is_newline_option(args[i]))
-	{
+	if (is_newline_option(args, &i))
 		end_with_newline = false;
-		i++;
-	}
 	else
 		end_with_newline = true;
 	combined_str = combine_args(args + i, end_with_newline);
