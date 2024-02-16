@@ -51,7 +51,7 @@ bool	separate_operators(t_list *lst_node, size_t i)
 			skip_double_quote(token_data, &i);
 		else if (ft_strncmp(&token_data[i], DOLLAR_BRACE, 2) == 0)
 			skip_dollar_brace(token_data, &i, false);
-		else if (ft_strchr(TOK_SYMBOLS, token_data[i]))
+		else if (is_operator(&token_data[i]))
 		{
 			if (!split_and_advance_node(&lst_node, &token_data, &i))
 				return (false);
