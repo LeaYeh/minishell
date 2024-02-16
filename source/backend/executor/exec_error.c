@@ -11,14 +11,23 @@
 /* ************************************************************************** */
 
 #include "defines.h"
+#include "utils.h"
 
 bool	check_executable(t_shell *shell, char *filename)
 {
 	if (access(filename, F_OK) != 0)
 	{
 		shell->exit_code = CMD_NOT_FOUND;
-		ft_dprintf(2, "%s: %s: command not found\n",
-			PROGRAM_NAME, filename);
+		if (ft_strchr(filename, '/'))
+			ft_dprintf(2, ERROR_PATH_NOT_FOUND, PROGRAM_NAME, filename);
+		else
+			ft_dprintf(2, ERROR_CMD_NOT_FOUND, PROGRAM_NAME, filename);
+		return (false);
+	}
+	else if (is_dir(filename))
+	{
+		shell->exit_code = CMD_EXEC_FAILED;
+		ft_dprintf(2, "%s: %s: Is a directory\n", PROGRAM_NAME, filename);
 		return (false);
 	}
 	else if (access(filename, X_OK) != 0)
