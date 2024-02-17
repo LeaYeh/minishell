@@ -46,17 +46,6 @@ bool	is_control_op(int token_type)
 	return (token_type == T_AND || token_type == T_OR || token_type == T_PIPE);
 }
 
-// bool	is_identifier(int token_type)
-// {
-// 	return (token_type < 100 && token_type >= 0);
-// }
-
-
-// bool	is_rule(int token_type)
-// {
-// 	return (token_type >= 100);
-// }
-
 bool	is_word(int token_type)
 {
 	return (token_type == T_WORD || token_type == T_ASSIGNMENT_WORD);

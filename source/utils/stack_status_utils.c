@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   io_redirect_status_utils.c                         :+:      :+:    :+:   */
+/*   stack_status_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/17 23:49:36 by lyeh              #+#    #+#             */
-/*   Updated: 2024/02/17 23:49:38 by lyeh             ###   ########.fr       */
+/*   Created: 2024/02/17 23:54:50 by lyeh              #+#    #+#             */
+/*   Updated: 2024/02/17 23:54:51 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
 #include "utils.h"
 
-int	get_redirect_type_from_list(t_list *io_red_list)
+t_ast	*get_ast_from_stack(t_list *node)
 {
-	t_io_red	*io_red;
+	if (!node)
+		return (NULL);
+	return ((t_ast *)node->content);
+}
 
-	if (!io_red_list)
-		return (T_NONE);
-	io_red = io_red_list->content;
-	return (io_red->type);
+void	print_parse_stack(t_list *node)
+{
+	while (node)
+	{
+		if (get_token_from_stack(node))
+			printf("%d <- ", get_ast_from_stack(node)->type);
+		node = node->next;
+	}
+	printf("(NULL)\n");
 }

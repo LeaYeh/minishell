@@ -76,37 +76,3 @@ t_list	*dup_token_list(t_list *token_list)
 	}
 	return (dup_list);
 }
-
-t_token	*get_token_from_list(t_list *token_list)
-{
-	if (!token_list)
-		return (NULL);
-	return ((t_token *)token_list->content);
-}
-
-int	get_token_type_from_list(t_list *token_list)
-{
-	if (!token_list)
-		return (T_NONE);
-	return (((t_token *)token_list->content)->type);
-}
-
-char	*get_token_data_from_list(t_list *token_list)
-{
-	if (!token_list)
-		return (NULL);
-	return (((t_token *)token_list->content)->data);
-}
-
-void	print_token(t_token *token)
-{
-	printf("(type: %s, data: %s)\n",
-		ft_get_token_type_str(token->type), token->data);
-}
-
-void	print_token_list(t_list *token_list)
-{
-	printf("-------- TOKEN LIST --------\n");
-	ft_lstiter(token_list, (void *)print_token);
-	printf("----------------------------\n\n");
-}
