@@ -13,7 +13,7 @@ bool	valid_number(char *str)
 {
 	int	i;
 
-	if (!str)
+	if (!str || !*str)
 		return (false);
 	i = 0;
 	if (ft_strlen(str) > 1 && is_sign(str[i]))
@@ -51,7 +51,6 @@ bool	is_atol_overflow(char *str)
 int	get_args_error(char *args[])
 {
 	int	type;
-	// int	i;
 
 	if (!args[1])
 		return (NO_ARGS);
@@ -59,18 +58,6 @@ int	get_args_error(char *args[])
 	if (!valid_number(args[1]) || is_atol_overflow(args[1]))
 		type = NOT_NUMERIC;
 	else if (get_array_len(args) > 2)
-	{
 		type = TOO_MANY_ARGS;
-		// i = 1;
-		// while (args[i])
-		// {
-		// 	if (!valid_number(args[i]) || is_overflow(args[i]))
-		// 	{
-		// 		type = NOT_NUMERIC;
-		// 		break ;
-		// 	}
-		// 	i++;
-		// }
-	}
 	return (type);
 }
