@@ -53,10 +53,12 @@ bool	is_bad_substitution(char *str, t_expander_op op_mask)
 {
 	size_t	i;
 
+	if (!(op_mask & (E_EXPAND | E_HEREDOC)))
+		return (false);
 	i = 0;
 	while (str[i])
 	{
-		if (op_mask & ~E_HEREDOC)
+		if (!(op_mask & E_HEREDOC))
 			skip_to_dollar_not_in_single_quotes(str, &i);
 		if (!str[i])
 			break ;

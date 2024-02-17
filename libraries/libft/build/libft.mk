@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/01/29 05:39:01 by ldulling         ###   ########.fr        #
+#    Updated: 2024/02/15 12:16:17 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,7 +119,6 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 SUBDIR	:=	strings/
 TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_itoa.c \
-			ft_rplc_part_of_str.c \
 			ft_split.c \
 			ft_split_at_index.c \
 			ft_strchr.c \
@@ -135,8 +134,10 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_strmapi.c \
 			ft_strmatches_any.c \
 			ft_strncmp.c \
+			ft_strndup.c \
 			ft_strnstr.c \
 			ft_strrchr.c \
+			ft_strrplc_part.c \
 			ft_strrplc_sequence.c \
 			ft_strtok.c \
 			ft_strtrim.c \

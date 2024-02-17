@@ -24,6 +24,39 @@ bool	replace_string_content(char **str, char *new_content)
 	return (true);
 }
 
+static int	get_open_pair_index(unsigned char c, t_is_open_pair_op operation)
+{
+	if (operation == OP_CLEAN)
+		return (0);
+	if (c == '\'')
+		return (0);
+	if (c == '"')
+		return (1);
+	return (-1);
+}
+
+bool	is_open_pair(unsigned char c, t_is_open_pair_op operation)
+{
+	static bool	status[2];
+	int			i;
+
+	if (c == 0 && operation == OP_GET)
+		return (status[0] || status[1]);
+	i = get_open_pair_index(c, operation);
+	if (i == -1)
+		return (false);
+	if (operation == OP_GET)
+		return (status[i]);
+	else if (operation == OP_SET)
+		status[i] ^= true;
+	else if (operation == OP_RESET)
+		status[i] = false;
+	else if (operation == OP_CLEAN)
+		while (i < 2)
+			status[i++] = false;
+	return (status[i]);
+}
+
 bool	is_valid_varname(char *str)
 {
 	int	i;
@@ -103,6 +136,8 @@ bool	skip_single_quote(char *str, size_t *i)
 {
 	size_t	start;
 
+	if (is_open_pair('\'', OP_GET))
+		return (false);
 	start = *i;
 	while (str[(*i)++])
 	{
@@ -113,7 +148,7 @@ bool	skip_single_quote(char *str, size_t *i)
 	return (false);
 }
 
-int	count_total_strlen(t_list *list, char *delim)
+int	get_list_strlen(t_list *list, char *delim)
 {
 	int		total_length;
 	t_list	*node;
@@ -136,7 +171,7 @@ char	*concat_list_to_string(t_list *list, char *delim)
 	int		cur_len;
 	int		delim_len;
 
-	str = (char *)ft_calloc(count_total_strlen(list, delim) + 1, sizeof(char));
+	str = (char *)ft_calloc(get_list_strlen(list, delim) + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	if (delim)
