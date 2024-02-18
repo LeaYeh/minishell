@@ -46,7 +46,8 @@ char	**convert_list_to_string_array(t_list *list)
 	int		i;
 
 	i = 0;
-	str_array = (char **)malloc((ft_lstsize_non_null(list) + 1) * sizeof(char *));
+	str_array = (char **)malloc(
+			(ft_lstsize_non_null(list) + 1) * sizeof(char *));
 	if (!str_array)
 		return (NULL);
 	while (list)
@@ -70,8 +71,8 @@ char	**append_string_array(char *array[], char *str)
 	char	**new_array;
 	int		i;
 
-	new_array = (char **)malloc((get_array_len(array) + (str != NULL) + 1) *
-		sizeof(char *));
+	new_array = (char **)malloc(
+			(get_array_len(array) + (str != NULL) + 1) * sizeof(char *));
 	if (!new_array)
 		return (free_array(&array), NULL);
 	i = 0;

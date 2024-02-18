@@ -1,24 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   io_redirect_status_utils.c                         :+:      :+:    :+:   */
+/*   varname_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/17 23:49:36 by lyeh              #+#    #+#             */
-/*   Updated: 2024/02/17 23:49:38 by lyeh             ###   ########.fr       */
+/*   Created: 2024/02/18 00:12:16 by lyeh              #+#    #+#             */
+/*   Updated: 2024/02/18 00:12:17 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "defines.h"
 #include "utils.h"
 
-int	get_redirect_type_from_list(t_list *io_red_list)
+bool	is_valid_varname(char *str)
 {
-	t_io_red	*io_red;
+	int	i;
 
-	if (!io_red_list)
-		return (T_NONE);
-	io_red = io_red_list->content;
-	return (io_red->type);
+	i = 0;
+	if (!str || !is_valid_varname_start(str[i]))
+		return (false);
+	i++;
+	while (str[i] && str[i] != '=')
+	{
+		if (!is_valid_varname_char(str[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+bool	is_valid_varname_char(char c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
+
+bool	is_valid_varname_start(char c)
+{
+	return (ft_isalpha(c) || c == '_');
 }

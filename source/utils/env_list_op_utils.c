@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment_utils.c                                :+:      :+:    :+:   */
+/*   env_list_op_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 19:31:17 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/20 19:43:11 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/02/18 00:15:53 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "clean.h"
+#include "defines.h"
 #include "utils.h"
+#include "clean.h"
 
 bool	append_env_node(
 	t_list **env_list, char *key, char *value, t_export export)
 {
 	t_env	*env_node;
-
 
 	env_node = (t_env *)malloc(sizeof(t_env));
 	if (!env_node)
@@ -29,79 +28,6 @@ bool	append_env_node(
 	if (!ft_lstnew_back(env_list, env_node))
 		return (free(env_node), false);
 	return (true);
-}
-
-t_env	*find_env_node(t_list *env_list, char *key, char *value)
-{
-	t_env	*env_node;
-
-	while (env_list)
-	{
-		env_node = env_list->content;
-		if (key && value)
-		{
-			if (env_node->value && ft_strcmp(env_node->key, key) == 0 && \
-				ft_strcmp(env_node->value, value) == 0)
-				return (env_node);
-		}
-		else if (key)
-		{
-			if (ft_strcmp(env_node->key, key) == 0)
-				return (env_node);
-		}
-		else if (value)
-			if (env_node->value && ft_strcmp(env_node->value, value) == 0)
-				return (env_node);
-		env_list = env_list->next;
-	}
-	return (NULL);
-}
-
-char	*get_value_from_env_list(t_list *env_list, char *key)
-{
-	t_env	*env_node;
-
-	while (env_list)
-	{
-		env_node = env_list->content;
-		if (ft_strcmp(env_node->key, key) == 0)
-			return (env_node->value);
-		env_list = env_list->next;
-	}
-	return (NULL);
-}
-
-bool	is_exported_env_node(t_list *env_list, char *key)
-{
-	t_env	*env_node;
-
-	while (env_list)
-	{
-		env_node = env_list->content;
-		if (ft_strcmp(env_node->key, key) == 0 && \
-			env_node->export == X_EXPORT_YES)
-			return (true);
-		env_list = env_list->next;
-	}
-	return (false);
-}
-
-bool	is_key_in_env_list(t_list *env_list, char *key)
-{
-	t_list	*cur;
-	t_env	*env_node;
-
-	if (!env_list || !key)
-		return (false);
-	cur = env_list;
-	while (cur)
-	{
-		env_node = (t_env *)cur->content;
-		if (ft_strcmp(env_node->key, key) == 0)
-			return (true);
-		cur = cur->next;
-	}
-	return (false);
 }
 
 bool	process_str_to_env_list(char *str, t_list **env_list, t_export export)

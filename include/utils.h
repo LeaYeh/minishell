@@ -20,7 +20,6 @@ void		free_token_node(t_token *token);
 t_token		*get_token_from_list(t_list *token_list);
 int			get_token_type_from_list(t_list *token_list);
 char		*get_token_data_from_list(t_list *token_list);
-void		print_token_list(t_list *token_list);
 t_token		*dup_token_node(t_token *token);
 t_list		*dup_token_list(t_list *token_list);
 
@@ -54,6 +53,15 @@ void		move_past_pipeline(t_list_d **cmd_table_node);
 void		free_final_cmd_table(
 				t_final_cmd_table **final_cmd_table, bool close_fd);
 bool		set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
+bool		setup_exec_path(t_final_cmd_table *final_cmd_table);
+bool		setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list);
+bool		setup_assignment_array(t_final_cmd_table *final_cmd_table,
+				t_list *assignment_list);
+bool		setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list);
+void		setup_fd(
+				t_shell *shell, t_final_cmd_table *final_cmd_table);
+bool		expand_simple_cmd(t_shell *shell, t_list *simple_cmd_list);
+int			get_env_size(t_list *env_list);
 
 /* Environment utils */
 bool		extract_env_key(char **res, const char *str);
