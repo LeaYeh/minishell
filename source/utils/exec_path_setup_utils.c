@@ -13,16 +13,37 @@
 #include "defines.h"
 #include "utils.h"
 
-bool	set_all_path(char ***all_path, char *env[])
+bool	append_path(t_list **path_list, char *path)
 {
-	char	*path_value;
-
-	path_value = get_value_from_env(env, "PATH");
-	if (!path_value)
-		return (*all_path = NULL, true);
-	*all_path = ft_split(path_value, ':');
-	if (!*all_path)
+	if (*path)
+		path = ft_strdup(path);
+	else
+		path = ft_strdup(".");
+	if (!path)
 		return (false);
+	return (ft_lstnew_back(path_list, path));
+}
+
+bool	set_path_list(t_list **path_list, char *env[])
+{
+	char	*colon;
+	char	*path;
+
+	path = get_value_from_env(env, "PATH");
+	if (!path)
+		return (*path_list = NULL, true);
+	*path_list = NULL;
+	while (true)
+	{
+		colon = ft_strchr(path, ':');
+		if (colon)
+			*colon = '\0';
+		if (!append_path(path_list, path))
+			return (ft_lstclear(path_list, free), false);
+		if (!colon)
+			break ;
+		path = colon + 1;
+	}
 	return (true);
 }
 
@@ -41,68 +62,40 @@ bool	confirm_exec_path(char **exec_path, char **tmp)
 	return (false);
 }
 
-bool	find_exec_path(char **exec_path, char *all_path[], char *cmd_name)
+bool	find_exec_path(char **exec_path, t_list *path_list, char *cmd_name)
 {
 	int		cmd_name_len;
 	int		exec_path_len;
-	int		i;
 	char	*tmp;
 
 	cmd_name_len = ft_strlen(cmd_name);
 	tmp = NULL;
-	i = 0;
-	while (all_path[i])
+	while (path_list)
 	{
-		exec_path_len = ft_strlen(all_path[i]) + 1 + cmd_name_len;
+		exec_path_len = ft_strlen(path_list->content) + 1 + cmd_name_len;
 		tmp = (char *)malloc(exec_path_len + 1);
 		if (!tmp)
 			return (false);
-		ft_snprintf(tmp, exec_path_len + 1, "%s/%s", all_path[i], cmd_name);
+		ft_snprintf(tmp, exec_path_len + 1, "%s/%s",
+			path_list->content, cmd_name);
 		if (confirm_exec_path(exec_path, &tmp))
 			return (true);
-		i++;
+		path_list = path_list->next;
 	}
 	return (true);
 }
 
 bool	set_exec_path(char **exec_path, char *cmd_name, char *env[])
 {
-	char	**all_path;
+	t_list	*path_list;
 
 	if (ft_strchr(cmd_name, '/'))
 		return ((*exec_path = ft_strdup(cmd_name)) != NULL);
-	if (!set_all_path(&all_path, env))
+	if (!set_path_list(&path_list, env))
 		return (false);
-	if (!all_path)
+	if (!path_list)
 		return ((*exec_path = ft_strdup(cmd_name)) != NULL);
-	if (!find_exec_path(exec_path, all_path, cmd_name))
-		return (free_array(&all_path), false);
-	return (free_array(&all_path), true);
+	if (!find_exec_path(exec_path, path_list, cmd_name))
+		return (ft_lstclear(&path_list, free), false);
+	return (ft_lstclear(&path_list, free), true);
 }
-
-// char	*get_exec_path(char *cmd_name, char *env[])
-// {
-// 	char	**all_path;
-// 	char	*part_path;
-// 	char	*exec_path;
-// 	int		i;
-
-// 	if (ft_strchr(cmd_name, '/') && access(cmd_name, F_OK) == 0)
-// 		return (ft_strdup(cmd_name));
-// 	exec_path = get_value_from_env(env, "PATH");
-// 	all_path = ft_split(exec_path, ':');
-// 	ft_free_and_null((void **)&exec_path);
-// 	i = 0;
-// 	while (all_path && all_path[i])
-// 	{
-// 		part_path = ft_strjoin(all_path[i], "/");
-// 		exec_path = ft_strjoin(part_path, cmd_name);
-// 		ft_free_and_null((void **)&part_path);
-// 		if (access(exec_path, F_OK) == 0)
-// 			break ;
-// 		ft_free_and_null((void **)&exec_path);
-// 		i++;
-// 	}
-// 	free_array(&all_path, -1);
-// 	return (exec_path);
-// }
