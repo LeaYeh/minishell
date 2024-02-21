@@ -19,7 +19,7 @@ bool	set_all_path(char ***all_path, char *env[])
 
 	path_value = get_value_from_env(env, "PATH");
 	if (!path_value)
-		return (*all_path = NULL, true);	// Segfault later in such a case
+		return (*all_path = NULL, true);
 	*all_path = ft_split(path_value, ':');
 	if (!*all_path)
 		return (false);
@@ -73,10 +73,8 @@ bool	set_exec_path(char **exec_path, char *cmd_name, char *env[])
 		return ((*exec_path = ft_strdup(cmd_name)) != NULL);
 	if (!set_all_path(&all_path, env))
 		return (false);
-	// if (!all_path)
-	// {
-	//TODO 	One (or some) of the PATH env-var issues need to be solved here.
-	// }
+	if (!all_path)
+		return ((*exec_path = ft_strdup(cmd_name)) != NULL);
 	if (!find_exec_path(exec_path, all_path, cmd_name))
 		return (free_array(&all_path), false);
 	return (free_array(&all_path), true);
