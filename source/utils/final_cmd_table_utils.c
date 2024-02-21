@@ -32,7 +32,8 @@ void	free_final_cmd_table(t_final_cmd_table **final_cmd_table, bool close_fd)
 bool	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 {
 	free_final_cmd_table(&shell->final_cmd_table, false);
-	shell->final_cmd_table = ft_calloc(1, sizeof(t_final_cmd_table));
+	shell->final_cmd_table = (t_final_cmd_table *)ft_calloc(
+			1, sizeof(t_final_cmd_table));
 	if (!shell->final_cmd_table || \
 		!setup_env(shell->final_cmd_table, shell->env_list) || \
 		!setup_simple_cmd(shell, cmd_table->simple_cmd_list) || \

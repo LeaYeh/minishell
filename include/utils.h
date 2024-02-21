@@ -62,6 +62,7 @@ void		setup_fd(
 				t_shell *shell, t_final_cmd_table *final_cmd_table);
 bool		expand_simple_cmd(t_shell *shell, t_list *simple_cmd_list);
 int			get_env_size(t_list *env_list);
+bool		set_exec_path(char **exec_path, char *cmd_name, char *env[]);
 
 /* Environment utils */
 bool		extract_env_key(char **res, const char *str);

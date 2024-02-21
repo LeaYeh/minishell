@@ -13,75 +13,73 @@
 #include "defines.h"
 #include "utils.h"
 
-char	*get_base_filename(char	*full_name)
-{
-	char	*ret;
-	char	**tmp;
-	int		array_len;
-
-	tmp = ft_split(full_name, '/');
-	if (!tmp)
-		return (NULL);
-	array_len = get_array_len(tmp);
-	if (array_len > 0)
-		ret = ft_strdup(tmp[array_len - 1]);
-	else
-		ret = NULL;
-	free_array(&tmp);
-	return (ret);
-}
-
 bool	set_all_path(char ***all_path, char *env[])
 {
 	char	*path_value;
 
 	path_value = get_value_from_env(env, "PATH");
 	if (!path_value)
-		return (*all_path = NULL, true);
+		return (*all_path = NULL, true);	// Segfault later in such a case
 	*all_path = ft_split(path_value, ':');
 	if (!*all_path)
 		return (false);
 	return (true);
 }
 
-char	*find_exec_path(char *all_path[], char *cmd_name)
+bool	confirm_exec_path(char **exec_path, char **tmp)
 {
-	char	*exec_path;
-	int		exec_path_len;
+	if (access(*tmp, X_OK) == 0 && !is_dir(*tmp))
+	{
+		free(*exec_path);
+		*exec_path = *tmp;
+		return (true);
+	}
+	else if (!*exec_path && access(*tmp, F_OK) == 0 && !is_dir(*tmp))
+		*exec_path = *tmp;
+	else
+		ft_free_and_null((void **)tmp);
+	return (false);
+}
+
+bool	find_exec_path(char **exec_path, char *all_path[], char *cmd_name)
+{
 	int		cmd_name_len;
+	int		exec_path_len;
 	int		i;
+	char	*tmp;
 
 	cmd_name_len = ft_strlen(cmd_name);
+	tmp = NULL;
 	i = 0;
 	while (all_path[i])
 	{
 		exec_path_len = ft_strlen(all_path[i]) + 1 + cmd_name_len;
-		exec_path = (char *)malloc(exec_path_len + 1);
-		if (!exec_path)
-			return (NULL);
-		ft_snprintf(exec_path, exec_path_len + 1, "%s/%s",
-			all_path[i], cmd_name);
-		if (access(exec_path, F_OK) == 0 && !is_dir(exec_path))
-			return (exec_path);
-		free(exec_path);
+		tmp = (char *)malloc(exec_path_len + 1);
+		if (!tmp)
+			return (false);
+		ft_snprintf(tmp, exec_path_len + 1, "%s/%s", all_path[i], cmd_name);
+		if (confirm_exec_path(exec_path, &tmp))
+			return (true);
 		i++;
 	}
-	return (ft_strdup(cmd_name));
+	return (true);
 }
 
-char	*get_exec_path(char *cmd_name, char *env[])
+bool	set_exec_path(char **exec_path, char *cmd_name, char *env[])
 {
-	char	*exec_path;
 	char	**all_path;
 
 	if (ft_strchr(cmd_name, '/'))
-		return (ft_strdup(cmd_name));
+		return ((*exec_path = ft_strdup(cmd_name)) != NULL);
 	if (!set_all_path(&all_path, env))
-		return (NULL);
-	if (!all_path)
-		return (ft_strdup(cmd_name));
-	exec_path = find_exec_path(all_path, cmd_name);
-	return (free_array(&all_path), exec_path);
+		return (false);
+	// if (!all_path)
+	// {
+	//TODO 	One (or some) of the PATH env-var issues need to be solved here.
+	// }
+	if (!find_exec_path(exec_path, all_path, cmd_name))
+		return (free_array(&all_path), false);
+	return (free_array(&all_path), true);
 }
 
 // char	*get_exec_path(char *cmd_name, char *env[])
