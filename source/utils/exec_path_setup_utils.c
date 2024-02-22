@@ -13,15 +13,22 @@
 #include "defines.h"
 #include "utils.h"
 
-bool	append_path(t_list **path_list, char *path)
+bool	append_path(t_list **path_list, char *path, char *colon)
 {
-	if (*path)
-		path = ft_strdup(path);
+	int		len;
+	char	*path_part;
+
+	if (colon)
+		len = colon - path;
 	else
-		path = ft_strdup(".");
-	if (!path)
+		len = ft_strlen(path);
+	if (len != 0)
+		path_part = ft_strndup(path, len);
+	else
+		path_part = ft_strdup(".");
+	if (!path_part)
 		return (false);
-	return (ft_lstnew_back(path_list, path));
+	return (ft_lstnew_back(path_list, path_part));
 }
 
 bool	set_path_list(t_list **path_list, char *env[])
@@ -29,16 +36,14 @@ bool	set_path_list(t_list **path_list, char *env[])
 	char	*colon;
 	char	*path;
 
+	*path_list = NULL;
 	path = get_value_from_env(env, "PATH");
 	if (!path)
-		return (*path_list = NULL, true);
-	*path_list = NULL;
+		return (true);
 	while (true)
 	{
 		colon = ft_strchr(path, ':');
-		if (colon)
-			*colon = '\0';
-		if (!append_path(path_list, path))
+		if (!append_path(path_list, path, colon))
 			return (ft_lstclear(path_list, free), false);
 		if (!colon)
 			break ;
