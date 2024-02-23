@@ -28,13 +28,6 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node);
 // void	handle_builtin(t_shell *shell,
 // 			t_list_d **cmd_table_node, t_final_cmd_table *final_cmd_table);
 
-/* Error checker */
-bool	check_executable(t_shell *shell, char *filename);
-bool	check_file(char *filename, int o_flag, int permission);
-
-/* Utils */
-char	*get_exec_path(char *cmd_name, char *env[]);
-
 /* Redirection */
 bool	restore_std_io(int saved_std_io[2]);
 bool	save_std_io(int saved_std_io[2]);

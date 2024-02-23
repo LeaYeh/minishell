@@ -26,7 +26,6 @@
 # include <sysexits.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
-# include <errno.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -149,6 +148,10 @@
 "%s: warning: failed to remove file `%s'\n"
 # define ERROR_CREATE_PIPE					\
 "pipe error: Too many open files\n"
+# define ERROR_CMD_NOT_FOUND				\
+"%s: %s: command not found\n"
+# define ERROR_CANNOT_EXEC_FILE				\
+"%s: %s: cannot execute file: %s\n"
 
 typedef enum e_heredoc_status
 {
