@@ -50,7 +50,7 @@
 // # define PROGRAM_NAME       "minishell: "
 # define PROGRAM_NAME       "\e[1;34m🌊rash\e[0m"
 
-# define EXIT_STR			"exit\n"
+# define EXIT_MSG			"exit\n"
 
 /* Error codes */
 # define SUCCESS            0
