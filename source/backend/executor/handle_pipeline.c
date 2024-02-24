@@ -34,8 +34,10 @@ void	wait_all_child_pid(t_shell *shell)
 		i++;
 		child_pid_node = child_pid_node->next;
 	}
-	if (shell->subshell_level <= 1 && shell->exit_code == 130)
-		printf("\n");
+	// if (WIFEXITED(shell->exit_status))
+	// 	printf("\n");
+	// if (shell->subshell_level <= 1 && shell->exit_code == 130)
+	// 	printf("\n");
 }
 
 bool	insert_child_pid_list(t_shell *shell, pid_t pid)
