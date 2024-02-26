@@ -42,6 +42,8 @@ int	handle_exit_status(int wstatus)
 
 void	wait_process(t_shell *shell, pid_t pid)
 {
-	waitpid(pid, &shell->exit_status, 0);
-	shell->exit_code = handle_exit_status(shell->exit_status);
+	int	wstatus;
+
+	waitpid(pid, &wstatus, 0);
+	shell->exit_code = handle_exit_status(wstatus);
 }

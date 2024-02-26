@@ -21,22 +21,21 @@ void	wait_all_child_pid(t_shell *shell)
 	t_list	*child_pid_node;
 	bool	need_newline;
 	pid_t	pid;
-	int		status;
+	int		wstatus;
 
 	need_newline = false;
 	child_pid_node = shell->child_pid_list;
 	while (child_pid_node)
 	{
 		pid = (pid_t)(long)child_pid_node->content;
-		waitpid(pid, &status, 0);
-		if (WTERMSIG(status) == SIGINT)
+		waitpid(pid, &wstatus, 0);
+		if (WTERMSIG(wstatus) == SIGINT)
 			need_newline = true;
 		child_pid_node = child_pid_node->next;
 	}
 	if (need_newline)
 		printf("\n");
-	shell->exit_status = status;
-	shell->exit_code = handle_exit_status(shell->exit_status);
+	shell->exit_code = handle_exit_status(wstatus);
 }
 
 bool	insert_child_pid_list(t_shell *shell, pid_t pid)

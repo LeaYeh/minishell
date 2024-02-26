@@ -374,7 +374,6 @@ typedef struct s_shell
 	int					subshell_level;
 	t_pipe				old_pipe;
 	t_pipe				new_pipe;
-	int					exit_status;
 	int					exit_code;
 	char				*input_line;
 	t_list				*child_pid_list;

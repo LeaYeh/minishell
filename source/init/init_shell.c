@@ -21,7 +21,6 @@ bool	init_shell(t_shell *shell)
 	shell->subshell_level = 0;
 	init_pipe(&shell->old_pipe);
 	init_pipe(&shell->new_pipe);
-	shell->exit_status = 0;
 	shell->exit_code = EXIT_SUCCESS;
 	shell->child_pid_list = NULL;
 	shell->env_list = NULL;
