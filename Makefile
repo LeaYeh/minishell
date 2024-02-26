@@ -148,8 +148,9 @@ noenv			:	all
 valfd			:	all
 ifneq ($(TERMINAL),)
 					$(TERMINAL) $(TERMINALFLAGS) \
-					"$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME) \
-					; zsh"
+					"zsh -c 'trap \"\" SIGINT ; \
+					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME) ; \
+					exec zsh'"
 else
 					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) "./$(NAME)"
 endif
