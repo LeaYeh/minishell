@@ -29,7 +29,7 @@ LIB_DIR			:=	libraries
 #	Dependencies
 
 LIBRARIES		:=	$(wildcard $(LIB_DIR)/*)
-LIBRARIES_EXT	:=	readline
+LIBRARIES_EXT	:=	readline termcap
 INCLUDES 		:=	-I./include -I./$(LIBRARIES)/inc
 
 
