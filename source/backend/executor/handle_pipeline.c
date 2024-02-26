@@ -27,7 +27,7 @@ void	wait_all_child_pid(t_shell *shell)
 	child_pid_node = shell->child_pid_list;
 	while (child_pid_node)
 	{
-		pid = *(pid_t *)child_pid_node->content;
+		pid = (pid_t)(long)child_pid_node->content;
 		waitpid(pid, &status, 0);
 		if (WTERMSIG(status) == SIGINT)
 			need_newline = true;
@@ -41,18 +41,7 @@ void	wait_all_child_pid(t_shell *shell)
 
 bool	insert_child_pid_list(t_shell *shell, pid_t pid)
 {
-	pid_t	*pid_ptr;
-
-	pid_ptr = (pid_t *)malloc(sizeof(pid_t));
-	if (!pid_ptr)
-		return (false);
-	*pid_ptr = pid;
-	if (!ft_lstnew_back(&shell->child_pid_list, pid_ptr))
-	{
-		free(pid_ptr);
-		return (false);
-	}
-	return (true);
+	return (ft_lstnew_back(&shell->child_pid_list, (void *)(long)pid));
 }
 
 void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)

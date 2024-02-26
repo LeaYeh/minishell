@@ -28,7 +28,7 @@ void	signal_to_all_subprocess(t_shell *shell, int signo)
 	node = shell->child_pid_list;
 	while (node)
 	{
-		child_pid = *(pid_t *)node->content;
+		child_pid = (pid_t)(long)node->content;
 		if (child_pid == pid)
 			break ;
 		kill(child_pid, signo);
