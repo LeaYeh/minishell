@@ -19,25 +19,24 @@
 void	wait_all_child_pid(t_shell *shell)
 {
 	t_list	*child_pid_node;
-	int		i;
+	bool	need_newline;
 	pid_t	pid;
 	int		status;
 
+	need_newline = false;
 	child_pid_node = shell->child_pid_list;
-	i = 0;
 	while (child_pid_node)
 	{
 		pid = *(pid_t *)child_pid_node->content;
-		if (i == 0)
-			wait_process(shell, pid);
 		waitpid(pid, &status, 0);
-		i++;
+		if (WTERMSIG(status) == SIGINT)
+			need_newline = true;
 		child_pid_node = child_pid_node->next;
 	}
-	// if (WIFEXITED(shell->exit_status))
-	// 	printf("\n");
-	// if (shell->subshell_level <= 1 && shell->exit_code == 130)
-	// 	printf("\n");
+	if (need_newline)
+		printf("\n");
+	shell->exit_status = status;
+	shell->exit_code = handle_exit_status(shell->exit_status);
 }
 
 bool	insert_child_pid_list(t_shell *shell, pid_t pid)
@@ -48,7 +47,7 @@ bool	insert_child_pid_list(t_shell *shell, pid_t pid)
 	if (!pid_ptr)
 		return (false);
 	*pid_ptr = pid;
-	if (!ft_lstnew_front(&shell->child_pid_list, pid_ptr))
+	if (!ft_lstnew_back(&shell->child_pid_list, pid_ptr))
 	{
 		free(pid_ptr);
 		return (false);
@@ -69,7 +68,7 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		else
 		{
 			if (need_pipe(*cmd_table_node) && !create_pipe(&shell->new_pipe))
-				raise_error_to_all_subprocess(shell, 129, ERROR_CREATE_PIPE);
+				raise_error_to_all_subprocess(shell, 129, ERROR_CREATE_PIPE);	// Magic number
 			if (cmd_table_type == C_SUBSHELL_START)
 				handle_subshell(shell, cmd_table_node);
 			else if (cmd_table_type == C_SIMPLE_CMD)

@@ -74,7 +74,6 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 			shell, shell->exit_code, "Clean up and abort the program");
 	else if (signo == SIGTERM && shell->subshell_level != 0)
 		ft_clean_and_exit_shell(shell, shell->exit_code, "SIGTERM");
-
 }
 
 void	handle_signal_heredoc(int signo, siginfo_t *info, void *context)
