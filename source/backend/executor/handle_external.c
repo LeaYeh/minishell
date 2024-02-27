@@ -25,6 +25,7 @@ void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 	setup_signal(shell, SIGQUIT, SIG_DEFAULT);
 	setup_signal(shell, SIGTERM, SIG_DEFAULT);
 	setup_signal(shell, SIGABRT, SIG_DEFAULT);
+	setup_signal(shell, SIGPIPE, SIG_DEFAULT);
 	execve(final_cmd_table->exec_path, final_cmd_table->simple_cmd,
 		final_cmd_table->env);
 	handle_exec_error(shell, final_cmd_table->exec_path);

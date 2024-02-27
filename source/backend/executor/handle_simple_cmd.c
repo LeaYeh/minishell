@@ -57,6 +57,7 @@ void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 			shell, FORK_ERROR, "handle_simple_cmd fork failed");
 	else if (shell->subshell_pid == 0)
 	{
+		setup_signal(shell, SIGPIPE, SIG_IGNORE);
 		shell->subshell_level += 1;
 		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
 		exec_simple_cmd(shell, cmd_table_node);
