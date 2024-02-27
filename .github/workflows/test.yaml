@@ -57,9 +57,13 @@ jobs:
       - name: 🔍 Check memory leaks
         run: |
           make fclean test
-          $HOME/42_minishell_tester/tester.sh va
+          $HOME/42_minishell_tester/tester.sh va > $HOME/leak_result.txt
         env:
           GH_BRANCH: IGNORE
+      - name: 📝 Print all test cases that leaked on source branch
+        run: |
+          export RESULT_FILE="$HOME/leak_result.txt"
+          $HOME/print_leak_test_cases.sh
 
   combine_memory_leak_test_results:
     name: Combine Memory Leak Test Results
