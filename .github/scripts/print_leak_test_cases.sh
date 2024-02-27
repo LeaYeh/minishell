@@ -1,6 +1,7 @@
 #!/bin/bash
 
 TEST_OUTPUT=$(cat "$RESULT_FILE")
+LEAKS=0
 
 # Extract line numbers and file paths from test output
 while IFS= read -r line; do
@@ -9,6 +10,7 @@ while IFS= read -r line; do
     echo "$line"
     line_number=$(echo "$line" | grep -oP '\d+' | tail -1 || true)
     file_path=$(echo "$line" | grep -oP '\s*'"$HOME"'/42_minishell_tester/cmds/.*\.sh' || true)
+    ((LEAKS++))
   fi
 
   # Print test case
@@ -21,3 +23,9 @@ while IFS= read -r line; do
   line_number=""
   file_path=""
 done <<< "$TEST_OUTPUT"
+
+if [[ $LEAKS -ne 0 ]] ; then
+  exit 1
+else
+  exit 0
+fi

@@ -60,6 +60,7 @@ jobs:
           $HOME/42_minishell_tester/tester.sh va > $HOME/leak_result.txt
         env:
           GH_BRANCH: IGNORE
+        continue-on-error: true
       - name: 📝 Print all test cases that leaked on source branch
         run: |
           export RESULT_FILE="$HOME/leak_result.txt"
