@@ -22,7 +22,7 @@ while IFS= read -r line; do
   fi
 
   # Check for the start of the result block and set the flag
-  if [[ $line == *"🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁"* ]]; then
+  if [[ $line =~ ^\s*[🏁]+\s*$ ]]; then
     RESULT=1
   fi
   # If the flag is set, print the line
