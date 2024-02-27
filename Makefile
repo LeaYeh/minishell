@@ -82,10 +82,11 @@ VALGRINDFLAGS	=	--errors-for-leak-kinds=all \
 
 VALGRINDFDFLAGS	:=	--track-fds=all
 
-VALGRINDIGNORE	:=	cat chmod cp diff find git grep head ls make man mkdir mv \
-					ncdu norminette ps rm sort tail time top touch wc which yes
+VALGRINDIGNORE	:=	norminette
 
-ABSOLUTE_PATHS	:=	$(foreach cmd,$(VALGRINDIGNORE),$(shell which $(cmd)))
+ABSOLUTE_PATHS	:=	/bin/* \
+					/usr/bin/* \
+					$(shell which -a $(VALGRINDIGNORE))
 
 
 #	Terminal
