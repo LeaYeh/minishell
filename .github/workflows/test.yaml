@@ -37,6 +37,7 @@ jobs:
     name: Memory Leak Test
     needs: prepare_test_matrix
     strategy:
+      fail-fast: false
       matrix:
         test_script: ${{ fromJson(needs.prepare_test_matrix.outputs.test_matrix) }}
     runs-on: ubuntu-latest
