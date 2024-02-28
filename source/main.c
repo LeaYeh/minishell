@@ -35,6 +35,8 @@ int	main(int argc, char *argv[])
 	while (true)
 	{
 		if (!ft_read_input(&shell))
+			continue ;
+		if (!shell.input_line)
 		{
 			if (!TEST_MODE)
 				printf("\n"EXIT_STR);
@@ -56,16 +58,20 @@ bool	ft_read_input(t_shell *shell)
 {
 	char	*line;
 
+	errno = SUCCESS;
 	if (isatty(fileno(stdin)))
 		shell->input_line = readline(PROMPT);
 	else
 	{
 		line = get_next_line(fileno(stdin));
-		shell->input_line = ft_strtrim(line, "\n");
-		free(line);
+		if (line)
+		{
+			shell->input_line = ft_strtrim(line, "\n");
+			free(line);
+		}
 	}
-	if (!shell->input_line)
+	if (errno != SUCCESS)
 		return (false);
 	add_history(shell->input_line);
-	return (true);
+	return (errno == SUCCESS);
 }
