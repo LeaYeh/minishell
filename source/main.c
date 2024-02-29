@@ -62,6 +62,7 @@ bool	ft_read_input(t_shell *shell)
 		shell->input_line = readline(PROMPT);
 	else
 	{
+		errno = SUCCESS;
 		line = get_next_line(fileno(stdin));
 		if (line)
 		{
