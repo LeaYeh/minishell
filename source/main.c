@@ -25,16 +25,17 @@ bool	ft_read_input(t_shell *shell);
 
 // If general error occurs, exit entire shell
 // if syntax error occurs, continue to next input
-int	main(int argc, char *argv[])
+int	main(void)
 {
 	t_shell	shell;
 
-	((void)argc, (void)argv);
 	if (!DEFINITIONS_OK || !init_shell(&shell))
 		raise_error_and_escape(&shell, "init shell failed");
 	while (true)
 	{
 		if (!ft_read_input(&shell))
+			continue ;
+		if (!shell.input_line)
 		{
 			if (!TEST_MODE)
 				printf("\n"EXIT_STR);
@@ -56,16 +57,21 @@ bool	ft_read_input(t_shell *shell)
 {
 	char	*line;
 
+	errno = SUCCESS;
 	if (isatty(fileno(stdin)))
 		shell->input_line = readline(PROMPT);
 	else
 	{
+		errno = SUCCESS;
 		line = get_next_line(fileno(stdin));
-		shell->input_line = ft_strtrim(line, "\n");
-		free(line);
+		if (line)
+		{
+			shell->input_line = ft_strtrim(line, "\n");
+			free(line);
+		}
 	}
-	if (!shell->input_line)
+	if (errno != SUCCESS)
 		return (false);
 	add_history(shell->input_line);
-	return (true);
+	return (errno == SUCCESS);
 }
