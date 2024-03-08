@@ -51,5 +51,6 @@ void	ft_clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)
 		printf("%s\n", msg);
 	ft_clean_shell(shell);
 	safe_close_all_pipes(shell);
+	(void)get_next_line(-1);
 	exit(exit_code);
 }
