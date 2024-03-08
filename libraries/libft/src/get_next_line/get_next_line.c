@@ -14,26 +14,26 @@
 
 char	*get_next_line(int fd)
 {
-	static t_buf	*head[FD_MAX];
+	static t_buf	*head;
 	char			*result;
 
-	if (!initial_check(fd, &head[fd]))
-		return (NULL);
-	if (head[fd]->bytes_unsaved)
+	if (!initial_check(fd, &head))
+		return (free_list(&head), NULL);
+	if (head->bytes_unsaved)
 	{
-		if (check_for_full_leftover_line(&head[fd], &result))
+		if (check_for_full_leftover_line(&head, &result))
 			return (result);
-		if (!add_new_node(head[fd]))
-			return (free_list(&head[fd]), NULL);
+		if (!add_new_node(head))
+			return (free_list(&head), NULL);
 	}
-	if (!read_until_endofline(&head[fd], fd))
+	if (!read_until_endofline(&head, fd))
 		return (NULL);
-	result = copy_into_result_and_move_head_to_tail(&head[fd]);
+	result = copy_into_result_and_move_head_to_tail(&head);
 	if (!result)
 		return (NULL);
-	head[fd]->bytes_unsaved -= head[fd]->line_end + 1;
-	if (head[fd]->bytes_unsaved == 0)
-		free_list(&head[fd]);
+	head->bytes_unsaved -= head->line_end + 1;
+	if (head->bytes_unsaved == 0)
+		free_list(&head);
 	return (result);
 }
 
