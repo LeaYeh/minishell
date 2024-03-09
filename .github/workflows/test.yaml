@@ -104,6 +104,8 @@ jobs:
           $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
       - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
         with:
@@ -140,6 +142,8 @@ jobs:
           $HOME/42_minishell_tester/tester.sh b > $HOME/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
       - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
         with:
@@ -176,6 +180,8 @@ jobs:
           $HOME/42_minishell_tester/tester.sh ne > $HOME/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
       - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
         with:
@@ -212,6 +218,8 @@ jobs:
           $HOME/42_minishell_tester/tester.sh d > $HOME/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
       - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
         with:
