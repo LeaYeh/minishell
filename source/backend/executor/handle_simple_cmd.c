@@ -41,7 +41,10 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 				shell, MALLOC_ERROR, "malloc failed"));
 	cmd_table = get_cmd_table_from_list(*cmd_table_node);
 	if (is_builtin(shell->final_cmd_table->simple_cmd[0]))
+	{
+		setup_signal(shell, SIGPIPE, SIG_IGNORE);
 		handle_builtin(shell, cmd_table_node);
+	}
 	else
 		handle_external_cmd(shell, cmd_table);
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
