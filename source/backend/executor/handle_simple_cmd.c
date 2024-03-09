@@ -44,7 +44,6 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	{
 		setup_signal(shell, SIGPIPE, SIG_IGNORE);
 		handle_builtin(shell, cmd_table_node);
-		setup_signal(shell, SIGPIPE, SIG_DEFAULT);
 	}
 	else
 		handle_external_cmd(shell, cmd_table);
