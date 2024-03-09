@@ -8,6 +8,10 @@ runs:
         sudo apt-get update
         sudo apt-get install -y build-essential clang-12 valgrind
       shell: bash
+    - run: bash --version
+      shell: bash
+    - run: valgrind --version
+      shell: bash
     - run: |
         git clone https://github.com/LeaYeh/42_minishell_tester.git
         cp -r 42_minishell_tester $HOME
