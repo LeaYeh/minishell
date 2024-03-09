@@ -86,6 +86,7 @@ VALGRINDIGNORE	:=	norminette
 
 ABSOLUTE_PATHS	:=	/bin/* \
 					/usr/bin/* \
+					/usr/sbin/* \
 					$(shell which -a $(VALGRINDIGNORE))
 
 
