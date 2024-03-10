@@ -15,7 +15,6 @@
 #include "clean.h"
 #include "signals.h"
 
-// iter wait from the last child pid in the list
 void	wait_all_child_pid(t_shell *shell)
 {
 	t_list	*child_pid_node;
@@ -59,7 +58,8 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		else
 		{
 			if (need_pipe(*cmd_table_node) && !create_pipe(&shell->new_pipe))
-				raise_error_to_all_subprocess(shell, 129, ERROR_CREATE_PIPE);	// Magic number
+				raise_error_to_all_subprocess(
+					shell, TERM_BY_SIGNAL + SIGHUP, ERROR_CREATE_PIPE);
 			if (cmd_table_type == C_SUBSHELL_START)
 				handle_subshell(shell, cmd_table_node);
 			else if (cmd_table_type == C_SIMPLE_CMD)
