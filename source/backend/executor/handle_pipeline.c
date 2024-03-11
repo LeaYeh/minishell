@@ -71,6 +71,7 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		}
 		cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
 	}
+	safe_close_all_pipes(shell);
 	wait_all_child_pid(shell);
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
