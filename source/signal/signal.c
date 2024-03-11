@@ -57,10 +57,7 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 
 	(void)info;
 	if (!shell)
-	{
-		shell = context;
-		return ;
-	}
+		return (shell = context, (void) NULL);
 	shell->exit_code = TERM_BY_SIGNAL + signo;
 	if (signo == SIGINT)
 	{
@@ -70,10 +67,15 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 		rl_redisplay();
 	}
 	else if (signo == SIGABRT)
-		ft_clean_and_exit_shell(
-			shell, shell->exit_code, "Clean up and abort the program");
+	{
+		if (shell->subshell_level == 0)
+			ft_clean_and_exit_shell(
+				shell, shell->exit_code, "Clean up and abort the program");
+		else
+			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+	}
 	else if (signo == SIGTERM && shell->subshell_level != 0)
-		ft_clean_and_exit_shell(shell, shell->exit_code, "Terminated");
+		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
 void	handle_signal_heredoc(int signo, siginfo_t *info, void *context)
