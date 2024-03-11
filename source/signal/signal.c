@@ -9,7 +9,7 @@ void	raise_error_and_escape(t_shell *shell, char *msg)
 
 void	raise_error_to_all_subprocess(t_shell *shell, int exit_code, char *msg)
 {
-	shell->exit_code = exit_code;
+	shell->exit_code = exit_code;	// This doesn't really make sense
 	if (msg)
 		printf(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
 	setup_signal(shell, SIGINT, SIG_STD);
@@ -40,13 +40,15 @@ void	raise_error_to_own_subprocess(t_shell *shell, int exit_code, char *msg)
 {
 	// pid_t	pid;
 
-	shell->exit_code = exit_code;
+	shell->exit_code = exit_code;	// This doesn't really make sense
 	if (msg)
 		printf(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
 	setup_signal(shell, SIGINT, SIG_STD);
 	setup_signal(shell, SIGABRT, SIG_STD);
 	setup_signal(shell, SIGTERM, SIG_STD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
+	// // signal_to_all_subprocess(shell, SIGTERM);
+	// kill(-getpid(), SIGTERM);
 	signal_to_all_subprocess(shell, SIGTERM);
 	kill(getpid(), SIGTERM);
 }
@@ -58,7 +60,7 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 	(void)info;
 	if (!shell)
 		return (shell = context, (void) NULL);
-	shell->exit_code = TERM_BY_SIGNAL + signo;
+	shell->exit_code = TERM_BY_SIGNAL + signo;	// This doesn't always make sense
 	if (signo == SIGINT)
 	{
 		printf("\n");
@@ -75,7 +77,7 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 	}
 	else if (signo == SIGTERM && shell->subshell_level != 0)
-		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+		ft_clean_and_exit_shell(shell, TERM_BY_SIGNAL + SIGHUP, NULL);
 }
 
 void	handle_signal_heredoc(int signo, siginfo_t *info, void *context)
