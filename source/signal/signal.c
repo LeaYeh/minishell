@@ -15,7 +15,7 @@ void	raise_error_to_all_subprocess(t_shell *shell, int exit_code, char *msg)
 	setup_signal(shell, SIGINT, SIG_STD);
 	setup_signal(shell, SIGABRT, SIG_STD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
-	kill(-shell->pid, SIGTERM);
+	kill(-shell->pid, SIGHUP);
 }
 
 void	signal_to_all_subprocess(t_shell *shell, int signo)
@@ -45,12 +45,12 @@ void	raise_error_to_own_subprocess(t_shell *shell, int exit_code, char *msg)
 		printf(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
 	setup_signal(shell, SIGINT, SIG_STD);
 	setup_signal(shell, SIGABRT, SIG_STD);
-	setup_signal(shell, SIGTERM, SIG_STD);
+	setup_signal(shell, SIGHUP, SIG_STD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
-	// // signal_to_all_subprocess(shell, SIGTERM);
-	// kill(-getpid(), SIGTERM);
-	signal_to_all_subprocess(shell, SIGTERM);
-	kill(getpid(), SIGTERM);
+	// // signal_to_all_subprocess(shell, SIGHUP);
+	// kill(-getpid(), SIGHUP);
+	signal_to_all_subprocess(shell, SIGHUP);
+	kill(getpid(), SIGHUP);
 }
 
 void	handle_signal_std(int signo, siginfo_t *info, void *context)
@@ -76,7 +76,7 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 		else
 			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 	}
-	else if (signo == SIGTERM && shell->subshell_level != 0)
+	else if (signo == SIGHUP && shell->subshell_level != 0)
 		ft_clean_and_exit_shell(shell, TERM_BY_SIGNAL + SIGHUP, NULL);
 }
 
