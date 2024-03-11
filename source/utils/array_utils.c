@@ -33,11 +33,10 @@ void	free_array(char **array[])
 	i = 0;
 	while ((*array)[i])
 	{
-		free((*array)[i]);
+		ft_free_and_null((void **)&(*array)[i]);
 		i++;
 	}
-	free(*array);
-	*array = NULL;
+	ft_free_and_null((void **)array);
 }
 
 char	**convert_list_to_string_array(t_list *list)

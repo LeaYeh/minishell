@@ -29,8 +29,8 @@ void	free_token_node(t_token *token)
 {
 	if (!token)
 		return ;
-	free(token->data);
-	free(token);
+	ft_free_and_null((void **)&token->data);
+	ft_free_and_null((void **)&token);
 }
 
 t_token	*dup_token_node(t_token *token)
