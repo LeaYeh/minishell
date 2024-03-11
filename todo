@@ -5,7 +5,7 @@
 
 - [ ] Does `kill(-getpid(), SIGTERM);` work in `raise_error_to_own_subprocess()`?
 
-- [ ] Fix `yes "no" | head -n 10`.
+- [x] Fix `yes "no" | head -n 10`.
 
 - [ ] Tester reported leaks for `ifconfig | grep ":"` and `ifconfig | grep nothing` on school computer.
 
