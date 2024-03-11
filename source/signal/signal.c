@@ -3,7 +3,7 @@
 void	raise_error_and_escape(t_shell *shell, char *msg)
 {
 	if (msg)
-		printf(STY_RED"%s error: %s\n"STY_RES, PROGRAM_NAME, msg);
+		printf(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
 	kill(-shell->pid, SIGABRT);
 }
 
@@ -11,7 +11,7 @@ void	raise_error_to_all_subprocess(t_shell *shell, int exit_code, char *msg)
 {
 	shell->exit_code = exit_code;
 	if (msg)
-		printf(STY_RED"%s error: %s\n"STY_RES, PROGRAM_NAME, msg);
+		printf(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
 	setup_signal(shell, SIGINT, SIG_STD);
 	setup_signal(shell, SIGABRT, SIG_STD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
@@ -42,7 +42,7 @@ void	raise_error_to_own_subprocess(t_shell *shell, int exit_code, char *msg)
 
 	shell->exit_code = exit_code;
 	if (msg)
-		printf(STY_RED"%s error: %s\n"STY_RES, PROGRAM_NAME, msg);
+		printf(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
 	setup_signal(shell, SIGINT, SIG_STD);
 	setup_signal(shell, SIGABRT, SIG_STD);
 	setup_signal(shell, SIGTERM, SIG_STD);
@@ -113,5 +113,5 @@ void	setup_signal(t_shell *shell, int signo, t_state state)
 	else if (state == SIG_IGNORE)
 		sa.sa_handler = SIG_IGN;
 	if (sigaction(signo, &sa, NULL) != 0)
-		perror("The signal is not supported");
+		perror("The signal is not supported:");
 }
