@@ -15,43 +15,34 @@
 #include "clean.h"
 #include "signals.h"
 
-// iter wait from the last child pid in the list
 void	wait_all_child_pid(t_shell *shell)
 {
 	t_list	*child_pid_node;
-	int		i;
+	bool	got_sigint;
 	pid_t	pid;
-	int		status;
+	int		ret;
+	int		wstatus;
 
+	got_sigint = false;
+	ret = -1;
 	child_pid_node = shell->child_pid_list;
-	i = 0;
 	while (child_pid_node)
 	{
-		pid = *(pid_t *)child_pid_node->content;
-		if (i == 0)
-			wait_process(shell, pid);
-		waitpid(pid, &status, 0);
-		i++;
+		pid = (pid_t)(long)child_pid_node->content;
+		ret = waitpid(pid, &wstatus, 0);
+		if (ret != -1 && WTERMSIG(wstatus) == SIGINT)
+			got_sigint = true;
 		child_pid_node = child_pid_node->next;
 	}
-	if (shell->subshell_level <= 1 && shell->exit_code == 130)
+	if (got_sigint)
 		printf("\n");
+	if (ret != -1)
+		shell->exit_code = handle_exit_status(wstatus);
 }
 
 bool	insert_child_pid_list(t_shell *shell, pid_t pid)
 {
-	pid_t	*pid_ptr;
-
-	pid_ptr = (pid_t *)malloc(sizeof(pid_t));
-	if (!pid_ptr)
-		return (false);
-	*pid_ptr = pid;
-	if (!ft_lstnew_front(&shell->child_pid_list, pid_ptr))
-	{
-		free(pid_ptr);
-		return (false);
-	}
-	return (true);
+	return (ft_lstnew_back(&shell->child_pid_list, (void *)(long)pid));
 }
 
 void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
@@ -67,7 +58,8 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		else
 		{
 			if (need_pipe(*cmd_table_node) && !create_pipe(&shell->new_pipe))
-				raise_error_to_all_subprocess(shell, 129, ERROR_CREATE_PIPE);
+				raise_error_to_all_subprocess(
+					shell, TERM_BY_SIGNAL + SIGHUP, ERROR_CREATE_PIPE);
 			if (cmd_table_type == C_SUBSHELL_START)
 				handle_subshell(shell, cmd_table_node);
 			else if (cmd_table_type == C_SIMPLE_CMD)
@@ -123,6 +115,7 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	{
 		move_past_pipeline(cmd_table_node);
 		handle_end_of_pipeline(shell, cmd_table_node);
+		shell->subshell_pid = -1;
 		setup_signal(shell, SIGINT, SIG_STD);
 	}
 }

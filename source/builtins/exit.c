@@ -5,7 +5,7 @@
 void	handle_exit(t_shell *shell, int args_error)
 {
 	if (shell->subshell_level == 0 && !TEST_MODE)
-		printf(EXIT_STR "\n");
+		printf(EXIT_MSG);
 	if (args_error == TOO_MANY_ARGS)
 	{
 		ft_dprintf(2, ERROR_EXIT_TOO_MANY_ARGS, PROGRAM_NAME, "exit");

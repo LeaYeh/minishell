@@ -29,7 +29,7 @@ LIB_DIR			:=	libraries
 #	Dependencies
 
 LIBRARIES		:=	$(wildcard $(LIB_DIR)/*)
-LIBRARIES_EXT	:=	readline
+LIBRARIES_EXT	:=	readline termcap
 INCLUDES 		:=	-I./include -I./$(LIBRARIES)/inc
 
 
@@ -148,8 +148,9 @@ noenv			:	all
 valfd			:	all
 ifneq ($(TERMINAL),)
 					$(TERMINAL) $(TERMINALFLAGS) \
-					"$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME) \
-					; zsh"
+					"zsh -c 'trap \"\" SIGINT ; \
+					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME) ; \
+					exec zsh'"
 else
 					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) "./$(NAME)"
 endif
