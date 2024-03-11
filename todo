@@ -1,6 +1,6 @@
 # fix-issue-201
 
-- [ ] `SIGHUP` exit code if pipe failed.
+- [x] `SIGHUP` exit code if pipe failed.
 	- [ ] Ask Lea if she remembers any situations when bash had exit code `143` (`SIGTERM`) or can it be fully replaced by `SIGHUP`?
 
 - [ ] Does `kill(-getpid(), SIGTERM);` work in `raise_error_to_own_subprocess()`?
@@ -9,7 +9,7 @@
 
 - [ ] Tester reported leaks for `ifconfig | grep ":"` and `ifconfig | grep nothing` on school computer.
 
-- [ ] Fix valfd Makefile goal.
+- [x] Fix valfd Makefile goal.
 
 
 
