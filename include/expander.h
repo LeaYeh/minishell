@@ -35,6 +35,7 @@ char			*get_varname(char *str);
 size_t			get_varname_len(char *str);
 t_expander_task	*init_expander_task(t_expander_task_type type, size_t start,
 					size_t replace_len, char *str);
+void			update_expander_tasks(t_list *task_list, size_t diff);
 
 /* expander_utils.c */
 size_t			get_offset(char *str);

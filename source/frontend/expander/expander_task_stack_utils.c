@@ -46,3 +46,15 @@ t_expander_task	*init_expander_task(t_expander_task_type type, size_t start,
 		task->varname = NULL;
 	return (task);
 }
+
+void	update_expander_tasks(t_list *task_list, size_t diff)
+{
+	t_expander_task	*task;
+
+	while (task_list)
+	{
+		task = task_list->content;
+		task->start += diff;
+		task_list = task_list->next;
+	}
+}
