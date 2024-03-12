@@ -47,8 +47,9 @@ void			skip_to_expander_symbol(char *str, size_t *i);
 bool			expand(char **new_str, t_list **lst, t_shell *shell,
 					t_expander_op op_mask);
 bool			execute_expander_task_list(char **new_str, t_list *task_list,
-					t_list **lst, t_shell *shell);
+					t_shell *shell);
 bool			is_null_expansion(char *dup, t_list *task_list);
+bool			split_words(t_list **lst, char **new_str, t_list *task_list);
 
 /* quote_removal.c */
 bool			remove_quote(char **new_str, t_list *task_list);

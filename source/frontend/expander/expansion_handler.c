@@ -7,16 +7,17 @@ bool	expand(
 
 	task_list = NULL;
 	if (!create_expander_task_list(&task_list, *new_str, op_mask) || \
-		!execute_expander_task_list(new_str, task_list, lst, shell))
+		!execute_expander_task_list(new_str, task_list, shell) || \
+		!split_words(lst, new_str, task_list))
 		return (ft_lstclear(&task_list, (void *)free_expander_task), false);
-	if (is_null_expansion(*new_str, task_list))
-		ft_free_and_null((void **)new_str);
+	// if (is_null_expansion(*new_str, task_list))
+	// 	ft_free_and_null((void **)new_str);
 	ft_lstclear(&task_list, (void *)free_expander_task);
 	return (true);
 }
 
 bool	execute_expander_task_list(
-	char **new_str, t_list *task_list, t_list **lst, t_shell *shell)
+	char **new_str, t_list *task_list, t_shell *shell)
 {
 	bool			ret;
 	t_expander_task	*task;
@@ -33,8 +34,8 @@ bool	execute_expander_task_list(
 			ret = remove_quote(new_str, task_list);
 		task_list = task_list->next;
 	}
-	if (ret)
-		ret = ft_lstnew_back(lst, *new_str);
+	// if (ret)
+		// ret = ft_lstnew_back(lst, *new_str);
 	return (ret);
 }
 

@@ -52,6 +52,7 @@ void	update_expander_tasks(t_list *task_list, size_t diff)
 {
 	t_expander_task	*task;
 
+	task_list = task_list->next;
 	while (task_list)
 	{
 		task = task_list->content;
