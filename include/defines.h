@@ -248,6 +248,7 @@ typedef enum e_expander_op
 typedef enum e_expander_task_type
 {
 	ET_VAR			= 0,
+	ET_VAR_NO_SPLIT,
 	ET_EXIT_CODE,
 	ET_QUOTE
 }	t_expander_task_type;
@@ -277,6 +278,7 @@ typedef struct s_expander_task
 	size_t					start;
 	size_t					replace_len;
 	char					*varname;
+	size_t					result_len;
 }	t_expander_task;
 
 typedef struct s_ast

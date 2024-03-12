@@ -21,19 +21,20 @@ bool	execute_expander_task_stack(char **new_str, t_list *task_stack,
 	bool			ret;
 	t_expander_task	*task;
 
-	(void)lst;
 	ret = true;
 	while (task_stack && ret)
 	{
 		task = task_stack->content;
-		if (task->type == ET_VAR)
-			ret = expand_variable(new_str, task, shell->env_list);
+		if (task->type == ET_VAR || task->type == ET_VAR_NO_SPLIT)
+			ret = expand_variable(lst, new_str, task, shell->env_list);
 		else if (task->type == ET_EXIT_CODE)
 			ret = expand_exit_code(new_str, task, shell->exit_code);
 		else if (task->type == ET_QUOTE)
 			ret = remove_quote(new_str, task);
 		task_stack = task_stack->next;
 	}
+	if (ret)
+		ret = ft_lstnew_back(lst, *new_str);
 	return (ret);
 }
 

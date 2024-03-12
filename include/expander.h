@@ -27,7 +27,7 @@ bool			create_expander_task_stack(t_list **task_stack, char *new_str,
 					t_expander_op op_mask);
 bool			push_quote_task(t_list **task_stack, char *new_str, size_t *i);
 bool			push_parameter_task(t_list **task_stack, char *new_str,
-					size_t *i);
+					size_t *i, t_expander_op op_mask);
 
 /* expander_task_stack_utils.c */
 void			free_expander_task(t_expander_task *task);
@@ -57,7 +57,7 @@ bool			expand_exit_code(char **new_str, t_expander_task *task,
 					int exit_code);
 
 /* variable_expansion.c */
-bool			expand_variable(char **new_str, t_expander_task *task,
+bool			expand_variable(t_list **lst, char **new_str, t_expander_task *task,
 					t_list *env_list);
 
 #endif

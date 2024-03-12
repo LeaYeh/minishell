@@ -14,7 +14,7 @@ bool	create_expander_task_stack(t_list **task_stack, char *new_str,
 		if (ft_strchr(QUOTES, new_str[i]) && op_mask & E_RM_QUOTES)
 			ret = push_quote_task(task_stack, new_str, &i);
 		else if (new_str[i] == '$' && op_mask & (E_EXPAND | E_HEREDOC))
-			ret = push_parameter_task(task_stack, new_str, &i);
+			ret = push_parameter_task(task_stack, new_str, &i, op_mask);
 		else
 			i++;
 		skip_to_expander_symbol(new_str, &i);
@@ -37,7 +37,8 @@ bool	push_quote_task(t_list **task_stack, char *new_str, size_t *i)
 	return ((*i)++, true);
 }
 
-bool	push_parameter_task(t_list **task_stack, char *new_str, size_t *i)
+bool	push_parameter_task(t_list **task_stack, char *new_str, size_t *i,
+			t_expander_op op_mask)
 {
 	size_t					offset;
 	size_t					replace_len;
@@ -49,7 +50,12 @@ bool	push_parameter_task(t_list **task_stack, char *new_str, size_t *i)
 		return (*i += replace_len, true);
 	offset = get_offset(&new_str[*i]);
 	if (is_valid_varname_start(new_str[*i + offset]))
-		type = ET_VAR;
+	{
+		if (!is_open_pair('"', OP_GET) && !(op_mask & E_HEREDOC))
+			type = ET_VAR;
+		else
+			type = ET_VAR_NO_SPLIT;
+	}
 	else if (new_str[*i + offset] == '?')
 		type = ET_EXIT_CODE;
 	else
