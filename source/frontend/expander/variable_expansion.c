@@ -22,6 +22,7 @@ bool	expand_variable(char **new_str, t_list *task_list, t_list *env_list)
 	value = get_value_from_env_list(env_list, task->varname);
 	if (!value)
 		value = "";
+	task->result_len = ft_strlen(value);
 	if (!ft_strrplc_part(new_str, value, task->start, task->replace_len))
 		return (false);
 	task->result_len = ft_strlen(value);

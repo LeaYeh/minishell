@@ -27,7 +27,7 @@ bool			create_expander_task_list(t_list **task_list, char *new_str,
 					t_expander_op op_mask);
 bool			append_quote_task(t_list **task_list, char *new_str, size_t *i);
 bool			append_parameter_task(t_list **task_list, char *new_str,
-					size_t *i);
+					size_t *i, t_expander_op op_mask);
 
 /* expander_task_list_utils.c */
 void			free_expander_task(t_expander_task *task);
@@ -47,8 +47,9 @@ void			skip_to_expander_symbol(char *str, size_t *i);
 bool			expand(char **new_str, t_list **lst, t_shell *shell,
 					t_expander_op op_mask);
 bool			execute_expander_task_list(char **new_str, t_list *task_list,
-					t_list **lst, t_shell *shell);
+					t_shell *shell);
 bool			is_null_expansion(char *dup, t_list *task_list);
+bool			split_words(t_list **lst, char **new_str, t_list *task_list);
 
 /* quote_removal.c */
 bool			remove_quote(char **new_str, t_list *task_list);
@@ -60,5 +61,8 @@ bool			expand_exit_code(char **new_str, t_list *task_list,
 /* variable_expansion.c */
 bool			expand_variable(char **new_str, t_list *task_list,
 					t_list *env_list);
+
+/* word_splitting.c */
+bool			split_words(t_list **lst, char **new_str, t_list *task_list);
 
 #endif

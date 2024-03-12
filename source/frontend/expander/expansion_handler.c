@@ -7,26 +7,26 @@ bool	expand(char **new_str, t_list **lst, t_shell *shell,
 
 	task_list = NULL;
 	if (!create_expander_task_list(&task_list, *new_str, op_mask) || \
-		!execute_expander_task_list(new_str, task_list, lst, shell))
+		!execute_expander_task_list(new_str, task_list, shell) || \
+		!split_words(lst, new_str, task_list))
 		return (ft_lstclear(&task_list, (void *)free_expander_task), false);
-	if (is_null_expansion(*new_str, task_list))
-		ft_free_and_null((void **)new_str);
+	// if (is_null_expansion(*new_str, task_list))
+	// 	ft_free_and_null((void **)new_str);
 	ft_lstclear(&task_list, (void *)free_expander_task);
 	return (true);
 }
 
-bool	execute_expander_task_list(char **new_str, t_list *task_list,
-			t_list **lst, t_shell *shell)
+bool	execute_expander_task_list(
+	char **new_str, t_list *task_list, t_shell *shell)
 {
 	bool			ret;
 	t_expander_task	*task;
 
-	(void)lst;
 	ret = true;
 	while (task_list && ret)
 	{
 		task = task_list->content;
-		if (task->type == ET_VAR)
+		if (task->type == ET_VAR || task->type == ET_VAR_NO_SPLIT)
 			ret = expand_variable(new_str, task_list, shell->env_list);
 		else if (task->type == ET_EXIT_CODE)
 			ret = expand_exit_code(new_str, task_list, shell->exit_code);
