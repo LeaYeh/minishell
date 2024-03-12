@@ -1,7 +1,7 @@
 #include "expander.h"
 
-bool	expand(char **new_str, t_list **lst, t_shell *shell,
-			t_expander_op op_mask)
+bool	expand(
+	char **new_str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 {
 	t_list	*task_list;
 
@@ -15,18 +15,17 @@ bool	expand(char **new_str, t_list **lst, t_shell *shell,
 	return (true);
 }
 
-bool	execute_expander_task_list(char **new_str, t_list *task_list,
-			t_list **lst, t_shell *shell)
+bool	execute_expander_task_list(
+	char **new_str, t_list *task_list, t_list **lst, t_shell *shell)
 {
 	bool			ret;
 	t_expander_task	*task;
 
-	(void)lst;
 	ret = true;
 	while (task_list && ret)
 	{
 		task = task_list->content;
-		if (task->type == ET_VAR)
+		if (task->type == ET_VAR || task->type == ET_VAR_NO_SPLIT)
 			ret = expand_variable(new_str, task_list, shell->env_list);
 		else if (task->type == ET_EXIT_CODE)
 			ret = expand_exit_code(new_str, task_list, shell->exit_code);
@@ -34,6 +33,8 @@ bool	execute_expander_task_list(char **new_str, t_list *task_list,
 			ret = remove_quote(new_str, task_list);
 		task_list = task_list->next;
 	}
+	if (ret)
+		ret = ft_lstnew_back(lst, *new_str);
 	return (ret);
 }
 

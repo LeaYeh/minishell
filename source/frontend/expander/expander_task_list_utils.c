@@ -36,7 +36,7 @@ t_expander_task	*init_expander_task(t_expander_task_type type, size_t start,
 	task->type = type;
 	task->start = start;
 	task->replace_len = replace_len;
-	if (type == ET_VAR)
+	if (type == ET_VAR || type == ET_VAR_NO_SPLIT)
 	{
 		task->varname = get_varname(str);
 		if (!task->varname)
@@ -44,6 +44,7 @@ t_expander_task	*init_expander_task(t_expander_task_type type, size_t start,
 	}
 	else
 		task->varname = NULL;
+	task->result_len = -1;
 	return (task);
 }
 
