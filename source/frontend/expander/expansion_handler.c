@@ -27,11 +27,11 @@ bool	execute_expander_task_list(char **new_str, t_list *task_list,
 	{
 		task = task_list->content;
 		if (task->type == ET_VAR)
-			ret = expand_variable(new_str, task, shell->env_list);
+			ret = expand_variable(new_str, task_list, shell->env_list);
 		else if (task->type == ET_EXIT_CODE)
-			ret = expand_exit_code(new_str, task, shell->exit_code);
+			ret = expand_exit_code(new_str, task_list, shell->exit_code);
 		else if (task->type == ET_QUOTE)
-			ret = remove_quote(new_str, task);
+			ret = remove_quote(new_str, task_list);
 		task_list = task_list->next;
 	}
 	return (ret);
