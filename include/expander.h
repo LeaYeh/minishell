@@ -35,6 +35,7 @@ char			*get_varname(char *str);
 size_t			get_varname_len(char *str);
 t_expander_task	*init_expander_task(t_expander_task_type type, size_t start,
 					size_t replace_len, char *str);
+void			update_expander_tasks(t_list *task_list, size_t diff);
 
 /* expander_utils.c */
 size_t			get_offset(char *str);
@@ -50,14 +51,14 @@ bool			execute_expander_task_list(char **new_str, t_list *task_list,
 bool			is_null_expansion(char *dup, t_list *task_list);
 
 /* quote_removal.c */
-bool			remove_quote(char **new_str, t_expander_task *task);
+bool			remove_quote(char **new_str, t_list *task_list);
 
 /* special_param_expansion.c */
-bool			expand_exit_code(char **new_str, t_expander_task *task,
+bool			expand_exit_code(char **new_str, t_list *task_list,
 					int exit_code);
 
 /* variable_expansion.c */
-bool			expand_variable(char **new_str, t_expander_task *task,
+bool			expand_variable(char **new_str, t_list *task_list,
 					t_list *env_list);
 
 #endif

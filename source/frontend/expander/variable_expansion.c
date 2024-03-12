@@ -13,14 +13,18 @@
 #include "expander.h"
 #include "utils.h"
 
-bool	expand_variable(char **new_str, t_expander_task *task, t_list *env_list)
+bool	expand_variable(char **new_str, t_list *task_list, t_list *env_list)
 {
-	char	*value;
+	t_expander_task	*task;
+	char			*value;
 
+	task = task_list->content;
 	value = get_value_from_env_list(env_list, task->varname);
 	if (!value)
 		value = "";
 	if (!ft_strrplc_part(new_str, value, task->start, task->replace_len))
 		return (false);
+	task->result_len = ft_strlen(value);
+	update_expander_tasks(task_list, task->result_len - task->replace_len);
 	return (true);
 }
