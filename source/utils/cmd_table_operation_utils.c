@@ -18,7 +18,7 @@ void	free_cmd_table(t_cmd_table *cmd_table)
 	ft_lstclear(&cmd_table->simple_cmd_list, free);
 	ft_lstclear(&cmd_table->assignment_list, free);
 	ft_lstclear(&cmd_table->io_red_list, (void *)free_io_red);
-	free(cmd_table);
+	ft_free_and_null((void *)&cmd_table);
 }
 
 t_cmd_table	*init_cmd_table(void)

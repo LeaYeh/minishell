@@ -18,9 +18,9 @@ void	free_env_node(t_env *env)
 {
 	if (!env)
 		return ;
-	free(env->key);
-	free(env->value);
-	free(env);
+	ft_free_and_null((void **)&env->key);
+	ft_free_and_null((void **)&env->value);
+	ft_free_and_null((void **)&env);
 }
 
 void	ft_clean_shell(t_shell *shell)

@@ -19,7 +19,7 @@ void	free_final_cmd_table(t_final_cmd_table **final_cmd_table, bool close_fd)
 		return ;
 	free_array(&(*final_cmd_table)->env);
 	free_array(&(*final_cmd_table)->simple_cmd);
-	free((*final_cmd_table)->exec_path);
+	ft_free_and_null((void **)&(*final_cmd_table)->exec_path);
 	free_array(&(*final_cmd_table)->assignment_array);
 	if (close_fd)
 	{
