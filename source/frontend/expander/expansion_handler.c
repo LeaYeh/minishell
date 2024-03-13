@@ -36,8 +36,6 @@ bool	execute_expander_task_list(
 			task_list->next, task->result_len - task->replace_len);
 		task_list = task_list->next;
 	}
-	// if (ret)
-		// ret = ft_lstnew_back(lst, *new_str);
 	return (ret);
 }
 

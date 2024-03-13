@@ -62,4 +62,7 @@ bool			expand_exit_code(char **new_str, t_list *task_list,
 bool			expand_variable(char **new_str, t_list *task_list,
 					t_list *env_list);
 
+/* word_splitting.c */
+bool			split_words(t_list **lst, char **new_str, t_list *task_list);
+
 #endif
