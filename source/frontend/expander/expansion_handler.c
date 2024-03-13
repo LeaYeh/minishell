@@ -32,6 +32,8 @@ bool	execute_expander_task_list(
 			ret = expand_exit_code(new_str, task_list, shell->exit_code);
 		else if (task->type == ET_QUOTE)
 			ret = remove_quote(new_str, task_list);
+		update_expander_tasks(
+			task_list->next, task->result_len - task->replace_len);
 		task_list = task_list->next;
 	}
 	return (ret);

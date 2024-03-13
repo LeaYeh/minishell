@@ -25,6 +25,5 @@ bool	expand_exit_code(char **new_str, t_list *task_list, int exit_code)
 			task->replace_len))
 		return (free(exit_code_str), false);
 	task->result_len = ft_strlen(exit_code_str);
-	update_expander_tasks(task_list, task->result_len - task->replace_len);
 	return (free(exit_code_str), true);
 }

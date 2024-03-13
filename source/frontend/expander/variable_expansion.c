@@ -26,6 +26,5 @@ bool	expand_variable(char **new_str, t_list *task_list, t_list *env_list)
 	if (!ft_strrplc_part(new_str, value, task->start, task->replace_len))
 		return (false);
 	task->result_len = ft_strlen(value);
-	update_expander_tasks(task_list, task->result_len - task->replace_len);
 	return (true);
 }

@@ -20,6 +20,5 @@ bool	remove_quote(char **new_str, t_list *task_list)
 	if (!ft_strrplc_part(new_str, "", task->start, task->replace_len))
 		return (false);
 	task->result_len = 0;
-	update_expander_tasks(task_list, task->result_len - task->replace_len);
 	return (true);
 }
