@@ -8,10 +8,9 @@ bool	expand(
 	task_list = NULL;
 	if (!create_expander_task_list(&task_list, *new_str, op_mask) || \
 		!execute_expander_task_list(new_str, task_list, shell) || \
-		!split_words(lst, new_str, task_list))
+		!split_words(lst, new_str, task_list) || \
+		!check_null_expansion(lst, task_list))
 		return (ft_lstclear(&task_list, (void *)free_expander_task), false);
-	// if (is_null_expansion(*new_str, task_list))
-	// 	ft_free_and_null((void **)new_str);
 	ft_lstclear(&task_list, (void *)free_expander_task);
 	return (true);
 }
@@ -37,20 +36,4 @@ bool	execute_expander_task_list(
 		task_list = task_list->next;
 	}
 	return (ret);
-}
-
-bool	is_null_expansion(char *new_str, t_list *task_list)
-{
-	t_expander_task	*task;
-
-	if (new_str[0])
-		return (false);
-	while (task_list)
-	{
-		task = task_list->content;
-		if (task->type == ET_QUOTE)
-			return (false);
-		task_list = task_list->next;
-	}
-	return (true);
 }
