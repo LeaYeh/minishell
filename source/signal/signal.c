@@ -104,14 +104,14 @@ void	setup_signal(t_shell *shell, int signo, t_state state)
 	if (sigemptyset(&sa.sa_mask) == -1)
 		ft_clean_and_exit_shell(shell, PREPROCESS_ERROR, "sigemptyset failed");
 	sa.sa_flags = SA_RESTART | SA_SIGINFO;
-	if (state == SIG_HEREDOC)
-		sa.sa_sigaction = handle_signal_heredoc;
-	else if (state == SIG_STANDARD)
-		sa.sa_sigaction = handle_signal_std;
-	else if (state == SIG_DEFAULT)
+	if (state == SIG_DEFAULT)
 		sa.sa_handler = SIG_DFL;
 	else if (state == SIG_IGNORE)
 		sa.sa_handler = SIG_IGN;
+	else if (state == SIG_STANDARD)
+		sa.sa_sigaction = handle_signal_std;
+	else if (state == SIG_HEREDOC)
+		sa.sa_sigaction = handle_signal_heredoc;
 	if (sigaction(signo, &sa, NULL) != 0)
 		perror("The signal is not supported:");
 }

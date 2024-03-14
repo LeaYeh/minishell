@@ -158,11 +158,11 @@ typedef enum e_heredoc_status
 
 typedef enum e_state
 {
-	SIG_HEREDOC		= 0,
+	SIG_DEFAULT		= 0,
+	SIG_IGNORE,
 	SIG_STANDARD,
-	SIG_SUBSHELL,
-	SIG_DEFAULT,
-	SIG_IGNORE
+	SIG_HEREDOC,
+	SIG_SUBSHELL
 }	t_state;
 
 typedef enum e_pt_col
