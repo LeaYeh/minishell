@@ -89,7 +89,11 @@ void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		safe_close_all_pipes(shell);
 		wait_process(shell, shell->subshell_pid);
 		if (shell->subshell_level != 0)
+		{
+			if (shell->signal_record != 0)
+				shell->exit_code = TERM_BY_SIGNAL + shell->signal_record;
 			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+		}
 	}
 }
 

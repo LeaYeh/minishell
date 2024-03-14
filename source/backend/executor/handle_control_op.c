@@ -18,8 +18,12 @@
 
 bool	should_execute_next_pipeline(t_shell *shell, int type)
 {
-	if (shell->signal_record == SIGINT || \
-		shell->exit_code == TERM_BY_SIGNAL + SIGINT)
+	if (shell->signal_record != 0)
+	{
+		shell->exit_code = TERM_BY_SIGNAL + shell->signal_record;
+		return (false);
+	}
+	if (shell->exit_code == TERM_BY_SIGNAL + SIGINT)
 		return (false);
 	if (type == C_AND && shell->exit_code == 0)
 		return (true);
