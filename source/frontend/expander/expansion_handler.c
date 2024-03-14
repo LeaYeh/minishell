@@ -3,52 +3,37 @@
 bool	expand(char **new_str, t_list **lst, t_shell *shell,
 			t_expander_op op_mask)
 {
-	t_list	*task_stack;
+	t_list	*task_list;
 
-	task_stack = NULL;
-	if (!create_expander_task_stack(&task_stack, *new_str, op_mask) || \
-		!execute_expander_task_stack(new_str, task_stack, lst, shell))
-		return (ft_lstclear(&task_stack, (void *)free_expander_task), false);
-	if (is_null_expansion(*new_str, task_stack))
-		ft_free_and_null((void **)new_str);
-	ft_lstclear(&task_stack, (void *)free_expander_task);
+	task_list = NULL;
+	if (!create_expander_task_list(&task_list, *new_str, op_mask) || \
+		!execute_expander_task_list(new_str, task_list, shell) || \
+		!split_words(lst, new_str, task_list) || \
+		!check_null_expansion(lst, task_list))
+		return (ft_lstclear(&task_list, (void *)free_expander_task), false);
+	ft_lstclear(&task_list, (void *)free_expander_task);
 	return (true);
 }
 
-bool	execute_expander_task_stack(char **new_str, t_list *task_stack,
-			t_list **lst, t_shell *shell)
+bool	execute_expander_task_list(
+	char **new_str, t_list *task_list, t_shell *shell)
 {
 	bool			ret;
 	t_expander_task	*task;
 
-	(void)lst;
 	ret = true;
-	while (task_stack && ret)
+	while (task_list && ret)
 	{
-		task = task_stack->content;
-		if (task->type == ET_VAR)
-			ret = expand_variable(new_str, task, shell->env_list);
+		task = task_list->content;
+		if (task->type == ET_VAR || task->type == ET_VAR_NO_SPLIT)
+			ret = expand_variable(new_str, task_list, shell->env_list);
 		else if (task->type == ET_EXIT_CODE)
-			ret = expand_exit_code(new_str, task, shell->exit_code);
+			ret = expand_exit_code(new_str, task_list, shell->exit_code);
 		else if (task->type == ET_QUOTE)
-			ret = remove_quote(new_str, task);
-		task_stack = task_stack->next;
+			ret = remove_quote(new_str, task_list);
+		update_expander_tasks(
+			task_list->next, task->result_len - task->replace_len);
+		task_list = task_list->next;
 	}
 	return (ret);
-}
-
-bool	is_null_expansion(char *new_str, t_list *task_stack)
-{
-	t_expander_task	*task;
-
-	if (new_str[0])
-		return (false);
-	while (task_stack)
-	{
-		task = task_stack->content;
-		if (task->type == ET_QUOTE)
-			return (false);
-		task_stack = task_stack->next;
-	}
-	return (true);
 }

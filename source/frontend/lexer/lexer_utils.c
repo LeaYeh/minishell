@@ -60,7 +60,7 @@ bool	split_token_node(t_list *lst_node1, size_t i)
 	if (!token_data_split)
 		return (false);
 	free(*token_data_node1);
-	*token_data_node1 = token_data_split[0];
+	*token_data_node1 = token_data_split[0];	//TODO Might not get freed
 	new_token = init_token_node(T_UNINITIALIZED, token_data_split[1]);
 	if (!new_token)
 		return (free(token_data_split[1]), free(token_data_split), false);

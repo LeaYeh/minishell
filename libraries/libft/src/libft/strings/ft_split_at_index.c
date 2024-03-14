@@ -19,7 +19,8 @@
  * @param str      The string to be split.
  * @param index    The position at which to split the string.
  *
- * @return         On success, it returns a pointer to an array of two strings:
+ * @return         On success, it returns a pointer to a NULL-terminated array
+ *                 of two strings:
  *                 The first string is the part before the index, and the second
  *                 string is the part from the index to the end of the original
  *                 string.
@@ -37,21 +38,15 @@ char	**ft_split_at_index(char *str, size_t index)
 	len = ft_strlen(str);
 	if (index > len)
 		return (NULL);
-	str_array = (char **)malloc(2 * sizeof(char *));
+	str_array = (char **)malloc(3 * sizeof(char *));
 	if (!str_array)
 		return (NULL);
 	str_array[0] = ft_substr(str, 0, index);
 	if (!str_array[0])
-	{
-		free(str_array);
-		return (NULL);
-	}
+		return (free(str_array), NULL);
 	str_array[1] = ft_substr(str, index, len);
 	if (!str_array[1])
-	{
-		free(str_array[0]);
-		free(str_array);
-		return (NULL);
-	}
+		return (free(str_array[0]), free(str_array), NULL);
+	str_array[2] = NULL;
 	return (str_array);
 }

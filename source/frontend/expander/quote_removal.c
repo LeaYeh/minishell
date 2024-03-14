@@ -12,9 +12,13 @@
 
 #include "expander.h"
 
-bool	remove_quote(char **new_str, t_expander_task *task)
+bool	remove_quote(char **new_str, t_list *task_list)
 {
+	t_expander_task	*task;
+
+	task = task_list->content;
 	if (!ft_strrplc_part(new_str, "", task->start, task->replace_len))
 		return (false);
+	task->result_len = 0;
 	return (true);
 }
