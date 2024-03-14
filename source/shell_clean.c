@@ -39,6 +39,7 @@ void	reset_submodule_variable(t_shell *shell)
 {
 	shell->subshell_level = 0;
 	shell->subshell_pid = -1;
+	shell->signal_record = 0;
 	ft_lstclear(&shell->child_pid_list, NULL);
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);

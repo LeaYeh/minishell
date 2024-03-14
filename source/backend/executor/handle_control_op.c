@@ -16,13 +16,14 @@
 #include "utils.h"
 #include "clean.h"
 
-bool	should_execute_next_pipeline(int type, int exit_code)
+bool	should_execute_next_pipeline(t_shell *shell, int type)
 {
-	if (exit_code == TERM_BY_SIGNAL + SIGINT)
+	if (shell->signal_record == SIGINT || \
+		shell->exit_code == TERM_BY_SIGNAL + SIGINT)
 		return (false);
-	if (type == C_AND && exit_code == 0)
+	if (type == C_AND && shell->exit_code == 0)
 		return (true);
-	else if (type == C_OR && exit_code != 0)
+	else if (type == C_OR && shell->exit_code != 0)
 		return (true);
 	return (false);
 }
@@ -35,7 +36,7 @@ void	handle_and_or_op(t_shell *shell, t_list_d **cmd_table_node)
 		wait_process(shell, shell->subshell_pid);
 	cmd_table = (*cmd_table_node)->content;
 	*cmd_table_node = (*cmd_table_node)->next;
-	if (!should_execute_next_pipeline(cmd_table->type, shell->exit_code))
+	if (!should_execute_next_pipeline(shell, cmd_table->type))
 		move_past_pipeline(cmd_table_node);
 }
 

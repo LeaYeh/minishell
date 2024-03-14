@@ -78,6 +78,19 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
+void	handle_signal_record(int signo, siginfo_t *info, void *context)
+{
+	static t_shell	*shell;
+
+	(void)info;
+	if (!shell)
+	{
+		shell = context;
+		return ;
+	}
+	shell->signal_record = signo;
+}
+
 void	handle_signal_heredoc(int signo, siginfo_t *info, void *context)
 {
 	static t_shell	*shell;
@@ -110,6 +123,8 @@ void	setup_signal(t_shell *shell, int signo, t_state state)
 		sa.sa_handler = SIG_IGN;
 	else if (state == SIG_STANDARD)
 		sa.sa_sigaction = handle_signal_std;
+	else if (state == SIG_RECORD)
+		sa.sa_sigaction = handle_signal_record;
 	else if (state == SIG_HEREDOC)
 		sa.sa_sigaction = handle_signal_heredoc;
 	if (sigaction(signo, &sa, NULL) != 0)
