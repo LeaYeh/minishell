@@ -16,15 +16,13 @@ bool	save_std_io(int saved_std_io[2])
 	return (true);
 }
 
-bool	redirect_io(t_shell *shell)
+bool	redirect_scmd_io(t_shell *shell, int *read_fd, int *write_fd)
 {
-	bool				ret;
-	t_final_cmd_table	*final_cmd_table;
+	bool	ret;
 
-	final_cmd_table = shell->final_cmd_table;
 	ret = true;
-	if (dup2(final_cmd_table->read_fd, STDIN_FILENO) == -1 || \
-		dup2(final_cmd_table->write_fd, STDOUT_FILENO) == -1)
+	if (dup2(*read_fd, STDIN_FILENO) == -1 || \
+		dup2(*write_fd, STDOUT_FILENO) == -1)
 	{
 		ft_dprintf(STDERR_FILENO, "%s: ", PROGRAM_NAME);
 		perror(NULL);
@@ -33,8 +31,8 @@ bool	redirect_io(t_shell *shell)
 	if (shell->subshell_level != 0)
 	{
 		safe_close_all_pipes(shell);
-		safe_close(&final_cmd_table->read_fd);
-		safe_close(&final_cmd_table->write_fd);
+		safe_close(read_fd);
+		safe_close(write_fd);
 	}
 	return (ret);
 }

@@ -53,7 +53,8 @@ void	safe_redirect_io_and_exec_builtin(t_shell *shell)
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") != 0)
 	{
 		if (!save_std_io(saved_std_io) || \
-			!redirect_io(shell))
+			!redirect_scmd_io(shell, &final_cmd_table->read_fd,
+				&final_cmd_table->write_fd))
 			ret = SUBSHELL_ERROR;
 		else
 			exec_builtin_cmd(shell);
@@ -73,7 +74,8 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 	t_cmd_table	*cmd_table;
 
 	cmd_table = (*cmd_table_node)->content;
-	if (!handle_io_redirect(shell->final_cmd_table, cmd_table->io_red_list))
+	if (!handle_io_redirect(&shell->final_cmd_table->read_fd,
+			&shell->final_cmd_table->write_fd, cmd_table->io_red_list))
 	{
 		if (shell->subshell_level != 0)
 			ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
@@ -88,7 +90,8 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 		safe_redirect_io_and_exec_builtin(shell);
 	else
 	{
-		if (!redirect_io(shell))
+		if (!redirect_scmd_io(shell, &shell->final_cmd_table->read_fd,
+				&shell->final_cmd_table->write_fd))
 			return (raise_error_to_own_subprocess(
 					shell, CREATE_FD_ERROR, "fd bind failed"));
 		exec_builtin_cmd(shell);
