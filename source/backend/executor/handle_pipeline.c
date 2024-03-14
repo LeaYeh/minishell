@@ -105,7 +105,7 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	}
 	else if (shell->subshell_pid == 0)
 	{
-		setup_signal(shell, SIGTERM, SIG_STD);
+		setup_signal(shell, SIGTERM, SIG_STANDARD);
 		shell->subshell_level += 1;
 		// do T0
 		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
@@ -116,6 +116,6 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		move_past_pipeline(cmd_table_node);
 		handle_end_of_pipeline(shell, cmd_table_node);
 		shell->subshell_pid = -1;
-		setup_signal(shell, SIGINT, SIG_STD);
+		setup_signal(shell, SIGINT, SIG_STANDARD);
 	}
 }

@@ -33,9 +33,9 @@ bool	init_shell(t_shell *shell)
 		return (false);
 	handle_signal_std(0, NULL, shell);
 	handle_signal_heredoc(0, NULL, shell);
-	setup_signal(shell, SIGINT, SIG_STD);
-	setup_signal(shell, SIGABRT, SIG_STD);
-	setup_signal(shell, SIGTERM, SIG_STD);
+	setup_signal(shell, SIGINT, SIG_STANDARD);
+	setup_signal(shell, SIGABRT, SIG_STANDARD);
+	setup_signal(shell, SIGTERM, SIG_STANDARD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	return (true);
 }
