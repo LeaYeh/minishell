@@ -14,16 +14,16 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
 {
 	int	fd;
 
-	io_red->in_file = generate_tmp_filename(cmdtable_id, "hd");
-	if (!io_red->in_file)
+	io_red->filename = generate_tmp_filename(cmdtable_id, "hd");
+	if (!io_red->filename)
 		return (false);
-	fd = open(io_red->in_file,
+	fd = open(io_red->filename,
 			O_CREAT | O_RDWR | O_TRUNC,
 			(S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
 	if (fd < 0 || close(fd) == -1)
 	{
 		perror(PROGRAM_NAME);
-		return (ft_free_and_null((void **)&io_red->in_file), false);
+		return (ft_free_and_null((void **)&io_red->filename), false);
 	}
 	return (true);
 }

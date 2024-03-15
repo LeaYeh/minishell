@@ -319,8 +319,7 @@ typedef struct s_pt_node
 typedef struct s_io_red
 {
 	int				type;
-	char			*in_file;
-	char			*out_file;
+	char			*filename;
 	char			*here_end;
 }	t_io_red;
 

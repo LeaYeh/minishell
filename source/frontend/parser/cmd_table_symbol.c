@@ -33,12 +33,10 @@ bool	fill_red_node(t_io_red *io_red, int type, char *data)
 	if (!dup_data)
 		return (false);
 	io_red->type = type;
-	if (type == T_RED_IN)
-		io_red->in_file = dup_data;
-	else if (type == T_HERE_DOC)
+	if (type == T_HERE_DOC)
 		io_red->here_end = dup_data;
-	else if (type == T_RED_OUT || type == T_APPEND)
-		io_red->out_file = dup_data;
+	else
+		io_red->filename = dup_data;
 	return (true);
 }
 

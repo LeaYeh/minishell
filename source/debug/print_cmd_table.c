@@ -25,8 +25,7 @@ void	print_io_red_list(t_list *io_red_list)
 	{
 		io_red = (t_io_red *)node->content;
 		printf("\ttype:    %d,\n", io_red->type);
-		printf("\tin_file: %s,\n", io_red->in_file);
-		printf("\tout_file: %s,\n", io_red->out_file);
+		printf("\tfilename: %s,\n", io_red->filename);
 		printf("\there_end: %s,\n", io_red->here_end);
 		printf("-----------------\n");
 		node = node->next;
