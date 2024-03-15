@@ -12,7 +12,8 @@ void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 	t_final_cmd_table	*final_cmd_table;
 
 	final_cmd_table = shell->final_cmd_table;
-	if (!handle_io_redirect(&final_cmd_table->read_fd,
+	if (!handle_io_redirect(shell,
+			&final_cmd_table->read_fd,
 			&final_cmd_table->write_fd, cmd_table->io_red_list))
 		ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
 	if (!shell->final_cmd_table->simple_cmd[0])

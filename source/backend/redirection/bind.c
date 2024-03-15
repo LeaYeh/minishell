@@ -37,7 +37,7 @@ bool	redirect_scmd_io(t_shell *shell, int *read_fd, int *write_fd)
 	return (ret);
 }
 
-bool	redirect_subshell_io(t_cmd_table *cmd_table)
+bool	redirect_subshell_io(t_shell *shell, t_cmd_table *cmd_table)
 {
 	int		read_fd;
 	int		write_fd;
@@ -46,7 +46,7 @@ bool	redirect_subshell_io(t_cmd_table *cmd_table)
 	ret = true;
 	read_fd = -1;
 	write_fd = -1;
-	if (!handle_io_redirect(&read_fd, &write_fd, cmd_table->io_red_list))
+	if (!handle_io_redirect(shell, &read_fd, &write_fd, cmd_table->io_red_list))
 		ret = false;
 	else if ((read_fd != -1 && dup2(read_fd, STDIN_FILENO) == -1) || \
 		(write_fd != -1 && dup2(write_fd, STDOUT_FILENO) == -1))
