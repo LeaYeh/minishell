@@ -16,12 +16,16 @@ static bool	is_null_expansion(char *str, t_list *task_list)
 	return (true);
 }
 
-void	check_null_expansions(t_list *lst, t_list *task_list)
+void	check_null_expansions(t_list **lst, t_list *task_list)
 {
-	while (lst)
+	t_list	*cur;
+
+	cur = *lst;
+	while (cur)
 	{
-		if (is_null_expansion(lst->content, task_list))
-			ft_free_and_null(&lst->content);
-		lst = lst->next;
+		if (is_null_expansion(cur->content, task_list))
+			ft_lstdrop_node(lst, &cur, free);
+		else
+			cur = cur->next;
 	}
 }
