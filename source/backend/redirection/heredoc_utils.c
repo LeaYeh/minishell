@@ -56,9 +56,10 @@ bool	remove_here_end_quote(
 	if (ft_expander(
 			io_red->here_end, &expanded_list, shell, E_RM_QUOTES) != SUCCESS)
 		return (ft_lstclear(&expanded_list, free), false);
-	if (!replace_string_content(&io_red->here_end, expanded_list->content))
-		return (ft_lstclear(&expanded_list, free), false);
-	return (ft_lstclear(&expanded_list, free), true);
+	free(io_red->here_end);
+	io_red->here_end = expanded_list->content;
+	ft_lstclear(&expanded_list, NULL);
+	return (true);
 }
 
 bool	append_line_to_list(t_list **line_list, char *line)
