@@ -83,11 +83,12 @@ int	handle_heredoc(t_shell *shell, int cmdtable_id, t_list *io_red_list)
 
 	while (io_red_list && io_red_list->content)
 	{
-		need_content_expansion = true;
 		io_red = (t_io_red *)io_red_list->content;
 		if (io_red->type == T_HERE_DOC)
 		{
-			if (!remove_here_end_quote(shell, io_red, &need_content_expansion))
+			need_content_expansion = true;
+			if (is_here_end_quoted(io_red->here_end) && \
+				!remove_here_end_quote(shell, io_red, &need_content_expansion))
 				return (HEREDOC_ERROR);
 			shell->exit_code = SUCCESS;
 			ret = exec_heredoc(

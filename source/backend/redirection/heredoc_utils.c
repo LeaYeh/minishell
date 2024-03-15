@@ -51,8 +51,7 @@ bool	remove_here_end_quote(
 	t_list	*expanded_list;
 
 	expanded_list = NULL;
-	if (is_here_end_quoted(io_red->here_end))
-		*need_content_expansion = false;
+	*need_content_expansion = false;
 	if (ft_expander(
 			io_red->here_end, &expanded_list, shell, E_RM_QUOTES) != SUCCESS)
 		return (ft_lstclear(&expanded_list, free), false);
