@@ -36,12 +36,13 @@ int			get_redirect_type_from_list(t_list *io_red_list);
 /* Cmd table utils */
 t_cmd_table	*init_cmd_table(void);
 void		free_cmd_table(t_cmd_table *cmd_table);
-t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list);
 bool		append_empty_cmd_table(t_list_d **cmd_table_list);
 bool		append_cmd_table_by_scenario(
 				int token_type, t_list_d **cmd_table_list);
 t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node);
 int			get_cmd_table_type_from_list(t_list_d *cmd_table_list);
+t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list);
+t_cmd_table	*get_subshell_start(t_list_d *cmd_table_node);
 char		*get_cmd_name_from_list(t_list *simple_cmd_list);
 bool		is_control_op_cmd_table(int cmd_table_type);
 bool		is_builtin(char *cmd_name);
