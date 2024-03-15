@@ -1,0 +1,61 @@
+name: Continuous Delivery
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  cleanup_and_merge:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Git
+      run: |
+        git config --local user.email "lyeh@student.42vienna.com"
+        git config --local user.name "Lea Yeh"
+
+    - name: Check tag version
+      id: check_version
+      run: |
+        MAIN_TAG=""
+        EVAL_TAG=""
+        if [ "$(git rev-list --count main)" -gt 0 ]; then
+          MAIN_TAG=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null)
+        fi
+        if [ "$(git rev-list --count --remotes=origin/evaluation)" -gt 0 ]; then
+          EVAL_TAG=$(git describe --tags `git rev-list --tags --remotes=origin/evaluation --max-count=1` 2>/dev/null)
+        fi
+        if [[ -z "$EVAL_TAG" && -n "$MAIN_TAG" ]] || [[ "$MAIN_TAG" > "$EVAL_TAG" ]]; then
+          echo "::set-output name=proceed::true"
+        else
+          echo "::set-output name=proceed::false"
+        fi
+
+    - name: Setup evaluation branch
+      if: steps.check_version.outputs.proceed == 'true'
+      run: |
+        git checkout -b evaluation 2>/dev/null || git checkout evaluation
+        if [ "$(git rev-list --count evaluation)" -eq 0 ]; then
+          git merge main
+        fi
+
+    - name: Delete forbidden files, commit and merge
+      if: steps.check_version.outputs.proceed == 'true'
+      run: |
+        find . -type f ! -name '*.c' -delete
+        find . -type d -empty -delete
+        git add .
+        git commit -m "Remove forbidden files"
+
+    - name: Set version tag on evaluation branch
+      if: steps.check_version.outputs.proceed == 'true'
+      run: |
+        git checkout evaluation
+        git tag ${{ env.MAIN_TAG }}
+        git push origin evaluation --tags
