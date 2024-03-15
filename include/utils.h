@@ -126,7 +126,7 @@ bool		drop_num_stack(t_list **stack, int num, void (*del)(void *));
 t_list		*pop_num_stack(t_list **stack, int num);
 
 /* String utils */
-bool		replace_string_content(char **str, char *new_content);
+// bool		replace_string_content(char **str, char *new_content);
 bool		is_open_pair(unsigned char c, t_is_open_pair_op operation);
 bool		is_valid_varname(char *str);
 bool		is_valid_varname_char(char c);
