@@ -32,6 +32,7 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node);
 bool	restore_std_io(int saved_std_io[2]);
 bool	save_std_io(int saved_std_io[2]);
 bool	redirect_scmd_io(t_shell *shell, int *read_fd, int *write_fd);
+bool	redirect_subshell_io(t_cmd_table *cmd_table);
 bool	handle_io_redirect(int *read_fd, int *write_fd, t_list *io_red_list);
 
 /* Redirection - Pipe */

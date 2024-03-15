@@ -26,6 +26,9 @@ void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 	{
 		shell->subshell_level += 1;
 		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
+		if (!redirect_subshell_io(get_cmd_table_from_list(*cmd_table_node)))
+			ft_clean_and_exit_shell(
+				shell, CREATE_FD_ERROR, "subshell redirect failed");
 		*cmd_table_node = (*cmd_table_node)->next;
 		handle_process(shell, *cmd_table_node);
 	}
