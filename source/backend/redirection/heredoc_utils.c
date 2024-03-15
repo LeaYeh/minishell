@@ -34,7 +34,7 @@ int	expand_heredoc_content(t_shell *shell, char **content)
 	int		ret;
 
 	expanded_list = NULL;
-	ret = ft_expander(*content, &expanded_list, shell, E_HEREDOC);
+	ret = ft_expander(*content, &expanded_list, shell, E_EXPAND);
 	if (ret == MALLOC_ERROR)
 		return (ft_lstclear(&expanded_list, free), HEREDOC_ERROR);
 	if (ret == BAD_SUBSTITUTION)

@@ -26,7 +26,7 @@ int	ft_expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 		return (MALLOC_ERROR);
 	if (is_bad_substitution(new_str, op_mask))
 		return (free(new_str), BAD_SUBSTITUTION);
-	if (!expand(&new_str, lst, shell, op_mask))
+	if (!handle_expansion(lst, &new_str, shell, op_mask))
 		return (free(new_str), MALLOC_ERROR);
 	return (SUCCESS);
 }
