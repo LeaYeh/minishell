@@ -94,13 +94,11 @@ bool	handle_io_redirect(
 	while (io_red_list)
 	{
 		io_red = io_red_list->content;
-		if (io_red->type == T_HERE_DOC)
+		if (io_red->type != T_HERE_DOC)
 		{
-			io_red_list = io_red_list->next;
-			continue ;
+			if (expand_filename(shell, &io_red->filename) != SUCCESS)
+				return (false);
 		}
-		if (expand_filename(shell, &io_red->filename) != SUCCESS)
-			return (false);
 		if (!handle_redirect_by_type(read_fd, write_fd, io_red_list->content))
 			return (false);
 		io_red_list = io_red_list->next;
