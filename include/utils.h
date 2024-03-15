@@ -112,7 +112,7 @@ bool		is_subshell_symbol(int token_type);
 /* File utils */
 char		*generate_tmp_filename(int cmdtable_id, char *category);
 void		remove_file(char *filename);
-bool		append_line_to_file(char *line, char *filename);
+bool		write_content_to_file(char *content, char *filename);
 void		safe_close(int *fd);
 bool		is_dir(char *dir);
 
