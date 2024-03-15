@@ -57,21 +57,21 @@ bool	ft_read_input(t_shell *shell)
 {
 	char	*line;
 
-	errno = SUCCESS;
 	if (isatty(fileno(stdin)))
 		shell->input_line = readline(PROMPT);
 	else
 	{
 		errno = SUCCESS;
 		line = get_next_line(fileno(stdin));
+		if (errno != SUCCESS)
+			return (false);
 		if (line)
 		{
 			shell->input_line = ft_strtrim(line, "\n");
 			free(line);
 		}
 	}
-	if (errno != SUCCESS)
-		return (false);
+	errno = SUCCESS;
 	add_history(shell->input_line);
 	return (errno == SUCCESS);
 }
