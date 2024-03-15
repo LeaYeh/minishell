@@ -66,12 +66,12 @@ int	exec_heredoc(t_shell *shell,
 	ret = read_heredoc(shell, &line_list, io_red->here_end);
 	if (ret != SUCCESS)
 		return (ft_lstclear(&line_list, free),
-			remove_file(io_red->in_file), ret);
+			remove_file(io_red->filename), ret);
 	ret = handle_heredoc_content(
-			shell, io_red->in_file, &line_list, need_content_expansion);
+			shell, io_red->filename, &line_list, need_content_expansion);
 	ft_lstclear(&line_list, free);
 	if (ret != HEREDOC_SUCCESS)
-		return (remove_file(io_red->in_file), ret);
+		return (remove_file(io_red->filename), ret);
 	return (HEREDOC_SUCCESS);
 }
 
