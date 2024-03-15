@@ -57,6 +57,7 @@
 # define EXIT_SUCCESS       0
 # define GENERAL_ERROR      1
 # define BAD_SUBSTITUTION   1
+# define AMBIGUOUS_REDIR    1
 # define MISUSE_BUILTIN     2
 # define SYNTAX_ERROR       2
 # define MALLOC_ERROR       2
@@ -148,6 +149,8 @@
 "%s: %s: command not found\n"
 # define ERROR_CANNOT_EXEC_FILE				\
 "%s: %s: cannot execute file: %s\n"
+# define ERROR_AMBIGUOUS_REDIRECT			\
+"%s: %s: ambiguous redirect\n"
 
 typedef enum e_heredoc_status
 {
