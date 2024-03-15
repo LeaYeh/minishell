@@ -125,7 +125,7 @@
 # define ERROR_PARSER_SYNTAX				\
 "%s: syntax error near unexpected token `%s'\n"
 # define ERROR_HEREDOC_UNEXPECTED_EOF		\
-"\n%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
+"%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_EXPANDER_BAD_SUBSTITUTION	\
 "%s: %s: bad substitution\n"
 # define ERROR_EXIT_TOO_MANY_ARGS			\
