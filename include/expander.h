@@ -52,7 +52,7 @@ bool			set_expanded_list(t_list **lst, char **new_str,
 					t_expander_op op_mask, t_list *task_list);
 
 /* null_expansion.c */
-bool			check_null_expansion(t_list **lst, t_list *task_list);
+void			check_null_expansions(t_list *lst, t_list *task_list);
 
 /* quote_removal.c */
 bool			remove_quote(char **new_str, t_list *task_list);
