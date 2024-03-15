@@ -31,6 +31,7 @@ void	ft_clean_shell(t_shell *shell)
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
 	free_final_cmd_table(&shell->final_cmd_table, true);
+	rl_clear_history();
 	// free_ast_node(shell->ast);
 }
 
