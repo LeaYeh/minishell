@@ -14,7 +14,7 @@
 #include "utils.h"
 #include "clean.h"
 
-bool	handle_red_in(t_final_cmd_table *final_cmd_table, char *filename)
+bool	handle_red_in(int *read_fd, char *filename)
 {
 	int	fd;
 
@@ -25,12 +25,11 @@ bool	handle_red_in(t_final_cmd_table *final_cmd_table, char *filename)
 		perror("");
 		return (false);
 	}
-	replace_fd(&fd, &final_cmd_table->read_fd);
+	replace_fd(&fd, read_fd);
 	return (true);
 }
 
-bool	handle_red_out(
-	t_final_cmd_table *final_cmd_table, char *filename, int o_flags)
+bool	handle_red_out(int *write_fd, char *filename, int o_flags)
 {
 	int	fd;
 
@@ -41,39 +40,36 @@ bool	handle_red_out(
 		perror("");
 		return (false);
 	}
-	replace_fd(&fd, &final_cmd_table->write_fd);
+	replace_fd(&fd, write_fd);
 	return (true);
 }
 
-bool	handle_redirect_by_type(
-	t_final_cmd_table *final_cmd_table, t_io_red *io_red)
+bool	handle_redirect_by_type(int *read_fd, int *write_fd, t_io_red *io_red)
 {
 	if (io_red->type == T_RED_IN || io_red->type == T_HERE_DOC)
-		return (handle_red_in(final_cmd_table, io_red->in_file));
+		return (handle_red_in(read_fd, io_red->in_file));
 	else if (io_red->type == T_RED_OUT)
-		return (handle_red_out(
-				final_cmd_table, io_red->out_file, O_CREAT | O_RDWR | O_TRUNC));
+		return (handle_red_out(write_fd,
+				io_red->out_file, O_CREAT | O_RDWR | O_TRUNC));
 	else if (io_red->type == T_APPEND)
-		return (handle_red_out(
-				final_cmd_table,
+		return (handle_red_out(write_fd,
 				io_red->out_file, O_CREAT | O_RDWR | O_APPEND));
 	return (true);
 }
 
-bool	handle_io_redirect(
-	t_final_cmd_table *final_cmd_table, t_list *io_red_node)
+bool	handle_io_redirect(int *read_fd, int *write_fd, t_list *io_red_list)
 {
-	if (ft_lstsize_non_null(io_red_node) == 0)
+	if (ft_lstsize_non_null(io_red_list) == 0)
 		return (true);
-	while (io_red_node)
+	while (io_red_list)
 	{
-		if (!handle_redirect_by_type(final_cmd_table, io_red_node->content))
+		if (!handle_redirect_by_type(read_fd, write_fd, io_red_list->content))
 		{
-			// safe_close(&final_cmd_table->read_fd);
-			// safe_close(&final_cmd_table->write_fd);
+			// safe_close(read_fd);
+			// safe_close(write_fd);
 			return (false);
 		}
-		io_red_node = io_red_node->next;
+		io_red_list = io_red_list->next;
 	}
 	return (true);
 }

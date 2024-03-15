@@ -30,6 +30,27 @@ t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
 	return (last_simple_cmd_table);
 }
 
+t_cmd_table	*get_subshell_start(t_list_d *cmd_table_node)
+{
+	t_cmd_table	*cmd_table;
+	int			subshell_cnt;
+
+	cmd_table = NULL;
+	subshell_cnt = 0;
+	while (cmd_table_node)
+	{
+		cmd_table = cmd_table_node->content;
+		if (cmd_table->type == C_SUBSHELL_END)
+			subshell_cnt++;
+		else if (cmd_table->type == C_SUBSHELL_START)
+			subshell_cnt--;
+		if (subshell_cnt <= 0)
+			break ;
+		cmd_table_node = cmd_table_node->prev;
+	}
+	return (cmd_table);
+}
+
 char	*get_cmd_name_from_list(t_list *simple_cmd_list)
 {
 	if (ft_lstsize_non_null(simple_cmd_list) == 0)
