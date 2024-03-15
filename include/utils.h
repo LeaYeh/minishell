@@ -85,7 +85,7 @@ bool		replace_env_value(
 /* Expansion utils */
 int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
 						t_expander_op op_mask);
-int			expand_array(t_shell *shell, char **array[], t_expander_op op_mask);
+int			expand_array(t_shell *shell, char **array[], t_expander_op op_mask);	// Not used
 
 /* Pipe utils */
 void		init_pipe(t_pipe *pipe);
