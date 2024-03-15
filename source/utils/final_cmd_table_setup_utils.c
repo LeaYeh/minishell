@@ -20,8 +20,8 @@ bool	expand_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
 	int			ret;
 
 	expanded_list = NULL;
-	ret = expand_list(
-			shell, simple_cmd_list, &expanded_list, E_EXPAND | E_RM_QUOTES);
+	ret = expand_list(shell, simple_cmd_list, &expanded_list,
+			E_EXPAND | E_SPLIT_WORDS | E_RM_QUOTES);
 	if (ret == MALLOC_ERROR)
 		return (ft_lstclear(&expanded_list, free), false);
 	else if (ret == BAD_SUBSTITUTION)

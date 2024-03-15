@@ -23,7 +23,7 @@ int				ft_expander(char *str, t_list **lst, t_shell *shell,
 					t_expander_op op_mask);
 
 /* expander_task_list.c */
-bool			create_expander_task_list(t_list **task_list, char *new_str,
+bool			set_expander_task_list(t_list **task_list, char *new_str,
 					t_expander_op op_mask);
 bool			append_quote_task(t_list **task_list, char *new_str, size_t *i);
 bool			append_parameter_task(t_list **task_list, char *new_str,
@@ -44,10 +44,12 @@ void			skip_to_dollar_not_in_single_quotes(char *str, size_t *i);
 void			skip_to_expander_symbol(char *str, size_t *i);
 
 /* expansion_handler.c */
-bool			expand(char **new_str, t_list **lst, t_shell *shell,
+bool			handle_expansion(t_list **lst, char **new_str, t_shell *shell,
 					t_expander_op op_mask);
 bool			execute_expander_task_list(char **new_str, t_list *task_list,
 					t_shell *shell);
+bool			set_expanded_list(t_list **lst, char **new_str,
+					t_expander_op op_mask, t_list *task_list);
 
 /* null_expansion.c */
 bool			check_null_expansion(t_list **lst, t_list *task_list);

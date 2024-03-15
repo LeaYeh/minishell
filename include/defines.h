@@ -244,8 +244,8 @@ typedef enum e_is_open_pair_op
 typedef enum e_expander_op
 {
 	E_EXPAND		= 0b001,
-	E_RM_QUOTES		= 0b010,
-	E_HEREDOC		= 0b100
+	E_SPLIT_WORDS	= 0b010,
+	E_RM_QUOTES		= 0b100
 }	t_expander_op;
 
 typedef enum e_expander_task_type

@@ -1,15 +1,14 @@
 #include "expander.h"
 
-bool	expand(char **new_str, t_list **lst, t_shell *shell,
+bool	handle_expansion(t_list **lst, char **new_str, t_shell *shell,
 			t_expander_op op_mask)
 {
 	t_list	*task_list;
 
 	task_list = NULL;
-	if (!create_expander_task_list(&task_list, *new_str, op_mask) || \
+	if (!set_expander_task_list(&task_list, *new_str, op_mask) || \
 		!execute_expander_task_list(new_str, task_list, shell) || \
-		!split_words(lst, new_str, task_list) || \
-		!check_null_expansion(lst, task_list))
+		!set_expanded_list(lst, new_str, op_mask, task_list))
 		return (ft_lstclear(&task_list, (void *)free_expander_task), false);
 	ft_lstclear(&task_list, (void *)free_expander_task);
 	return (true);
@@ -36,4 +35,19 @@ bool	execute_expander_task_list(
 		task_list = task_list->next;
 	}
 	return (ret);
+}
+
+bool	set_expanded_list(
+	t_list **lst, char **new_str, t_expander_op op_mask, t_list *task_list)
+{
+	if (op_mask & E_SPLIT_WORDS)
+	{
+		if (!split_words(lst, new_str, task_list))
+			return (false);
+	}
+	else if (!ft_lstnew_back(lst, *new_str))
+		return (false);
+	if (!check_null_expansion(lst, task_list))
+		return (false);
+	return (true);
 }
