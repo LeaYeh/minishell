@@ -64,13 +64,17 @@ bool	ft_read_input(t_shell *shell)
 	{
 		errno = SUCCESS;
 		line = get_next_line(fileno(stdin));
+		if (errno != SUCCESS)
+			return (false);
 		if (line)
 		{
 			shell->input_line = ft_strtrim(line, "\n");
 			free(line);
 		}
 	}
-	if (errno != SUCCESS)
+	if (errno == EINTR)
+		errno = SUCCESS;
+	else if (errno != SUCCESS)
 		return (false);
 	if (shell->input_line && *shell->input_line)
 		add_history(shell->input_line);
