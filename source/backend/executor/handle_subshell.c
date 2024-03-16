@@ -16,7 +16,7 @@
 #include "clean.h"
 #include "signals.h"
 
-void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
+void	fork_subshell(t_shell *shell, t_list_d **cmd_table_node)
 {
 	int	ret;
 

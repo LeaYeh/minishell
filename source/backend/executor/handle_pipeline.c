@@ -61,9 +61,9 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 				raise_error_to_all_subprocess(
 					shell, TERM_BY_SIGNAL + SIGHUP, ERROR_CREATE_PIPE);
 			if (cmd_table_type == C_SUBSHELL_START)
-				handle_subshell(shell, cmd_table_node);
+				fork_subshell(shell, cmd_table_node);
 			else if (cmd_table_type == C_SIMPLE_CMD)
-				handle_simple_cmd(shell, cmd_table_node);
+				fork_simple_cmd(shell, cmd_table_node);
 			if (!insert_child_pid_list(shell, shell->subshell_pid))
 				raise_error_to_own_subprocess(
 					shell, MALLOC_ERROR, "malloc failed");
@@ -97,7 +97,7 @@ void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	}
 }
 
-void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
+void	fork_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)

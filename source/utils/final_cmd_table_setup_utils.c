@@ -14,7 +14,7 @@
 #include "utils.h"
 #include "expander.h"
 
-bool	expand_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
+int	expand_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
 {
 	t_list		*expanded_list;
 	int			ret;
@@ -22,16 +22,14 @@ bool	expand_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
 	expanded_list = NULL;
 	ret = expand_list(shell, simple_cmd_list, &expanded_list,
 			E_EXPAND | E_SPLIT_WORDS | E_RM_QUOTES);
-	if (ret == MALLOC_ERROR)
-		return (ft_lstclear(&expanded_list, free), false);
-	else if (ret == BAD_SUBSTITUTION)
-		ft_lstclear(&expanded_list, free);
+	if (ret != SUCCESS)
+		return (ft_lstclear(&expanded_list, free), ret);
 	shell->final_cmd_table->simple_cmd = \
 		convert_list_to_string_array(expanded_list);
 	ft_lstclear(&expanded_list, free);
 	if (!shell->final_cmd_table->simple_cmd)
-		return (false);
-	return (true);
+		return (MALLOC_ERROR);
+	return (SUCCESS);
 }
 
 int	get_env_size(t_list *env_list)

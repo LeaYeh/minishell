@@ -13,16 +13,15 @@
 #include "defines.h"
 #include "utils.h"
 
-bool	setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
+int	setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
 {
-	if (!expand_simple_cmd(shell, simple_cmd_list))
-		return (false);
-	return (true);
+	return (expand_simple_cmd(shell, simple_cmd_list));
 }
 
 bool	setup_exec_path(t_final_cmd_table *final_cmd_table)
 {
-	if (!final_cmd_table->simple_cmd[0] || \
+	if (!final_cmd_table->simple_cmd || \
+		!final_cmd_table->simple_cmd[0] || \
 		is_builtin(final_cmd_table->simple_cmd[0]))
 		final_cmd_table->exec_path = NULL;
 	else if (!set_exec_path(&final_cmd_table->exec_path,

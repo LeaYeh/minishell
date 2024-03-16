@@ -38,7 +38,10 @@ int	expand_heredoc_content(t_shell *shell, char **content)
 	if (ret == MALLOC_ERROR)
 		return (ft_lstclear(&expanded_list, free), HEREDOC_ERROR);
 	if (ret == BAD_SUBSTITUTION)
+	{
+		shell->exit_code = BAD_SUBSTITUTION;
 		return (ft_lstclear(&expanded_list, free), HEREDOC_ABORT);
+	}
 	ft_free_and_null((void **)content);
 	if (expanded_list)
 		*content = expanded_list->content;
