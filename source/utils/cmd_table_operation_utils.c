@@ -48,11 +48,8 @@ t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node)
 
 bool	append_cmd_table_by_scenario(int token_type, t_list_d **cmd_table_list)
 {
-	t_cmd_table	*cmd_table;
-
 	if (*cmd_table_list)
 	{
-		cmd_table = ft_lstlast_d(*cmd_table_list)->content;
 		if (token_type == T_END)
 			return (true);
 		if (get_last_simple_cmd_table(*cmd_table_list) && \
