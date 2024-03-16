@@ -45,28 +45,28 @@ void	safe_redirect_io_and_exec_builtin(t_shell *shell)
 {
 	t_final_cmd_table	*final_cmd_table;
 	int					saved_std_io[2];
-	int					ret;
+	bool				ret;
 
 	final_cmd_table = shell->final_cmd_table;
 	// print_final_cmd_table(final_cmd_table);
-	ret = SUCCESS;
+	ret = true;
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") != 0)
 	{
 		if (!save_std_io(saved_std_io) || \
 			!redirect_scmd_io(shell, &final_cmd_table->read_fd,
 				&final_cmd_table->write_fd))
-			ret = SUBSHELL_ERROR;
+			ret = false;
 		else
 			exec_builtin_cmd(shell);
 		if (!restore_std_io(saved_std_io))
-			ret = SUBSHELL_ERROR;
+			ret = false;
 		safe_close(&saved_std_io[0]);
 		safe_close(&saved_std_io[1]);
 	}
 	else
 		exec_exit(shell, final_cmd_table->simple_cmd);
-	if (ret == SUBSHELL_ERROR)
-		raise_error_to_own_subprocess(shell, CREATE_FD_ERROR, NULL);
+	if (!ret)
+		raise_error_to_own_subprocess(shell, GENERAL_ERROR, NULL);
 }
 
 void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)

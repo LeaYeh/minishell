@@ -66,7 +66,6 @@
 # define UNEXPECT_EXIT      128
 # define TERM_BY_SIGNAL     128
 # define PREPROCESS_ERROR   195
-# define CREATE_FD_ERROR    197
 # define SUBSHELL_ERROR     197
 # define FORK_ERROR         254
 
@@ -155,8 +154,8 @@
 typedef enum e_heredoc_status
 {
 	HEREDOC_SUCCESS	= 0,
-	HEREDOC_ERROR,
-	HEREDOC_ABORT
+	HEREDOC_ABORT,
+	HEREDOC_ERROR
 }	t_heredoc_status;
 
 typedef enum e_state
