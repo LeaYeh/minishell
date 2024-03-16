@@ -31,7 +31,8 @@ void	wait_all_child_pid(t_shell *shell)
 	while (child_pid_node)
 	{
 		pid = (pid_t)(long)child_pid_node->content;
-		if (waitpid(pid, &wstatus, 0) != -1 && WTERMSIG(wstatus) == SIGINT)
+		if (waitpid(pid, &wstatus, 0) != -1 && \
+			WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGINT)
 			got_sigint = true;
 		child_pid_node = child_pid_node->next;
 	}
