@@ -72,6 +72,7 @@ bool	ft_read_input(t_shell *shell)
 	}
 	if (errno != SUCCESS)
 		return (false);
-	add_history(shell->input_line);
+	if (shell->input_line && *shell->input_line)
+		add_history(shell->input_line);
 	return (errno == SUCCESS);
 }
