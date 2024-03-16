@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        compiler: [gcc, clang]
+        compiler: [gcc, clang, clang-12]
     steps:
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
