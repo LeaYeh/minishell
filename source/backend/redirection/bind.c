@@ -53,6 +53,7 @@ bool	redirect_subshell_io(t_shell *shell, t_cmd_table *cmd_table)
 	{
 		ft_dprintf(STDERR_FILENO, "%s: ", PROGRAM_NAME);
 		perror(NULL);
+		shell->exit_code = GENERAL_ERROR;
 		ret = false;
 	}
 	safe_close(&read_fd);
