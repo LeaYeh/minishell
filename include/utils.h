@@ -97,7 +97,7 @@ char		**convert_list_to_string_array(t_list *list);
 char		**append_string_array(char *array[], char *str);
 
 /* Process utils */
-void		wait_process(t_shell *shell, pid_t pid);
+bool		wait_process(t_shell *shell, pid_t pid);
 int			handle_exit_status(int wstatus);
 
 /* Type utils */

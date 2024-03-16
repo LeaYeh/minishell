@@ -25,12 +25,8 @@ void	wait_all_child_pid(t_shell *shell)
 	got_sigint = false;
 	child_pid_node = shell->child_pid_list;
 	pid = (pid_t)(long)child_pid_node->content;
-	if (waitpid(pid, &wstatus, 0) != -1)
-	{
-		if (WTERMSIG(wstatus) == SIGINT)
-			got_sigint = true;
-		shell->exit_code = handle_exit_status(wstatus);
-	}
+	if (wait_process(shell, pid) && shell->exit_code == TERM_BY_SIGNAL + SIGINT)
+		got_sigint = true;
 	child_pid_node = child_pid_node->next;
 	while (child_pid_node)
 	{
