@@ -32,7 +32,7 @@ t_cmd_table	*init_cmd_table(void)
 	cmd_table->subshell_level = 0;
 	cmd_table->read_fd = -1;
 	cmd_table->write_fd = -1;
-	cmd_table->type = C_NONE;
+	cmd_table->type = C_SIMPLE_CMD;
 	cmd_table->assignment_list = NULL;
 	cmd_table->simple_cmd_list = NULL;
 	cmd_table->io_red_list = NULL;
@@ -53,7 +53,7 @@ bool	append_cmd_table_by_scenario(int token_type, t_list_d **cmd_table_list)
 	if (*cmd_table_list)
 	{
 		cmd_table = ft_lstlast_d(*cmd_table_list)->content;
-		if (token_type == T_END || cmd_table->type == C_NONE)
+		if (token_type == T_END)
 			return (true);
 		if (get_last_simple_cmd_table(*cmd_table_list) && \
 			(is_io_red_op(token_type) || is_word(token_type)))
