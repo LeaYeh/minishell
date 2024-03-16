@@ -37,8 +37,7 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	t_cmd_table	*cmd_table;
 
 	if (!set_final_cmd_table(shell, (*cmd_table_node)->content))
-		return (raise_error_to_own_subprocess(
-				shell, MALLOC_ERROR, "malloc failed"));
+		raise_error_to_own_subprocess(shell, MALLOC_ERROR, "malloc failed");
 	cmd_table = get_cmd_table_from_list(*cmd_table_node);
 	if (is_builtin(shell->final_cmd_table->simple_cmd[0]))
 	{

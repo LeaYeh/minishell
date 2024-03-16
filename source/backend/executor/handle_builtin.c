@@ -92,8 +92,8 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 	{
 		if (!redirect_scmd_io(shell, &shell->final_cmd_table->read_fd,
 				&shell->final_cmd_table->write_fd))
-			return (raise_error_to_own_subprocess(
-					shell, CREATE_FD_ERROR, "fd bind failed"));
+			raise_error_to_own_subprocess(
+				shell, CREATE_FD_ERROR, "fd bind failed");
 		exec_builtin_cmd(shell);
 	}
 	*cmd_table_node = (*cmd_table_node)->next;
