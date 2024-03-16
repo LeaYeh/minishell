@@ -20,29 +20,32 @@ void	wait_all_child_pid(t_shell *shell)
 	t_list	*child_pid_node;
 	bool	got_sigint;
 	pid_t	pid;
-	int		ret;
 	int		wstatus;
 
 	got_sigint = false;
-	ret = -1;
 	child_pid_node = shell->child_pid_list;
+	pid = (pid_t)(long)child_pid_node->content;
+	if (waitpid(pid, &wstatus, 0) != -1)
+	{
+		if (WTERMSIG(wstatus) == SIGINT)
+			got_sigint = true;
+		shell->exit_code = handle_exit_status(wstatus);
+	}
+	child_pid_node = child_pid_node->next;
 	while (child_pid_node)
 	{
 		pid = (pid_t)(long)child_pid_node->content;
-		ret = waitpid(pid, &wstatus, 0);
-		if (ret != -1 && WTERMSIG(wstatus) == SIGINT)
+		if (waitpid(pid, &wstatus, 0) != -1 && WTERMSIG(wstatus) == SIGINT)
 			got_sigint = true;
 		child_pid_node = child_pid_node->next;
 	}
 	if (got_sigint)
 		printf("\n");
-	if (ret != -1)
-		shell->exit_code = handle_exit_status(wstatus);
 }
 
 bool	insert_child_pid_list(t_shell *shell, pid_t pid)
 {
-	return (ft_lstnew_back(&shell->child_pid_list, (void *)(long)pid));
+	return (ft_lstnew_front(&shell->child_pid_list, (void *)(long)pid));
 }
 
 void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
