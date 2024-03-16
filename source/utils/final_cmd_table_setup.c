@@ -10,12 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "defines.h"
 #include "utils.h"
 
 int	setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
 {
-	return (expand_simple_cmd(shell, simple_cmd_list));
+	t_list		*expanded_list;
+	int			ret;
+
+	expanded_list = NULL;
+	ret = expand_list(shell, simple_cmd_list, &expanded_list,
+			E_EXPAND | E_SPLIT_WORDS | E_RM_QUOTES);
+	if (ret != SUCCESS)
+		return (ft_lstclear(&expanded_list, free), ret);
+	shell->final_cmd_table->simple_cmd = \
+		convert_list_to_string_array(expanded_list);
+	ft_lstclear(&expanded_list, free);
+	if (!shell->final_cmd_table->simple_cmd)
+		return (MALLOC_ERROR);
+	return (SUCCESS);
 }
 
 bool	setup_exec_path(t_final_cmd_table *final_cmd_table)
@@ -51,7 +63,7 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 	int		i;
 
 	final_cmd_table->env = (char **)malloc(
-			(get_env_size(env_list) + 1) * sizeof(char *));
+			(get_exported_env_size(env_list) + 1) * sizeof(char *));
 	if (!final_cmd_table->env)
 		return (false);
 	i = 0;

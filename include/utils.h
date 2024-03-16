@@ -60,8 +60,6 @@ bool		setup_assignment_array(t_final_cmd_table *final_cmd_table,
 bool		setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list);
 void		setup_fd(
 				t_shell *shell, t_final_cmd_table *final_cmd_table);
-int			expand_simple_cmd(t_shell *shell, t_list *simple_cmd_list);
-int			get_env_size(t_list *env_list);
 bool		set_exec_path(char **exec_path, char *cmd_name, char *env[]);
 
 /* Environment utils */
@@ -73,6 +71,7 @@ bool		is_key_in_env(char *env[], char *key);
 bool		append_env_node(
 				t_list **env_list, char *key, char *value, t_export export);
 t_env		*find_env_node(t_list *env_list, char *key, char *value);
+int			get_exported_env_size(t_list *env_list);
 char		*get_value_from_env_list(t_list *env_list, char *key);
 bool		is_key_in_env_list(t_list *env_list, char *key);
 bool		process_str_to_env_list(
