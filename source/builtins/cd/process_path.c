@@ -26,7 +26,7 @@ int	set_final_path(char **final_path, char **new_pwd, char *target_dir)
 	*final_path = try_to_convert_abs_to_rel_path(*new_pwd, pwd);
 	free(pwd);
 	if (!*final_path)
-		return (free(*new_pwd), SUBSHELL_ERROR);
+		return (free(*new_pwd), BUILTIN_ERROR);
 	if (ft_strlen(*final_path) + 1 > PATH_MAX)
 	{
 		free(*final_path);
@@ -35,7 +35,7 @@ int	set_final_path(char **final_path, char **new_pwd, char *target_dir)
 			return (free(*new_pwd), ret);
 	}
 	if (!ensure_path_not_empty(final_path))
-		return (free(*new_pwd), SUBSHELL_ERROR);
+		return (free(*new_pwd), BUILTIN_ERROR);
 	return (SUCCESS);
 }
 
@@ -49,7 +49,7 @@ int	simplify_path(char **new_path, char *target_dir, char *pwd)
 	else
 		cmpnt_list = create_cmpnt_list(target_dir);
 	if (!cmpnt_list)
-		return (SUBSHELL_ERROR);
+		return (BUILTIN_ERROR);
 	ret = handle_dot_cmpnts(&cmpnt_list, target_dir);
 	if (ret != SUCCESS)
 		return (ft_lstclear_d(&cmpnt_list, free), ret);
@@ -57,7 +57,7 @@ int	simplify_path(char **new_path, char *target_dir, char *pwd)
 			cmpnt_list, ft_lstlast_d(cmpnt_list));
 	ft_lstclear_d(&cmpnt_list, free);
 	if (!*new_path)
-		return (SUBSHELL_ERROR);
+		return (BUILTIN_ERROR);
 	return (SUCCESS);
 }
 

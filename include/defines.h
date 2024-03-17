@@ -66,7 +66,7 @@
 # define UNEXPECT_EXIT      128
 # define TERM_BY_SIGNAL     128
 # define PREPROCESS_ERROR   195
-# define SUBSHELL_ERROR     197
+# define BUILTIN_ERROR      196
 # define FORK_ERROR         254
 
 /* Parsing Table */

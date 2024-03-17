@@ -18,7 +18,7 @@ int	handle_cd_error(int error, char *target_dir)
 	{
 		ft_dprintf(STDERR_FILENO, "%s: cd: ", PROGRAM_NAME);
 		perror(NULL);
-		return (SUBSHELL_ERROR);
+		return (BUILTIN_ERROR);
 	}
 	ft_dprintf(STDERR_FILENO, "%s: cd: %s: ", PROGRAM_NAME, target_dir);
 	perror(NULL);
