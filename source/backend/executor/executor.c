@@ -66,6 +66,7 @@ void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 			return (handle_expansion_error(
 					shell, cmd_table_node, MALLOC_ERROR));
 		handle_builtin(shell, cmd_table_node);
+		free_final_cmd_table(&shell->final_cmd_table);
 	}
 	else
 	{
