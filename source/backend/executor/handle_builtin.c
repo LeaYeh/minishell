@@ -90,6 +90,8 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 			raise_error_to_own_subprocess(
 				shell, GENERAL_ERROR, "fd bind failed");
 		exec_builtin_cmd(shell);
+		if (shell->exit_code == BUILTIN_ERROR)
+			shell->exit_code = GENERAL_ERROR;
 	}
 	*cmd_table_node = (*cmd_table_node)->next;
 }
