@@ -16,8 +16,7 @@
 # include "defines.h"
 
 /* cd_errors.c */
-int			handle_chdir_error(int error, char *target_dir);
-int			handle_getcwd_error(int error, char *target_dir);
+int			handle_cd_error(int error, char *target_dir);
 
 /* cd_utils.c */
 bool		check_dir(char *dir, char *target_dir);

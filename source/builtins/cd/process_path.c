@@ -19,7 +19,7 @@ int	set_final_path(char **final_path, char **new_pwd, char *target_dir)
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd && errno == ENOMEM)
-		return (handle_getcwd_error(errno, target_dir));
+		return (handle_cd_error(errno, target_dir));
 	ret = simplify_path(new_pwd, target_dir, pwd);
 	if (ret != SUCCESS)
 		return (free(pwd), ret);

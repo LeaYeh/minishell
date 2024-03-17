@@ -97,7 +97,7 @@ int	exec_cd(char *args[], t_list **env_list)
 		return (ret);
 	if (chdir(final_path) == -1)
 		return (free(final_path), free(new_pwd),
-			handle_chdir_error(errno, target_dir));
+			handle_cd_error(errno, target_dir));
 	free(final_path);
 	if (!update_pwd_env(env_list, new_pwd))
 		return (free(new_pwd), SUBSHELL_ERROR);
