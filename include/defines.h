@@ -158,11 +158,11 @@ typedef enum e_heredoc_status
 
 typedef enum e_state
 {
-	SIG_HEREDOC		= 0,
-	SIG_STD,
-	SIG_SUBSHELL,
-	SIG_DEFAULT,
-	SIG_IGNORE
+	SIG_DEFAULT		= 0,
+	SIG_IGNORE,
+	SIG_STANDARD,
+	SIG_RECORD,
+	SIG_HEREDOC
 }	t_state;
 
 typedef enum e_pt_col
@@ -374,6 +374,7 @@ typedef struct s_shell
 	pid_t				pid;
 	pid_t				subshell_pid;
 	int					subshell_level;
+	int					signal_record;
 	t_pipe				old_pipe;
 	t_pipe				new_pipe;
 	int					exit_code;

@@ -19,6 +19,7 @@ bool	init_shell(t_shell *shell)
 	shell->pid = getpid();
 	shell->subshell_pid = -1;
 	shell->subshell_level = 0;
+	shell->signal_record = 0;
 	init_pipe(&shell->old_pipe);
 	init_pipe(&shell->new_pipe);
 	shell->exit_code = EXIT_SUCCESS;
@@ -32,10 +33,11 @@ bool	init_shell(t_shell *shell)
 	if (!setup_env_list(shell))
 		return (false);
 	handle_signal_std(0, NULL, shell);
+	handle_signal_record(0, NULL, shell);
 	handle_signal_heredoc(0, NULL, shell);
-	setup_signal(shell, SIGINT, SIG_STD);
-	setup_signal(shell, SIGABRT, SIG_STD);
-	setup_signal(shell, SIGTERM, SIG_STD);
+	setup_signal(shell, SIGINT, SIG_STANDARD);
+	setup_signal(shell, SIGABRT, SIG_STANDARD);
+	setup_signal(shell, SIGTERM, SIG_STANDARD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	return (true);
 }

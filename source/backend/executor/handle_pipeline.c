@@ -89,13 +89,16 @@ void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		safe_close_all_pipes(shell);
 		wait_process(shell, shell->subshell_pid);
 		if (shell->subshell_level != 0)
+		{
+			if (shell->signal_record != 0)
+				shell->exit_code = TERM_BY_SIGNAL + shell->signal_record;
 			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+		}
 	}
 }
 
 void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
-	setup_signal(shell, SIGINT, SIG_IGNORE);
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
 	{
@@ -105,7 +108,8 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	}
 	else if (shell->subshell_pid == 0)
 	{
-		setup_signal(shell, SIGTERM, SIG_STD);
+		setup_signal(shell, SIGINT, SIG_IGNORE);
+		setup_signal(shell, SIGTERM, SIG_STANDARD);
 		shell->subshell_level += 1;
 		// do T0
 		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
@@ -113,9 +117,10 @@ void	handle_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	}
 	else
 	{
+		setup_signal(shell, SIGINT, SIG_RECORD);
 		move_past_pipeline(cmd_table_node);
 		handle_end_of_pipeline(shell, cmd_table_node);
 		shell->subshell_pid = -1;
-		setup_signal(shell, SIGINT, SIG_STD);
+		setup_signal(shell, SIGINT, SIG_STANDARD);
 	}
 }
