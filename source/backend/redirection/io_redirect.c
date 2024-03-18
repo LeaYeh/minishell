@@ -31,10 +31,8 @@ int	expand_filename(t_shell *shell, char **filename)
 		return (ft_lstclear(&expanded_list, free), AMBIGUOUS_REDIR);
 	}
 	free(*filename);
-	*filename = ft_strdup(expanded_list->content);
-	ft_lstclear(&expanded_list, free);
-	if (!*filename)
-		return (MALLOC_ERROR);
+	*filename = expanded_list->content;
+	ft_lstclear(&expanded_list, NULL);
 	return (SUCCESS);
 }
 
