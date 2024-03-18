@@ -40,10 +40,13 @@ int	handle_exit_status(int wstatus)
 	return (UNEXPECT_EXIT);
 }
 
-void	wait_process(t_shell *shell, pid_t pid)
+bool	wait_process(t_shell *shell, pid_t pid)
 {
 	int	wstatus;
 
-	if (waitpid(pid, &wstatus, 0) != -1)
-		shell->exit_code = handle_exit_status(wstatus);
+	if (waitpid(pid, &wstatus, 0) == -1)
+		return (false);
+	shell->exit_code = handle_exit_status(wstatus);
+	return (true);
+
 }
