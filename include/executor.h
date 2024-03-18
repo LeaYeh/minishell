@@ -33,7 +33,7 @@ bool	restore_std_io(int saved_std_io[2]);
 bool	save_std_io(int saved_std_io[2]);
 bool	redirect_scmd_io(t_shell *shell, int *read_fd, int *write_fd);
 bool	redirect_subshell_io(t_shell *shell, t_cmd_table *cmd_table);
-int 	handle_io_redirect(
+bool	handle_io_redirect(
             t_shell *shell, int *read_fd, int *write_fd, t_list *io_red_list);
 
 /* Redirection - Pipe */

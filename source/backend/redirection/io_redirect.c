@@ -79,26 +79,24 @@ bool	handle_redirect_by_type(int *read_fd, int *write_fd, t_io_red *io_red)
 	return (true);
 }
 
-int	handle_io_redirect(
+bool	handle_io_redirect(
 	t_shell *shell, int *read_fd, int *write_fd, t_list *io_red_list)
 {
 	t_io_red	*io_red;
-	int			ret;
 
 	if (ft_lstsize_non_null(io_red_list) == 0)
-		return (SUCCESS);
+		return (true);
 	while (io_red_list)
 	{
 		io_red = io_red_list->content;
 		if (io_red->type != T_HERE_DOC)
 		{
-			ret = expand_filename(shell, &io_red->filename);
-			if (ret != SUCCESS)
-				return (ret);
+			if (expand_filename(shell, &io_red->filename) != SUCCESS)
+				return (false);
 		}
 		if (!handle_redirect_by_type(read_fd, write_fd, io_red_list->content))
-			return (GENERAL_ERROR);
+			return (false);
 		io_red_list = io_red_list->next;
 	}
-	return (SUCCESS);
+	return (true);
 }
