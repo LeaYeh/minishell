@@ -9,13 +9,17 @@ jobs:
     name: Compilation Test
     runs-on: ubuntu-latest
     timeout-minutes: 2
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang, clang-12]
     steps:
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
       - name: Set up test environment
         uses: ./.github/actions/setup
       - name: 🔨 Compile with Makefile
-        run: make
+        run: make CC="${{ matrix.compiler }}"
 
   prepare_test_matrix:
     name: Prepare Test Matrix
@@ -36,12 +40,12 @@ jobs:
   memory_leak_test:
     name: Memory Leak Test
     needs: prepare_test_matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         test_script: ${{ fromJson(needs.prepare_test_matrix.outputs.test_matrix) }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
     steps:
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4

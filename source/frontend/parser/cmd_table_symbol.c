@@ -70,8 +70,6 @@ bool	handle_redirect(t_list **token_list, t_list_d **cmd_table_list)
 
 	cmd_table_node = ft_lstlast_d(*cmd_table_list);
 	cmd_table = cmd_table_node->content;
-	if (cmd_table->type == C_NONE)
-		cmd_table->type = C_SIMPLE_CMD;
 	if (cmd_table->type == C_SIMPLE_CMD)
 	{
 		if (!fill_redirect(token_list, cmd_table))
