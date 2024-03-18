@@ -77,6 +77,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstsize.c \
 			ft_lstsize_non_null.c \
 			ft_lstsort_bubble.c \
+			ft_lstsort_merge.c \
 			ft_lstswap_head.c \
 )
 
