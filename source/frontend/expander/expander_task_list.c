@@ -1,7 +1,7 @@
 #include "expander.h"
 #include "utils.h"
 
-bool	create_expander_task_list(t_list **task_list, char *new_str,
+bool	set_expander_task_list(t_list **task_list, char *new_str,
 			t_expander_op op_mask)
 {
 	size_t	i;
@@ -13,7 +13,7 @@ bool	create_expander_task_list(t_list **task_list, char *new_str,
 	{
 		if (ft_strchr(QUOTES, new_str[i]) && op_mask & E_RM_QUOTES)
 			ret = append_quote_task(task_list, new_str, &i);
-		else if (new_str[i] == '$' && op_mask & (E_EXPAND | E_HEREDOC))
+		else if (new_str[i] == '$' && op_mask & E_EXPAND)
 			ret = append_parameter_task(task_list, new_str, &i, op_mask);
 		else
 			i++;
@@ -51,7 +51,7 @@ bool	append_parameter_task(t_list **task_list, char *new_str, size_t *i,
 	offset = get_offset(&new_str[*i]);
 	if (is_valid_varname_start(new_str[*i + offset]))
 	{
-		if (!is_open_pair('"', OP_GET) && !(op_mask & E_HEREDOC))
+		if (!is_open_pair('"', OP_GET) && op_mask & E_SPLIT_WORDS)
 			type = ET_VAR;
 		else
 			type = ET_VAR_NO_SPLIT;

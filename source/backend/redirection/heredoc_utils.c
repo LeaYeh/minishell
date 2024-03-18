@@ -14,16 +14,16 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
 {
 	int	fd;
 
-	io_red->in_file = generate_tmp_filename(cmdtable_id, "hd");
-	if (!io_red->in_file)
+	io_red->filename = generate_tmp_filename(cmdtable_id, "hd");
+	if (!io_red->filename)
 		return (false);
-	fd = open(io_red->in_file,
+	fd = open(io_red->filename,
 			O_CREAT | O_RDWR | O_TRUNC,
 			(S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
 	if (fd < 0 || close(fd) == -1)
 	{
 		perror(PROGRAM_NAME);
-		return (ft_free_and_null((void **)&io_red->in_file), false);
+		return (ft_free_and_null((void **)&io_red->filename), false);
 	}
 	return (true);
 }
@@ -34,7 +34,7 @@ int	expand_heredoc_content(t_shell *shell, char **content)
 	int		ret;
 
 	expanded_list = NULL;
-	ret = ft_expander(*content, &expanded_list, shell, E_HEREDOC);
+	ret = ft_expander(*content, &expanded_list, shell, E_EXPAND);
 	if (ret == MALLOC_ERROR)
 		return (ft_lstclear(&expanded_list, free), HEREDOC_ERROR);
 	if (ret == BAD_SUBSTITUTION)
@@ -51,14 +51,14 @@ bool	remove_here_end_quote(
 	t_list	*expanded_list;
 
 	expanded_list = NULL;
-	if (is_here_end_quoted(io_red->here_end))
-		*need_content_expansion = false;
+	*need_content_expansion = false;
 	if (ft_expander(
 			io_red->here_end, &expanded_list, shell, E_RM_QUOTES) != SUCCESS)
 		return (ft_lstclear(&expanded_list, free), false);
-	if (!replace_string_content(&io_red->here_end, expanded_list->content))
-		return (ft_lstclear(&expanded_list, free), false);
-	return (ft_lstclear(&expanded_list, free), true);
+	free(io_red->here_end);
+	io_red->here_end = expanded_list->content;
+	ft_lstclear(&expanded_list, NULL);
+	return (true);
 }
 
 bool	append_line_to_list(t_list **line_list, char *line)

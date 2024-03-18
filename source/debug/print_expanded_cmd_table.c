@@ -20,7 +20,8 @@ bool	expand_and_print(char *str, t_shell *shell)
 	int		ret;
 
 	expanded_list = NULL;
-	ret = ft_expander(str, &expanded_list, shell, E_EXPAND | E_RM_QUOTES);
+	ret = ft_expander(str, &expanded_list, shell,
+			E_EXPAND | E_SPLIT_WORDS | E_RM_QUOTES);
 	if (ret == MALLOC_ERROR)
 		return (printf("malloc failed in expander"), false);
 	if (ret == BAD_SUBSTITUTION)
@@ -84,11 +85,8 @@ bool	print_expanded_io_red_list(t_cmd_table *cmd_table, t_shell *shell)
 	{
 		io_red = (t_io_red *)node->content;
 		printf("\ttype:     %d", io_red->type);
-		printf("\n\tin_file:  ");
-		if (!expand_and_print(io_red->in_file, shell))
-			return (false);
-		printf("\n\tout_file: ");
-		if (!expand_and_print(io_red->out_file, shell))
+		printf("\n\filename:  ");
+		if (!expand_and_print(io_red->filename, shell))
 			return (false);
 		printf("\n\there_end: ");
 		if (!expand_and_print(io_red->here_end, shell))

@@ -18,6 +18,8 @@
 
 void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 {
+	int	ret;
+
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
 		raise_error_to_all_subprocess(
@@ -26,9 +28,12 @@ void	handle_subshell(t_shell *shell, t_list_d **cmd_table_node)
 	{
 		shell->subshell_level += 1;
 		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
-		if (!redirect_subshell_io(get_cmd_table_from_list(*cmd_table_node)))
-			ft_clean_and_exit_shell(
-				shell, CREATE_FD_ERROR, "subshell redirect failed");
+		ret = redirect_subshell_io(
+				shell, get_cmd_table_from_list(*cmd_table_node));
+		if (ret == MALLOC_ERROR)
+			raise_error_to_own_subprocess(shell, MALLOC_ERROR, "malloc failed");
+		if (ret == GENERAL_ERROR)
+			ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
 		*cmd_table_node = (*cmd_table_node)->next;
 		handle_process(shell, *cmd_table_node);
 	}

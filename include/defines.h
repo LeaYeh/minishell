@@ -57,6 +57,7 @@
 # define EXIT_SUCCESS       0
 # define GENERAL_ERROR      1
 # define BAD_SUBSTITUTION   1
+# define AMBIGUOUS_REDIR    1
 # define MISUSE_BUILTIN     2
 # define SYNTAX_ERROR       2
 # define MALLOC_ERROR       2
@@ -148,6 +149,8 @@
 "%s: %s: command not found\n"
 # define ERROR_CANNOT_EXEC_FILE				\
 "%s: %s: cannot execute file: %s\n"
+# define ERROR_AMBIGUOUS_REDIRECT			\
+"%s: %s: ambiguous redirect\n"
 
 typedef enum e_heredoc_status
 {
@@ -241,8 +244,8 @@ typedef enum e_is_open_pair_op
 typedef enum e_expander_op
 {
 	E_EXPAND		= 0b001,
-	E_RM_QUOTES		= 0b010,
-	E_HEREDOC		= 0b100
+	E_SPLIT_WORDS	= 0b010,
+	E_RM_QUOTES		= 0b100
 }	t_expander_op;
 
 typedef enum e_expander_task_type
@@ -316,8 +319,7 @@ typedef struct s_pt_node
 typedef struct s_io_red
 {
 	int				type;
-	char			*in_file;
-	char			*out_file;
+	char			*filename;
 	char			*here_end;
 }	t_io_red;
 

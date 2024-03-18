@@ -85,7 +85,7 @@ bool		replace_env_value(
 /* Expansion utils */
 int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
 						t_expander_op op_mask);
-int			expand_array(t_shell *shell, char **array[], t_expander_op op_mask);
+int			expand_array(t_shell *shell, char **array[], t_expander_op op_mask);	// Not used
 
 /* Pipe utils */
 void		init_pipe(t_pipe *pipe);
@@ -112,7 +112,7 @@ bool		is_subshell_symbol(int token_type);
 /* File utils */
 char		*generate_tmp_filename(int cmdtable_id, char *category);
 void		remove_file(char *filename);
-bool		append_line_to_file(char *line, char *filename);
+bool		write_content_to_file(char *content, char *filename);
 void		safe_close(int *fd);
 bool		is_dir(char *dir);
 
@@ -126,7 +126,7 @@ bool		drop_num_stack(t_list **stack, int num, void (*del)(void *));
 t_list		*pop_num_stack(t_list **stack, int num);
 
 /* String utils */
-bool		replace_string_content(char **str, char *new_content);
+// bool		replace_string_content(char **str, char *new_content);
 bool		is_open_pair(unsigned char c, t_is_open_pair_op operation);
 bool		is_valid_varname(char *str);
 bool		is_valid_varname_char(char c);

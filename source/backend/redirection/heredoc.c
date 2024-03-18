@@ -66,12 +66,12 @@ int	exec_heredoc(t_shell *shell,
 	ret = read_heredoc(shell, &line_list, io_red->here_end);
 	if (ret != SUCCESS)
 		return (ft_lstclear(&line_list, free),
-			remove_file(io_red->in_file), ret);
+			remove_file(io_red->filename), ret);
 	ret = handle_heredoc_content(
-			shell, io_red->in_file, &line_list, need_content_expansion);
+			shell, io_red->filename, &line_list, need_content_expansion);
 	ft_lstclear(&line_list, free);
 	if (ret != HEREDOC_SUCCESS)
-		return (remove_file(io_red->in_file), ret);
+		return (remove_file(io_red->filename), ret);
 	return (HEREDOC_SUCCESS);
 }
 
@@ -83,11 +83,12 @@ int	handle_heredoc(t_shell *shell, int cmdtable_id, t_list *io_red_list)
 
 	while (io_red_list && io_red_list->content)
 	{
-		need_content_expansion = true;
 		io_red = (t_io_red *)io_red_list->content;
 		if (io_red->type == T_HERE_DOC)
 		{
-			if (!remove_here_end_quote(shell, io_red, &need_content_expansion))
+			need_content_expansion = true;
+			if (is_here_end_quoted(io_red->here_end) && \
+				!remove_here_end_quote(shell, io_red, &need_content_expansion))
 				return (HEREDOC_ERROR);
 			shell->exit_code = SUCCESS;
 			ret = exec_heredoc(
