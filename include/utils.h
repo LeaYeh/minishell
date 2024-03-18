@@ -51,18 +51,15 @@ void		move_past_subshell(t_list_d **cmd_table_node);
 void		move_past_pipeline(t_list_d **cmd_table_node);
 
 /* Final cmd table utils */
-void		free_final_cmd_table(
-				t_final_cmd_table **final_cmd_table, bool close_fd);
-bool		set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
+void		free_final_cmd_table(t_final_cmd_table **final_cmd_table);
+int			set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
 bool		setup_exec_path(t_final_cmd_table *final_cmd_table);
-bool		setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list);
+int			setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list);
 bool		setup_assignment_array(t_final_cmd_table *final_cmd_table,
 				t_list *assignment_list);
 bool		setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list);
 void		setup_fd(
 				t_shell *shell, t_final_cmd_table *final_cmd_table);
-bool		expand_simple_cmd(t_shell *shell, t_list *simple_cmd_list);
-int			get_env_size(t_list *env_list);
 bool		set_exec_path(char **exec_path, char *cmd_name, char *env[]);
 
 /* Environment utils */
@@ -74,6 +71,7 @@ bool		is_key_in_env(char *env[], char *key);
 bool		append_env_node(
 				t_list **env_list, char *key, char *value, t_export export);
 t_env		*find_env_node(t_list *env_list, char *key, char *value);
+int			get_exported_env_size(t_list *env_list);
 char		*get_value_from_env_list(t_list *env_list, char *key);
 bool		is_key_in_env_list(t_list *env_list, char *key);
 bool		process_str_to_env_list(

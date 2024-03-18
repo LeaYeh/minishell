@@ -85,3 +85,19 @@ t_env	*find_env_node(t_list *env_list, char *key, char *value)
 	}
 	return (NULL);
 }
+
+int	get_exported_env_size(t_list *env_list)
+{
+	t_env	*env_node;
+	int		size;
+
+	size = 0;
+	while (env_list)
+	{
+		env_node = (t_env *)env_list->content;
+		if (env_node->export && env_node->value)
+			size++;
+		env_list = env_list->next;
+	}
+	return (size);
+}

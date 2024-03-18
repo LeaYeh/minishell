@@ -34,29 +34,31 @@
 */
 void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 {
-	t_cmd_table	*cmd_table;
+	int			ret;
 
-	if (!set_final_cmd_table(shell, (*cmd_table_node)->content))
+	ret = set_final_cmd_table(shell, (*cmd_table_node)->content);
+	if (ret == MALLOC_ERROR)
 		raise_error_to_own_subprocess(shell, MALLOC_ERROR, "malloc failed");
-	cmd_table = get_cmd_table_from_list(*cmd_table_node);
-	if (is_builtin(shell->final_cmd_table->simple_cmd[0]))
+	if (ret == BAD_SUBSTITUTION)
+		shell->exit_code = BAD_SUBSTITUTION;
+	else if (is_builtin(shell->final_cmd_table->simple_cmd[0]))
 	{
 		setup_signal(shell, SIGPIPE, SIG_IGNORE);
 		handle_builtin(shell, cmd_table_node);
 	}
 	else
-		handle_external_cmd(shell, cmd_table);
+		handle_external_cmd(shell, get_cmd_table_from_list(*cmd_table_node));
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
 // TODO: Need to handle the pipe redirct in first subshell process
 // TODO: And all the process need to close all the unuse read end -> how
-void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
+void	fork_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 {
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
 		raise_error_to_all_subprocess(
-			shell, FORK_ERROR, "handle_simple_cmd fork failed");
+			shell, FORK_ERROR, "simple_cmd fork failed");
 	else if (shell->subshell_pid == 0)
 	{
 		shell->subshell_level += 1;
