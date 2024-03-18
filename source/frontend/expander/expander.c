@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/20 02:29:25 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:18:50 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
-// Enums should be used in such a case bc it allows the compiler to enforce that only values from this enumeration are used.
-// TODO: Go through all enums and if an argument of a function can only be an enum, modify like here.
-//! Don't do word splitting for heredoc.
 int	ft_expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 {
 	char	*new_str;
