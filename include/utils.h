@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/25 16:25:19 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:14:09 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ int			get_token_type_from_list(t_list *token_list);
 char		*get_token_data_from_list(t_list *token_list);
 t_token		*dup_token_node(t_token *token);
 t_list		*dup_token_list(t_list *token_list);
+
+/* cmd table symbol utils */
+bool		fill_redirect_by_scenario(
+				t_list **token_list, t_list_d **cmd_table_list);
+bool		fill_redirect(t_list **token_list, t_cmd_table *cmd_table);
+bool		fill_red_node(t_io_red *io_red, int type, char *data);
+void		fill_bracket(t_list **token_list, t_list_d **cmd_table_list);
+void		fill_control_op(t_list **token_list, t_list_d **cmd_table_list);
 
 /* AST utils */
 t_ast		*init_ast_node(int type, char *data, t_list *children);
@@ -83,7 +91,7 @@ bool		replace_env_value(
 /* Expansion utils */
 int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
 						t_expander_op op_mask);
-int			expand_array(t_shell *shell, char **array[], t_expander_op op_mask);	// Not used
+int			expand_array(t_shell *shell, char **array[], t_expander_op op_mask);// Not used
 
 /* Pipe utils */
 void		init_pipe(t_pipe *pipe);
