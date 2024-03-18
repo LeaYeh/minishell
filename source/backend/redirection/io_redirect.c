@@ -79,14 +79,14 @@ bool	handle_redirect_by_type(int *read_fd, int *write_fd, t_io_red *io_red)
 	return (true);
 }
 
-bool	handle_io_redirect(
+int	handle_io_redirect(
 	t_shell *shell, int *read_fd, int *write_fd, t_list *io_red_list)
 {
 	t_io_red	*io_red;
 	int			ret;
 
 	if (ft_lstsize_non_null(io_red_list) == 0)
-		return (true);
+		return (SUCCESS);
 	while (io_red_list)
 	{
 		io_red = io_red_list->content;
@@ -94,11 +94,11 @@ bool	handle_io_redirect(
 		{
 			ret = expand_filename(shell, &io_red->filename);
 			if (ret != SUCCESS)
-				return (shell->exit_code = ret, false);
+				return (ret);
 		}
 		if (!handle_redirect_by_type(read_fd, write_fd, io_red_list->content))
-			return (shell->exit_code = GENERAL_ERROR, false);
+			return (GENERAL_ERROR);
 		io_red_list = io_red_list->next;
 	}
-	return (true);
+	return (SUCCESS);
 }

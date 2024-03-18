@@ -10,12 +10,16 @@ static void	handle_exec_error(t_shell *shell, char *exec_path);
 void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 {
 	t_final_cmd_table	*final_cmd_table;
+	int					ret;
 
 	final_cmd_table = shell->final_cmd_table;
-	if (!handle_io_redirect(shell,
+	ret = handle_io_redirect(shell,
 			&final_cmd_table->read_fd,
-			&final_cmd_table->write_fd, cmd_table->io_red_list))
-		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+			&final_cmd_table->write_fd, cmd_table->io_red_list);
+	if (ret == MALLOC_ERROR)
+		raise_error_to_own_subprocess(shell, MALLOC_ERROR, "malloc failed");
+	if (ret != SUCCESS)
+		ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
 	if (!shell->final_cmd_table->simple_cmd[0])
 		ft_clean_and_exit_shell(shell, SUCCESS, NULL);
 	if (!check_execfile_exist(final_cmd_table->exec_path,
