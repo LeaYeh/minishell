@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/20 12:44:54 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:22:43 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ bool	init_shell(t_shell *shell)
 	shell->env_list = NULL;
 	shell->token_list = NULL;
 	shell->final_cmd_table = NULL;
-	// shell->ast = NULL;
 	shell->cmd_table_list = NULL;
 	shell->input_line = NULL;
 	if (!setup_env_list(shell))
