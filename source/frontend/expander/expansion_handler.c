@@ -47,7 +47,6 @@ bool	set_expanded_list(
 	}
 	else if (!ft_lstnew_back(lst, *new_str))
 		return (false);
-	if (!check_null_expansion(lst, task_list))
-		return (false);
+	check_null_expansions(lst, task_list);
 	return (true);
 }

@@ -1,36 +1,38 @@
 #include "expander.h"
 
-static bool	is_null_expansion(t_list *lst, t_list *task_list)
+static bool	is_null_expansion(char *str)
+{
+	if (!str || !*str)
+		return (true);
+	return (false);
+}
+
+static bool	any_quote_task(t_list *task_list)
 {
 	t_expander_task	*task;
 
-	while (lst)
-	{
-		if (lst->content && *(char *)lst->content)
-			return (false);
-		lst = lst->next;
-	}
 	while (task_list)
 	{
 		task = task_list->content;
 		if (task->type == ET_QUOTE)
-			return (false);
+			return (true);
 		task_list = task_list->next;
 	}
-	return (true);
+	return (false);
 }
 
-bool	check_null_expansion(t_list **lst, t_list *task_list)
+void	check_null_expansions(t_list **lst, t_list *task_list)
 {
-	t_list	*tmp;
+	t_list	*cur;
 
-	if (is_null_expansion(*lst, task_list))
+	if (any_quote_task(task_list))
+		return ;
+	cur = *lst;
+	while (cur)
 	{
-		tmp = ft_lstnew(NULL);
-		if (!tmp)
-			return (false);
-		ft_lstclear(lst, free);
-		*lst = tmp;
+		if (is_null_expansion(cur->content))
+			ft_lstdrop_node(lst, &cur, free);
+		else
+			cur = cur->next;
 	}
-	return (true);
 }

@@ -63,7 +63,11 @@ static bool	handle_word_splitting(
 		if (ft_strchr(" \t\n", (*new_str)[i]))
 		{
 			word = extract_word(new_str, task_list, &i, &end);
-			if (!word || !ft_lstnew_back(lst, word))
+			if (!word)
+				return (false);
+			if (!*word)
+				free(word);
+			else if (!ft_lstnew_back(lst, word))
 				return (free(word), false);
 		}
 		else

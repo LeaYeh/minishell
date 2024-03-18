@@ -39,8 +39,9 @@ int	expand_heredoc_content(t_shell *shell, char **content)
 		return (ft_lstclear(&expanded_list, free), HEREDOC_ERROR);
 	if (ret == BAD_SUBSTITUTION)
 		return (ft_lstclear(&expanded_list, free), HEREDOC_ABORT);
-	free(*content);
-	*content = expanded_list->content;
+	ft_free_and_null((void **)content);
+	if (expanded_list)
+		*content = expanded_list->content;
 	ft_lstclear(&expanded_list, NULL);
 	return (SUCCESS);
 }
