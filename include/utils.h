@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 18:14:09 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/19 14:52:23 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ bool		replace_env_value(
 /* Expansion utils */
 int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
 						t_expander_op op_mask);
-int			expand_array(t_shell *shell, char **array[], t_expander_op op_mask);// Not used
 
 /* Pipe utils */
 void		init_pipe(t_pipe *pipe);
