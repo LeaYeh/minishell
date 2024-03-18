@@ -80,6 +80,7 @@ void		*ft_lstpop_front_content(t_list **lst);
 int			ft_lstsize(t_list *lst);
 int			ft_lstsize_non_null(t_list *lst);
 void		ft_lstsort_bubble(t_list **lst, void *(*cmp)(void *, void *));
+void		ft_lstsort_merge(t_list **lst, void *(*cmp)(void *, void *));
 void		ft_lstswap_head(t_list **lst);
 
 \
