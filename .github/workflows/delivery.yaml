@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       proceed: ${{ steps.check_version.outputs.proceed }}
+      main_tag: ${{ steps.check_version.outputs.MAIN_TAG }}
 
     steps:
     - name: Checkout code
@@ -31,6 +32,8 @@ jobs:
         if [[ $(git tag --contains origin/evaluation | wc -l) -gt 0 ]]; then
           EVAL_TAG=$(git describe --tags `git rev-list --tags --remotes=origin/evaluation --max-count=1` 2>/dev/null) || true
         fi
+        echo MAIN_TAG=$MAIN_TAG >> "$GITHUB_OUTPUT"
+        echo EVAL_TAG=$EVAL_TAG >> "$GITHUB_OUTPUT"
         echo "MAIN_TAG: $MAIN_TAG"
         echo "EVAL_TAG: $EVAL_TAG"
         if [[ -z "$EVAL_TAG" && -n "$MAIN_TAG" ]] || [[ "$MAIN_TAG" > "$EVAL_TAG" ]]; then
@@ -53,7 +56,7 @@ jobs:
     - name: Merge and delete forbidden files and commit
       if: steps.check_version.outputs.proceed == 'true'
       run: |
-        git merge main
+        git merge origin/main
         find . -type d -name .git -prune -o -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' -exec rm -rf {} +
         find . -type d -empty -delete
         rm -r source/debug
@@ -63,6 +66,5 @@ jobs:
     - name: Set version tag on evaluation branch
       if: steps.check_version.outputs.proceed == 'true'
       run: |
-        git checkout evaluation
-        git tag ${{ env.MAIN_TAG }}
+        git tag ${{ steps.check_version.outputs.MAIN_TAG }}-eval
         git push origin evaluation --tags
