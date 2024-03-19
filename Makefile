@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/01/31 01:20:24 by ldulling         ###   ########.fr        #
+#    Updated: 2024/03/19 17:34:16 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ NAME 			:=	minishell
 
 #	Directories
 
+SRC_DIR			:=	source
 BUILD_DIR		:=	build
 OBJ_DIR			:=	$(BUILD_DIR)/_obj
 DEP_DIR			:=	$(BUILD_DIR)/_dep
@@ -107,8 +108,9 @@ TERMINALFLAGS	:=	--title="$(TERMINALTITLE)" -- /bin/sh -c
 
 #	Files
 
-# TODO: need to remove forbidden wildcard
-SRC 			:=	$(wildcard source/*.c source/*/*.c source/*/*/*.c source/*/*/*/*.c tests/*.c)
+SRC				:=
+include				$(BUILD_DIR)/source_files.mk
+SRC				:=	$(addprefix $(SRC_DIR)/,$(SRC))
 OBJ 			:=	$(SRC:%.c=$(OBJ_DIR)/%.o)
 DEP				:=	$(SRC:%.c=$(DEP_DIR)/%.d)
 
