@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  cleanup_and_merge:
+  update_evaluation_branch:
     runs-on: ubuntu-latest
 
     steps:
