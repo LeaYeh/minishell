@@ -32,26 +32,25 @@ jobs:
           EVAL_TAG=$(git describe --tags `git rev-list --tags --remotes=origin/evaluation --max-count=1` 2>/dev/null)
         fi
         if [[ -z "$EVAL_TAG" && -n "$MAIN_TAG" ]] || [[ "$MAIN_TAG" > "$EVAL_TAG" ]]; then
-          echo "::set-output name=proceed::true"
+          echo "proceed=true" >> "$GITHUB_OUTPUT"
         else
-          echo "::set-output name=proceed::false"
+          echo "proceed=false" >> "$GITHUB_OUTPUT"
         fi
 
     - name: Setup evaluation branch
       if: steps.check_version.outputs.proceed == 'true'
       run: |
         git checkout -b evaluation 2>/dev/null || git checkout evaluation
-        if [ "$(git rev-list --count evaluation)" -eq 0 ]; then
-          git merge main
-        fi
 
-    - name: Delete forbidden files, commit and merge
+    - name: Merge and delete forbidden files and commit
       if: steps.check_version.outputs.proceed == 'true'
       run: |
-        find . -type d -name .git -prune -o -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile'  -exec rm -rf {} +
+        git merge main
+        find . -type d -name .git -prune -o -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' -exec rm -rf {} +
         find . -type d -empty -delete
+        rm -r source/debug
         git add .
-        git commit -m "Remove forbidden files and empty folders"
+        git commit -m "[GH-BOT] Remove forbidden files and empty folders"
 
     - name: Set version tag on evaluation branch
       if: steps.check_version.outputs.proceed == 'true'
