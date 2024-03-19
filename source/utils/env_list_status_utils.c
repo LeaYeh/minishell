@@ -35,7 +35,7 @@ bool	is_exported_env_node(t_list *env_list, char *key)
 	{
 		env_node = env_list->content;
 		if (ft_strcmp(env_node->key, key) == 0 && \
-			env_node->export == X_EXPORT_YES)
+			env_node->export == EXPORT_YES)
 			return (true);
 		env_list = env_list->next;
 	}

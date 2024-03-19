@@ -51,7 +51,7 @@ int	get_total_export_printout_len(
 	while (env_list)
 	{
 		env_node = env_list->content;
-		if (env_node->export == X_EXPORT_YES)
+		if (env_node->export == EXPORT_YES)
 			total_len += get_env_str_len(env_node, prefix_len, format_len);
 		env_list = env_list->next;
 	}
@@ -81,7 +81,7 @@ void	fill_export_printout(
 	env_node = get_next_env_node(env_list, NULL);
 	while (env_node)
 	{
-		if (env_node->export == X_EXPORT_YES)
+		if (env_node->export == EXPORT_YES)
 		{
 			size = prefix_len + ft_strlen(env_node->key);
 			i += ft_snprintf(&export_printout[i], size + 1, "%s%s",
@@ -108,7 +108,7 @@ t_env	*get_next_env_node(t_list *env_list, char *prev_key)
 	while (env_list)
 	{
 		env_node = env_list->content;
-		if (env_node->export == X_EXPORT_YES && \
+		if (env_node->export == EXPORT_YES && \
 			(!prev_key || ft_strcmp(env_node->key, prev_key) > 0) && \
 			(!next_node || ft_strcmp(env_node->key, next_node->key) < 0))
 			next_node = env_node;

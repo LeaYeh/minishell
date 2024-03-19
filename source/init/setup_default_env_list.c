@@ -22,7 +22,7 @@ bool	add_default_oldpwd_env_node(t_list **env_list)
 	if (!key)
 		return (false);
 	value = NULL;
-	if (!append_env_node(env_list, key, value, X_EXPORT_YES))
+	if (!append_env_node(env_list, key, value, EXPORT_YES))
 		return (free(key), false);
 	return (true);
 }
@@ -38,7 +38,7 @@ bool	add_default_pwd_env_node(t_list **env_list)
 	value = getcwd(NULL, 0);
 	if (!value)
 		return (free(key), false);
-	if (!append_env_node(env_list, key, value, X_EXPORT_YES))
+	if (!append_env_node(env_list, key, value, EXPORT_YES))
 		return (free(key), free(value), false);
 	return (true);
 }

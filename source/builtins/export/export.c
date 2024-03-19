@@ -51,13 +51,13 @@ bool	handle_var_export(char *str, t_list **env_list)
 			return (free(key), false);
 		if (value && replace_env_value(*env_list, key, value, &old_value))
 			free(old_value);
-		change_export_flag(*env_list, key, X_EXPORT_YES);
+		change_export_flag(*env_list, key, EXPORT_YES);
 		free(key);
 	}
 	else
 	{
 		free(key);
-		if (!process_str_to_env_list(str, env_list, X_EXPORT_YES))
+		if (!process_str_to_env_list(str, env_list, EXPORT_YES))
 			return (false);
 	}
 	return (true);

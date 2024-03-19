@@ -65,11 +65,11 @@ int	get_args_error(char *args[])
 	int	type;
 
 	if (!args[1])
-		return (NO_ARGS);
-	type = NORM_ARGS;
+		return (EX_NO_ARGS);
+	type = EX_NORM_ARGS;
 	if (!valid_number(args[1]) || is_atol_overflow(args[1]))
-		type = NOT_NUMERIC;
+		type = EX_NOT_NUMERIC;
 	else if (get_array_len(args) > 2)
-		type = TOO_MANY_ARGS;
+		type = EX_TOO_MANY_ARGS;
 	return (type);
 }

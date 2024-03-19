@@ -15,14 +15,6 @@
 
 # include "defines.h"
 
-typedef enum e_exit_args_error
-{
-	NO_ARGS = -1,
-	NORM_ARGS = 0,
-	TOO_MANY_ARGS,
-	NOT_NUMERIC,
-}	t_exit_args_error;
-
 int		ft_exec_env(char *env[]);
 int		ft_exec_echo(char *args[]);
 int		ft_exec_pwd(void);

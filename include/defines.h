@@ -227,9 +227,17 @@ typedef enum e_expander_task_type
 
 typedef enum e_export
 {
-	X_EXPORT_NO		= 0,
-	X_EXPORT_YES
+	EXPORT_NO		= 0,
+	EXPORT_YES
 }	t_export;
+
+typedef enum e_exit_args_error
+{
+	EX_NO_ARGS		= -1,
+	EX_NORM_ARGS	= 0,
+	EX_TOO_MANY_ARGS,
+	EX_NOT_NUMERIC,
+}	t_exit_args_error;
 
 typedef struct s_env
 {
