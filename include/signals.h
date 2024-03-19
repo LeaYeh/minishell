@@ -12,9 +12,8 @@
 
 #ifndef SIGNALS_H
 # define SIGNALS_H
-# include "defines.h"
 
-# include "clean.h"
+# include "defines.h"
 
 void	handle_signal_std(int signo, siginfo_t *info, void *context);
 void	handle_signal_record(int signo, siginfo_t *info, void *context);

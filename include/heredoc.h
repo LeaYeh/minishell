@@ -14,9 +14,6 @@
 # define HEREDOC_H
 
 # include "defines.h"
-# include "utils.h"
-# include "expander.h"
-# include "signals.h"
 
 int		ft_heredoc(t_shell *shell);
 bool	is_here_end_quoted(char *here_end);

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "clean.h"
 #include "parser.h"
 #include "utils.h"

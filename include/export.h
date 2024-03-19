@@ -16,7 +16,6 @@
 # include "defines.h"
 
 /* export.c */
-
 bool	handle_var_export(char *str, t_list **env_list);
 void	change_export_flag(t_list *env_list, char *key, t_export export);
 

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "signals.h"
+#include "clean.h"
 
 void	handle_signal_std(int signo, siginfo_t *info, void *context)
 {

@@ -12,7 +12,6 @@
 
 #include "cd.h"
 #include "clean.h"
-#include "minishell.h"
 #include "utils.h"
 
 int	exec_cd(char *args[], t_list **env_list)

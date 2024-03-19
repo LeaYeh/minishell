@@ -51,20 +51,20 @@
 # define EXIT_MSG			"exit\n"
 
 /* Error Codes */
-# define SUCCESS            0
-# define EXIT_SUCCESS       0
-# define GENERAL_ERROR      1
-# define BAD_SUBSTITUTION   1
-# define AMBIGUOUS_REDIR    1
-# define SYNTAX_ERROR       2
-# define MALLOC_ERROR       2
-# define CMD_EXEC_FAILED    126
-# define CMD_NOT_FOUND      127
-# define UNEXPECT_EXIT      128
-# define TERM_BY_SIGNAL     128
-# define PREPROCESS_ERROR   195
-# define BUILTIN_ERROR      196
-# define FORK_ERROR         254
+# define SUCCESS			0
+# define EXIT_SUCCESS		0
+# define GENERAL_ERROR		1
+# define BAD_SUBSTITUTION	1
+# define AMBIGUOUS_REDIR	1
+# define SYNTAX_ERROR		2
+# define MALLOC_ERROR		2
+# define CMD_EXEC_FAILED	126
+# define CMD_NOT_FOUND		127
+# define UNEXPECT_EXIT		128
+# define TERM_BY_SIGNAL		128
+# define PREPROCESS_ERROR	195
+# define BUILTIN_ERROR		196
+# define FORK_ERROR			254
 
 /* Text-Style Escape Codes */
 # define STY_BLD			"\e[1m"
@@ -98,9 +98,9 @@
 # define DOLLAR_BRACE		"${"
 
 /* Parsing Table */
-# define PT_COL_SIZE        5
-# define PT_ROW_SIZE        191
-# define UNDEFINED_STATE    -1
+# define PT_COL_SIZE		5
+# define PT_ROW_SIZE		191
+# define UNDEFINED_STATE	-1
 
 /* Export */
 # define EXPORT_PREFIX		"export "

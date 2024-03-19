@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "heredoc.h"
+#include "utils.h"
 
 int	handle_heredoc_content(t_shell *shell,
 		char *filename, t_list **line_list, bool need_content_expansion)
