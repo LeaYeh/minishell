@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 16:20:38 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:06:47 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ bool	ft_read_input(t_shell *shell)
 	char	*line;
 
 	errno = SUCCESS;
-	if (isatty(fileno(stdin)))
+	if (isatty(STDIN_FILENO))
 		shell->input_line = readline(PROMPT);
 	else
 	{
 		errno = SUCCESS;
-		line = get_next_line(fileno(stdin));
+		line = get_next_line(STDIN_FILENO);
 		if (errno != SUCCESS)
 			return (false);
 		if (line)
