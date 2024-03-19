@@ -50,7 +50,7 @@
 # define HEREDOC_PROMPT		"\e[1;37m> \e[0m"
 # define EXIT_MSG			"exit\n"
 
-/* Error codes */
+/* Error Codes */
 # define SUCCESS            0
 # define EXIT_SUCCESS       0
 # define GENERAL_ERROR      1
@@ -66,11 +66,7 @@
 # define BUILTIN_ERROR      196
 # define FORK_ERROR         254
 
-/* Parsing Table */
-# define PT_COL_SIZE        5
-# define PT_ROW_SIZE        191
-# define UNDEFINED_STATE    -1
-
+/* Text-Style Escape Codes */
 # define STY_BLD			"\e[1m"
 # define STY_UND			"\e[4m"
 # define STY_RED			"\e[31m"
@@ -94,14 +90,17 @@
 # define STY_HWHTB			"\e[107m"
 # define STY_RES			"\e[0m"
 
-/* Lexer */
+/* Symbols */
 # define QUOTES				"'\""
-
-/* Expander */
 # define EXPANDER_SYMBOLS	"$*\"'"
 # define OPENING_BRACE		'{'
 # define CLOSING_BRACE		'}'
 # define DOLLAR_BRACE		"${"
+
+/* Parsing Table */
+# define PT_COL_SIZE        5
+# define PT_ROW_SIZE        191
+# define UNDEFINED_STATE    -1
 
 /* Export */
 # define EXPORT_PREFIX		"export "
@@ -138,7 +137,7 @@
 # define ERROR_AMBIGUOUS_REDIRECT			\
 "%s: %s: ambiguous redirect\n"
 
-/* Messages */
+/* Failure Messages */
 # define MALLOC_FMSG						\
 "malloc failed"
 
