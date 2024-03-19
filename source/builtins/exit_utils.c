@@ -27,6 +27,8 @@ bool	valid_number(char *str)
 	if (!*str)
 		return (false);
 	i = 0;
+	while (ft_strchr(WHITESPACE, str[i]))
+		i++;
 	if (is_sign(str[i]))
 		i++;
 	while (str[i])
@@ -45,6 +47,8 @@ bool	is_atol_overflow(char *str)
 	char	*long_max;
 
 	i = 0;
+	while (ft_strchr(WHITESPACE, str[i]))
+		i++;
 	if (str[i] == '-')
 		long_max = "9223372036854775808";
 	else
