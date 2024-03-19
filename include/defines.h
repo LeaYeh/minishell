@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/25 16:24:17 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:36:35 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,10 +322,6 @@ typedef struct s_io_red
 	char			*here_end;
 }	t_io_red;
 
-// TODO: Need to record each io_redirect in a list, need to touch the filename
-// case: echo 1 | > out1 > out2 cat
-// 		- if cmd_table with no cmd_name, just touch the filename in the io_red_list
-// 		- in other cases, need execute the cmd_table with io redirect
 typedef struct s_cmd_table
 {
 	int				id;
