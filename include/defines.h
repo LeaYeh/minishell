@@ -13,9 +13,7 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-// Could solve some directory permission error messages
 # include <dirent.h>
-
 # include <errno.h>
 # include <fcntl.h>
 # include <linux/limits.h>
@@ -101,7 +99,7 @@
 
 /* Lexer */
 # define QUOTES				"'\""
-# define T_UNINITIALIZED	-1		//TODO Replace with Lea's UNDEFINED_TYPE -99
+# define T_UNINITIALIZED	-1
 
 /* Expander */
 # define EXPANDER_SYMBOLS	"$*\"'"
@@ -113,7 +111,6 @@
 # define EXPORT_PREFIX		"export "
 
 /* Error Messages */
-// TODO Add minishell name in the front of messages
 # define ERROR_LEXER_SYNTAX					\
 "%s: syntax error: missing `%c'\n"
 # define ERROR_PARSER_SYNTAX				\
@@ -134,7 +131,6 @@
 "%s: cd: OLDPWD not set\n"
 # define ERROR_EXPORT_INVALID_IDENTIFIER	\
 "%s: export: `%s': not a valid identifier\n"
-// TODO: Replace with OS error message
 # define ERROR_REMOVE_FILE					\
 "%s: warning: failed to remove file `%s'\n"
 # define ERROR_CREATE_PIPE					\
@@ -289,7 +285,6 @@ typedef struct s_ast
 	t_list			*children;
 }	t_ast;
 
-// TODO: move this one to the test.h
 typedef struct s_relation_ast
 {
 	int				level;
@@ -345,26 +340,11 @@ typedef struct s_final_cmd_table
 
 typedef struct s_pipe
 {
-	// int				from_cmd_id;
 	int				pipe_fd[2];
 	int				*read_fd;
 	int				*write_fd;
 }	t_pipe;
 
-/*
-When the moment I need to assign in handle_scmd
-
-1. first cmd_table
-cmd_table->write_fd: new_write
-cmd_table->read_fd: old_read
-
-old_pipe: read=-1, write=fd
-new_pipe: read=fd, write=fd
-
-2. last cmd_table
-
-3. middle cmd_table
-*/
 typedef struct s_shell
 {
 	pid_t				pid;
@@ -380,7 +360,6 @@ typedef struct s_shell
 	t_list				*token_list;
 	t_list_d			*cmd_table_list;
 	t_final_cmd_table	*final_cmd_table;
-	// t_ast			*ast;
 }	t_shell;
 
 #endif
