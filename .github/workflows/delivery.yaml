@@ -1,0 +1,60 @@
+name: Continuous Delivery
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  cleanup_and_merge:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Git
+      run: |
+        git config --local user.email "lyeh@student.42vienna.com"
+        git config --local user.name "Lea Yeh"
+
+    - name: Check tag version
+      id: check_version
+      run: |
+        MAIN_TAG=""
+        EVAL_TAG=""
+        if [ "$(git rev-list --count main)" -gt 0 ]; then
+          MAIN_TAG=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null)
+        fi
+        if [ "$(git rev-list --count --remotes=origin/evaluation)" -gt 0 ]; then
+          EVAL_TAG=$(git describe --tags `git rev-list --tags --remotes=origin/evaluation --max-count=1` 2>/dev/null)
+        fi
+        if [[ -z "$EVAL_TAG" && -n "$MAIN_TAG" ]] || [[ "$MAIN_TAG" > "$EVAL_TAG" ]]; then
+          echo "proceed=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "proceed=false" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Setup evaluation branch
+      if: steps.check_version.outputs.proceed == 'true'
+      run: |
+        git checkout -b evaluation 2>/dev/null || git checkout evaluation
+
+    - name: Merge and delete forbidden files and commit
+      if: steps.check_version.outputs.proceed == 'true'
+      run: |
+        git merge main
+        find . -type d -name .git -prune -o -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' -exec rm -rf {} +
+        find . -type d -empty -delete
+        rm -r source/debug
+        git add .
+        git commit -m "[GH-BOT] Remove forbidden files and empty folders"
+
+    - name: Set version tag on evaluation branch
+      if: steps.check_version.outputs.proceed == 'true'
+      run: |
+        git checkout evaluation
+        git tag ${{ env.MAIN_TAG }}
+        git push origin evaluation --tags
