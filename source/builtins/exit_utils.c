@@ -31,6 +31,8 @@ bool	valid_number(char *str)
 		i++;
 	if (is_sign(str[i]))
 		i++;
+	if (!str[i])
+		return (false);
 	while (str[i])
 	{
 		if (ft_isdigit(str[i]))
