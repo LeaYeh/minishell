@@ -96,7 +96,6 @@
 
 /* Lexer */
 # define QUOTES				"'\""
-# define T_UNINITIALIZED	-1
 
 /* Expander */
 # define EXPANDER_SYMBOLS	"$*\"'"

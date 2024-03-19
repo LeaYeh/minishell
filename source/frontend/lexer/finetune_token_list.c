@@ -24,13 +24,13 @@ void	adjust_assignment_word_tokens(t_list *token_list)
 	int		prev_type;
 	t_token	*token;
 
-	prev_type = T_UNINITIALIZED;
+	prev_type = T_NONE;
 	while (token_list)
 	{
 		token = (t_token *)token_list->content;
 		if (token->type == T_ASSIGNMENT_WORD)
 		{
-			if (prev_type != T_UNINITIALIZED && prev_type != T_ASSIGNMENT_WORD
+			if (prev_type != T_NONE && prev_type != T_ASSIGNMENT_WORD
 				&& prev_type != T_PIPE && prev_type != T_OR
 				&& prev_type != T_AND && prev_type != T_L_BRACKET)
 			{
