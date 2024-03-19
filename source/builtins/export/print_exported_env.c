@@ -22,7 +22,7 @@ int	print_exported_env(t_list *env_list)
 		return (SUCCESS);
 	export_printout = (char *)malloc(total_len + 1);
 	if (!export_printout)
-		return (SUBSHELL_ERROR);
+		return (BUILTIN_ERROR);
 	fill_export_printout(env_list, export_printout, prefix_len, format_len);
 	printf("%s", export_printout);
 	free(export_printout);

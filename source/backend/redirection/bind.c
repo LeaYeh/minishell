@@ -37,7 +37,7 @@ bool	redirect_scmd_io(t_shell *shell, int *read_fd, int *write_fd)
 	return (ret);
 }
 
-bool	redirect_subshell_io(t_shell *shell, t_cmd_table *cmd_table)
+int	redirect_subshell_io(t_shell *shell, t_cmd_table *cmd_table)
 {
 	int		read_fd;
 	int		write_fd;
@@ -52,7 +52,7 @@ bool	redirect_subshell_io(t_shell *shell, t_cmd_table *cmd_table)
 	{
 		ft_dprintf(STDERR_FILENO, "%s: ", PROGRAM_NAME);
 		perror(NULL);
-		ret = false;
+		ret = GENERAL_ERROR;
 	}
 	safe_close(&read_fd);
 	safe_close(&write_fd);

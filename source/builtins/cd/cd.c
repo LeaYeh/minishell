@@ -97,10 +97,10 @@ int	exec_cd(char *args[], t_list **env_list)
 		return (ret);
 	if (chdir(final_path) == -1)
 		return (free(final_path), free(new_pwd),
-			handle_chdir_error(errno, target_dir));
+			handle_cd_error(errno, target_dir));
 	free(final_path);
 	if (!update_pwd_env(env_list, new_pwd))
-		return (free(new_pwd), SUBSHELL_ERROR);
+		return (free(new_pwd), BUILTIN_ERROR);
 	if (args[1] && ft_strcmp(args[1], "-") == 0)
 		ft_printf("%s\n", new_pwd);
 	return (EXIT_SUCCESS);
