@@ -8,6 +8,8 @@ on:
 jobs:
   cleanup_and_merge:
     runs-on: ubuntu-latest
+    outputs:
+      proceed: ${{ steps.check_version.outputs.proceed }}
 
     steps:
     - name: Checkout code
