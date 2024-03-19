@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:27:17 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/29 15:44:50 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:07:21 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static void	sprint(const char *str, int len, t_sformat *f)
 {
 	if (!f->minus && f->width > len)
 		f->sprinted += ft_sputnchar(&f->str[f->sprinted], ' ',
-				get_max_size(f, f->width - len));
-	f->sprinted += ft_sputnstr(&f->str[f->sprinted], str, get_max_size(f, len));
+				max_size(f, f->width - len));
+	f->sprinted += ft_sputnstr(&f->str[f->sprinted], str, max_size(f, len));
 	if (f->minus && f->width > len)
 		f->sprinted += ft_sputnchar(&f->str[f->sprinted], ' ',
-				get_max_size(f, f->width - len));
+				max_size(f, f->width - len));
 }

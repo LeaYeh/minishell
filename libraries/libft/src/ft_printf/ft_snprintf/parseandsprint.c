@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:41:25 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/29 15:44:50 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:04:27 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ void	sprint_argument(t_sformat *f, va_list *ap)
 	else if (f->specifier == 'x' || f->specifier == 'X')
 		sprint_nbr((long) va_arg(*ap, unsigned int), f);
 	else if (f->specifier == '%')
-		f->sprinted += ft_sputnchar(&f->str[f->sprinted], '%',
-				get_max_size(f, 1));
+		f->sprinted += ft_sputnchar(&f->str[f->sprinted], '%', max_size(f, 1));
 }
 
 void	reset_sformat(t_sformat *f)

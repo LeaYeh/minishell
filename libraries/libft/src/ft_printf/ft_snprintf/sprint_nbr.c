@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:55 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/29 15:44:50 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:05:06 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,18 @@ void	sprint_nbr(long nbr, t_sformat *f)
 		sprint_prefix(nbr, f);
 	if (!f->minus && f->width > len_full)
 		f->sprinted += ft_sputnchar(&f->str[f->sprinted], padding,
-				get_max_size(f, f->width - len_full));
+				max_size(f, f->width - len_full));
 	if (padding == ' ' && f->specifier != 'u'
 		&& !(nbr == 0 && f->precision == 0))
 		sprint_prefix(nbr, f);
 	if (f->precision > len_nbr)
 		f->sprinted += ft_sputnchar(&f->str[f->sprinted], '0',
-				get_max_size(f, f->precision - len_nbr));
+				max_size(f, f->precision - len_nbr));
 	if (!(nbr == 0 && f->precision == 0))
 		sprint_nbr_in_correct_base(nbr, f);
 	if (f->minus && f->width > len_full)
 		f->sprinted += ft_sputnchar(&f->str[f->sprinted], ' ',
-				get_max_size(f, f->width - len_full));
+				max_size(f, f->width - len_full));
 }
 
 static int	nbrlen(long nbr, t_sformat *f)
@@ -94,23 +94,23 @@ static void	sprint_prefix(long nbr, t_sformat *f)
 		{
 			if (f->specifier == 'x')
 				f->sprinted += ft_sputnstr(&f->str[f->sprinted], "0x",
-						get_max_size(f, 2));
+						max_size(f, 2));
 			else if (f->specifier == 'X')
 				f->sprinted += ft_sputnstr(&f->str[f->sprinted], "0X",
-						get_max_size(f, 2));
+						max_size(f, 2));
 		}
 	}
 	else
 	{
 		if (nbr < 0)
 			f->sprinted += ft_sputnchar(&f->str[f->sprinted], '-',
-					get_max_size(f, 1));
+					max_size(f, 1));
 		else if (f->plus)
 			f->sprinted += ft_sputnchar(&f->str[f->sprinted], '+',
-					get_max_size(f, 1));
+					max_size(f, 1));
 		else if (f->space)
 			f->sprinted += ft_sputnchar(&f->str[f->sprinted], ' ',
-					get_max_size(f, 1));
+					max_size(f, 1));
 	}
 }
 

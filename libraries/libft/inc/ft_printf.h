@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:08 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/29 15:44:50 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:03:45 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	sprint_nbr(long nbr, t_sformat *f);
 void	sprint_parsed(const char *format, int parsed, t_sformat *f);
 void	sprint_ptr(size_t ptr, t_sformat *f);
 void	sprint_str(const char *str, t_sformat *f);
-size_t	get_max_size(t_sformat *f, size_t size);
+size_t	max_size(t_sformat *f, size_t size);
 void	reset_sformat(t_sformat *f);
 int		set_sformat(const char *format, int *i, t_sformat *f, va_list *ap);
 
