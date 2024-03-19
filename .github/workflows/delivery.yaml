@@ -25,12 +25,8 @@ jobs:
       run: |
         MAIN_TAG=""
         EVAL_TAG=""
-        if [ "$(git rev-list --count main)" -gt 0 ]; then
-          MAIN_TAG=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null)
-        fi
-        if [ "$(git rev-list --count --remotes=origin/evaluation)" -gt 0 ]; then
-          EVAL_TAG=$(git describe --tags `git rev-list --tags --remotes=origin/evaluation --max-count=1` 2>/dev/null)
-        fi
+        MAIN_TAG=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null) || true
+        EVAL_TAG=$(git describe --tags `git rev-list --tags --remotes=origin/evaluation --max-count=1` 2>/dev/null) || true
         if [[ -z "$EVAL_TAG" && -n "$MAIN_TAG" ]] || [[ "$MAIN_TAG" > "$EVAL_TAG" ]]; then
           echo "proceed=true" >> "$GITHUB_OUTPUT"
         else
