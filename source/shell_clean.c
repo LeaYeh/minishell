@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:02:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/05 16:25:40 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/19 15:46:34 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	ft_clean_shell(t_shell *shell)
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
 	free_final_cmd_table(&shell->final_cmd_table);
 	rl_clear_history();
-	// free_ast_node(shell->ast);
 }
 
 void	reset_submodule_variable(t_shell *shell)
