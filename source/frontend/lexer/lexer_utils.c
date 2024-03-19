@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 10:33:59 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/31 17:15:43 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:52:40 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,26 @@ void	skip_operator(char *token_data, size_t *i)
 		(*i)++;
 }
 
-bool	split_token_node(t_list *lst_node1, size_t i)
+bool	split_token_node(t_list *lst_node_front, size_t i)
 {
-	t_list	*lst_node2;
+	t_list	*lst_node_back;
 	t_token	*new_token;
-	char	**token_data_node1;
+	char	**token_data_node_front;
 	char	**token_data_split;
 
-	token_data_node1 = &((t_token *)lst_node1->content)->data;
-	token_data_split = ft_split_at_index(*token_data_node1, i);
+	token_data_node_front = &((t_token *)lst_node_front->content)->data;
+	token_data_split = ft_split_at_index(*token_data_node_front, i);
 	if (!token_data_split)
 		return (false);
-	free(*token_data_node1);
-	*token_data_node1 = token_data_split[0];	//TODO Might not get freed
+	free(*token_data_node_front);
+	*token_data_node_front = token_data_split[0];
 	new_token = init_token_node(T_UNINITIALIZED, token_data_split[1]);
-	if (!new_token)
-		return (free(token_data_split[1]), free(token_data_split), false);
-	lst_node2 = ft_lstnew(new_token);
-	if (!lst_node2)
-		return (free_token_node(new_token), free(token_data_split), false);
-	ft_lstinsert_after(&lst_node1, lst_node2);
 	free(token_data_split);
+	if (!new_token)
+		return (free(token_data_split[1]), false);
+	lst_node_back = ft_lstnew(new_token);
+	if (!lst_node_back)
+		return (free_token_node(new_token), false);
+	ft_lstinsert_after(&lst_node_front, lst_node_back);
 	return (true);
 }
