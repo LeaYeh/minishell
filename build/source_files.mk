@@ -25,7 +25,6 @@ SUBDIR	:=	backend/executor/
 SRC		+=	$(addprefix $(SUBDIR), \
             executor.c \
             executor_utils.c \
-            handle_assignment.c \
             handle_builtin.c \
             handle_control_op.c \
             handle_external.c \
