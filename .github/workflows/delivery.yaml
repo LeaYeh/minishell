@@ -1,14 +1,12 @@
 name: Continuous Delivery
 
 on:
-  pull_request_target:
-    types: [closed]
-    branches:
-      - main
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   cleanup_and_merge:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -50,10 +48,10 @@ jobs:
     - name: Delete forbidden files, commit and merge
       if: steps.check_version.outputs.proceed == 'true'
       run: |
-        find . -type f ! -name '*.c' -delete
+        find . -type d -name .git -prune -o -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile'  -exec rm -rf {} +
         find . -type d -empty -delete
         git add .
-        git commit -m "Remove forbidden files"
+        git commit -m "Remove forbidden files and empty folders"
 
     - name: Set version tag on evaluation branch
       if: steps.check_version.outputs.proceed == 'true'
