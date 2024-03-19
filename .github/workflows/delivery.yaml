@@ -8,9 +8,6 @@ on:
 jobs:
   cleanup_and_merge:
     runs-on: ubuntu-latest
-    outputs:
-      proceed: ${{ steps.check_version.outputs.PROCEED }}
-      main_tag: ${{ steps.check_version.outputs.MAIN_TAG }}
 
     steps:
     - name: Checkout code
@@ -24,7 +21,6 @@ jobs:
         git config --local user.name "Lea Yeh"
 
     - name: Check tag version
-      id: check_version
       run: |
         MAIN_TAG=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null) || true
         if [[ $(git tag --contains origin/evaluation | wc -l) -gt 0 ]]; then
@@ -32,21 +28,20 @@ jobs:
         fi
         echo "MAIN_TAG: $MAIN_TAG"
         echo "EVAL_TAG: $EVAL_TAG"
-        echo MAIN_TAG=$MAIN_TAG >> "$GITHUB_OUTPUT"
-        echo EVAL_TAG=$EVAL_TAG >> "$GITHUB_OUTPUT"
+        echo main_tag=$MAIN_TAG >> "$GITHUB_ENV"
         if [[ "$MAIN_TAG" > "$EVAL_TAG" ]]; then
-          echo "PROCEED=true" >> "$GITHUB_OUTPUT"
+          echo "proceed=true" >> "$GITHUB_ENV"
         else
-          echo "PROCEED=false" >> "$GITHUB_OUTPUT"
+          echo "proceed=false" >> "$GITHUB_ENV"
         fi
 
     - name: Setup evaluation branch
-      if: steps.check_version.outputs.proceed == 'true'
+      if: env.proceed == 'true'
       run: |
         git checkout -b evaluation 2>/dev/null || git checkout evaluation
 
     - name: Merge and delete forbidden files and commit
-      if: steps.check_version.outputs.proceed == 'true'
+      if: env.proceed == 'true'
       run: |
         git merge origin/main
         find . -type d -name .git -prune -o -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' -exec rm -rf {} +
@@ -56,8 +51,8 @@ jobs:
         git commit -m "[GH-BOT] Remove forbidden files and empty folders"
 
     - name: Set version tag on evaluation branch
-      if: steps.check_version.outputs.proceed == 'true'
+      if: env.proceed == 'true'
       run: |
-        EVAL_TAG="${{ steps.check_version.outputs.MAIN_TAG }}-eval"
+        EVAL_TAG="${{ env.main_tag }}-eval"
         git tag "$EVAL_TAG"
         git push origin evaluation "$EVAL_TAG"
