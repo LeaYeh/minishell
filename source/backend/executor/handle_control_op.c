@@ -5,10 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 20:09:07 by lyeh              #+#    #+#             */
-
-
-/*   Updated: 2024/01/11 16:12:24 by lyeh             ###   ########.fr       */
+/*   Created: 2024/03/19 14:18:34 by lyeh              #+#    #+#             */
+/*   Updated: 2024/03/19 14:19:51 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +42,13 @@ void	handle_and_or_op(t_shell *shell, t_list_d **cmd_table_node)
 		move_past_pipeline(cmd_table_node);
 }
 
-void    handle_control_op(t_shell *shell, t_list_d **cmd_table_node)
+void	handle_control_op(t_shell *shell, t_list_d **cmd_table_node)
 {
 	t_cmd_table	*cmd_table;
 
 	cmd_table = (*cmd_table_node)->content;
-	if (cmd_table->type == C_PIPE) // means ignore, not handle
-        *cmd_table_node = (*cmd_table_node)->next; // (echo 1) | echo 2
+	if (cmd_table->type == C_PIPE)
+		*cmd_table_node = (*cmd_table_node)->next;
 	else
 		handle_and_or_op(shell, cmd_table_node);
 }

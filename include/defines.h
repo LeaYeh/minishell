@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/25 16:24:17 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 14:39:49 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,10 @@
 "%s: %s: cannot execute file: %s\n"
 # define ERROR_AMBIGUOUS_REDIRECT			\
 "%s: %s: ambiguous redirect\n"
+
+/* Messages */
+# define MALLOC_FMSG						\
+"malloc failed"
 
 typedef enum e_heredoc_status
 {

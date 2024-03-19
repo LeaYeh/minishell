@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_external.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/19 14:18:26 by lyeh              #+#    #+#             */
+/*   Updated: 2024/03/19 14:39:57 by lyeh             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "executor.h"
 #include "utils.h"
 #include "clean.h"
@@ -6,6 +18,14 @@
 
 static bool	check_execfile_exist(char *exec_path, char *cmd_name);
 static void	handle_exec_error(t_shell *shell, char *exec_path);
+
+static void	reset_external_signal_handler(t_shell *shell)
+{
+	setup_signal(shell, SIGINT, SIG_DEFAULT);
+	setup_signal(shell, SIGQUIT, SIG_DEFAULT);
+	setup_signal(shell, SIGTERM, SIG_DEFAULT);
+	setup_signal(shell, SIGABRT, SIG_DEFAULT);
+}
 
 void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 {
@@ -17,7 +37,7 @@ void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 			&final_cmd_table->read_fd,
 			&final_cmd_table->write_fd, cmd_table->io_red_list);
 	if (ret == MALLOC_ERROR)
-		raise_error_to_own_subprocess(shell, MALLOC_ERROR, "malloc failed");
+		raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
 	if (ret != SUCCESS)
 		ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
 	if (!shell->final_cmd_table->simple_cmd[0])
@@ -28,10 +48,7 @@ void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 	if (!redirect_scmd_io(shell, &final_cmd_table->read_fd,
 			&final_cmd_table->write_fd))
 		ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
-	setup_signal(shell, SIGINT, SIG_DEFAULT);
-	setup_signal(shell, SIGQUIT, SIG_DEFAULT);
-	setup_signal(shell, SIGTERM, SIG_DEFAULT);
-	setup_signal(shell, SIGABRT, SIG_DEFAULT);
+	reset_external_signal_handler(shell);
 	execve(final_cmd_table->exec_path, final_cmd_table->simple_cmd,
 		final_cmd_table->env);
 	handle_exec_error(shell, final_cmd_table->exec_path);

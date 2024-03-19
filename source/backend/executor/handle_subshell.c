@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_subshell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:51:03 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/23 16:22:24 by codespace        ###   ########.fr       */
+/*   Updated: 2024/03/19 14:40:05 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	fork_subshell(t_shell *shell, t_list_d **cmd_table_node)
 		ret = redirect_subshell_io(
 				shell, get_cmd_table_from_list(*cmd_table_node));
 		if (ret == MALLOC_ERROR)
-			raise_error_to_own_subprocess(shell, MALLOC_ERROR, "malloc failed");
+			raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
 		if (ret != SUCCESS)
 			ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
 		*cmd_table_node = (*cmd_table_node)->next;
