@@ -24,10 +24,10 @@ bool	valid_number(char *str)
 {
 	int	i;
 
-	if (!str || !*str)
+	if (!*str)
 		return (false);
 	i = 0;
-	if (ft_strlen(str) > 1 && is_sign(str[i]))
+	if (is_sign(str[i]))
 		i++;
 	while (str[i])
 	{
@@ -68,7 +68,7 @@ int	get_args_error(char *args[])
 	type = EX_NORM_ARGS;
 	if (!valid_number(args[1]) || is_atol_overflow(args[1]))
 		type = EX_NOT_NUMERIC;
-	else if (get_array_len(args) > 2)
+	else if (args[2])
 		type = EX_TOO_MANY_ARGS;
 	return (type);
 }
