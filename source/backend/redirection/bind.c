@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bind.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/19 15:09:45 by lyeh              #+#    #+#             */
+/*   Updated: 2024/03/19 15:10:00 by lyeh             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "executor.h"
 #include "utils.h"
 
@@ -45,7 +57,8 @@ int	redirect_subshell_io(t_shell *shell, t_cmd_table *cmd_table)
 
 	read_fd = -1;
 	write_fd = -1;
-	ret = handle_io_redirect(shell, &read_fd, &write_fd, cmd_table->io_red_list);
+	ret = handle_io_redirect(
+			shell, &read_fd, &write_fd, cmd_table->io_red_list);
 	if (ret == SUCCESS && \
 		((read_fd != -1 && dup2(read_fd, STDIN_FILENO) == -1) || \
 		(write_fd != -1 && dup2(write_fd, STDOUT_FILENO) == -1)))
