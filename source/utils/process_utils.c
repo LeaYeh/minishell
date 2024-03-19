@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:30:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/25 16:25:25 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:26:52 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,4 @@ bool	wait_process(t_shell *shell, pid_t pid)
 		return (false);
 	shell->exit_code = handle_exit_status(wstatus);
 	return (true);
-
 }

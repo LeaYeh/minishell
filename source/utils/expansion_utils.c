@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 01:17:55 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/20 01:23:59 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:27:50 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,33 +34,4 @@ int	expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
 		list = list->next;
 	}
 	return (ret);
-}
-
-int	expand_array(t_shell *shell, char **array[], t_expander_op op_mask)	// Not used
-{
-	t_list	*expanded_list;
-	int		i;
-	int		ret;
-	t_list	*tmp_list;
-
-	expanded_list = NULL;
-	ret = SUCCESS;
-	i = 0;
-	while ((*array)[i] && ret == SUCCESS)
-	{
-		tmp_list = NULL;
-		ret = ft_expander((*array)[i++], &tmp_list, shell, op_mask);
-		if (ret == MALLOC_ERROR)
-			return (ft_lstclear(&tmp_list, free),
-				ft_lstclear(&expanded_list, free), ret);
-		else
-			ft_lstadd_back(&expanded_list, tmp_list);
-	}
-	if (ret == BAD_SUBSTITUTION)
-		ft_lstclear(&expanded_list, free);
-	free_array(array);
-	*array = convert_list_to_string_array(expanded_list);
-	if (!*array)
-		return (ft_lstclear(&expanded_list, free), MALLOC_ERROR);
-	return (ft_lstclear(&expanded_list, free), ret);
 }
