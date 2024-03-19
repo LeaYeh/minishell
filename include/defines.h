@@ -13,7 +13,6 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-# include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <linux/limits.h>
@@ -57,7 +56,6 @@
 # define GENERAL_ERROR      1
 # define BAD_SUBSTITUTION   1
 # define AMBIGUOUS_REDIR    1
-# define MISUSE_BUILTIN     2
 # define SYNTAX_ERROR       2
 # define MALLOC_ERROR       2
 # define CMD_EXEC_FAILED    126
@@ -71,7 +69,6 @@
 /* Parsing Table */
 # define PT_COL_SIZE        5
 # define PT_ROW_SIZE        191
-# define UNDEFINED_TYPE     -99
 # define UNDEFINED_STATE    -1
 
 # define STY_BLD			"\e[1m"
@@ -173,31 +170,11 @@ typedef enum e_pt_col
 
 typedef enum e_action_type
 {
-	A_REJECT		= -2,
 	A_ACCEPT		= 0,
 	A_SHIFT			= 0b001,
 	A_REDUCE		= 0b010,
 	A_GOTO			= 0b100
 }	t_action_type;
-
-typedef enum e_rules
-{
-	R_AND_OR		= 100,
-	R_PIPE_SEQ,
-	R_CMD,
-	R_SUBSHELL,
-	R_SIMPLE_CMD,
-	R_CMD_NAME,
-	R_CMD_WORD,
-	R_CMD_PREFIX,
-	R_CMD_SUFFIX,
-	R_RED_LIST,
-	R_IO_RED,
-	R_IO_FILE,
-	R_FILENAME,
-	R_IO_HERE,
-	R_HERE_END
-}	t_rules;
 
 typedef enum e_token_type
 {
