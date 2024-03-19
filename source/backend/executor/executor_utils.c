@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:15:37 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 15:16:08 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/19 15:29:08 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	handle_expansion_error(
 {
 	if (ret == MALLOC_ERROR)
 	{
-		raise_error_to_own_subprocess(shell, MALLOC_ERROR, "malloc failed");
+		raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
 		move_past_pipeline(cmd_table_node);
 	}
 	else

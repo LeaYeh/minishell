@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 18:36:35 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/19 15:35:09 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,10 @@
 "%s: %s: cannot execute file: %s\n"
 # define ERROR_AMBIGUOUS_REDIRECT			\
 "%s: %s: ambiguous redirect\n"
+
+/* Messages */
+# define MALLOC_FMSG						\
+"malloc failed"
 
 typedef enum e_heredoc_status
 {

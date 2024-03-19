@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 15:19:32 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/19 15:29:31 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 
 	ret = set_final_cmd_table(shell, (*cmd_table_node)->content);
 	if (ret == MALLOC_ERROR)
-		raise_error_to_own_subprocess(shell, MALLOC_ERROR, "malloc failed");
+		raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
 	if (ret == BAD_SUBSTITUTION)
 		shell->exit_code = BAD_SUBSTITUTION;
 	else if (is_builtin(shell->final_cmd_table->simple_cmd[0]))
