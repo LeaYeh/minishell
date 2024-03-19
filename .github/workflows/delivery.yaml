@@ -66,5 +66,6 @@ jobs:
     - name: Set version tag on evaluation branch
       if: steps.check_version.outputs.proceed == 'true'
       run: |
-        git tag ${{ steps.check_version.outputs.MAIN_TAG }}-eval
-        git push origin evaluation --tags
+        eval_tag="${{ steps.check_version.outputs.MAIN_TAG }}-eval"
+        git tag "$eval_tag"
+        git push origin evaluation "$eval_tag"
