@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 10:33:59 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/31 17:15:43 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:49:03 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ bool	split_token_node(t_list *lst_node1, size_t i)
 	if (!token_data_split)
 		return (false);
 	free(*token_data_node1);
-	*token_data_node1 = token_data_split[0];	//TODO Might not get freed
+	*token_data_node1 = token_data_split[0];
 	new_token = init_token_node(T_UNINITIALIZED, token_data_split[1]);
+	free(token_data_split);
 	if (!new_token)
-		return (free(token_data_split[1]), free(token_data_split), false);
+		return (free(token_data_split[1]), false);
 	lst_node2 = ft_lstnew(new_token);
 	if (!lst_node2)
-		return (free_token_node(new_token), free(token_data_split), false);
+		return (free_token_node(new_token), false);
 	ft_lstinsert_after(&lst_node1, lst_node2);
-	free(token_data_split);
 	return (true);
 }
