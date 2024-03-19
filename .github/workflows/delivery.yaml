@@ -8,9 +8,6 @@ on:
 jobs:
   cleanup_and_merge:
     runs-on: ubuntu-latest
-    outputs:
-      proceed: ${{ steps.check_version.outputs.proceed }}
-      main_tag: ${{ steps.check_version.outputs.MAIN_TAG }}
 
     steps:
     - name: Checkout code
@@ -24,37 +21,27 @@ jobs:
         git config --local user.name "Lea Yeh"
 
     - name: Check tag version
-      id: check_version
       run: |
-        MAIN_TAG=""
-        EVAL_TAG=""
         MAIN_TAG=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null) || true
         if [[ $(git tag --contains origin/evaluation | wc -l) -gt 0 ]]; then
           EVAL_TAG=$(git describe --tags `git rev-list --tags --remotes=origin/evaluation --max-count=1` 2>/dev/null) || true
         fi
-        echo MAIN_TAG=$MAIN_TAG >> "$GITHUB_OUTPUT"
-        echo EVAL_TAG=$EVAL_TAG >> "$GITHUB_OUTPUT"
         echo "MAIN_TAG: $MAIN_TAG"
         echo "EVAL_TAG: $EVAL_TAG"
-        if [[ -z "$EVAL_TAG" && -n "$MAIN_TAG" ]] || [[ "$MAIN_TAG" > "$EVAL_TAG" ]]; then
-          echo "set to true"
-          echo "proceed=true" >> "$GITHUB_OUTPUT"
+        echo main_tag=$MAIN_TAG >> "$GITHUB_ENV"
+        if [[ "$MAIN_TAG" > "$EVAL_TAG" ]]; then
+          echo "proceed=true" >> "$GITHUB_ENV"
         else
-          echo "set to false"
-          echo "proceed=false" >> "$GITHUB_OUTPUT"
+          echo "proceed=false" >> "$GITHUB_ENV"
         fi
 
-    - name: Print output for debugging
-      run: |
-        echo ${{ steps.check_version.outputs.proceed }}
-
     - name: Setup evaluation branch
-      if: steps.check_version.outputs.proceed == 'true'
+      if: env.proceed == 'true'
       run: |
         git checkout -b evaluation 2>/dev/null || git checkout evaluation
 
     - name: Merge and delete forbidden files and commit
-      if: steps.check_version.outputs.proceed == 'true'
+      if: env.proceed == 'true'
       run: |
         git merge origin/main
         find . -type d -name .git -prune -o -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' -exec rm -rf {} +
@@ -64,8 +51,8 @@ jobs:
         git commit -m "[GH-BOT] Remove forbidden files and empty folders"
 
     - name: Set version tag on evaluation branch
-      if: steps.check_version.outputs.proceed == 'true'
+      if: env.proceed == 'true'
       run: |
-        eval_tag="${{ steps.check_version.outputs.MAIN_TAG }}-eval"
-        git tag "$eval_tag"
-        git push origin evaluation "$eval_tag"
+        EVAL_TAG="${{ env.main_tag }}-eval"
+        git tag "$EVAL_TAG"
+        git push origin evaluation "$EVAL_TAG"
