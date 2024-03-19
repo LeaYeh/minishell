@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:18:23 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 18:59:19 by codespace        ###   ########.fr       */
+/*   Updated: 2024/03/19 16:12:01 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
 
-// TODO: file name length by define
-// TODO: replace sprintf with ft_sprintf
 char	*generate_tmp_filename(int cmdtable_id, char *category)
 {
 	char	*filename;
@@ -21,8 +19,10 @@ char	*generate_tmp_filename(int cmdtable_id, char *category)
 	filename = (char *)malloc(sizeof(char) * NAME_MAX);
 	if (!filename)
 		return (NULL);
-	sprintf(filename, "/tmp/%s_%s_%d-%d",
-		PROGRAM_NAME, category, getpid(), cmdtable_id);
+	ft_snprintf(
+		filename,
+		NAME_MAX,
+		"/tmp/%s_%s_%d-%d", PROGRAM_NAME, category, getpid(), cmdtable_id);
 	return (filename);
 }
 
