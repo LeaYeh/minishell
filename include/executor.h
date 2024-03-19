@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:05:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 15:34:26 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/19 15:43:25 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "defines.h"
 
 void	ft_executor(t_shell *shell);
-int	    set_expanded_cmd_name(
-	        char **cmd_name, t_shell *shell, t_list *simple_cmd_list);
+int		set_expanded_cmd_name(
+			char **cmd_name, t_shell *shell, t_list *simple_cmd_list);
 void	handle_expansion_error(
-	        t_shell *shell, t_list_d **cmd_table_node, int ret);
+			t_shell *shell, t_list_d **cmd_table_node, int ret);
 
 void	handle_process(t_shell *shell, t_list_d *cmd_table_node);
 void	fork_subshell(t_shell *shell, t_list_d **cmd_table_node);
