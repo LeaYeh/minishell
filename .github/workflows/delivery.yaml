@@ -30,8 +30,10 @@ jobs:
         MAIN_TAG=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null) || true
         EVAL_TAG=$(git describe --tags `git rev-list --tags --remotes=origin/evaluation --max-count=1` 2>/dev/null) || true
         if [[ -z "$EVAL_TAG" && -n "$MAIN_TAG" ]] || [[ "$MAIN_TAG" > "$EVAL_TAG" ]]; then
+          echo "set to true"
           echo "proceed=true" >> "$GITHUB_OUTPUT"
         else
+          echo "set to false"
           echo "proceed=false" >> "$GITHUB_OUTPUT"
         fi
 
