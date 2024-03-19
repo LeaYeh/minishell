@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_operation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 04:49:10 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/18 17:55:58 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,9 @@ bool	parse_shift(t_token *token_node,
 		return (free_ast_node(ast_node), false);
 	if (!push_state(state_stack, next_step))
 		return (false);
-	// printf("After shift:\n");
-	// printf("state_stack: ");
-	// print_state_stack(*state_stack);
-	// printf("parse_stack: ");
-	// print_parse_stack(*parse_stack);
 	return (true);
 }
 
-// TODO: change the parse_stack into the stack of t_ast, and the top node should always be ´AND_OR´
-// TODO: check the popped node is in correct order
 bool	parse_reduce(
 	t_list **state_stack, t_list **parse_stack, t_pt_node *pt_entry)
 {
@@ -83,11 +76,6 @@ bool	parse_reduce(
 	ft_lstadd_back(&reduce_node->children, children);
 	if (!push_node(parse_stack, reduce_node))
 		return (free_ast_node(reduce_node), false);
-	// printf("reduce_node->type: %d\n", reduce_node->type);
-	// printf("state_stack: ");
-	// print_state_stack(*state_stack);
-	// printf("parse_stack: ");
-	// print_parse_stack(*parse_stack);
 	return (true);
 }
 
@@ -105,8 +93,5 @@ bool	parse_goto(t_list **state_stack, int token_type)
 		return (true);
 	if (!push_state(state_stack, pt_entry->next_state))
 		return (free(pt_entry), false);
-	// printf("After goto:\n");
-	// printf("state_stack: ");
-	// print_state_stack(*state_stack);
 	return (free(pt_entry), true);
 }

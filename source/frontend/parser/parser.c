@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/12 14:44:43 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/18 18:08:54 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,9 @@ bool	parse(t_shell *shell, t_parser_data *parser_data)
 				get_state_from_stack(parser_data->state_stack),
 				get_token_type_from_list(parser_data->token_list),
 				A_SHIFT | A_REDUCE | A_ACCEPT))
-		{
-			free_parser_data(parser_data);
-			ft_clean_and_exit_shell(
-				shell, PREPROCESS_ERROR, "parser malloc failed");
-		}
+			(free_parser_data(parser_data),
+				ft_clean_and_exit_shell(
+					shell, PREPROCESS_ERROR, "parser malloc failed"));
 		if (!pt_entry)
 			return (report_syntax_error(shell, parser_data), false);
 		if (pt_entry->action == A_ACCEPT)
@@ -90,20 +88,6 @@ bool	parse(t_shell *shell, t_parser_data *parser_data)
 	}
 }
 
-t_ast	*extract_ast_from_parse_stack(t_list **parse_stack)
-{
-	t_ast	*ast;
-
-	if (ft_lstsize(*parse_stack) != 2 || \
-		get_ast_from_stack(*parse_stack)->type != T_END)
-		return (NULL);
-	drop_num_stack(parse_stack, 1, (void *)free_ast_node);
-	ast = ft_lstpop_front_content(parse_stack);
-	return (ast);
-}
-
-// TODO: dup the token_list in parse() or init_parse()?
-// TODO: Need to refactor the code if AST is not necessary
 bool	ft_parser(t_shell *shell)
 {
 	t_parser_data	parser_data;
@@ -113,7 +97,6 @@ bool	ft_parser(t_shell *shell)
 			shell, PREPROCESS_ERROR, "parser malloc failed");
 	if (!parse(shell, &parser_data))
 		return (free_parser_data(&parser_data), false);
-	// printf("ACCEPT\n");
 	free_parser_data(&parser_data);
 	shell->cmd_table_list = build_cmd_table_list(shell->token_list);
 	if (!shell->cmd_table_list)
