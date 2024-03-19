@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:27:21 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/29 12:46:14 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:44:59 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	set_flags(const char *format, int *i, t_sformat *f);
 static void	set_width(const char *format, int *i, t_sformat *f, va_list *ap);
-static void	set_precision(const char *format, int *i, t_sformat *f, va_list *ap);
+static void	set_precision(const char *format, int *i, t_sformat *f, \
+							va_list *ap);
 static void	set_specifier(const char *format, int *i, t_sformat *f);
 
 int	set_sformat(const char *format, int *i, t_sformat *f, va_list *ap)
