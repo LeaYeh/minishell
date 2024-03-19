@@ -35,6 +35,10 @@ jobs:
           echo "proceed=false" >> "$GITHUB_OUTPUT"
         fi
 
+    - name: Print output for debugging
+      run: |
+        echo ${{ steps.check_version.outputs.proceed }}
+
     - name: Setup evaluation branch
       if: steps.check_version.outputs.proceed == 'true'
       run: |
