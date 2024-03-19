@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:59:56 by lyeh              #+#    #+#             */
-/*   Updated: 2024/02/17 23:59:57 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/19 16:11:27 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 {
 	t_env	*env_node;
 	char	*tmp;
+	int		item_len;
 	int		i;
 
 	final_cmd_table->env = (char **)malloc(
@@ -70,19 +71,18 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 	while (env_list)
 	{
 		env_node = (t_env *)env_list->content;
+		item_len = ft_strlen(env_node->key) + ft_strlen(env_node->value) + 2;
 		if (env_node->export && env_node->value)
 		{
-			tmp = (char *)malloc((ft_strlen(env_node->key) + 1 + \
-					ft_strlen(env_node->value) + 1) * sizeof(char));
+			tmp = (char *)malloc(item_len * sizeof(char));
 			if (!tmp)
 				return (free_array(&final_cmd_table->env), false);
-			sprintf(tmp, "%s=%s", env_node->key, env_node->value);
+			ft_snprintf(tmp, item_len, "%s=%s", env_node->key, env_node->value);
 			final_cmd_table->env[i++] = tmp;
 		}
 		env_list = env_list->next;
 	}
-	final_cmd_table->env[i] = NULL;
-	return (true);
+	return (final_cmd_table->env[i] = NULL, true);
 }
 
 void	setup_fd(
