@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 01:10:43 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/23 02:49:43 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:14:29 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	safe_redirect_io_and_exec_builtin(t_shell *shell)
 	bool				ret;
 
 	final_cmd_table = shell->final_cmd_table;
-	// print_final_cmd_table(final_cmd_table);
 	ret = true;
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") != 0)
 	{
