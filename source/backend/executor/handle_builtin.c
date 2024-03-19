@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 01:10:43 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/23 02:49:43 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:29:22 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,13 @@ void	exec_builtin_cmd(t_shell *shell)
 		exec_exit(shell, final_cmd_table->simple_cmd);
 }
 
-void	safe_redirect_io_and_exec_builtin(t_shell *shell)
+static void	safe_redirect_io_and_exec_builtin(t_shell *shell)
 {
 	t_final_cmd_table	*final_cmd_table;
 	int					saved_std_io[2];
 	bool				ret;
 
 	final_cmd_table = shell->final_cmd_table;
-	// print_final_cmd_table(final_cmd_table);
 	ret = true;
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") != 0)
 	{
@@ -69,6 +68,15 @@ void	safe_redirect_io_and_exec_builtin(t_shell *shell)
 		raise_error_to_own_subprocess(shell, GENERAL_ERROR, NULL);
 }
 
+static void	redirect_io_and_exec_builtin(t_shell *shell)
+{
+	if (!redirect_scmd_io(shell, &shell->final_cmd_table->read_fd,
+			&shell->final_cmd_table->write_fd))
+		raise_error_to_own_subprocess(
+			shell, GENERAL_ERROR, "fd bind failed");
+	exec_builtin_cmd(shell);
+}
+
 void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 {
 	t_cmd_table	*cmd_table;
@@ -79,7 +87,7 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 			&shell->final_cmd_table->read_fd,
 			&shell->final_cmd_table->write_fd, cmd_table->io_red_list);
 	if (ret == MALLOC_ERROR)
-		raise_error_to_own_subprocess(shell, MALLOC_ERROR, "malloc failed");
+		raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
 	else if (ret != SUCCESS)
 	{
 		shell->exit_code = GENERAL_ERROR;
@@ -89,13 +97,7 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 	else if (shell->subshell_level == 0)
 		safe_redirect_io_and_exec_builtin(shell);
 	else
-	{
-		if (!redirect_scmd_io(shell, &shell->final_cmd_table->read_fd,
-				&shell->final_cmd_table->write_fd))
-			raise_error_to_own_subprocess(
-				shell, GENERAL_ERROR, "fd bind failed");
-		exec_builtin_cmd(shell);
-	}
+		redirect_io_and_exec_builtin(shell);
 	if (shell->exit_code == BUILTIN_ERROR)
 		raise_error_to_own_subprocess(shell, MALLOC_ERROR, NULL);
 	*cmd_table_node = (*cmd_table_node)->next;

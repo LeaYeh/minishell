@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_pipeline.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:12 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/25 16:49:50 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:28:14 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,12 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 			else if (cmd_table_type == C_SIMPLE_CMD)
 				fork_simple_cmd(shell, cmd_table_node);
 			if (!insert_child_pid_list(shell, shell->subshell_pid))
-				raise_error_to_own_subprocess(
-					shell, MALLOC_ERROR, "malloc failed");
+				raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
 			handle_pipes_parent(&shell->new_pipe, &shell->old_pipe);
 		}
 		cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
 	}
-	safe_close_all_pipes(shell);
-	wait_all_child_pid(shell);
+	(safe_close_all_pipes(shell), wait_all_child_pid(shell));
 	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
@@ -85,7 +83,6 @@ void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		handle_control_op(shell, cmd_table_node);
 	else
 	{
-		// do T2.2
 		safe_close_all_pipes(shell);
 		wait_process(shell, shell->subshell_pid);
 		if (shell->subshell_level != 0)
@@ -111,7 +108,6 @@ void	fork_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		setup_signal(shell, SIGINT, SIG_IGNORE);
 		setup_signal(shell, SIGTERM, SIG_STANDARD);
 		shell->subshell_level += 1;
-		// do T0
 		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
 		exec_pipeline(shell, cmd_table_node);
 	}
