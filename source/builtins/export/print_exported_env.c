@@ -15,7 +15,6 @@
 
 // Print all exported env vars in ASCII order, with "export " prepended.
 // The value gets put in double-quotes.
-// TODO: Quotes, dollar signs, backslash and '`' are escaped with a backslash.
 
 // Get the total length of everything that will have to be printed.
 // Malloc once, then use ft_snprintf to fill.

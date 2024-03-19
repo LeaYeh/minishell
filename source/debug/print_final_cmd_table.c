@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "defines.h"
-// #include "utils.h"
 
 void	print_simple_cmd_array(char *simple_cmd[])
 {

@@ -34,7 +34,6 @@ bool	parse_step(t_parser_data *parser_data, t_pt_node *pt_entry)
 	return (true);
 }
 
-// TODO: Need to verify if the return value always be one of the operators
 char	*get_error_token_data(t_list *token_list, t_list *parse_stack)
 {
 	char	*error_token_data;

@@ -20,8 +20,6 @@
 
 bool	ft_read_input(t_shell *shell);
 
-// If general error occurs, exit entire shell
-// if syntax error occurs, continue to next input
 int	main(void)
 {
 	t_shell	shell;
