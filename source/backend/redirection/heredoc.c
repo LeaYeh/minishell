@@ -104,7 +104,7 @@ int	handle_heredoc(t_shell *shell, int cmdtable_id, t_list *io_red_list)
 
 // If the heredoc delimiter has quotes,
 //     1. the here-document lines shall not undergo expansion
-//     2. the delimiter will remove the quotes
+//     2. the quotes shall be removed from the delimiter
 int	ft_heredoc(t_shell *shell)
 {
 	t_cmd_table	*cur_cmd_table;
