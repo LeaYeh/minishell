@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:40:30 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 17:40:31 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/20 00:36:35 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,26 @@ bool	valid_number(char *str)
 {
 	int	i;
 
-	if (!str || !*str)
+	if (!*str)
 		return (false);
 	i = 0;
-	if (ft_strlen(str) > 1 && is_sign(str[i]))
+	while (str[i] && ft_strchr(WHITESPACE, str[i]))
 		i++;
+	if (is_sign(str[i]))
+		i++;
+	if (!ft_isdigit(str[i]))
+		return (false);
 	while (str[i])
 	{
 		if (ft_isdigit(str[i]))
 			i++;
 		else
-			return (false);
+			break ;
 	}
+	while (str[i] && ft_strchr(WHITESPACE, str[i]))
+		i++;
+	if (str[i])
+		return (false);
 	return (true);
 }
 
@@ -43,8 +51,11 @@ bool	is_atol_overflow(char *str)
 {
 	int		i;
 	char	*long_max;
+	int		num_len;
 
 	i = 0;
+	while (str[i] && ft_strchr(WHITESPACE, str[i]))
+		i++;
 	if (str[i] == '-')
 		long_max = "9223372036854775808";
 	else
@@ -53,8 +64,11 @@ bool	is_atol_overflow(char *str)
 		i++;
 	while (str[i] == '0')
 		i++;
-	if (ft_strlen(&str[i]) < ft_strlen(long_max) || \
-		ft_strcmp(&str[i], long_max) <= 0)
+	num_len = 0;
+	while (ft_isdigit(str[i + num_len]))
+		num_len++;
+	if (num_len < (int)ft_strlen(long_max) || \
+		ft_strncmp(&str[i], long_max, num_len) <= 0)
 		return (false);
 	return (true);
 }
@@ -68,7 +82,7 @@ int	get_args_error(char *args[])
 	type = EX_NORM_ARGS;
 	if (!valid_number(args[1]) || is_atol_overflow(args[1]))
 		type = EX_NOT_NUMERIC;
-	else if (get_array_len(args) > 2)
+	else if (args[2])
 		type = EX_TOO_MANY_ARGS;
 	return (type);
 }
