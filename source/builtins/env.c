@@ -12,7 +12,7 @@
 
 #include "defines.h"
 
-int	ft_exec_env(char *env[])
+int	exec_env(char *env[])
 {
 	int	i;
 

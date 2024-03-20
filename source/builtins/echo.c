@@ -75,7 +75,7 @@ char	*combine_args(char *args[], bool end_with_newline)
 	return (str);
 }
 
-int	ft_exec_echo(char *args[])
+int	exec_echo(char *args[])
 {
 	int		i;
 	bool	end_with_newline;

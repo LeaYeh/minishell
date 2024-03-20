@@ -22,14 +22,14 @@ void	exec_builtin_cmd(t_shell *shell)
 
 	final_cmd_table = shell->final_cmd_table;
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "env") == 0)
-		shell->exit_code = ft_exec_env(final_cmd_table->env);
+		shell->exit_code = exec_env(final_cmd_table->env);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "unset") == 0)
 		shell->exit_code = exec_unset(final_cmd_table->simple_cmd,
 				&shell->env_list);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "echo") == 0)
-		shell->exit_code = ft_exec_echo(final_cmd_table->simple_cmd);
+		shell->exit_code = exec_echo(final_cmd_table->simple_cmd);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "pwd") == 0)
-		shell->exit_code = ft_exec_pwd();
+		shell->exit_code = exec_pwd();
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "cd") == 0)
 		shell->exit_code = exec_cd(final_cmd_table->simple_cmd,
 				&shell->env_list);
