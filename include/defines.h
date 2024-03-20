@@ -167,8 +167,7 @@ typedef enum e_state
 	SIG_DEFAULT		= 0,
 	SIG_IGNORE,
 	SIG_STANDARD,
-	SIG_RECORD,
-	SIG_HEREDOC
+	SIG_RECORD
 }	t_state;
 
 typedef enum e_pt_col

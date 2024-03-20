@@ -22,10 +22,9 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 	shell->exit_code = TERM_BY_SIGNAL + signo;
 	if (signo == SIGINT)
 	{
-		printf("\n");
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();
 	}
 	else if (signo == SIGABRT)
 	{
@@ -52,25 +51,6 @@ void	handle_signal_record(int signo, siginfo_t *info, void *context)
 	shell->signal_record = signo;
 }
 
-void	handle_signal_heredoc(int signo, siginfo_t *info, void *context)
-{
-	static t_shell	*shell;
-
-	(void)info;
-	if (!shell)
-	{
-		shell = context;
-		return ;
-	}
-	shell->exit_code = TERM_BY_SIGNAL + signo;
-	if (signo == SIGINT)
-	{
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-	}
-}
-
 void	setup_signal(t_shell *shell, int signo, t_state state)
 {
 	struct sigaction	sa;
@@ -86,8 +66,6 @@ void	setup_signal(t_shell *shell, int signo, t_state state)
 		sa.sa_sigaction = handle_signal_std;
 	else if (state == SIG_RECORD)
 		sa.sa_sigaction = handle_signal_record;
-	else if (state == SIG_HEREDOC)
-		sa.sa_sigaction = handle_signal_heredoc;
 	if (sigaction(signo, &sa, NULL) != 0)
 		perror("The signal is not supported:");
 }

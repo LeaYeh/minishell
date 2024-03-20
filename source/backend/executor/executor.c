@@ -77,9 +77,7 @@ void	ft_executor(t_shell *shell)
 {
 	int	heredoc_status;
 
-	setup_signal(shell, SIGINT, SIG_HEREDOC);
 	heredoc_status = ft_heredoc(shell);
-	setup_signal(shell, SIGINT, SIG_STANDARD);
 	if (heredoc_status == HEREDOC_ERROR)
 		ft_clean_and_exit_shell(shell, MALLOC_ERROR, "heredoc malloc/fd error");
 	else if (heredoc_status == HEREDOC_ABORT)
