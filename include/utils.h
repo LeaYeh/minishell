@@ -107,7 +107,7 @@ bool		wait_process(t_shell *shell, pid_t pid);
 int			handle_exit_status(int wstatus);
 
 /* Type utils */
-char		*ft_get_token_type_str(int type);
+char		*get_token_type_str(int type);
 bool		is_control_op(int token_type);
 bool		is_io_red_op(int token_type);
 bool		is_word(int token_type);

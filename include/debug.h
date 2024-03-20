@@ -15,8 +15,8 @@
 
 # include "defines.h"
 
-void	ft_show_env_list(t_shell *shell);
-void	ft_show_token_list(t_shell *shell);
+void	print_env_list(t_shell *shell);
+void	print_token_list(t_list *token_list);
 void	print_ast_bfs(t_ast *root);
 void	print_cmd_table_list(t_list_d *cmd_table_list);
 void	print_cmd_table(t_cmd_table *cmd_table);

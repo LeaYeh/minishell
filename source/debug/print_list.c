@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_list.c                                        :+:      :+:    :+:   */
+/*   print_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 18:00:04 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/11 19:48:10 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/20 03:45:09 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-char	*ft_get_token_type_str(int type)
+char	*get_token_type_str(int type)
 {
 	if (type == T_WORD)
 		return ("WORD");
@@ -44,7 +44,7 @@ char	*ft_get_token_type_str(int type)
 void	print_token(t_token *token)
 {
 	printf("(type: %s, data: %s)\n",
-		ft_get_token_type_str(token->type), token->data);
+		get_token_type_str(token->type), token->data);
 }
 
 void	print_token_list(t_list *token_list)
@@ -54,27 +54,14 @@ void	print_token_list(t_list *token_list)
 	printf("----------------------------\n\n");
 }
 
-void	ft_print_env(t_env *env)
+void	print_env(t_env *env)
 {
 	printf("%s=%s\n", env->key, env->value);
 }
 
-void	ft_print_token(t_token *token)
-{
-	printf("(type: %s, data: %s)\n",
-		ft_get_token_type_str(token->type), token->data);
-}
-
-void	ft_show_token_list(t_shell *shell)
-{
-	printf("-------- TOKEN LIST --------\n");
-	ft_lstiter(shell->token_list, (void *)ft_print_token);
-	printf("----------------------------\n\n");
-}
-
-void	ft_show_env_list(t_shell *shell)
+void	print_env_list(t_shell *shell)
 {
 	printf("--------- ENV LIST ---------\n");
-	ft_lstiter(shell->env_list, (void *)ft_print_env);
+	ft_lstiter(shell->env_list, (void *)print_env);
 	printf("----------------------------\n\n");
 }
