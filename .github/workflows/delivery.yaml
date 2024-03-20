@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  cleanup_and_merge:
+  update_evaluation_branch:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
     - name: Check tag version
       run: |
         MAIN_TAG=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null) || true
-        if [[ $(git tag --contains origin/evaluation | wc -l) -gt 0 ]]; then
+        if [[ $(git tag --contains origin/evaluation 2>/dev/null | wc -l) -gt 0 ]]; then
           EVAL_TAG=$(git describe --tags `git rev-list --tags --remotes=origin/evaluation --max-count=1` 2>/dev/null) || true
         fi
         echo "MAIN_TAG: $MAIN_TAG"
