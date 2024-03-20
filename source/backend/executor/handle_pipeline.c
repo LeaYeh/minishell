@@ -18,26 +18,19 @@
 void	wait_all_child_pid(t_shell *shell)
 {
 	t_list	*child_pid_node;
-	bool	got_sigint;
 	pid_t	pid;
 	int		wstatus;
 
-	got_sigint = false;
 	child_pid_node = shell->child_pid_list;
 	pid = (pid_t)(long)child_pid_node->content;
-	if (wait_process(shell, pid) && shell->exit_code == TERM_BY_SIGNAL + SIGINT)
-		got_sigint = true;
+	wait_process(shell, pid);
 	child_pid_node = child_pid_node->next;
 	while (child_pid_node)
 	{
 		pid = (pid_t)(long)child_pid_node->content;
-		if (waitpid(pid, &wstatus, 0) != -1 && \
-			WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGINT)
-			got_sigint = true;
+		waitpid(pid, &wstatus, 0);
 		child_pid_node = child_pid_node->next;
 	}
-	if (got_sigint)
-		printf("\n");
 }
 
 bool	insert_child_pid_list(t_shell *shell, pid_t pid)
@@ -113,7 +106,7 @@ void	fork_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	}
 	else
 	{
-		setup_signal(shell, SIGINT, SIG_RECORD);
+		// setup_signal(shell, SIGINT, SIG_RECORD);
 		move_past_pipeline(cmd_table_node);
 		handle_end_of_pipeline(shell, cmd_table_node);
 		shell->subshell_pid = -1;
