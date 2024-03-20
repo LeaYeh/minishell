@@ -22,7 +22,7 @@ void	free_env_node(t_env *env)
 	ft_free_and_null((void **)&env);
 }
 
-void	ft_clean_shell(t_shell *shell)
+void	clean_shell(t_shell *shell)
 {
 	ft_free_and_null((void **)&shell->input_line);
 	ft_lstclear(&shell->child_pid_list, NULL);
@@ -45,11 +45,11 @@ void	reset_submodule_variable(t_shell *shell)
 	free_final_cmd_table(&shell->final_cmd_table);
 }
 
-void	ft_clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)
+void	clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)
 {
 	if (msg)
 		printf("%s\n", msg);
-	ft_clean_shell(shell);
+	clean_shell(shell);
 	safe_close_all_pipes(shell);
 	(void)get_next_line(-1);
 	exit(exit_code);

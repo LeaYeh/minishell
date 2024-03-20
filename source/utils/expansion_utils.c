@@ -23,7 +23,7 @@ int	expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
 	while (list)
 	{
 		tmp_list = NULL;
-		ret = ft_expander(list->content, &tmp_list, shell, op_mask);
+		ret = expander(list->content, &tmp_list, shell, op_mask);
 		if (ret != SUCCESS)
 		{
 			ft_lstclear(&tmp_list, free);

@@ -30,7 +30,7 @@ void	finetune_token_list(t_list *token_list);
 void	adjust_assignment_word_tokens(t_list *token_list);
 
 /* lexer.c */
-bool	ft_lexer(t_shell *shell);
+bool	lexer(t_shell *shell);
 
 /* lexer_utils.c */
 bool	is_operator(char *token_data);

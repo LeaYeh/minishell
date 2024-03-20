@@ -12,7 +12,7 @@
 
 #include "expander.h"
 
-int	ft_expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
+int	expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 {
 	char	*new_str;
 

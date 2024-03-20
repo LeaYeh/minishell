@@ -42,7 +42,7 @@ void	handle_expansion_error(
 	{
 		shell->exit_code = ret;
 		if (shell->subshell_level != 0)
-			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+			clean_and_exit_shell(shell, shell->exit_code, NULL);
 		*cmd_table_node = NULL;
 	}
 }

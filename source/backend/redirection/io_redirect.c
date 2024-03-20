@@ -21,7 +21,7 @@ int	expand_filename(t_shell *shell, char **filename)
 	int			ret;
 
 	expanded_list = NULL;
-	ret = ft_expander(*filename, &expanded_list, shell, E_EXPAND | E_RM_QUOTES);
+	ret = expander(*filename, &expanded_list, shell, E_EXPAND | E_RM_QUOTES);
 	if (ret == MALLOC_ERROR || ret == BAD_SUBSTITUTION)
 		return (ft_lstclear(&expanded_list, free), ret);
 	if (ft_lstsize_non_null(expanded_list) != 1)

@@ -18,7 +18,7 @@
 #include "utils.h"
 #include "signals.h"
 
-bool	ft_read_input(t_shell *shell);
+bool	read_input(t_shell *shell);
 
 int	main(void)
 {
@@ -28,27 +28,27 @@ int	main(void)
 		raise_error_and_escape(&shell, "init shell failed");
 	while (true)
 	{
-		if (!ft_read_input(&shell))
+		if (!read_input(&shell))
 			continue ;
 		if (!shell.input_line)
 		{
 			if (!TEST_MODE)
 				printf(EXIT_MSG);
-			ft_clean_and_exit_shell(&shell, shell.exit_code, NULL);
+			clean_and_exit_shell(&shell, shell.exit_code, NULL);
 		}
-		if (!ft_lexer(&shell) || !ft_parser(&shell))
+		if (!lexer(&shell) || !parser(&shell))
 		{
 			reset_submodule_variable(&shell);
 			continue ;
 		}
 		if (shell.cmd_table_list)
-			ft_executor(&shell);
+			executor(&shell);
 		reset_submodule_variable(&shell);
 	}
 	return (EXIT_SUCCESS);
 }
 
-bool	ft_read_input(t_shell *shell)
+bool	read_input(t_shell *shell)
 {
 	char	*line;
 

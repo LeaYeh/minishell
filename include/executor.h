@@ -15,7 +15,7 @@
 
 # include "defines.h"
 
-void	ft_executor(t_shell *shell);
+void	executor(t_shell *shell);
 int		set_expanded_cmd_name(
 			char **cmd_name, t_shell *shell, t_list *simple_cmd_list);
 void	handle_expansion_error(

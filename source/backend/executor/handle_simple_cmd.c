@@ -32,7 +32,7 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	}
 	else
 		handle_external_cmd(shell, get_cmd_table_from_list(*cmd_table_node));
-	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+	clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
 void	fork_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)

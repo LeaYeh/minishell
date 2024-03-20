@@ -91,7 +91,7 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 	{
 		shell->exit_code = GENERAL_ERROR;
 		if (shell->subshell_level != 0)
-			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+			clean_and_exit_shell(shell, shell->exit_code, NULL);
 	}
 	else if (shell->subshell_level == 0)
 		safe_redirect_io_and_exec_builtin(shell);
