@@ -14,7 +14,6 @@
 #include "defines.h"
 #include "utils.h"
 #include "clean.h"
-#include "debug.h"
 #include "signals.h"
 
 void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)

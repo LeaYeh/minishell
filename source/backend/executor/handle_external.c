@@ -13,7 +13,6 @@
 #include "executor.h"
 #include "utils.h"
 #include "clean.h"
-#include "debug.h"
 #include "signals.h"
 
 static bool	check_execfile_exist(char *exec_path, char *cmd_name);

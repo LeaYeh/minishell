@@ -15,7 +15,6 @@
 #include "lexer.h"
 #include "parser.h"
 #include "executor.h"
-#include "debug.h"
 #include "utils.h"
 #include "signals.h"
 

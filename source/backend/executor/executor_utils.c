@@ -14,7 +14,6 @@
 #include "heredoc.h"
 #include "clean.h"
 #include "utils.h"
-#include "debug.h"
 #include "signals.h"
 
 int	set_expanded_cmd_name(

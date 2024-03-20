@@ -14,7 +14,6 @@
 #include "heredoc.h"
 #include "clean.h"
 #include "utils.h"
-#include "debug.h"
 #include "signals.h"
 
 void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
