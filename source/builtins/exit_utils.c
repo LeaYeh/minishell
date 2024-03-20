@@ -67,10 +67,10 @@ bool	is_atol_overflow(char *str)
 	num_len = 0;
 	while (ft_isdigit(str[i + num_len]))
 		num_len++;
-	if (num_len < (int)ft_strlen(long_max) || \
-		ft_strncmp(&str[i], long_max, num_len) <= 0)
-		return (false);
-	return (true);
+	if (num_len > (int)ft_strlen(long_max) || \
+		ft_strncmp(&str[i], long_max, num_len) > 0)
+		return (true);
+	return (false);
 }
 
 int	get_args_error(char *args[])
