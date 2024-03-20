@@ -12,7 +12,7 @@
 
 #include "defines.h"
 
-int	ft_exec_pwd(void)
+int	exec_pwd(void)
 {
 	char	*pwd;
 

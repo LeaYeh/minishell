@@ -59,7 +59,7 @@ void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
 	{
 		cmd_table = cmd_table_node->content;
 		if (cmd_table->type == C_SUBSHELL_END)
-			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+			clean_and_exit_shell(shell, shell->exit_code, NULL);
 		else if (is_control_op_cmd_table(cmd_table->type))
 			handle_control_op(shell, &cmd_table_node);
 		else if (cmd_table->type == C_SIMPLE_CMD)
@@ -71,15 +71,15 @@ void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
 	}
 }
 
-void	ft_executor(t_shell *shell)
+void	executor(t_shell *shell)
 {
 	int	heredoc_status;
 
 	setup_signal(shell, SIGINT, SIG_HEREDOC);
-	heredoc_status = ft_heredoc(shell);
+	heredoc_status = heredoc(shell);
 	setup_signal(shell, SIGINT, SIG_STANDARD);
 	if (heredoc_status == HEREDOC_ERROR)
-		ft_clean_and_exit_shell(shell, MALLOC_ERROR, "heredoc malloc/fd error");
+		clean_and_exit_shell(shell, MALLOC_ERROR, "heredoc malloc/fd error");
 	else if (heredoc_status == HEREDOC_ABORT)
 		return ;
 	handle_process(shell, shell->cmd_table_list);

@@ -15,13 +15,13 @@
 
 # include "defines.h"
 
-int		ft_exec_env(char *env[]);
-int		ft_exec_echo(char *args[]);
-int		ft_exec_pwd(void);
-void	exec_exit(t_shell *shell, char *args[]);
+int		exec_env(char *env[]);
+int		exec_echo(char *args[]);
+int		exec_pwd(void);
 int		exec_cd(char *args[], t_list **env_list);
 int		exec_export(char *args[], t_list **env_list);
 int		exec_unset(char *args[], t_list **env_list);
+void	exec_exit(t_shell *shell, char *args[]);
 
 int		get_args_error(char *args[]);
 

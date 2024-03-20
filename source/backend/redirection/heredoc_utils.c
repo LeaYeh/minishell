@@ -45,7 +45,7 @@ int	expand_heredoc_content(t_shell *shell, char **content)
 	int		ret;
 
 	expanded_list = NULL;
-	ret = ft_expander(*content, &expanded_list, shell, E_EXPAND);
+	ret = expander(*content, &expanded_list, shell, E_EXPAND);
 	if (ret == MALLOC_ERROR)
 		return (ft_lstclear(&expanded_list, free), HEREDOC_ERROR);
 	if (ret == BAD_SUBSTITUTION)
@@ -67,7 +67,7 @@ bool	remove_here_end_quote(
 
 	expanded_list = NULL;
 	*need_content_expansion = false;
-	if (ft_expander(
+	if (expander(
 			io_red->here_end, &expanded_list, shell, E_RM_QUOTES) != SUCCESS)
 		return (ft_lstclear(&expanded_list, free), false);
 	free(io_red->here_end);

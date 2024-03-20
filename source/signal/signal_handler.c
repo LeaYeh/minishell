@@ -31,13 +31,13 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 	else if (signo == SIGABRT)
 	{
 		if (shell->subshell_level == 0)
-			ft_clean_and_exit_shell(
+			clean_and_exit_shell(
 				shell, shell->exit_code, "Clean up and abort the program");
 		else
-			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+			clean_and_exit_shell(shell, shell->exit_code, NULL);
 	}
 	else if (signo == SIGTERM && shell->subshell_level != 0)
-		ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+		clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
 void	handle_signal_record(int signo, siginfo_t *info, void *context)
@@ -77,7 +77,7 @@ void	setup_signal(t_shell *shell, int signo, t_state state)
 	struct sigaction	sa;
 
 	if (sigemptyset(&sa.sa_mask) == -1)
-		ft_clean_and_exit_shell(shell, PREPROCESS_ERROR, "sigemptyset failed");
+		clean_and_exit_shell(shell, PREPROCESS_ERROR, "sigemptyset failed");
 	sa.sa_flags = SA_RESTART | SA_SIGINFO;
 	if (state == SIG_DEFAULT)
 		sa.sa_handler = SIG_DFL;

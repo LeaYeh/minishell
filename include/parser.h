@@ -26,7 +26,7 @@ bool		parse_goto(t_list **state_stack, int token_type);
 
 bool		init_parser_data(t_parser_data *parser_data, t_list *token_list);
 void		free_parser_data(t_parser_data *parser_data);
-bool		ft_parser(t_shell *shell);
+bool		parser(t_shell *shell);
 
 /* Command table */
 t_list_d	*build_cmd_table_list(t_list *token_list);

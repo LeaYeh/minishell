@@ -38,15 +38,15 @@ void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 	if (ret == MALLOC_ERROR)
 		raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
 	if (ret != SUCCESS)
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
+		clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
 	if (!shell->final_cmd_table->simple_cmd[0])
-		ft_clean_and_exit_shell(shell, SUCCESS, NULL);
+		clean_and_exit_shell(shell, SUCCESS, NULL);
 	if (!check_execfile_exist(final_cmd_table->exec_path,
 			final_cmd_table->simple_cmd[0]))
-		ft_clean_and_exit_shell(shell, CMD_NOT_FOUND, NULL);
+		clean_and_exit_shell(shell, CMD_NOT_FOUND, NULL);
 	if (!redirect_scmd_io(shell, &final_cmd_table->read_fd,
 			&final_cmd_table->write_fd))
-		ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
+		clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
 	reset_external_signal_handler(shell);
 	execve(final_cmd_table->exec_path, final_cmd_table->simple_cmd,
 		final_cmd_table->env);
@@ -79,5 +79,5 @@ static void	handle_exec_error(t_shell *shell, char *exec_path)
 	else
 		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
 			PROGRAM_NAME, exec_path, strerror(error));
-	ft_clean_and_exit_shell(shell, CMD_EXEC_FAILED, NULL);
+	clean_and_exit_shell(shell, CMD_EXEC_FAILED, NULL);
 }

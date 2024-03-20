@@ -71,7 +71,7 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
 	}
 	(safe_close_all_pipes(shell), wait_all_child_pid(shell));
-	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+	clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
 void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
@@ -89,7 +89,7 @@ void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 		{
 			if (shell->signal_record != 0)
 				shell->exit_code = TERM_BY_SIGNAL + shell->signal_record;
-			ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+			clean_and_exit_shell(shell, shell->exit_code, NULL);
 		}
 	}
 }

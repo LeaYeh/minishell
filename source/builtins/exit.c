@@ -27,7 +27,7 @@ void	handle_exit(t_shell *shell, int args_error)
 	else if (args_error == EX_NOT_NUMERIC)
 		ft_dprintf(2, ERROR_EXIT_NUMERIC_ARG,
 			PROGRAM_NAME, "exit", shell->final_cmd_table->simple_cmd[1]);
-	ft_clean_and_exit_shell(shell, shell->exit_code, NULL);
+	clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
 void	exec_exit(t_shell *shell, char *args[])

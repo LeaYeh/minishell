@@ -19,7 +19,7 @@
 bool			is_bad_substitution(char *str, t_expander_op op_mask);
 
 /* expander.c */
-int				ft_expander(char *str, t_list **lst, t_shell *shell,
+int				expander(char *str, t_list **lst, t_shell *shell,
 					t_expander_op op_mask);
 
 /* expander_task_list.c */

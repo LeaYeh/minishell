@@ -32,7 +32,7 @@ void	fork_subshell(t_shell *shell, t_list_d **cmd_table_node)
 		if (ret == MALLOC_ERROR)
 			raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
 		if (ret != SUCCESS)
-			ft_clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
+			clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
 		*cmd_table_node = (*cmd_table_node)->next;
 		handle_process(shell, *cmd_table_node);
 	}
