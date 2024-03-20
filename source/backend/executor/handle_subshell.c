@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "executor.h"
-#include "defines.h"
 #include "utils.h"
 #include "clean.h"
 #include "signals.h"

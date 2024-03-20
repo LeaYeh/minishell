@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "defines.h"
 #include "clean.h"
 
 static void	print_exit_msg(int wstatus, int signo)

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "defines.h"
 #include "utils.h"
 
 void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
