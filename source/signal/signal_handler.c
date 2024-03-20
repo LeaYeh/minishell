@@ -19,12 +19,25 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 	(void)info;
 	if (!shell)
 		return (shell = context, (void) NULL);
-	shell->exit_code = TERM_BY_SIGNAL + signo;
+	shell->exit_code = TERM_BY_SIGNAL + signo;	// It's called exit_code for a reason - probably not to be assigned by a signal handler...
 	if (signo == SIGINT)
 	{
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
+		kill(-getpid(), SIGINT);
+		// ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		// char	term_buffer[2048];
+		// char	*term_type = getenv("TERM");
+		// char	*newline;
+
+		// tgetent(term_buffer, term_type);
+		// newline = tgetstr("nw", NULL);
+		// if (isatty(STDIN_FILENO))
+		// {
+		// 	tputs(newline, 1, putchar);
+		// }
+		// rl_on_new_line();
+		// // // ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		// rl_replace_line("", 0);
+		// rl_redisplay();
 	}
 	else if (signo == SIGABRT)
 	{

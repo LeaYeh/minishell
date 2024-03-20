@@ -57,6 +57,17 @@ bool	ft_read_input(t_shell *shell)
 {
 	char	*line;
 
+	char	term_buffer[2048];
+	char	*term_type = getenv("TERM");
+	char	*newline;
+
+	tgetent(term_buffer, term_type);
+	newline = tgetstr("nw", NULL);
+	// tputs(newline, 1, putchar);
+	// rl_on_new_line();
+	// rl_replace_line("", 0);
+	// rl_redisplay();
+
 	errno = SUCCESS;
 	if (isatty(STDIN_FILENO))
 		shell->input_line = readline(PROMPT);
