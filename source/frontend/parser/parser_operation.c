@@ -29,7 +29,7 @@ bool	push_state(t_list **state_stack, int next_step)
 	return (true);
 }
 
-// convert the token into the ast_node and push it into the parse_stack
+// Convert the token into the ast_node and push it onto the parse_stack
 bool	push_node(t_list **parse_stack, t_ast *ast_node)
 {
 	t_list	*node;

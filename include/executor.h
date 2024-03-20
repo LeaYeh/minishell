@@ -26,7 +26,6 @@ void	fork_subshell(t_shell *shell, t_list_d **cmd_table_node);
 void	fork_pipeline(t_shell *shell, t_list_d **cmd_table_list);
 void	fork_simple_cmd(t_shell *shell, t_list_d **cmd_table_list);
 void	handle_control_op(t_shell *shell, t_list_d **cmd_table_node);
-void	handle_assignment(t_shell *shell, t_final_cmd_table *final_cmd_table);
 void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table);
 void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node);
 

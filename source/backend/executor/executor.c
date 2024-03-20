@@ -71,7 +71,6 @@ void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
 	}
 }
 
-// TODO: activate signal listener in the child process
 void	ft_executor(t_shell *shell)
 {
 	int	heredoc_status;
