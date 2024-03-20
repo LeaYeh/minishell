@@ -27,7 +27,7 @@ void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	if (ret != SUCCESS)
 		return (free(cmd_name),
 			handle_expansion_error(shell, cmd_table_node, ret));
-	if (is_builtin(cmd_name))
+	if (!cmd_name || is_builtin(cmd_name))
 	{
 		free(cmd_name);
 		if (set_final_cmd_table(shell, cmd_table) != SUCCESS)
