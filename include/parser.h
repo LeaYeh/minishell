@@ -12,12 +12,12 @@
 
 #ifndef PARSER_H
 # define PARSER_H
+
 # include "defines.h"
 
 bool		set_next_pt_entry(t_pt_node **pt_entry,
 				int state, int token_type, int action_mask);
 bool		push_state(t_list **state_stack, int next_step);
-bool		push_token(t_list **parse_stack, t_ast *ast_node);
 bool		parse_shift(t_token *input_token,
 				t_list **state_stack, t_list **parse_stack, int next_step);
 bool		parse_reduce(t_list **state_stack,

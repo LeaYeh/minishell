@@ -12,6 +12,7 @@
 
 #ifndef UTILS_H
 # define UTILS_H
+
 # include "defines.h"
 
 /* Token list utils */
@@ -106,13 +107,11 @@ bool		wait_process(t_shell *shell, pid_t pid);
 int			handle_exit_status(int wstatus);
 
 /* Type utils */
-char		*ft_get_token_type_str(int type);
+char		*get_token_type_str(int type);
 bool		is_control_op(int token_type);
 bool		is_io_red_op(int token_type);
 bool		is_word(int token_type);
 bool		is_subshell_symbol(int token_type);
-// bool		is_identifier(int token_type);
-// bool		is_rule(int token_type);
 
 /* File utils */
 char		*generate_tmp_filename(int cmdtable_id, char *category);
@@ -131,7 +130,6 @@ bool		drop_num_stack(t_list **stack, int num, void (*del)(void *));
 t_list		*pop_num_stack(t_list **stack, int num);
 
 /* String utils */
-// bool		replace_string_content(char **str, char *new_content);
 bool		is_open_pair(unsigned char c, t_is_open_pair_op operation);
 bool		is_valid_varname(char *str);
 bool		is_valid_varname_char(char c);

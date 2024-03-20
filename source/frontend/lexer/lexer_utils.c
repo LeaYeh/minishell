@@ -61,7 +61,7 @@ bool	split_token_node(t_list *lst_node_front, size_t i)
 		return (false);
 	free(*token_data_node_front);
 	*token_data_node_front = token_data_split[0];
-	new_token = init_token_node(T_UNINITIALIZED, token_data_split[1]);
+	new_token = init_token_node(T_NONE, token_data_split[1]);
 	free(token_data_split);
 	if (!new_token)
 		return (free(token_data_split[1]), false);

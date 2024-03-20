@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "defines.h"
 #include "utils.h"
 
 bool	append_path(t_list **path_list, char *path, char *colon)

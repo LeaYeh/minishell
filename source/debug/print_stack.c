@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "defines.h"
 #include "utils.h"
 
 void	print_state_stack(t_list *stack)

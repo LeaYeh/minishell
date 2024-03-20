@@ -15,7 +15,6 @@
 #include "utils.h"
 #include "clean.h"
 #include "signals.h"
-#include "debug.h"
 
 void	exec_builtin_cmd(t_shell *shell)
 {

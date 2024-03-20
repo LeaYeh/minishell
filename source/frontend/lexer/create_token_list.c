@@ -21,7 +21,7 @@ bool	create_token_list(t_list **token_list, t_list **token_data_list)
 	new_nodes = NULL;
 	while (*token_data_list)
 	{
-		token = init_token_node(T_UNINITIALIZED, (*token_data_list)->content);
+		token = init_token_node(T_NONE, (*token_data_list)->content);
 		if (!token)
 			break ;
 		new_nodes = ft_lstnew(token);

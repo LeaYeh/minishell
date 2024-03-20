@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "defines.h"
-#include "utils.h"
 
 void	print_io_red_list(t_list *io_red_list)
 {

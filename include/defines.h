@@ -13,23 +13,20 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-// Could solve some directory permission error messages
-# include <dirent.h>
-
 # include <errno.h>
 # include <fcntl.h>
-# include <linux/limits.h>
 # include <limits.h>
-# include <sys/ioctl.h>
-# include <sys/types.h>
+# include <linux/limits.h>
 # include <signal.h>
-# include <sysexits.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <unistd.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <stdbool.h>
+# include <unistd.h>
+# include <sysexits.h>
+# include <sys/ioctl.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
@@ -46,35 +43,30 @@
 #  define DEFINITIONS_OK	true
 # endif
 
-// # define PROGRAM_NAME       "🌊rash"
-// # define PROGRAM_NAME       "minishell: "
-# define PROGRAM_NAME       "\e[1;34m🌊rash\e[0m"
+# define PROGRAM_NAME		"crash"
+# define PRETTY_PROG_NAME	"\e[3;34m🌊\e[0m\e[1;34mrash\e[0m"
+# define PROMPT				"\e[3;34m🌊\e[0m\e[1;34mrash$\e[0m "
 
+# define HEREDOC_PROMPT		"\e[1;37m> \e[0m"
 # define EXIT_MSG			"exit\n"
 
-/* Error codes */
-# define SUCCESS            0
-# define EXIT_SUCCESS       0
-# define GENERAL_ERROR      1
-# define BAD_SUBSTITUTION   1
-# define AMBIGUOUS_REDIR    1
-# define MISUSE_BUILTIN     2
-# define SYNTAX_ERROR       2
-# define MALLOC_ERROR       2
-# define CMD_EXEC_FAILED    126
-# define CMD_NOT_FOUND      127
-# define UNEXPECT_EXIT      128
-# define TERM_BY_SIGNAL     128
-# define PREPROCESS_ERROR   195
-# define BUILTIN_ERROR      196
-# define FORK_ERROR         254
+/* Error Codes */
+# define SUCCESS			0
+# define EXIT_SUCCESS		0
+# define GENERAL_ERROR		1
+# define BAD_SUBSTITUTION	1
+# define AMBIGUOUS_REDIR	1
+# define SYNTAX_ERROR		2
+# define MALLOC_ERROR		2
+# define CMD_EXEC_FAILED	126
+# define CMD_NOT_FOUND		127
+# define UNEXPECT_EXIT		128
+# define TERM_BY_SIGNAL		128
+# define PREPROCESS_ERROR	195
+# define BUILTIN_ERROR		196
+# define FORK_ERROR			254
 
-/* Parsing Table */
-# define PT_COL_SIZE        5
-# define PT_ROW_SIZE        191
-# define UNDEFINED_TYPE     -99
-# define UNDEFINED_STATE    -1
-
+/* Text-Style Escape Codes */
 # define STY_BLD			"\e[1m"
 # define STY_UND			"\e[4m"
 # define STY_RED			"\e[31m"
@@ -97,28 +89,23 @@
 # define STY_GRYB			"\e[100m"
 # define STY_HWHTB			"\e[107m"
 # define STY_RES			"\e[0m"
-// TODO: Remove the color codes from the prompt before the evaluations
-# define PROMPT				"\e[1;34m🌊rash$ \e[0m"
-// # define PROMPT			"\e[1;32mminishell$ \e[0m"
-# define HEREDOC_PROMPT		"\e[1;37m> \e[0m"
-// # define PROMPT			"\001\033[1;32m\002minishell$ \001\033[0m\002"
-// # define PROMPT			"minishell$ "
 
-/* Lexer */
+/* Symbols */
 # define QUOTES				"'\""
-# define T_UNINITIALIZED	-1		//TODO Replace with Lea's UNDEFINED_TYPE -99
-
-/* Expander */
 # define EXPANDER_SYMBOLS	"$*\"'"
 # define OPENING_BRACE		'{'
 # define CLOSING_BRACE		'}'
 # define DOLLAR_BRACE		"${"
 
+/* Parsing Table */
+# define PT_COL_SIZE		5
+# define PT_ROW_SIZE		191
+# define UNDEFINED_STATE	-1
+
 /* Export */
 # define EXPORT_PREFIX		"export "
 
 /* Error Messages */
-// TODO Add minishell name in the front of messages
 # define ERROR_LEXER_SYNTAX					\
 "%s: syntax error: missing `%c'\n"
 # define ERROR_PARSER_SYNTAX				\
@@ -139,7 +126,6 @@
 "%s: cd: OLDPWD not set\n"
 # define ERROR_EXPORT_INVALID_IDENTIFIER	\
 "%s: export: `%s': not a valid identifier\n"
-// TODO: Replace with OS error message
 # define ERROR_REMOVE_FILE					\
 "%s: warning: failed to remove file `%s'\n"
 # define ERROR_CREATE_PIPE					\
@@ -151,7 +137,7 @@
 # define ERROR_AMBIGUOUS_REDIRECT			\
 "%s: %s: ambiguous redirect\n"
 
-/* Messages */
+/* Failure Messages */
 # define MALLOC_FMSG						\
 "malloc failed"
 
@@ -182,31 +168,11 @@ typedef enum e_pt_col
 
 typedef enum e_action_type
 {
-	A_REJECT		= -2,
 	A_ACCEPT		= 0,
 	A_SHIFT			= 0b001,
 	A_REDUCE		= 0b010,
 	A_GOTO			= 0b100
 }	t_action_type;
-
-typedef enum e_rules
-{
-	R_AND_OR		= 100,
-	R_PIPE_SEQ,
-	R_CMD,
-	R_SUBSHELL,
-	R_SIMPLE_CMD,
-	R_CMD_NAME,
-	R_CMD_WORD,
-	R_CMD_PREFIX,
-	R_CMD_SUFFIX,
-	R_RED_LIST,
-	R_IO_RED,
-	R_IO_FILE,
-	R_FILENAME,
-	R_IO_HERE,
-	R_HERE_END
-}	t_rules;
 
 typedef enum e_token_type
 {
@@ -261,9 +227,17 @@ typedef enum e_expander_task_type
 
 typedef enum e_export
 {
-	X_EXPORT_NO		= 0,
-	X_EXPORT_YES
+	EXPORT_NO		= 0,
+	EXPORT_YES
 }	t_export;
+
+typedef enum e_exit_args_error
+{
+	EX_NO_ARGS		= -1,
+	EX_NORM_ARGS	= 0,
+	EX_TOO_MANY_ARGS,
+	EX_NOT_NUMERIC,
+}	t_exit_args_error;
 
 typedef struct s_env
 {
@@ -294,7 +268,6 @@ typedef struct s_ast
 	t_list			*children;
 }	t_ast;
 
-// TODO: move this one to the test.h
 typedef struct s_relation_ast
 {
 	int				level;
@@ -350,26 +323,11 @@ typedef struct s_final_cmd_table
 
 typedef struct s_pipe
 {
-	// int				from_cmd_id;
 	int				pipe_fd[2];
 	int				*read_fd;
 	int				*write_fd;
 }	t_pipe;
 
-/*
-When the moment I need to assign in handle_scmd
-
-1. first cmd_table
-cmd_table->write_fd: new_write
-cmd_table->read_fd: old_read
-
-old_pipe: read=-1, write=fd
-new_pipe: read=fd, write=fd
-
-2. last cmd_table
-
-3. middle cmd_table
-*/
 typedef struct s_shell
 {
 	pid_t				pid;
@@ -385,7 +343,6 @@ typedef struct s_shell
 	t_list				*token_list;
 	t_list_d			*cmd_table_list;
 	t_final_cmd_table	*final_cmd_table;
-	// t_ast			*ast;
 }	t_shell;
 
 #endif

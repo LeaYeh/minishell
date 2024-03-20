@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "defines.h"
 
 int	ft_exec_env(char *env[])
 {

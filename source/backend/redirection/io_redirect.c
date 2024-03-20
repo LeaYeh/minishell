@@ -14,7 +14,6 @@
 #include "expander.h"
 #include "utils.h"
 #include "clean.h"
-#include "debug.h"
 
 int	expand_filename(t_shell *shell, char **filename)
 {

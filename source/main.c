@@ -10,14 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "clean.h"
 #include "init.h"
 #include "lexer.h"
 #include "parser.h"
 #include "executor.h"
-#include "debug.h"
-#include "tests.h"
 #include "utils.h"
 #include "signals.h"
 

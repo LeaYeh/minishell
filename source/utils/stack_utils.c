@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "defines.h"
-#include "utils.h"
 
 bool	drop_num_stack(t_list **stack, int num, void (*del)(void *))
 {

@@ -12,18 +12,6 @@
 
 #include "utils.h"
 
-// bool	replace_string_content(char **str, char *new_content)
-// {
-// 	char	*tmp;
-
-// 	tmp = ft_strdup(new_content);
-// 	if (!tmp)
-// 		return (false);
-// 	free(*str);
-// 	*str = tmp;
-// 	return (true);
-// }
-
 int	get_list_strlen(t_list *list, char *delim)
 {
 	int		total_length;
