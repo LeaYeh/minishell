@@ -22,10 +22,8 @@ jobs:
 
     - name: Check tag version
       run: |
-        MAIN_TAG=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null) || true
-        if [[ $(git tag --contains origin/evaluation 2>/dev/null | wc -l) -gt 0 ]]; then
-          EVAL_TAG=$(git describe --tags `git rev-list --tags=origin/evaluation --max-count=1` 2>/dev/null) || true
-        fi
+        MAIN_TAG=$(git tag --sort=-creatordate --merged main 2>/dev/null | head -n 1) || true
+        EVAL_TAG=$(git tag --sort=-creatordate --no-merged main 2>/dev/null | head -n 1) || true
         echo "MAIN_TAG: $MAIN_TAG"
         echo "EVAL_TAG: $EVAL_TAG"
         echo main_tag=$MAIN_TAG >> "$GITHUB_ENV"
@@ -43,7 +41,7 @@ jobs:
     - name: Merge and delete forbidden files and commit
       if: env.proceed == 'true'
       run: |
-        git merge origin/main
+        git merge main
         find . -type d -name .git -prune -o -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' -exec rm -rf {} +
         find . -type d -empty -delete
         rm -r source/debug
