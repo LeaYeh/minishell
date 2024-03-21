@@ -33,7 +33,7 @@ int	main(void)
 		if (!shell.input_line)
 		{
 			if (!TEST_MODE)
-				printf(EXIT_MSG);
+				ft_dprintf(STDERR_FILENO, EXIT_MSG);
 			clean_and_exit_shell(&shell, shell.exit_code, NULL);
 		}
 		if (!lexer(&shell) || !parser(&shell))
