@@ -12,6 +12,7 @@
 
 #include "clean.h"
 #include "init.h"
+#include "builtins.h"
 #include "lexer.h"
 #include "parser.h"
 #include "executor.h"
@@ -31,11 +32,7 @@ int	main(void)
 		if (!read_input(&shell))
 			continue ;
 		if (!shell.input_line)
-		{
-			if (!TEST_MODE)
-				ft_dprintf(STDERR_FILENO, EXIT_MSG);
-			clean_and_exit_shell(&shell, shell.exit_code, NULL);
-		}
+			exec_exit(&shell, NULL);
 		if (!lexer(&shell) || !parser(&shell))
 		{
 			reset_submodule_variable(&shell);

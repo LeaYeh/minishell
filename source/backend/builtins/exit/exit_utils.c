@@ -77,7 +77,7 @@ int	get_args_error(char *args[])
 {
 	int	type;
 
-	if (!args[1])
+	if (!args || !args[1])
 		return (EX_NO_ARGS);
 	type = EX_NORM_ARGS;
 	if (!valid_number(args[1]) || is_atol_overflow(args[1]))
