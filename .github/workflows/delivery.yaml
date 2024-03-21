@@ -22,8 +22,8 @@ jobs:
 
     - name: Check tag version
       run: |
-        MAIN_TAG=$(git tag --sort=-creatordate --merged main 2>/dev/null | head -n 1) || true
-        EVAL_TAG=$(git tag --sort=-creatordate --no-merged main 2>/dev/null | head -n 1) || true
+        MAIN_TAG=$(git tag --sort=-creatordate --merged origin/main 2>/dev/null | head -n 1) || true
+        EVAL_TAG=$(git tag --sort=-creatordate --no-merged origin/main 2>/dev/null | head -n 1) || true
         echo "MAIN_TAG: $MAIN_TAG"
         echo "EVAL_TAG: $EVAL_TAG"
         echo main_tag=$MAIN_TAG >> "$GITHUB_ENV"
