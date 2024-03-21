@@ -37,14 +37,15 @@ jobs:
       if: env.proceed == 'true'
       run: |
         git checkout -b evaluation origin/evaluation || git checkout -b evaluation
+        git merge origin/main || (git checkout --theirs . && git add .)
 
-    - name: Merge and delete forbidden files and commit
+    - name: Clean up forbidden files
+      if: env.proceed == 'true'
+      uses: ./.github/actions/cleanup
+
+    - name: Commit cleanup to evaluation branch
       if: env.proceed == 'true'
       run: |
-        git merge origin/main || (git checkout --theirs . && git add .)
-        find . -type d -name .git -prune -o -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' -exec rm -rf {} +
-        find . -type d -empty -delete
-        rm -rf source/debug
         git add .
         git commit -m "[GH-BOT] Remove forbidden files and empty folders"
 
