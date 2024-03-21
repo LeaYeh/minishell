@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:57:56 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/06 19:49:24 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/21 17:21:11 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define PARSER_H
 
 # include "defines.h"
+
+char		*get_error_token_data(t_list *token_list, t_list *parse_stack);
+void		report_syntax_error(t_shell *shell, t_parser_data *parser_data);
 
 bool		set_next_pt_entry(t_pt_node **pt_entry,
 				int state, int token_type, int action_mask);

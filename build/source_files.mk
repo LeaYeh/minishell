@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    source_files.mk                                    :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
+#    By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:15:33 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/19 17:42:04 by ldulling         ###   ########.fr        #
+#    Updated: 2024/03/21 17:59:20 by lyeh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,86 +16,76 @@
 SUBDIR	:=	./
 SRC		+=	$(addprefix $(SUBDIR), \
             main.c \
-            shell_clean.c \
 )
 
 #  Backend:
-#   Executor:
-SUBDIR	:=	backend/executor/
-SRC		+=	$(addprefix $(SUBDIR), \
-            executor.c \
-            executor_utils.c \
-            handle_builtin.c \
-            handle_control_op.c \
-            handle_external.c \
-            handle_pipeline.c \
-            handle_simple_cmd.c \
-            handle_subshell.c \
-)
-#   Redirection:
-SUBDIR	:=	backend/redirection/
-SRC		+=	$(addprefix $(SUBDIR), \
-            bind.c \
-            heredoc.c \
-            heredoc_utils.c \
-            io_redirect.c \
-            pipe_redirect.c \
-            pipe_redirect_utils.c \
-)
-
-#  Builtins:
-SUBDIR	:=	builtins/
+#   Builtins:
+SUBDIR	:=	backend/builtins/
 SRC		+=	$(addprefix $(SUBDIR), \
             echo.c \
             env.c \
-            exit.c \
-            exit_utils.c \
             pwd.c \
             unset.c \
 )
 #   cd:
-SUBDIR	:=	builtins/cd/
+SUBDIR	:=	backend/builtins/cd/
 SRC		+=	$(addprefix $(SUBDIR), \
             cd.c \
             cd_errors.c \
             cd_utils.c \
-            cmpnt_list.c \
-            cmpnt_list_utils.c \
-            dot_cmpnts.c \
+            component_list.c \
+            component_list_utils.c \
+            dot_component.c \
             env_pwd_update.c \
-            get_target_dir.c \
-            process_path.c \
+            path.c \
+)
+#   exit:
+SUBDIR	:=	backend/builtins/exit/
+SRC		+=	$(addprefix $(SUBDIR), \
+            exit.c \
+            exit_utils.c \
 )
 #   export:
-SUBDIR	:=	builtins/export/
+SUBDIR	:=	backend/builtins/export/
 SRC		+=	$(addprefix $(SUBDIR), \
             export.c \
-            print_exported_env.c \
+            export_output.c \
+)
+#   Executor:
+SUBDIR	:=	backend/executor/
+SRC		+=	$(addprefix $(SUBDIR), \
+            builtin_cmd.c \
+            control_operator.c \
+            executor.c \
+            executor_utils.c \
+            external_cmd.c \
+            pipeline_process.c \
+            simple_cmd_process.c \
+            subshell_process.c \
+)
+#   Redirection:
+SUBDIR	:=	backend/redirection/
+SRC		+=	$(addprefix $(SUBDIR), \
+            heredoc.c \
+            heredoc_utils.c \
+            io_file.c \
+            pipe.c \
+            pipe_utils.c \
+            stdio_bind.c \
+)
+
+#  Debug:
+SUBDIR	:=	debug/
+SRC		+=	$(addprefix $(SUBDIR), \
+            print_ast_bfs.c \
+            print_cmd_table.c \
+            print_expanded_cmd_table.c \
+            print_final_cmd_table.c \
+            print_list.c \
+            print_stack.c \
 )
 
 #  Frontend:
-#   Lexer:
-SUBDIR	:=	frontend/lexer/
-SRC		+=	$(addprefix $(SUBDIR), \
-            create_token_data_list.c \
-            create_token_list.c \
-            finetune_token_list.c \
-            lexer.c \
-            lexer_utils.c \
-            set_token_type.c \
-)
-#   Parser:
-SUBDIR	:=	frontend/parser/
-SRC		+=	$(addprefix $(SUBDIR), \
-            cmd_table_list.c \
-            cmd_table_symbol.c \
-            cmd_table_symbol_utils.c \
-            cmd_table_word.c \
-            parser.c \
-            parser_operation.c \
-            parser_utils.c \
-            parsing_table.c \
-)
 #   Expander:
 SUBDIR	:=	frontend/expander/
 SRC		+=	$(addprefix $(SUBDIR), \
@@ -104,20 +94,43 @@ SRC		+=	$(addprefix $(SUBDIR), \
             expander_task_list.c \
             expander_task_list_utils.c \
             expander_utils.c \
-            expansion_handler.c \
             null_expansion.c \
             quote_removal.c \
             special_param_expansion.c \
             variable_expansion.c \
             word_splitting.c \
 )
-
-#  Init:
-SUBDIR	:=	init/
+#   Lexer:
+SUBDIR	:=	frontend/lexer/
 SRC		+=	$(addprefix $(SUBDIR), \
-            init_shell.c \
-            setup_default_env_list.c \
-            setup_env_list.c \
+            lexer.c \
+            lexer_utils.c \
+            token_data_list.c \
+            token_list.c \
+            token_list_post_processing.c \
+            token_type.c \
+)
+#   Parser:
+SUBDIR	:=	frontend/parser/
+SRC		+=	$(addprefix $(SUBDIR), \
+            cmd_table_list.c \
+            cmd_table_symbol.c \
+            cmd_table_symbol_utils.c \
+            cmd_table_word.c \
+            parser_action.c \
+            parser.c \
+            parser_data.c \
+            parsing_table_operation.c \
+            syntax_error.c \
+)
+
+#  Shell Struct:
+SUBDIR	:=	shell_struct/
+SRC		+=	$(addprefix $(SUBDIR), \
+            clean.c \
+            default_env_list.c \
+            env_list.c \
+            init.c \
 )
 
 #  Signal:
@@ -136,7 +149,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             cmd_table_status_utils.c \
             cmd_table_traversal_utils.c \
             cmd_table_type_utils.c \
-            env_list_op_utils.c \
+            env_list_operation_utils.c \
             env_list_status_utils.c \
             env_utils.c \
             exec_path_setup_utils.c \
@@ -152,7 +165,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             string_utils.c \
             symbol_utils.c \
             token_status_utils.c \
+            token_type_utils.c \
             token_utils.c \
-            type_utils.c \
             varname_utils.c \
 )
