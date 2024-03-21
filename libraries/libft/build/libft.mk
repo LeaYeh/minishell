@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/02/15 12:16:17 by ldulling         ###   ########.fr        #
+#    Updated: 2024/03/21 21:36:07 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstclear_d.c \
 			ft_lstdelone_d.c \
 			ft_lstdrop_node_d.c \
+			ft_lstiter_d.c \
 			ft_lstlast_d.c \
 			ft_lstnew_back_d.c \
 			ft_lstnew_d.c \

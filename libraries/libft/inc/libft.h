@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/02/15 12:15:59 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/21 21:35:46 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void		ft_lstclear_d(t_list_d **lst, void (*del)(void *));
 void		ft_lstdelone_d(t_list_d *lst, void (*del)(void *));
 void		ft_lstdrop_node_d(t_list_d **lst, t_list_d **node, \
 								void (*del)(void *));
+void		ft_lstiter_d(t_list_d *lst, void (*f)(void *));
 t_list_d	*ft_lstlast_d(t_list_d *lst);
 bool		ft_lstnew_back_d(t_list_d **lst, void *content);
 t_list_d	*ft_lstnew_d(void *content);
