@@ -35,11 +35,9 @@ void	exec_exit(t_shell *shell, char *args[])
 	int	args_error;
 
 	args_error = get_args_error(args);
-	if (args_error == EX_NO_ARGS)
-		shell->exit_code = SUCCESS;
-	else if (args_error == EX_NORM_ARGS)
+	if (args_error == EX_NORM_ARGS)
 		shell->exit_code = (ft_atol(args[1])) % 256;
-	else
+	else if (args_error != EX_NO_ARGS)
 		shell->exit_code = args_error;
 	handle_exit(shell, args_error);
 }
