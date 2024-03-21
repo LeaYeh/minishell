@@ -44,7 +44,7 @@ jobs:
         git merge origin/main || (git checkout --theirs . && git add .)
         find . -type d -name .git -prune -o -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' -exec rm -rf {} +
         find . -type d -empty -delete
-        rm -r source/debug
+        rm -rf source/debug
         git add .
         git commit -m "[GH-BOT] Remove forbidden files and empty folders"
 
