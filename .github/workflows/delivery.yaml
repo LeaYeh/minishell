@@ -36,7 +36,7 @@ jobs:
     - name: Setup evaluation branch
       if: env.proceed == 'true'
       run: |
-        git checkout -b evaluation 2>/dev/null || git checkout evaluation
+        git checkout -b evaluation origin/evaluation || git checkout -b evaluation
 
     - name: Merge and delete forbidden files and commit
       if: env.proceed == 'true'
