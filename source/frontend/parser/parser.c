@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 18:08:54 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/21 17:20:11 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,6 @@ bool	parse_step(t_parser_data *parser_data, t_pt_node *pt_entry)
 			return (false);
 	}
 	return (true);
-}
-
-char	*get_error_token_data(t_list *token_list, t_list *parse_stack)
-{
-	char	*error_token_data;
-
-	if (token_list)
-		error_token_data = get_token_data_from_list(token_list);
-	else
-		error_token_data = get_ast_from_stack(parse_stack)->data;
-	return (error_token_data);
-}
-
-void	report_syntax_error(t_shell *shell, t_parser_data *parser_data)
-{
-	char	*error_token;
-
-	error_token = get_error_token_data(
-			parser_data->token_list, parser_data->parse_stack);
-	if (!error_token)
-		error_token = "newline";
-	shell->exit_code = SYNTAX_ERROR;
-	ft_dprintf(STDERR_FILENO, ERROR_PARSER_SYNTAX, PROGRAM_NAME, error_token);
 }
 
 bool	parse(t_shell *shell, t_parser_data *parser_data)
