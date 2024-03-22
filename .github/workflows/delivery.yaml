@@ -49,6 +49,10 @@ jobs:
         git add .
         git commit -m "[GH-BOT] Remove forbidden files and empty folders"
 
+    - name: 📏 Check norminette
+      if: env.proceed == 'true'
+      uses: ./.github/actions/norminette
+
     - name: Set version tag on evaluation branch
       if: env.proceed == 'true'
       run: |

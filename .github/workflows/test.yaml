@@ -21,24 +21,6 @@ jobs:
       - name: 🔨 Compile with Makefile
         run: make CC="${{ matrix.compiler }}"
 
-  norminette_test:
-    name: Norminette Test
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    steps:
-      - name: Checkout source branch of pull request
-        uses: actions/checkout@v4
-      - name: Set up test environment
-        uses: ./.github/actions/setup
-      - name: Install norminette
-        run: |
-          python3 -m pip install --upgrade pip setuptools
-          python3 -m pip install norminette
-      - name: Clean up forbidden files
-        uses: ./.github/actions/cleanup
-      - name: 📏 Check norminette
-        run: norminette -R CheckForbiddenSourceHeader -R CheckDefine
-
   prepare_test_matrix:
     name: Prepare Test Matrix
     needs: compilation_test
