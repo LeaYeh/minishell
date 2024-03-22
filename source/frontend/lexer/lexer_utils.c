@@ -52,6 +52,7 @@ bool	split_token_node(t_list *lst_node_front, size_t i)
 {
 	t_list	*lst_node_back;
 	t_token	*new_token;
+	char	*token_data_node_back;
 	char	**token_data_node_front;
 	char	**token_data_split;
 
@@ -61,10 +62,11 @@ bool	split_token_node(t_list *lst_node_front, size_t i)
 		return (false);
 	free(*token_data_node_front);
 	*token_data_node_front = token_data_split[0];
-	new_token = init_token_node(T_NONE, token_data_split[1]);
+	token_data_node_back = token_data_split[1];
 	free(token_data_split);
+	new_token = init_token_node(T_NONE, token_data_node_back);
 	if (!new_token)
-		return (free(token_data_split[1]), false);
+		return (free(token_data_node_back), false);
 	lst_node_back = ft_lstnew(new_token);
 	if (!lst_node_back)
 		return (free_token_node(new_token), false);
