@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/19 17:34:16 by ldulling         ###   ########.fr        #
+#    Updated: 2024/03/22 09:49:09 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -123,7 +123,8 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
-.PHONY			:	all test run val noenv valfd build lib clean fclean re
+.PHONY			:	all test run val noenv valfd build lib clean fclean ffclean \
+					re
 
 
 #	Compilation
@@ -224,6 +225,9 @@ endif
 fclean			:	clean
 					$(MAKE) fclean -C $(LIBRARIES)
 					rm -f $(NAME)
+
+ffclean			:	fclean
+					rm -rf $(OBJ_DIR) $(DEP_DIR)
 
 re				:
 					$(MAKE) fclean
