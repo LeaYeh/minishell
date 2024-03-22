@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:04:52 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 15:15:50 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/21 22:45:04 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ void	executor(t_shell *shell)
 {
 	int	heredoc_status;
 
-	setup_signal(shell, SIGINT, SIG_HEREDOC);
 	heredoc_status = heredoc(shell);
-	setup_signal(shell, SIGINT, SIG_STANDARD);
 	if (heredoc_status == HEREDOC_ERROR)
 		clean_and_exit_shell(shell, MALLOC_ERROR, "heredoc malloc/fd error");
 	else if (heredoc_status == HEREDOC_ABORT)
