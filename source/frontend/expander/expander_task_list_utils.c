@@ -15,6 +15,8 @@
 
 void	free_expander_task(t_expander_task *task)
 {
+	if (!task)
+		return ;
 	free(task->varname);
 	free(task);
 }
