@@ -22,12 +22,31 @@ void	free_env_node(t_env *env)
 	ft_free_and_null((void **)&env);
 }
 
+void	remove_heredoc_files(t_cmd_table *cmd_table)
+{
+	t_list		*io_red_list;
+	t_io_red	*io_red;
+
+	if (!cmd_table)
+		return ;
+	io_red_list = cmd_table->io_red_list;
+	while (io_red_list)
+	{
+		io_red = io_red_list->content;
+		if (io_red->type == T_HERE_DOC)
+			remove_file(io_red->filename);
+		io_red_list = io_red_list->next;
+	}
+}
+
 void	clean_shell(t_shell *shell)
 {
 	ft_free_and_null((void **)&shell->input_line);
 	ft_lstclear(&shell->child_pid_list, NULL);
 	ft_lstclear(&shell->env_list, (void *)free_env_node);
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
+	if (shell->subshell_level == 0)
+		ft_lstiter_d(shell->cmd_table_list, (void *)remove_heredoc_files);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
 	free_final_cmd_table(&shell->final_cmd_table);
 	rl_clear_history();
@@ -40,6 +59,7 @@ void	reset_submodule_variable(t_shell *shell)
 	shell->signal_record = 0;
 	ft_lstclear(&shell->child_pid_list, NULL);
 	ft_lstclear(&shell->token_list, (void *)free_token_node);
+	ft_lstiter_d(shell->cmd_table_list, (void *)remove_heredoc_files);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
 	ft_free_and_null((void **)&shell->input_line);
 	free_final_cmd_table(&shell->final_cmd_table);
