@@ -1,0 +1,20 @@
+# .github/workflows/norminette.yaml
+name: Norminette
+
+on:
+  workflow_dispatch:
+
+jobs:
+  norminette_test:
+    name: Norminette Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+      - name: Set up test environment
+        uses: ./.github/actions/setup
+      - name: 🧼 Clean up forbidden files
+        uses: ./.github/actions/cleanup
+      - name: 📏 Check norminette
+        uses: ./.github/actions/norminette
