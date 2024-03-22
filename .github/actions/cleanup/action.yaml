@@ -1,4 +1,4 @@
-# .github/actions/cleanup/action.yml
+# .github/actions/cleanup/action.yaml
 name: Clean up forbidden files
 description: Cleanup action
 runs:

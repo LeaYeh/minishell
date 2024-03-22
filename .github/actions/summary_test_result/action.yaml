@@ -1,4 +1,4 @@
-# .github/actions/summary_test_result/action.yml
+# .github/actions/summary_test_result/action.yaml
 name: Test Result Summary Action
 description: Compares failed counts between source and target branches
 inputs:
