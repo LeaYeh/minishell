@@ -27,6 +27,7 @@ int	expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 		return (free(new_str), MALLOC_ERROR);
 	if (!handle_expansion(lst, shell, op_mask))
 		return (MALLOC_ERROR);
+	expand_wildcard(new_str);
 	return (SUCCESS);
 }
 

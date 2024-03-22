@@ -1,29 +1,17 @@
-# Expander
+# wildcard expansion:
 
-- I want each each task to have a double pointer to the string that task operates on.
-	- How to update those pointers after every task execution and word split?
+- [x] Get a list of all files of the current directoy.
+- [x] Sort that list alphabetically.
 
+- "." and ".." don't have to be filtered, bash also displays them.
 
+- [ ] Only search files starting with "." if the first character of arg is also '.'.
 
-# export:
+- [ ] Test with files that have no permissions.
+       If  the end of the directory stream is reached, NULL is returned and errno is not changed.  If
+       an error occurs, NULL is returned and errno is  set  appropriately.   To  distinguish  end  of
+       stream  from  an error, set errno to zero before calling readdir() and then check the value of
+       errno if NULL is returned.
+	- Filenames can still be read even of files that have no read permissions.
 
-- [x] If args_len < 2, print all exported env vars in ASCII order, with "export " prepended.
-	- [x] The value gets put in double-quotes.
-	- [ ] Quotes, dollar signs, backslash and '`' are escaped with a backslash.
-
-- [x] If one of the variable assignments is not a valid variable name, return value will be GENERAL_ERROR (1), but export will still go through all arguments.
-The error message gets printed for every invalid identifier.
-
-- [x] If the argument string does not have an '=' and the key does not already exist, the value will be set to NULL.
-- [x] If the key already exists, the env_node will be set to be exported.
-
-### Error messages:
-- bash: export: `<invalid name>': not a valid identifier
-
-### Test cases:
-- [x] export "" -> export: `': not a valid identifier
-- [ ] export without any variable in env left -> just a newline.
-
-
-
-env -i /usr/bin/valgrind ./minishell
+- Wildcard at first and last position have a high impact.

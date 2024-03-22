@@ -64,6 +64,9 @@ bool			expand_exit_code(t_list *task_list, int exit_code);
 /* variable_expansion.c */
 bool			expand_variable(t_list *task_list, t_list *env_list);
 
+/* wildcard_expansion.c */
+bool			expand_wildcard(char *str);
+
 /* word_splitting.c */
 bool			handle_word_splitting(t_list *lst, t_list **task_list);
 
