@@ -99,6 +99,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             quote_removal.c \
             special_param_expansion.c \
             variable_expansion.c \
+            wildcard_expansion.c \
             word_splitting.c \
             word_splitting_utils.c \
 )
