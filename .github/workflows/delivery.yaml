@@ -39,7 +39,7 @@ jobs:
         git checkout -b evaluation origin/evaluation || git checkout -b evaluation
         git merge origin/main || (git checkout --theirs . && git add .)
 
-    - name: Clean up forbidden files
+    - name: 🧼 Clean up forbidden files
       if: env.proceed == 'true'
       uses: ./.github/actions/cleanup
 
@@ -53,7 +53,7 @@ jobs:
       if: env.proceed == 'true'
       uses: ./.github/actions/norminette
 
-    - name: Set version tag on evaluation branch
+    - name: 🏷️ Set version tag on evaluation branch
       if: env.proceed == 'true'
       run: |
         EVAL_TAG="${{ env.main_tag }}-eval"
