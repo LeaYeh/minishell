@@ -100,6 +100,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             special_param_expansion.c \
             variable_expansion.c \
             word_splitting.c \
+            word_splitting_utils.c \
 )
 #   Lexer:
 SUBDIR	:=	frontend/lexer/
