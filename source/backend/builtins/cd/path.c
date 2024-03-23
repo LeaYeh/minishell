@@ -63,8 +63,8 @@ int	simplify_path(char **new_path, char *target_dir, char *pwd)
 
 char	*try_to_convert_abs_to_rel_path(char *abs_path, char *pwd)
 {
-	size_t	abs_path_len;
-	size_t	pwd_len;
+	int		abs_path_len;
+	int		pwd_len;
 	char	*rel_path;
 
 	if (!is_abs_path(pwd) || !is_abs_path(abs_path))

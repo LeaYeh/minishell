@@ -77,8 +77,8 @@ bool	create_root_cmpnt_nodes(t_list_d **cmpnt_list, char *path)
 
 char	*convert_cmpnt_node_to_path(t_list_d *cmpnt_list, t_list_d *cmpnt_node)
 {
-	size_t	i;
-	size_t	len;
+	int		i;
+	int		len;
 	char	*path;
 
 	len = get_path_len_from_cmpnt_node(cmpnt_list, cmpnt_node);
@@ -101,7 +101,7 @@ char	*convert_cmpnt_node_to_path(t_list_d *cmpnt_list, t_list_d *cmpnt_node)
 }
 
 void	convert_root_cmpnt_nodes_to_path(
-	t_list_d **cmpnt_list, t_list_d *cmpnt_node, char *path, size_t *i)
+	t_list_d **cmpnt_list, t_list_d *cmpnt_node, char *path, int *i)
 {
 	while (*cmpnt_list && (*cmpnt_list)->prev != cmpnt_node && \
 		is_root_cmpnt_node(*cmpnt_list))

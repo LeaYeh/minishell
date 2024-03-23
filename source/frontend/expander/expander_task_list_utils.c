@@ -23,15 +23,15 @@ void	free_expander_task(t_expander_task *task)
 
 char	*get_varname(char *str)
 {
-	size_t	varname_len;
+	int	varname_len;
 
 	varname_len = get_varname_len(str);
 	return (ft_strndup(str, varname_len));
 }
 
-size_t	get_varname_len(char *str)
+int	get_varname_len(char *str)
 {
-	size_t	len;
+	int	len;
 
 	len = 0;
 	while (is_valid_varname_char(str[len]))
@@ -39,8 +39,8 @@ size_t	get_varname_len(char *str)
 	return (len);
 }
 
-t_expander_task	*init_expander_task(t_expander_task_type type, size_t start,
-					size_t replace_len, char *str)
+t_expander_task	*init_expander_task(t_expander_task_type type, int start,
+					int replace_len, char *str)
 {
 	t_expander_task	*task;
 
@@ -62,7 +62,7 @@ t_expander_task	*init_expander_task(t_expander_task_type type, size_t start,
 	return (task);
 }
 
-void	update_expander_tasks(t_list *task_list, size_t diff)
+void	update_expander_tasks(t_list *task_list, int diff)
 {
 	t_expander_task	*task;
 

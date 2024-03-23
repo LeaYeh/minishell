@@ -35,7 +35,7 @@ void	print_missing_pair_error(char *str)
 	ft_dprintf(STDERR_FILENO, ERROR_LEXER_SYNTAX, PROGRAM_NAME, missing_pair);
 }
 
-void	skip_operator(char *token_data, size_t *i)
+void	skip_operator(char *token_data, int *i)
 {
 	if (token_data[*i] == '<' || token_data[*i] == '>' || \
 		token_data[*i] == '|' || token_data[*i] == '&')
@@ -48,7 +48,7 @@ void	skip_operator(char *token_data, size_t *i)
 		(*i)++;
 }
 
-bool	split_token_node(t_list *lst_node_front, size_t i)
+bool	split_token_node(t_list *lst_node_front, int i)
 {
 	t_list	*lst_node_back;
 	t_token	*new_token;
