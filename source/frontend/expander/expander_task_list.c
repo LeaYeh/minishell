@@ -29,7 +29,6 @@ bool	set_expander_task_list(t_list **task_list, char *new_str,
 			ret = append_parameter_task(task_list, new_str, &i, op_mask);
 		else
 			i++;
-		skip_to_expander_symbol(new_str, &i);
 	}
 	return (is_open_pair(0, OP_CLEAN), ret);
 }

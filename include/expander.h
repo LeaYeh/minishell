@@ -41,7 +41,6 @@ void			update_expander_tasks(t_list *task_list, int diff);
 int				get_offset(char *str);
 int				get_replace_len(char *str);
 void			skip_to_dollar_not_in_single_quotes(char *str, int *i);
-void			skip_to_expander_symbol(char *str, int *i);
 
 /* expansion_handler.c */
 bool			handle_expansion(t_list **lst, char **new_str, t_shell *shell,

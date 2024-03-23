@@ -92,7 +92,6 @@
 
 /* Symbols */
 # define QUOTES				"'\""
-# define EXPANDER_SYMBOLS	"$*\"'"
 # define OPENING_BRACE		'{'
 # define CLOSING_BRACE		'}'
 # define DOLLAR_BRACE		"${"
