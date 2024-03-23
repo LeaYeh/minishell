@@ -59,7 +59,7 @@ static char	*extract_word(char **new_str, t_list *task_list, int *i, int *end)
 }
 
 static bool	handle_word_splitting(
-	char **new_str, t_list *task_list, t_list **lst)
+	t_list **lst, char **new_str, t_list *task_list)
 {
 	int				end;
 	int				i;
@@ -96,7 +96,7 @@ bool	split_words(t_list **lst, char **new_str, t_list *task_list)
 		task = task_list->content;
 		if (task->type == ET_VAR)
 		{
-			if (!handle_word_splitting(new_str, task_list, lst))
+			if (!handle_word_splitting(lst, new_str, task_list))
 				return (false);
 		}
 		task_list = task_list->next;
