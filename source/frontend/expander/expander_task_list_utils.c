@@ -39,8 +39,8 @@ int	get_varname_len(char *str)
 	return (len);
 }
 
-t_expander_task	*init_expander_task(t_expander_task_type type, int start,
-					int replace_len, char *str)
+t_expander_task	*init_expander_task(
+	t_expander_task_type type, int start, int replace_len, char *str)
 {
 	t_expander_task	*task;
 
@@ -48,6 +48,7 @@ t_expander_task	*init_expander_task(t_expander_task_type type, int start,
 	if (!task)
 		return (NULL);
 	task->type = type;
+	task->base_str = NULL;
 	task->start = start;
 	task->replace_len = replace_len;
 	if (type == ET_VAR || type == ET_VAR_NO_SPLIT)
@@ -58,17 +59,26 @@ t_expander_task	*init_expander_task(t_expander_task_type type, int start,
 	}
 	else
 		task->varname = NULL;
-	task->result_len = -1;
+	task->result_len = 0;
 	return (task);
 }
 
-void	update_expander_tasks(t_list *task_list, int diff)
+void	update_expander_tasks(t_list *task_list, int diff, char **new_base_str)
 {
+	char			**old_base_str;
 	t_expander_task	*task;
 
+	if (!task_list)
+		return ;
+	task = task_list->content;
+	old_base_str = task->base_str;
+	task_list = task_list->next;
 	while (task_list)
 	{
 		task = task_list->content;
+		if (task->base_str != old_base_str)
+			break ;
+		task->base_str = new_base_str;
 		task->start += diff;
 		task_list = task_list->next;
 	}
