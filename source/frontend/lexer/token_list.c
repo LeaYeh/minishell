@@ -24,12 +24,15 @@ bool	create_token_list(t_list **token_list, t_list **token_data_list)
 		token = init_token_node(T_NONE, (*token_data_list)->content);
 		if (!token)
 			break ;
+		(*token_data_list)->content = NULL;
 		new_nodes = ft_lstnew(token);
 		if (!new_nodes)
 			break ;
+		token = NULL;
 		if (!separate_operators(new_nodes, 0))
 			break ;
 		ft_lstadd_back(token_list, new_nodes);
+		new_nodes = NULL;
 		free(ft_lstpop_front(token_data_list));
 	}
 	if (*token_data_list)
