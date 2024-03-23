@@ -115,11 +115,6 @@ int	heredoc(t_shell *shell)
 	while (cmd_table_node && cmd_table_node->content)
 	{
 		cur_cmd_table = cmd_table_node->content;
-		if (cur_cmd_table->type != C_SIMPLE_CMD)
-		{
-			cmd_table_node = cmd_table_node->next;
-			continue ;
-		}
 		ret = handle_heredoc(
 				shell, cur_cmd_table->id, cur_cmd_table->io_red_list);
 		if (ret != HEREDOC_SUCCESS)
