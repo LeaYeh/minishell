@@ -53,7 +53,7 @@ static char	*extract_word(char **new_str, t_list *task_list, int *i, int *end)
 		return (NULL);
 	trimmed_len = trim_whitespace(new_str, i, end);
 	if (trimmed_len == -1)
-		return (NULL);
+		return (free(word), NULL);
 	update_expander_tasks(task_list, 0 - ft_strlen(word) - trimmed_len);
 	return (word);
 }
