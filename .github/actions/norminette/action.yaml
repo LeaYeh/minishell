@@ -1,6 +1,6 @@
 # .github/actions/norminette/action.yaml
-name: Norminette Test
-description: Norminette action
+name: Norminette Test Action
+description: Norminette test action
 runs:
   using: composite
   steps:
@@ -9,6 +9,6 @@ runs:
         python3 -m pip install --upgrade pip setuptools
         python3 -m pip install norminette
       shell: bash
-    - name: 📏 Check norminette
+    - name: Check norminette
       run: norminette -R CheckForbiddenSourceHeader -R CheckDefine
       shell: bash

@@ -40,11 +40,11 @@ jobs:
         git checkout -b evaluation origin/evaluation || git checkout -b evaluation
         git merge origin/main || (git checkout --theirs . && git add .)
 
-    - name: 🧼 Clean up forbidden files
+    - name: Partial cleanup of forbidden files
       if: env.proceed == 'true'
-      uses: ./.github/actions/cleanup
+      uses: ./.github/actions/cleanup_partial
 
-    - name: Commit cleanup to evaluation branch
+    - name: Commit partial cleanup to evaluation branch
       if: env.proceed == 'true'
       run: |
         git add .
@@ -53,6 +53,16 @@ jobs:
     - name: 📏 Check norminette
       if: env.proceed == 'true'
       uses: ./.github/actions/norminette
+
+    - name: Full cleanup of forbidden files
+      if: env.proceed == 'true'
+      uses: ./.github/actions/cleanup_full
+
+    - name: Amend full cleanup to evaluation branch
+      if: env.proceed == 'true'
+      run: |
+        git add .
+        git commit --amend --no-edit
 
     - name: 🏷️ Set version tag on evaluation branch
       if: env.proceed == 'true'

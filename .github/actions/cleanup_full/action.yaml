@@ -1,0 +1,13 @@
+# .github/actions/cleanup_full/action.yaml
+name: Full Cleanup Action
+description: Clean up all forbidden files including .github directory
+runs:
+  using: composite
+  steps:
+    - run: |
+        find . -type d -name .git -prune -o \
+          -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' \
+          -exec rm -rf {} +
+        find . -type d -empty -delete
+        rm -rf source/debug
+      shell: bash
