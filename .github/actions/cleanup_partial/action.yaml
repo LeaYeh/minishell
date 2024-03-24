@@ -1,0 +1,13 @@
+# .github/actions/cleanup_partial/action.yaml
+name: Partial Cleanup Action
+description: Clean up all forbidden files except .github directory
+runs:
+  using: composite
+  steps:
+    - run: |
+        find . -type d \( -name .git -o -name .github \) -prune -o \
+          -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' \
+          -exec rm -rf {} +
+        find . -type d -empty -delete
+        rm -rf source/debug
+      shell: bash

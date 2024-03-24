@@ -12,9 +12,7 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
-      - name: Set up test environment
-        uses: ./.github/actions/setup
-      - name: 🧼 Clean up forbidden files
-        uses: ./.github/actions/cleanup
+      - name: Clean up forbidden files
+        uses: ./.github/actions/cleanup_partial
       - name: 📏 Check norminette
         uses: ./.github/actions/norminette
