@@ -19,7 +19,7 @@ void	free_env_node(t_env *env)
 		return ;
 	ft_free_and_null((void **)&env->key);
 	ft_free_and_null((void **)&env->value);
-	ft_free_and_null((void **)&env);
+	free(env);
 }
 
 void	remove_heredoc_files(t_cmd_table *cmd_table)
