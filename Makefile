@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
+#    By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/22 09:49:09 by ldulling         ###   ########.fr        #
+#    Updated: 2024/03/24 11:12:48 by lyeh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,9 +46,9 @@ MAKEFLAGS		:=	-j -s
 
 #	Macro definitions
 
-include				$(BUILD_DIR)/parsing_table.mk
+include				$(BUILD_DIR)/parsing_table.mk $(BUILD_DIR)/welcome_msg.mk
 
-MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE)
+MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE) -D WELCOME_MSG=\"$(WELCOME_MSG)\"
 
 
 #	Test mode
