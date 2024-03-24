@@ -1,4 +1,4 @@
-# .github/actions/setup/action.yml
+# .github/actions/setup/action.yaml
 name: Set Up Test Environment Action
 description: Setup action
 runs:

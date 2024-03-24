@@ -1,4 +1,4 @@
-# .github/actions/norminette/action.yml
+# .github/actions/norminette/action.yaml
 name: Norminette Test
 description: Norminette action
 runs:
