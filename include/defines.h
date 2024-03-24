@@ -254,10 +254,10 @@ typedef struct s_token
 typedef struct s_expander_task
 {
 	t_expander_task_type	type;
-	size_t					start;
-	size_t					replace_len;
+	int						start;
+	int						replace_len;
 	char					*varname;
-	size_t					result_len;
+	int						result_len;
 }	t_expander_task;
 
 typedef struct s_ast

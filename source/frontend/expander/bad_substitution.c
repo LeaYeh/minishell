@@ -13,7 +13,7 @@
 #include "expander.h"
 #include "utils.h"
 
-bool	is_valid_brace_content(char *str, size_t *i)
+bool	is_valid_brace_content(char *str, int *i)
 {
 	if (str[*i] != OPENING_BRACE)
 		return (true);
@@ -31,7 +31,7 @@ bool	is_valid_brace_content(char *str, size_t *i)
 	return (true);
 }
 
-void	print_bad_substitution_error(char *str, size_t i)
+void	print_bad_substitution_error(char *str, int i)
 {
 	char	*start;
 
@@ -51,7 +51,7 @@ void	print_bad_substitution_error(char *str, size_t i)
 
 bool	is_bad_substitution(char *str, t_expander_op op_mask)
 {
-	size_t	i;
+	int	i;
 
 	if (!(op_mask & E_EXPAND))
 		return (false);

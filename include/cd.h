@@ -31,13 +31,13 @@ char		*convert_cmpnt_node_to_path(t_list_d *cmpnt_list,
 				t_list_d *cmpnt_node);
 void		convert_root_cmpnt_nodes_to_path(
 				t_list_d **cmpnt_list, t_list_d *cmpnt_node,
-				char *path, size_t *i);
+				char *path, int *i);
 
 /* cmpnt_list_utils.c */
 int			check_cmpnt_node_path(
 				t_list_d *cmpnt_list, t_list_d *cmpnt_node, char *target_dir);
 bool		is_root_cmpnt_node(t_list_d *cmpnt_node);
-size_t		get_path_len_from_cmpnt_node(
+int			get_path_len_from_cmpnt_node(
 				t_list_d *cmpnt_list, t_list_d *cmpnt_node);
 
 /* dot_cmpntns.c */

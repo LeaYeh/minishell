@@ -15,7 +15,7 @@
 
 bool	create_token_data_list(t_list **token_data_list, char *input_line)
 {
-	size_t	i;
+	int		i;
 	t_list	*new_node;
 	char	*token_data;
 
@@ -38,10 +38,10 @@ bool	create_token_data_list(t_list **token_data_list, char *input_line)
 	return (true);
 }
 
-bool	set_token_data(char **token_data, char *input_line, size_t *i)
+bool	set_token_data(char **token_data, char *input_line, int *i)
 {
 	bool	is_missing_pair;
-	size_t	start;
+	int		start;
 
 	start = *i;
 	is_missing_pair = false;

@@ -41,7 +41,7 @@ bool	create_token_list(t_list **token_list, t_list **token_data_list)
 	return (true);
 }
 
-bool	separate_operators(t_list *lst_node, size_t i)
+bool	separate_operators(t_list *lst_node, int i)
 {
 	char	*token_data;
 
@@ -65,7 +65,7 @@ bool	separate_operators(t_list *lst_node, size_t i)
 	return (true);
 }
 
-bool	split_and_advance_node(t_list **lst_node, char **token_data, size_t *i)
+bool	split_and_advance_node(t_list **lst_node, char **token_data, int *i)
 {
 	if (*i == 0)
 		skip_operator(*token_data, i);

@@ -16,7 +16,7 @@
 bool	set_expander_task_list(t_list **task_list, char *new_str,
 			t_expander_op op_mask)
 {
-	size_t	i;
+	int		i;
 	bool	ret;
 
 	ret = true;
@@ -34,7 +34,7 @@ bool	set_expander_task_list(t_list **task_list, char *new_str,
 	return (is_open_pair(0, OP_CLEAN), ret);
 }
 
-bool	append_quote_task(t_list **task_list, char *new_str, size_t *i)
+bool	append_quote_task(t_list **task_list, char *new_str, int *i)
 {
 	t_expander_task	*task;
 
@@ -49,11 +49,11 @@ bool	append_quote_task(t_list **task_list, char *new_str, size_t *i)
 	return ((*i)++, true);
 }
 
-bool	append_parameter_task(t_list **task_list, char *new_str, size_t *i,
+bool	append_parameter_task(t_list **task_list, char *new_str, int *i,
 			t_expander_op op_mask)
 {
-	size_t					offset;
-	size_t					replace_len;
+	int						offset;
+	int						replace_len;
 	t_expander_task			*task;
 	t_expander_task_type	type;
 

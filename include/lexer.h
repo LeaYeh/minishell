@@ -17,12 +17,12 @@
 
 /* create_token_data_list.c */
 bool	create_token_data_list(t_list **token_data_list, char *input_line);
-bool	set_token_data(char **token_data, char *input_line, size_t *i);
+bool	set_token_data(char **token_data, char *input_line, int *i);
 
 /* create_token_list.c */
 bool	create_token_list(t_list **token_list, t_list **token_data_list);
-bool	separate_operators(t_list *lst_node, size_t i);
-bool	split_and_advance_node(t_list **lst_node, char **token_data, size_t *i);
+bool	separate_operators(t_list *lst_node, int i);
+bool	split_and_advance_node(t_list **lst_node, char **token_data, int *i);
 bool	add_end_node(t_list	**token_list);
 
 /* finetune_token_list.c */
@@ -35,8 +35,8 @@ bool	lexer(t_shell *shell);
 /* lexer_utils.c */
 bool	is_operator(char *token_data);
 void	print_missing_pair_error(char *str);
-void	skip_operator(char *token_data, size_t *i);
-bool	split_token_node(t_list *lst_node_front, size_t i);
+void	skip_operator(char *token_data, int *i);
+bool	split_token_node(t_list *lst_node_front, int i);
 
 /* set_token_type.c */
 void	set_token_type(t_list *lst_node);

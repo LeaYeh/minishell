@@ -12,7 +12,7 @@
 
 #include "expander.h"
 
-static int	trim_whitespace(char **new_str, size_t *i, size_t *end)
+static int	trim_whitespace(char **new_str, int *i, int *end)
 {
 	int	trimmed_len;
 
@@ -26,7 +26,7 @@ static int	trim_whitespace(char **new_str, size_t *i, size_t *end)
 	return (trimmed_len);
 }
 
-static char	*split(char **new_str, size_t *i, size_t *end)
+static char	*split(char **new_str, int *i, int *end)
 {
 	char	**halves;
 	char	*word;
@@ -43,8 +43,7 @@ static char	*split(char **new_str, size_t *i, size_t *end)
 	return (word);
 }
 
-static char	*extract_word(
-	char **new_str, t_list *task_list, size_t *i, size_t *end)
+static char	*extract_word(char **new_str, t_list *task_list, int *i, int *end)
 {
 	int		trimmed_len;
 	char	*word;
@@ -62,8 +61,8 @@ static char	*extract_word(
 static bool	handle_word_splitting(
 	char **new_str, t_list *task_list, t_list **lst)
 {
-	size_t			end;
-	size_t			i;
+	int				end;
+	int				i;
 	t_expander_task	*task;
 	char			*word;
 

@@ -45,9 +45,9 @@ bool	is_open_pair(unsigned char c, t_is_open_pair_op operation)
 	return (status[i]);
 }
 
-bool	skip_dollar_brace(char *str, size_t *i, bool is_in_dquote)
+bool	skip_dollar_brace(char *str, int *i, bool is_in_dquote)
 {
-	size_t	start;
+	int	start;
 
 	start = *i;
 	while (str[(*i)++])
@@ -74,9 +74,9 @@ bool	skip_dollar_brace(char *str, size_t *i, bool is_in_dquote)
 	return (false);
 }
 
-bool	skip_double_quote(char *str, size_t *i)
+bool	skip_double_quote(char *str, int *i)
 {
-	size_t	start;
+	int	start;
 
 	start = *i;
 	while (str[(*i)++])
@@ -93,9 +93,9 @@ bool	skip_double_quote(char *str, size_t *i)
 	return (false);
 }
 
-bool	skip_single_quote(char *str, size_t *i)
+bool	skip_single_quote(char *str, int *i)
 {
-	size_t	start;
+	int	start;
 
 	if (is_open_pair('\'', OP_GET))
 		return (false);

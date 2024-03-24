@@ -13,9 +13,9 @@
 #include "expander.h"
 #include "utils.h"
 
-size_t	get_offset(char *str)
+int	get_offset(char *str)
 {
-	size_t	offset;
+	int	offset;
 
 	offset = 0;
 	if (*str == '$')
@@ -28,9 +28,9 @@ size_t	get_offset(char *str)
 	return (offset);
 }
 
-size_t	get_replace_len(char *str)
+int	get_replace_len(char *str)
 {
-	size_t	replace_len;
+	int	replace_len;
 
 	replace_len = 0;
 	if (str[replace_len] == '$')
@@ -48,7 +48,7 @@ size_t	get_replace_len(char *str)
 	return (replace_len);
 }
 
-void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
+void	skip_to_dollar_not_in_single_quotes(char *str, int *i)
 {
 	while (str[*i])
 	{
@@ -62,7 +62,7 @@ void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
 	}
 }
 
-void	skip_to_expander_symbol(char *str, size_t *i)
+void	skip_to_expander_symbol(char *str, int *i)
 {
 	while (str[*i])
 	{

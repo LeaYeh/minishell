@@ -68,7 +68,7 @@ int	which_pipe(char *token_data)
 
 bool	is_assignment_word(char *str)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	if (str && is_valid_varname_start(str[i]))

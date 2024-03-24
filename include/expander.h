@@ -25,23 +25,23 @@ int				expander(char *str, t_list **lst, t_shell *shell,
 /* expander_task_list.c */
 bool			set_expander_task_list(t_list **task_list, char *new_str,
 					t_expander_op op_mask);
-bool			append_quote_task(t_list **task_list, char *new_str, size_t *i);
+bool			append_quote_task(t_list **task_list, char *new_str, int *i);
 bool			append_parameter_task(t_list **task_list, char *new_str,
-					size_t *i, t_expander_op op_mask);
+					int *i, t_expander_op op_mask);
 
 /* expander_task_list_utils.c */
 void			free_expander_task(t_expander_task *task);
 char			*get_varname(char *str);
-size_t			get_varname_len(char *str);
-t_expander_task	*init_expander_task(t_expander_task_type type, size_t start,
-					size_t replace_len, char *str);
-void			update_expander_tasks(t_list *task_list, size_t diff);
+int				get_varname_len(char *str);
+t_expander_task	*init_expander_task(t_expander_task_type type, int start,
+					int replace_len, char *str);
+void			update_expander_tasks(t_list *task_list, int diff);
 
 /* expander_utils.c */
-size_t			get_offset(char *str);
-size_t			get_replace_len(char *str);
-void			skip_to_dollar_not_in_single_quotes(char *str, size_t *i);
-void			skip_to_expander_symbol(char *str, size_t *i);
+int				get_offset(char *str);
+int				get_replace_len(char *str);
+void			skip_to_dollar_not_in_single_quotes(char *str, int *i);
+void			skip_to_expander_symbol(char *str, int *i);
 
 /* expansion_handler.c */
 bool			handle_expansion(t_list **lst, char **new_str, t_shell *shell,

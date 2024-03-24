@@ -31,9 +31,9 @@ int	check_cmpnt_node_path(
 	return (free(path), SUCCESS);
 }
 
-size_t	get_path_len_from_cmpnt_node(t_list_d *cmpnt_list, t_list_d *cmpnt_node)
+int	get_path_len_from_cmpnt_node(t_list_d *cmpnt_list, t_list_d *cmpnt_node)
 {
-	size_t	len;
+	int	len;
 
 	len = 0;
 	while (cmpnt_list && cmpnt_list->prev != cmpnt_node && \
