@@ -54,17 +54,17 @@ This project aims to not only provide a functional shell interpreter but also se
 |            |             | export                 | Implement `export` with no options.                                                                      | ✅      |
 |            |             | pwd                    | Implement `pwd` with no options.                                                                         | ✅      |
 |            |             | unset                  | Implement `unset` with no options.                                                                       | ✅      |
-| Backend    | Redirection | IO Redirection         | Redirected 'STDIN' with input redirection by '<' operator.                                              | ✅      |
-|            |             |                        | Redirected 'HEREDOC' with input redirection by '<<' operator.                                             | ✅      |
-|            |             |                        | Redirected 'STDOUT' with output redirection by '>' operator.                                              | ✅      |
-|            |             |                        | Redirected 'STDOUT' append with output redirection by '>>' operator.                                      | ✅      |
+| Backend    | Redirection | IO Redirection         | Redirected `STDIN` with input redirection by `<` operator.                                              | ✅      |
+|            |             |                        | Redirected `HEREDOC` with input redirection by `<<` operator.                                             | ✅      |
+|            |             |                        | Redirected `STDOUT` with output redirection by `>` operator.                                              | ✅      |
+|            |             |                        | Redirected `STDOUT` append with output redirection by `>>` operator.                                      | ✅      |
 |            |             | Subsell Redirection    | Implement redirections and pipes (\| character).                                                         | ✅      |
-|            |             | Pipe Redirection       | Redirected 'STDIN'/'STDOUT' by 'pipe()'.                                                                 | ✅      |
-| Cross-end  | Signal      | Signal Handling        | Handled 'ctrl-C' as 'SIGINT' as bash behavior.                                                           | ✅      |
-|            |             |                        | Handled 'ctrl-D' as 'EOF' as bash behavior.                                                              | ✅      |
-|            |             |                        | Handled 'ctrl-\\' as 'SIGQUIT' as bash behavior.                                                         | ✅      |
-|            |             | Exception Handling     | Ignored 'SIGPIPE' in internal process and set it back as default in external commands sub-process.       | ✅      |
-|            |             |                        | Used 'SIGABRT' and 'SIGTERM' to raise internal critical error to all related process and handle it depends on scenario.       | ✅      |
+|            |             | Pipe Redirection       | Redirected `STDIN`/`STDOUT` by `pipe()`.                                                                 | ✅      |
+| Cross-end  | Signal      | Signal Handling        | Handled `ctrl-C` as `SIGINT` as bash behavior.                                                           | ✅      |
+|            |             |                        | Handled `ctrl-D` as `EOF` as bash behavior.                                                              | ✅      |
+|            |             |                        | Handled `ctrl-\\` as `SIGQUIT` as bash behavior.                                                         | ✅      |
+|            |             | Exception Handling     | Ignored `SIGPIPE` in internal process and set it back as default in external commands sub-process.       | ✅      |
+|            |             |                        | Used `SIGABRT` and `SIGTERM` to raise internal critical error to all related process and handle it depends on scenario.       | ✅      |
 
 
 # The Challenges
