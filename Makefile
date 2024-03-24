@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
+#    By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
 #    Updated: 2024/03/25 18:59:05 by ldulling         ###   ########.fr        #
@@ -49,8 +49,8 @@ MAKEFLAGS		:=	-j -s
 
 #	Macro definitions
 
-include				$(BUILD_DIR)/parsing_table.mk
-MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE)
+include				$(BUILD_DIR)/parsing_table.mk $(BUILD_DIR)/welcome_msg.mk
+MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE) -D WELCOME_MSG=\"$(WELCOME_MSG)\"
 
 
 #	Characters
