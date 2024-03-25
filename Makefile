@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/22 09:49:09 by ldulling         ###   ########.fr        #
+#    Updated: 2024/03/25 18:59:05 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,9 @@ LIB_DIR			:=	libraries
 LIBRARIES		:=	$(wildcard $(LIB_DIR)/*)
 LIBRARIES_EXT	:=	readline termcap
 INCLUDES 		:=	-I./include -I./$(LIBRARIES)/inc
+BUILDFILES		:=	Makefile \
+					$(BUILD_DIR)/parsing_table.mk \
+					$(BUILD_DIR)/source_files.mk
 
 
 #	Flags
@@ -47,17 +50,14 @@ MAKEFLAGS		:=	-j -s
 #	Macro definitions
 
 include				$(BUILD_DIR)/parsing_table.mk
-
 MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE)
 
 
 #	Test mode
 
 ifeq ($(filter test,$(MAKECMDGOALS)),test)
-
 CC 				:=	clang-12
 MACROS			+=	-D TEST_MODE=true
-
 endif
 
 
@@ -108,7 +108,6 @@ TERMINALFLAGS	:=	--title="$(TERMINALTITLE)" -- /bin/sh -c
 
 #	Files
 
-SRC				:=
 include				$(BUILD_DIR)/source_files.mk
 SRC				:=	$(addprefix $(SRC_DIR)/,$(SRC))
 OBJ 			:=	$(SRC:%.c=$(OBJ_DIR)/%.o)
@@ -159,23 +158,19 @@ else
 endif
 
 
-#		Version check for Make
+#	Version check for Make
 
 ifeq ($(firstword $(sort $(MAKE_VERSION) 4.4)),4.4)
-
 MSG_INFO		=	$(MSG_MAKE_V4.4+)
 build			:	lib .WAIT $(NAME)
-
 else
-
 MSG_INFO		=	$(MSG_MAKE_V4.3-)
 .NOTPARALLEL	:	lib
 build			:	lib $(NAME)
-
 endif
 
 
-#		Library compilation
+#	Library compilation
 
 export				MAKECMDGOALS
 
@@ -183,27 +178,27 @@ lib				:
 					$(MAKE) -C $(LIBRARIES)
 
 
-#		Executable linking
+#	Executable linking
 
 $(NAME)			:	$(LIBRARIES) $(OBJ)
 					$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFLAGS) -o $(NAME)
 
 
-#		Source file compiling
+#	Source file compiling
 
-$(OBJ_DIR)/%.o	:	%.c Makefile | $(OBJ_SUBDIRS)
+$(OBJ_DIR)/%.o	:	%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
 					$(CC) $(CFLAGS) $(MACROS) $(INCLUDES) -c $< -o $@ \
 						&& echo -n $(MSG_PROGRESS)
 
 
-#		Pre-processing and dependency file creation
+#	Pre-processing and dependency file creation
 
-$(DEP_DIR)/%.d	:	%.c Makefile | $(DEP_SUBDIRS)
+$(DEP_DIR)/%.d	:	%.c $(BUILDFILES) | $(DEP_SUBDIRS)
 					$(CC) $(CFLAGS) $(MACROS) $(INCLUDES) \
 						-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
 
 
-#		Mirror directory structure for build artifacts
+#	Mirror directory structure for build artifacts
 
 $(OBJ_SUBDIRS) \
 $(DEP_SUBDIRS)	:
