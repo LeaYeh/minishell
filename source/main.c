@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/03 13:52:49 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:54:54 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@
 #include "utils.h"
 #include "signals.h"
 
+static void	print_welcome_msg(void);
+
 int	main(void)
 {
 	t_shell	shell;
 
 	if (!DEFINITIONS_OK || !init_shell(&shell))
 		raise_error_and_escape(&shell, "init shell failed");
-	printf("%s", WELCOME_MSG);
+	print_welcome_msg();
 	while (true)
 	{
 		if (!read_input(&shell.input_line, PROMPT, true, shell.is_interactive))
@@ -42,4 +44,10 @@ int	main(void)
 		reset_submodule_variable(&shell);
 	}
 	return (EXIT_SUCCESS);
+}
+
+static void	print_welcome_msg(void)
+{
+	if (isatty(STDIN_FILENO))
+		printf("%s", WELCOME_MSG);
 }
