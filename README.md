@@ -5,14 +5,13 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
 # Table of Contents
 
 * [Support Features](#support-features)
-* [The Challenges](#the-challenges)
-    * [How Does Bash Work](#how-does-bash-work)
+* [Things Before the Implementation](#things-before-the-implementation)
+    * Why We Need to Follow the Bash POSIX
     * What Should You Know Before Suffering in Corner Cases Hell
 * [Implementations](#implementations)
     * [Frontend](#frontend)
         * Lexer
         * Parser
-            * Why We Decide to Use `Shift-Reduce` as Parsing Algorithm
     * [Backend](#backend)
         * Executor
         * Builtins
@@ -67,13 +66,41 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
 |            |             |                        | Used `SIGABRT` and `SIGTERM` to raise internal critical error to all related process and handle it depends on scenario.       | ✅      |
 
 
-# The Challenges
+# Things Before the Implementation
 
-## How Does Bash Work
+## Why We Need to Follow the Bash POSIX
 
-## What Should You Know Before Suffering in Corner Cases Hell
+POSIX (Portable Operating System Interface).
+Adhering to POSIX standards is highly beneficial for shell development, particularly if you aim for your code to run across different operating systems and receive widespread support. POSIX provides a common baseline, ensuring consistent behavior, portability, and reliability across diverse environments.
 
-[Bash Manual](!https://www.gnu.org/software/bash/manual/html_node/index.html) Is All You Need
+## How to Avoid Corner Cases Hell at Beginning
+
+When first getting started with Bash, it's common to find many corner cases in behavior that are hard to understand. Without understanding the underlying workflow of Bash before starting implementation, you may end up hard-coding solutions for numerous corner cases, which can indirectly lead to a plethora of bugs. This can make later stages of development extremely painful.
+
+These chapters provide detailed definitions of the flow for each module. By following this flow, you can ensure consistency with Bash behavior.
+
+- 3.5 Shell Expansions
+    - 3.5.3 Shell Parameter Expansion
+    - 3.5.7 Word Splitting
+    - 3.5.8 Filename Expansion
+    - 3.5.8.1 Pattern Matching
+    - 3.5.9 Quote Removal
+- 3.6 Redirections
+    - 3.6.1 Redirecting Input
+    - 3.6.2 Redirecting Output
+    - 3.6.3 Appending Redirected Output
+    - 3.6.4 Redirecting Standard Output and Standard Error
+    - 3.6.5 Appending Standard Output and Standard Error
+    - 3.6.6 Here Documents
+- 3.7 Executing Commands
+    - 3.7.1 Simple Command Expansion
+    - 3.7.2 Command Search and Execution
+    - 3.7.3 Command Execution Environment
+    - 3.7.4 Environment
+    - 3.7.5 Exit Status
+    - 3.7.6 Signals
+
+Reference: [Bash Manual](!https://www.gnu.org/software/bash/manual/html_node/index.html) Is All You Need
 
 # Implementations
 
@@ -147,6 +174,12 @@ If you don't need to implement subshell functionality, the structure of a Comman
 
 Reference: https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
 ![cmd_table](doc/images/cmd_table.png)
+
+##### How to Design the Grammar in Your Shell
+
+To design the grammar for your shell, you can reference the [official shell grammar](https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html) provided by Bash and tailor it to support the features you need by making modifications and reductions.
+
+You can use this grammar as a reference point and streamline it based on the functionalities you want to support in your shell. This process involves analyzing the features you need and simplifying or removing elements from the grammar that are not relevant to your specific requirements.
 
 ##### How to Generate Parsing Table
 
