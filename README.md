@@ -1,51 +1,89 @@
-# Minishell | 42Vienna
+# 🌊rash Minishell | @42Vienna
 
-This repository contains the source code for MiniShell, a minimalistic shell interpreter built from scratch. The project is designed to mimic the functionality of traditional Unix shells in a simplified manner, providing a lightweight and easy-to-understand alternative for learning and teaching purposes.
+This project aims to not only provide a functional shell interpreter but also serve as a learning platform where users can grasp the intricacies of shell scripting, parsing, and execution. By adopting principles akin to those of an interpreter or compiler, this project offers a unique perspective on shell development and empowers users to navigate through the complexities of system interaction with confidence.
 
-Features
-Basic command execution: MiniShell can execute basic commands that are found in the PATH.
-Environment variable handling: MiniShell supports the use of environment variables in commands.
-Command chaining: Commands can be chained using logical operators (&& and ||).
-Redirections: MiniShell supports input and output redirections (<, >, >>).
-Pipes: Commands can be piped using the | operator.
-Subshells: Commands can be grouped and executed in subshells using parentheses (()).
-Here documents: MiniShell supports here documents (<<).
+# Table of Contents
 
-## Expander
+* [Support Features](#support-features)
+* [The Challenges](#the-challenges)
+    * [How Does Bash Work](#how-does-bash-work)
+    * What Should You Know Before Suffering in Corner Cases Hell
+* [Implementations](#implementations)
+    * [Frontend](#frontend)
+        * Lexer
+        * Parser
+            * Why We Decide to Use `Shift-Reduce` as Parsing Algorithm
+    * [Backend](#backend)
+        * Executor
+        * Builtins
+        * Redirection
+    * [Cross-end](#cross-end)
+        * Expander
+        * Signal
+            * Exception Handling
+            * Signal Handling
+    * DevOPS Spirit
+        * Basic cowork flow and git command
 
-...
 
-#### TODO
+# Support Features
 
-- [ ] Handle these cases...
+| Category   | Module      | Function               | Requirement                                                                                              | Status |
+|------------|-------------|------------------------|----------------------------------------------------------------------------------------------------------|--------|
+| Frontend   | Lexer       | Tokenizing             | Tokenized user input into token list.                                                                    | ✅      |
+|            |             |                        | Support the `PIPE` character `\|`.                                                                       | ✅      |
+|            |             |                        | Support logical `AND` `&&`.                                                                              | ✅      |
+|            |             |                        | Support logical `OR` `\|\|`.                                                                             | ✅      |
+|            |             |                        | Support left and right brackets `()` for `SUBSHELL`.                                                     | ✅      |
+|            |             |                        | Support `WORD` representing basic words.                                                                 | ✅      |
+|            |             |                        | Support `ASSIGNMENT_WORD` `=` for variable assignments.                                                   | ✅      |
+| Frontend   | Parser      | Syntax Analysis        | Analyze syntax of token list and report syntax errors based on Shift-Reduce algorithm with predefined grammar rules and then output as command table list. | ✅      |
+| Frontend   | Expander    | Brace Expansion        | Perform brace expansion to generate multiple strings based on expressions enclosed in braces `{}`.      | ✅      |
+|            |             | Tilde Expansion        | Perform tilde expansion to replace `~` with the current user's home directory path.                      | ❌      |
+|            |             | Parameter Expansion    | Perform parameter expansion to replace variables and special parameters in a string.                     | ✅      |
+|            |             | Command Substitution   | Perform command substitution to replace command output in a string.                                      | ❌      |
+|            |             | Arithmetic Expansion   | Perform arithmetic expansion to evaluate mathematical expressions enclosed in `$(())`.                    | ❌      |
+|            |             | Process Substitution   | Perform process substitution to use the output of a command as a file or input to another command.        | ❌      |
+|            |             | Word Splitting         | Perform word splitting to split a string into separate words based on spaces, tabs, and newlines.        | ✅      |
+|            |             | Wildcard Expansion     | Perform filename expansion (globbing) to generate filenames matching a specified pattern.                | ❌      |
+|            |             | Quote Removal          | Remove quotes from strings to interpret them as literal values.                                           | ✅      |
+| Backend    | Builtins    | cd                     | Implement `cd` with only a relative or absolute path.                                                    | ✅      |
+|            |             | echo                   | Implement `echo` with option `-n`.                                                                      | ✅      |
+|            |             | env                    | Implement `env` with no options or arguments.                                                            | ✅      |
+|            |             | exit                   | Implement `exit` with no options.                                                                        | ✅      |
+|            |             | export                 | Implement `export` with no options.                                                                      | ✅      |
+|            |             | pwd                    | Implement `pwd` with no options.                                                                         | ✅      |
+|            |             | unset                  | Implement `unset` with no options.                                                                       | ✅      |
+| Backend    | Redirection | IO Redirection         | Redirected `STDIN` with input redirection by `<` operator.                                              | ✅      |
+|            |             |                        | Redirected `HEREDOC` with input redirection by `<<` operator.                                             | ✅      |
+|            |             |                        | Redirected `STDOUT` with output redirection by `>` operator.                                              | ✅      |
+|            |             |                        | Redirected `STDOUT` append with output redirection by `>>` operator.                                      | ✅      |
+|            |             | Subsell Redirection    | Implement redirections and pipes (\| character).                                                         | ✅      |
+|            |             | Pipe Redirection       | Redirected `STDIN`/`STDOUT` by `pipe()`.                                                                 | ✅      |
+| Cross-end  | Signal      | Signal Handling        | Handled `ctrl-C` as `SIGINT` as bash behavior.                                                           | ✅      |
+|            |             |                        | Handled `ctrl-D` as `EOF` as bash behavior.                                                              | ✅      |
+|            |             |                        | Handled `ctrl-\\` as `SIGQUIT` as bash behavior.                                                         | ✅      |
+|            |             | Exception Handling     | Ignored `SIGPIPE` in internal process and set it back as default in external commands sub-process.       | ✅      |
+|            |             |                        | Used `SIGABRT` and `SIGTERM` to raise internal critical error to all related process and handle it depends on scenario.       | ✅      |
 
-```sh
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ export a="file name"
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ < $a
-bash: $a: ambiguous redirect
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ export a="ls -l"
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ $a
-total 56
-drwxr-xr-x 2 lyeh 2022_vienna  4096 Dec  9 17:36 images
--rw-r--r-- 1 lyeh 2022_vienna 43623 Dec  9 18:41 parseing_rule.tab.c
--rw-r--r-- 1 lyeh 2022_vienna  2405 Dec  9 18:41 parseing_rule.tab.h
--rw-r--r-- 1 lyeh 2022_vienna  1457 Dec  9 18:39 parseing_rule.y
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ << eof
-> eof
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ << $USER
-> USER
-> $USER
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ echo $'USER'
-USER
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ << $'USER'
-> $USER
-> USER
 
-```
+# The Challenges
 
-## Parsing
+## How Does Bash Work
 
-### Generate parsing table
+## What Should You Know Before Suffering in Corner Cases Hell
+
+[Bash Manual](!https://www.gnu.org/software/bash/manual/html_node/index.html) Is All You Need
+
+# Implementations
+
+## Frontend
+
+### Lexer
+
+### Parser
+
+#### Generate parsing table
 
 Pre-requirement: GNU M4 1.4 and bison, [check here](https://chat.openai.com/share/06ff7af8-0ab0-477e-a2e9-aa095199a704).
 
@@ -64,56 +102,21 @@ Pre-requirement: GNU M4 1.4 and bison, [check here](https://chat.openai.com/shar
 
 3. Convert parsing table to fit your data structure
 
+## Backend
 
-## Expander
+### Executor
+### Builtins
+### Redirection
 
-...
+## Cross-end
 
-#### TODO
+### Expander
 
-- [ ] Handle these cases...
+### Signal
 
-```sh
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ export a="file name"
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ < $a
-bash: $a: ambiguous redirect
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ export a="ls -l"
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ $a
-total 56
-drwxr-xr-x 2 lyeh 2022_vienna  4096 Dec  9 17:36 images
--rw-r--r-- 1 lyeh 2022_vienna 43623 Dec  9 18:41 parseing_rule.tab.c
--rw-r--r-- 1 lyeh 2022_vienna  2405 Dec  9 18:41 parseing_rule.tab.h
--rw-r--r-- 1 lyeh 2022_vienna  1457 Dec  9 18:39 parseing_rule.y
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ << eof
-> eof
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ << $USER
-> USER
-> $USER
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ echo $'USER'
-USER
-lyeh@c1r1p5:~/project/curriculum/minishell/data$ << $'USER'
-> $USER
-> USER
+# DevOPS Spirit
 
-```
-## Parsing
-
-### Generate parsing table
-
-Pre-requirement: GNU M4 1.4 and bison, [check here](https://chat.openai.com/share/06ff7af8-0ab0-477e-a2e9-aa095199a704).
-
-1. Design parsing rule, look more detail in our [parsing rule](data/parsing_rule.y).
-    - TODO: need to check rule about expandtion nearby redirect.
-        * ... (some examples...)
-2. Use `bison` tool to generate parsing table by the rules, and check your output `<PARSING_RULES>`.output
-
-```
-> bison -v <PARSING_RULES>.y
-```
-
-3. Convert parsing table to fit your data structure
-
-## Collaborations
+## Basic Cowork Flow and Git Command
 
 ### Git Workflow
 
@@ -171,7 +174,7 @@ Occur confiliction when rebase...
 
 #### Step 3
 
-Push the feature branch to the remote repository branch 
+Push the feature branch to the remote repository branch
 PS: Because we use `rebase` to change the history, so it's necessary force push.
 
 ```
