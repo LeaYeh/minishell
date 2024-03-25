@@ -14,7 +14,7 @@
 # Source files:
 #  Main:
 SUBDIR	:=	./
-SRC		+=	$(addprefix $(SUBDIR), \
+SRC		:=	$(addprefix $(SUBDIR), \
             main.c \
 )
 
