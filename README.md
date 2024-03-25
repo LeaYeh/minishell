@@ -1,6 +1,6 @@
 # 🌊rash Minishell | @42Vienna
 
-This project aims to not only provide a functional shell interpreter but also serve as a learning platform where users can grasp the intricacies of shell scripting, parsing, and execution. By adopting principles akin to those of an interpreter or compiler, this project offers a unique perspective on shell development and empowers users to navigate through the complexities of system interaction with confidence.
+This project goes beyond merely crafting a new shell from scratch; it endeavors to emulate the Bash source code and the GNU Bash POSIX manual while incorporating principles from compiler parsing. By referencing these authoritative sources, the project aims to meticulously implement a shell interpreter. Moreover, it documents the entire journey from ground zero to the creation of a personalized shell, serving as a valuable resource for future learners seeking insights into shell development.
 
 # Table of Contents
 
