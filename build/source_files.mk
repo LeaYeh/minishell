@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    source_files.mk                                    :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+         #
+#    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:15:33 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/21 17:59:20 by lyeh             ###   ########.fr        #
+#    Updated: 2024/03/27 00:18:39 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             print_ast_bfs.c \
             print_cmd_table.c \
             print_expanded_cmd_table.c \
+            print_expanded_cmd_table_content.c \
             print_final_cmd_table.c \
             print_list.c \
             print_stack.c \
