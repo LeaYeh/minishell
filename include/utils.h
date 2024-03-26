@@ -138,5 +138,6 @@ bool		skip_dollar_brace(char *str, int *i, bool is_in_dquote);
 bool		skip_double_quote(char *str, int *i);
 bool		skip_single_quote(char *str, int *i);
 char		*concat_list_to_string(t_list *list, char *delim);
+bool		is_str_quoted(char *str);
 
 #endif
