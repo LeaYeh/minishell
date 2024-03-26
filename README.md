@@ -160,9 +160,9 @@ Overall, the shift-reduce parsing algorithm efficiently constructs a parse tree 
 Base on the parsing table, it list all combination of all user input in the table. When looks up the table,
 1. Check the top state on the `state_stack` with `STATE`
 2. Check the input `TOKEN_TYPE` with the current token list node
-    a. If match, do shift
-    b. If not match but `default` exist, do `reduce` then pop out current `STATE` on `state_stack` and the correspond numbers of node in `parser_stack`. And then do `goto` and push `NEXT_STATE` onto `state_stack`
-    c. If not match or can not find correspnd `pt_entry` in the parsing table, report current token as symtax error.
+    - If match, do shift
+    - If not match but `default` exist, do `reduce` then pop out current `STATE` on `state_stack` and the correspond numbers of node in `parser_stack`. And then do `goto` and push `NEXT_STATE` onto `state_stack`
+    - If not match or can not find correspnd `pt_entry` in the parsing table, report current token as symtax error.
 
 Part of our parsing table:
 ![part_of_parsing_table](doc/images/parsing_table.png)
