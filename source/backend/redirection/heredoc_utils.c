@@ -14,13 +14,6 @@
 #include "expander.h"
 #include "signals.h"
 
-bool	is_here_end_quoted(char *here_end)
-{
-	if (ft_strchr(here_end, '\'') || ft_strchr(here_end, '\"'))
-		return (true);
-	return (false);
-}
-
 bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
 {
 	int	fd;

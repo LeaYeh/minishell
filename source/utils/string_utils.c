@@ -12,7 +12,7 @@
 
 #include "utils.h"
 
-int	get_list_strlen(t_list *list, char *delim)
+static int	get_list_strlen(t_list *list, char *delim)
 {
 	int		total_length;
 	t_list	*node;
@@ -51,4 +51,11 @@ char	*concat_list_to_string(t_list *list, char *delim)
 		list = list->next;
 	}
 	return (str);
+}
+
+bool	is_str_quoted(char *str)
+{
+	if (ft_strchr(str, '\'') || ft_strchr(str, '\"'))
+		return (true);
+	return (false);
 }
