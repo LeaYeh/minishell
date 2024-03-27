@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 17:06:47 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/25 13:52:01 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 #include "utils.h"
 #include "signals.h"
 
-bool	read_input(t_shell *shell);
+static bool	read_input(t_shell *shell);
+static void	print_welcome_msg(void);
 
 int	main(void)
 {
@@ -27,6 +28,7 @@ int	main(void)
 
 	if (!DEFINITIONS_OK || !init_shell(&shell))
 		raise_error_and_escape(&shell, "init shell failed");
+	print_welcome_msg();
 	while (true)
 	{
 		if (!read_input(&shell))
@@ -45,7 +47,13 @@ int	main(void)
 	return (EXIT_SUCCESS);
 }
 
-bool	read_input(t_shell *shell)
+static void	print_welcome_msg(void)
+{
+	if (isatty(STDIN_FILENO))
+		printf("%s", WELCOME_MSG);
+}
+
+static bool	read_input(t_shell *shell)
 {
 	char	*line;
 
