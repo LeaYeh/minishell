@@ -213,7 +213,144 @@ Pre-requirement: GNU M4 1.4 and bison, [check here](https://chat.openai.com/shar
 ## Backend
 
 ### Executor
-### Builtins
+
+The biggest challenge lies in designing the subprocess flow. A well-designed flow can facilitate easier and more reasonable handling of exit codes. If you opt to implement the subshell feature, it's crucial to ensure that the subprocess flow architecture is robust enough, as it's not feasible to handle all corner cases through hard coding. Choosing to generate an AST tree in the Parser can make handling easier.
+
+#### How We Design Our Subprocess Flow
+
+When designing the subprocess flow in the executor module, we referred to the hierarchical relationships of various elements in the BNF grammar. We considered that even in the case of any error occurring in any subprocess, it needs to be handled properly, and there should be control over whether the minishell exits. We also observed the behavior of Bash by examining its source code and mimicked the subprocess flow design at the Bash's underlying level.
+
+Therefore, we devised a hierarchical subprocess flow akin to a layered cake. Below, I will illustrate our design philosophy with examples.
+
+> 
+In the process flow diagram:
+1. [P|S]n
+  - P: represents a pipeline
+  - S: represents a subshell
+  - n: represents the process ID but has no sequential significance
+2. Solid line: represents a forked process
+3. Dotted line: represents a non-forked built-in function
+
+##### Example 1:
+```sh
+> (export A=123) && echo $A
+
+Output:
+
+```
+In this example, when `(export A=123) && echo $A` is executed, the output appears to be blank. Let's break down the subprocess flow and the reasons behind why echo `$A` results in null output.
+
+Subprocess Flow:
+
+The command `(export A=123)` is a subshell, denoted by the parentheses `( )`. Subshells are executed in a separate process.
+Within the subshell, `export A=123` sets the environment variable `A` to `123`.
+The && operator ensures that the subsequent command (echo $A) is executed only if the preceding command (`(export A=123)`) succeeds.
+Reasons for Null Output:
+
+The export command only affects the environment within the current shell or subprocess. It does not propagate changes back to the parent shell.
+After the subshell `(export A=123) `completes, the environment variable A is set within that subshell's environment.
+However, when the subsequent command echo `$A` is executed, it is in a different subprocess or shell, and it does not inherit the environment variable A set within the previous subshell.
+Consequently, `$A` in `echo $A` evaluates to null because the variable A is not defined in the current subprocess's environment.
+
+Builtins Function:
+
+`export` is a builtin command in most shells, including Bash. It is used to set an environment variable in the current shell and make it available to subprocesses.
+However, in the given scenario, the `export` command is used within a subshell `( )`. While it sets the variable A within the subshell, it does not propagate this change to the parent shell.
+Therefore, due to the isolation of subprocess environments and the absence of variable propagation between them, `echo $A` results in `null` output in this example.
+
+![crash_process_ex1.1](/doc/images/crash_process_ex1.1.png)
+![crash_process_ex1.1](/doc/images/crash_process_ex1.2.png)
+
+##### Example 2:
+```sh
+> yes | (cat < /dev/urandom| head -1 && (head -1 | head -1)) | cat
+
+Output:
+d>�!�#?-��O�Y>�Le0/�����٪sGV�q��.�ţ�
+y
+```
+
+In this example, the command involves multiple pipelines and subshells, with pipe input redirection bound within the subshell and pipe output redirection sequentially bound to `cat` within the subshell.
+
+Execution Flow:
+
+The command involves several nested subshells and pipelines, each processing data in succession.
+The outermost subshell `( ... )` encapsulates the entire command sequence.
+Within this subshell, multiple pipelines are executed in sequence, separated by the `|` operator.
+Pipe Input Redirection:
+
+Pipe input redirection `< /dev/urandom` redirects the output of /dev/urandom to `cat`, effectively providing an infinite stream of random data to the pipeline.
+Sequential Binding of Redirections:
+
+Within the subshell, each pipeline's output is sequentially bound to the input of the next command using pipe output redirection `|`.
+Execution Result:
+
+The command yes generates an infinite stream of the string "y".
+`cat < /dev/urandom | head -1` reads random data from `/dev/urandom` and outputs the first line.
+`(cat < /dev/urandom | head -1 && (head -1 | head -1)) `represents a nested subshell where the output of the first pipeline is concatenated with the output of `head -1 | head -1`.
+The output of this subshell is then piped into cat which outputs the concatenated result.
+Due to the randomness of `/dev/urandom` and the processing of `head -1` commands, the output appears as a mixture of random characters, likely due to character encoding mismatches and non-printable characters.
+Reason for Output:
+
+The output consists of random characters generated by `/dev/urandom`, with the processing of `head -1` and concatenation operations contributing to the final output.
+Therefore, the observed output is a result of processing random data from `/dev/urandom`, combined with the behavior of `head -1` and concatenation operations within the nested subshell.
+
+![crash_process_ex2.1](/doc/images/crash_process_ex2.1.png)
+![crash_process_ex2.2](/doc/images/crash_process_ex2.2.png)
+
+Reference: https://www.cs.uleth.ca/~holzmann/C/system/shell_does_pipeline.pdf
+![process_structure](doc/images/process_structure.png)
+
+Part of BNF grammar:
+```bnf
+pipe_sequence	: command | pipe_sequence PIPE command;
+command         : simple_command | subshell | subshell redirect_list;
+subshell        : L_BRACKET and_or R_BRACKET;
+simple_command	: cmd_prefix cmd_word cmd_suffix | cmd_prefix cmd_word | cmd_prefix | cmd_name cmd_suffix | cmd_name;
+```
+
+#### What Is Subshell
+
+Subshell is a child instance of the main shell process. When a subshell is created, it inherits the environment and variables of the parent shell but operates independently. Subshells are commonly used to execute commands or scripts within a separate context without affecting the parent shell.
+
+```sh
+> (export A=123 && echo $A) && $A
+
+Output:
+123
+
+```
+
+```sh
+> pwd && (cd source/) && pwd
+
+Output:
+/Users/leayeh/project/git_dev/42/curriculum/minishell
+/Users/leayeh/project/git_dev/42/curriculum/minishell
+
+> pwd && cd source/ && pwd  
+
+Output:
+/Users/leayeh/project/git_dev/42/curriculum/minishell
+/Users/leayeh/project/git_dev/42/curriculum/minishell/source
+
+```
+
+#### What Is The Different Between Builtins and External Command
+
+The main differences between builtins and external commands in Bash lie in their implementation, execution performance, and access to shell internals. Builtins are integrated directly into the shell, execute faster, and have access to shell internals, while external commands are standalone executables requiring process forking and operate independently of the shell environment.
+
+* Builtins
+    - They are directly implemented within the shell, so executing them does not require forking a separate process.
+    - Builtins typically offer performance advantages over external commands because they execute faster due to not needing to spawn a new process.
+    - Builtins have direct access to the shell internals, which allows them to manipulate the shell's environment and variables more efficiently.
+    - Examples of builtins include cd, echo, pwd, and export.
+* External Commands
+    - External commands are standalone executable files located in directories listed in the PATH environment variable.
+    - When you execute an external command, Bash must fork off a separate process to run the command.
+
+Reference: https://tldp.org/LDP/abs/html/internal.html
+
 ### Redirection
 
 ## Cross-end
