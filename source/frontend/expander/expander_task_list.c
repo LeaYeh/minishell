@@ -27,6 +27,8 @@ bool	set_expander_task_list(
 			ret = append_quote_task(task_list, base_str, &i);
 		else if ((*base_str)[i] == '$' && op_mask & E_EXPAND)
 			ret = append_parameter_task(task_list, base_str, &i, op_mask);
+		// else if (new_str[i] == '*')
+		// 	ret = append_wildcard_task(task_list, new_str, &i);
 		else
 			i++;
 	}
@@ -78,3 +80,8 @@ bool	append_parameter_task(
 	task->base_str = base_str;
 	return (*i += replace_len, true);
 }
+
+// bool	append_wildcard_task(t_list **task_list, char *new_str, int *i)
+// {
+
+// }

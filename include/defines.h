@@ -222,7 +222,9 @@ typedef enum e_expander_task_type
 	ET_VAR			= 0,
 	ET_VAR_NO_SPLIT,
 	ET_EXIT_CODE,
-	ET_QUOTE
+	ET_WILDCARD,
+	ET_QUOTE,
+	ET_END
 }	t_expander_task_type;
 
 typedef enum e_export
