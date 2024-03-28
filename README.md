@@ -432,11 +432,11 @@ While we understand that signal handlers should remain simple and avoid calling 
 However, due to specific constraints in our project where system pause and resume mechanisms are not allowed, we employ the `ft_free_and_null` function to address the non-reentrant issue. This function enables setting the pointer to `NULL` before freeing memory, thus avoiding double freeing. Although this approach may result in some memory leaks, in abnormal termination scenarios, the operating system will automatically reclaim memory. Therefore, we consider this risk acceptable.
 
 Reference:
-    - Issue ticket and Pull request
-        - https://github.com/LeaYeh/minishell/issues/201
-        - https://github.com/LeaYeh/minishell/pull/202
-    - Our question in Stackoverflow
-        - https://stackoverflow.com/questions/78140706/exception-handling-through-signal-communication-in-multiprocess-programs-in-c
+- Issue ticket and Pull request
+    - https://github.com/LeaYeh/minishell/issues/201
+    - https://github.com/LeaYeh/minishell/pull/202
+- Our question in Stackoverflow
+    - https://stackoverflow.com/questions/78140706/exception-handling-through-signal-communication-in-multiprocess-programs-in-c
 
 # DevOPS Spirit
 
