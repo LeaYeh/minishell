@@ -233,9 +233,10 @@ Therefore, we devised a hierarchical subprocess flow akin to a layered cake. Bel
 
 > 
 > In the process flow diagram:
-> 1. [P|S]n
+> 1. [P|S|C]n
 >   - P: represents a pipeline
 >   - S: represents a subshell
+>   - C: represents a simple command
 >   - n: represents the process ID but has no sequential significance
 > 2. Solid line: represents a forked process
 > 3. Dotted line: represents a non-forked built-in function
