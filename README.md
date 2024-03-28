@@ -23,13 +23,12 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
             * [How We Design Our Subprocess Flow](#how-we-design-our-subprocess-flow)
             * [What Is Subshell](#what-is-subshell)
             * [What Is The Different Between Builtins and External Command](#what-is-the-different-between-builtins-and-external-command)
-        * Builtins
         * Redirection
     * [Cross-end](#cross-end)
         * Expander
-        * Signal
-            * Exception Handling
-            * Signal Handling
+        * [Signal](#signal)
+            * [Signal Handling](#signal-handling)
+            * [Exception Handling](#exception-handling)
 * DevOPS Spirit
     * Basic cowork flow and git command
 
@@ -232,14 +231,14 @@ When designing the subprocess flow in the executor module, we referred to the hi
 Therefore, we devised a hierarchical subprocess flow akin to a layered cake. Below, I will illustrate our design philosophy with examples.
 
 > 
-    In the process flow diagram:
-    1. [P|S]n
-    - P: represents a pipeline
-    - S: represents a subshell
-    - n: represents the process ID but has no sequential significance
-    2. Solid line: represents a forked process
-    3. Dotted line: represents a non-forked built-in function
-    4. Horizontal dotted line after a forked process: represents `waitpid()` for process synchronization.
+> In the process flow diagram:
+> 1. [P|S]n
+>   - P: represents a pipeline
+>   - S: represents a subshell
+>   - n: represents the process ID but has no sequential significance
+> 2. Solid line: represents a forked process
+> 3. Dotted line: represents a non-forked built-in function
+> 4. Horizontal dotted line after a forked process: represents `waitpid()` for process synchronization.
 
 ##### Example 1:
 ```sh
@@ -254,14 +253,14 @@ Subprocess Flow:
 
 The command `(export A=123)` is a subshell, denoted by the parentheses `( )`. Subshells are executed in a separate process.
 Within the subshell, `export A=123` sets the environment variable `A` to `123`.
-The && operator ensures that the subsequent command (echo $A) is executed only if the preceding command (`(export A=123)`) succeeds.
+The `&&` operator ensures that the subsequent command (`echo $A`) is executed only if the preceding command (`(export A=123)`) succeeds.
 
 Reasons for Null Output:
 
 The export command only affects the environment within the current shell or subprocess. It does not propagate changes back to the parent shell.
-After the subshell `(export A=123) `completes, the environment variable A is set within that subshell's environment.
-However, when the subsequent command echo `$A` is executed, it is in a different subprocess or shell, and it does not inherit the environment variable A set within the previous subshell.
-Consequently, `$A` in `echo $A` evaluates to null because the variable A is not defined in the current subprocess's environment.
+After the subshell `(export A=123) `completes, the environment variable `A` is set within that subshell's environment.
+However, when the subsequent command echo `$A` is executed, it is in a different subprocess or shell, and it does not inherit the environment variable `A` set within the previous subshell.
+Consequently, `$A` in `echo $A` evaluates to null because the variable `A` is not defined in the current subprocess's environment.
 
 Builtins Function:
 
@@ -291,10 +290,11 @@ Within this subshell, multiple pipelines are executed in sequence, separated by 
 
 Pipe Input Redirection:
 
-Pipe input redirection `< /dev/urandom` redirects the output of /dev/urandom to `cat`, effectively providing an infinite stream of random data to the pipeline.
+Pipe input redirection `< /dev/urandom` redirects the output of `/dev/urandom` to `cat`, effectively providing an infinite stream of random data to the pipeline.
 Sequential Binding of Redirections:
 
 Within the subshell, each pipeline's output is sequentially bound to the input of the next command using pipe output redirection `|`.
+
 Execution Result:
 
 The command yes generates an infinite stream of the string "y".
@@ -371,6 +371,45 @@ Reference: https://tldp.org/LDP/abs/html/internal.html
 ### Expander
 
 ### Signal
+
+#### Signal Handling
+
+1. Interactive and Non-interactive Modes:
+    - The function (`fork_pipeline`) is responsible for creating a child process to execute pipeline commands. In this function, we consider the differences in signal handling between interactive and non-interactive modes.
+    - In interactive mode, users can directly interact with the program, while in non-interactive mode, the program typically executes as a script or reads commands from a file.
+    - Our design needs to account for the behavioral differences in signal handling between these two modes. In interactive mode, we need to capture some common signals, such as `SIGINT` (`Ctrl+C`), to allow users to interrupt executing commands. In non-interactive mode, we still need to ensure the handling of signals sent by the system to ensure the program's stable operation.
+2. Relationship between Subprocesses, fork, and Subshells:
+    - When executing pipeline commands, we use the `fork()` function to create a child process. Child processes usually inherit the signal handling settings of the parent process but can also override them by setting their own signal handling methods.
+    - Signal handling in the child process may differ from that in the parent process, depending on whether signal handling is reset after the child process is created.
+    - Additionally, we set different signal handling methods in the parent and child processes to ensure proper signal handling while executing pipeline commands. For instance, in the child process, we ignore the `SIGINT` signal to avoid interrupting executing commands, while in the parent process, we record the `SIGINT` signal for subsequent handling.
+3. Resetting Signal Handlers for External Commands:
+    - Before executing an external command (`handle_external_cmd`), we reset the signal handlers to their default settings (`SIG_DEFAULT`). This ensures that the external command can handle signals according to its own logic without interference from the shell's signal handling.
+    - By resetting the signal handlers, we allow the external command to have complete control over how it handles signals, providing flexibility and adherence to Unix signal handling conventions.
+4. Handling SIGPIPE Signal for Builtin Commands:
+    - For builtin commands (`handle_builtin`), especially those involved in pipeline operations, we need to handle the `SIGPIPE` signal differently.
+    - We set up the signal handler to ignore (`SIG_IGNORE`) the `SIGPIPE` signal. This prevents the shell from terminating if a builtin command attempts to write to a broken pipeline, which is the default behavior. Instead, the shell continues execution as expected.
+    - Ignoring the `SIGPIPE` signal for builtin commands ensures seamless execution and prevents unintended termination due to broken pipes, which can occur during pipeline operations.
+
+#### Exception Handling
+
+Using signals for exception handling in shell programming, similar to Bash's design, serves several purposes. Let's examine why signals are employed in our source code to handle critical errors like memory allocation failures, fork failures, or other creation failures, and how they enable us to respond appropriately to such exceptions:
+
+1. Prompt Response to Critical Errors:
+    - When critical errors occur, such as memory allocation failures (`MALLOC_ERROR`) or fork failures (`FORK_ERROR`), it's essential to respond promptly to mitigate any adverse effects.
+    - By utilizing signals, we can promptly broadcast error messages and take appropriate actions, such as terminating subprocesses or halting execution, depending on the severity of the error.
+2. Ensuring Subprocess Termination:
+    - In the event of a critical error, it's crucial to ensure that all subprocesses spawned by the shell are terminated to prevent any lingering processes that could potentially cause issues or consume resources.
+    - Signals like `SIGABRT` and `SIGTERM` are used to terminate subprocesses gracefully, ensuring that they clean up resources and exit properly.
+3. Providing Feedback to Users:
+    - Exception handling using signals allows us to provide feedback to users about the occurrence of critical errors. We can print error messages, indicating the nature of the error and any relevant details, enhancing user understanding and troubleshooting.
+4. Facilitating Controlled Shutdown:
+    - In situations where critical errors occur, it's essential to have mechanisms in place to facilitate a controlled shutdown of the shell environment. Signals help initiate a controlled exit, allowing the shell to clean up resources, release memory, and exit gracefully.
+
+Let's take a closer look at how signals are utilized in our source code:
+
+- `raise_error_and_escape`: This function raises an error message and initiates an abort signal (`SIGABRT`) to terminate all subprocesses. It's used for critical errors where immediate termination is necessary.
+- `raise_error_to_all_subprocess`: Similar to the previous function, this one raises an error message and sends a termination signal (`SIGTERM`) to all subprocesses. It's used when the error is critical but allows for a graceful shutdown.
+- `raise_error_to_own_subprocess` and `signal_to_all_subprocess`: These functions are used for handling errors within subprocesses. They ensure that subprocesses receive termination signals (`SIGTERM`) and facilitate controlled shutdowns.
 
 # DevOPS Spirit
 
