@@ -423,9 +423,9 @@ The fundamental cause of the non-reentrant issue lies in the asynchronous interr
 **Hazards of the non-reentrant issue:**
 
 The non-reentrant issue could lead to several serious consequences:
-    - Data corruption: If the signal handler is modifying global data structures or shared resources and gets interrupted, it may lead to inconsistent or corrupted data.
-    - Memory leaks: If the signal handler allocates memory but fails to deallocate it at the interruption point, it can result in memory leaks, impacting system stability and performance.
-    - Deadlocks: If the signal handler acquires a lock but fails to release it at the interruption point, it may result in deadlock situations, rendering the system unable to continue execution.
+- Data corruption: If the signal handler is modifying global data structures or shared resources and gets interrupted, it may lead to inconsistent or corrupted data.
+- Memory leaks: If the signal handler allocates memory but fails to deallocate it at the interruption point, it can result in memory leaks, impacting system stability and performance.
+- Deadlocks: If the signal handler acquires a lock but fails to release it at the interruption point, it may result in deadlock situations, rendering the system unable to continue execution.
 
 While we understand that signal handlers should remain simple and avoid calling functions that may be interrupted by the operating system, a better approach is to utilize the system's pause and resume mechanism. For instance, using the `pause()` function within the signal handler can suspend the program's execution until a signal is received, then resume execution.
 
