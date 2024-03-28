@@ -29,7 +29,7 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
         * [Signal](#signal)
             * [Signal Handling](#signal-handling)
             * [Exception Handling](#exception-handling)
-            * [Known Issue]()
+            * [Known Issue](#known-issue)
 * DevOPS Spirit
     * Basic cowork flow and git command
 
