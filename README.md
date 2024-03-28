@@ -29,6 +29,7 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
         * [Signal](#signal)
             * [Signal Handling](#signal-handling)
             * [Exception Handling](#exception-handling)
+            * [Known Issue]()
 * DevOPS Spirit
     * Basic cowork flow and git command
 
@@ -410,6 +411,32 @@ Let's take a closer look at how signals are utilized in our source code:
 - `raise_error_and_escape`: This function raises an error message and initiates an abort signal (`SIGABRT`) to terminate all subprocesses. It's used for critical errors where immediate termination is necessary.
 - `raise_error_to_all_subprocess`: Similar to the previous function, this one raises an error message and sends a termination signal (`SIGTERM`) to all subprocesses. It's used when the error is critical but allows for a graceful shutdown.
 - `raise_error_to_own_subprocess` and `signal_to_all_subprocess`: These functions are used for handling errors within subprocesses. They ensure that subprocesses receive termination signals (`SIGTERM`) and facilitate controlled shutdowns.
+
+#### Known Issue
+
+In our signal handler, there exists a non-reentrant issue, which could lead to significant consequences.
+
+**Reasons for the non-reentrant issue:**
+
+The fundamental cause of the non-reentrant issue lies in the asynchronous interruption of signal handlers at different time points. When a signal handler is executing, if the same signal is received again, it interrupts the currently executing signal handler. This can leave the signal handler in an incomplete state, leading to data corruption, memory leaks, or other adverse consequences.
+
+**Hazards of the non-reentrant issue:**
+
+The non-reentrant issue could lead to several serious consequences:
+    - Data corruption: If the signal handler is modifying global data structures or shared resources and gets interrupted, it may lead to inconsistent or corrupted data.
+    - Memory leaks: If the signal handler allocates memory but fails to deallocate it at the interruption point, it can result in memory leaks, impacting system stability and performance.
+    - Deadlocks: If the signal handler acquires a lock but fails to release it at the interruption point, it may result in deadlock situations, rendering the system unable to continue execution.
+
+While we understand that signal handlers should remain simple and avoid calling functions that may be interrupted by the operating system, a better approach is to utilize the system's pause and resume mechanism. For instance, using the `pause()` function within the signal handler can suspend the program's execution until a signal is received, then resume execution.
+
+However, due to specific constraints in our project where system pause and resume mechanisms are not allowed, we employ the `ft_free_and_null` function to address the non-reentrant issue. This function enables setting the pointer to `NULL` before freeing memory, thus avoiding double freeing. Although this approach may result in some memory leaks, in abnormal termination scenarios, the operating system will automatically reclaim memory. Therefore, we consider this risk acceptable.
+
+Reference:
+    - Issue ticket and Pull request
+        - https://github.com/LeaYeh/minishell/issues/201
+        - https://github.com/LeaYeh/minishell/pull/202
+    - Our question in Stackoverflow
+        - https://stackoverflow.com/questions/78140706/exception-handling-through-signal-communication-in-multiprocess-programs-in-c
 
 # DevOPS Spirit
 
