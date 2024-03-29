@@ -1,5 +1,13 @@
 # 🌊rash Minishell | @42Vienna
 
+[![Actions Status](https://img.shields.io/github/actions/workflow/status/LeaYeh/minishell/test.yaml?branch=main)](https://github.com/LeaYeh/minishell/actions)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LeaYeh/minishell?include_prereleases)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/LeaYeh/minishell?label=version)
+
+[![Visits Badge](https://badges.pufler.dev/visits/LeaYeh/minishell)](https://github.com/LeaYeh/minishell)
+[![Lines of Code](https://tokei.rs/b1/github/LeaYeh/minishell?category=code)](https://github.com/LeaYeh/minishell)
+![GitHub](https://img.shields.io/github/license/LeaYeh/minishell)
+
 This project goes beyond merely crafting a new shell from scratch; it endeavors to emulate the Bash source code and the GNU Bash POSIX manual while incorporating principles from compiler parsing. By referencing these authoritative sources, the project aims to meticulously implement a shell interpreter. Moreover, it documents the entire journey from ground zero to the creation of a personalized shell, serving as a valuable resource for future learners seeking insights into shell development.
 
 # Table of Contents
