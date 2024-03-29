@@ -59,21 +59,21 @@ static bool	split_str_into_nodes(t_list **lst, t_list *task_list)
 
 bool	handle_word_splitting(t_list *lst, t_list **task_list)
 {
-	t_list			*cur_task;
 	t_expander_task	*task;
+	t_list			*task_node;
 
-	cur_task = *task_list;
-	while (cur_task)
+	task_node = *task_list;
+	while (task_node)
 	{
-		task = cur_task->content;
+		task = task_node->content;
 		if (task->type == ET_VAR)
 		{
-			if (!split_str_into_nodes(&lst, cur_task))
+			if (!split_str_into_nodes(&lst, task_node))
 				return (false);
-			ft_lstdrop_node(task_list, &cur_task, (void *)free_expander_task);
+			ft_lstdrop_node(task_list, &task_node, (void *)free_expander_task);
 		}
 		else
-			cur_task = cur_task->next;
+			task_node = task_node->next;
 	}
 	return (true);
 }

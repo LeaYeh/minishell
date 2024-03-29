@@ -49,23 +49,23 @@ bool	handle_expansion(t_list **lst, t_shell *shell, t_expander_op op_mask)
 
 bool	handle_parameter_expansion(t_list **task_list, t_shell *shell)
 {
-	t_list			*cur_task;
 	bool			ret;
 	t_expander_task	*task;
+	t_list			*task_node;
 
 	ret = true;
-	cur_task = *task_list;
-	while (cur_task && ret)
+	task_node = *task_list;
+	while (task_node && ret)
 	{
-		task = cur_task->content;
+		task = task_node->content;
 		if (task->type == ET_VAR || task->type == ET_VAR_NO_SPLIT)
-			ret = expand_variable(cur_task, shell->env_list);
+			ret = expand_variable(task_node, shell->env_list);
 		else if (task->type == ET_EXIT_CODE)
-			ret = expand_exit_code(cur_task, shell->exit_code);
+			ret = expand_exit_code(task_node, shell->exit_code);
 		if (task->type == ET_VAR_NO_SPLIT || task->type == ET_EXIT_CODE)
-			ft_lstdrop_node(task_list, &cur_task, (void *)free_expander_task);
+			ft_lstdrop_node(task_list, &task_node, (void *)free_expander_task);
 		else
-			cur_task = cur_task->next;
+			task_node = task_node->next;
 	}
 	return (ret);
 }
