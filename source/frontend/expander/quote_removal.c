@@ -12,19 +12,23 @@
 
 #include "expander.h"
 
-bool	handle_quote_removal(t_list *task_list)
+bool	handle_quote_removal(t_list **task_list)
 {
+	t_list			*cur_task;
 	t_expander_task	*task;
 
-	while (task_list)
+	cur_task = *task_list;
+	while (cur_task)
 	{
-		task = task_list->content;
+		task = cur_task->content;
 		if (task->type == ET_QUOTE)
 		{
-			if (!remove_quote(task_list))
+			if (!remove_quote(cur_task))
 				return (false);
+			ft_lstdrop_node(task_list, &cur_task, (void *)free_expander_task);
 		}
-		task_list = task_list->next;
+		else
+			cur_task = cur_task->next;
 	}
 	return (true);
 }

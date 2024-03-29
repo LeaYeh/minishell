@@ -38,29 +38,34 @@ bool	handle_expansion(t_list **lst, t_shell *shell, t_expander_op op_mask)
 	base_str = (char **)&(*lst)->content;
 	task_list = NULL;
 	if (!set_expander_task_list(&task_list, base_str, op_mask) || \
-		!handle_parameter_expansion(task_list, shell) || \
+		!handle_parameter_expansion(&task_list, shell) || \
 		!set_expanded_list(lst, op_mask, &task_list) || \
 		!handle_wildcard_expansion(lst) || \
-		!handle_quote_removal(task_list))
+		!handle_quote_removal(&task_list))
 		return (ft_lstclear(&task_list, (void *)free_expander_task), false);
 	ft_lstclear(&task_list, (void *)free_expander_task);
 	return (true);
 }
 
-bool	handle_parameter_expansion(t_list *task_list, t_shell *shell)
+bool	handle_parameter_expansion(t_list **task_list, t_shell *shell)
 {
+	t_list			*cur_task;
 	bool			ret;
 	t_expander_task	*task;
 
 	ret = true;
-	while (task_list && ret)
+	cur_task = *task_list;
+	while (cur_task && ret)
 	{
-		task = task_list->content;
+		task = cur_task->content;
 		if (task->type == ET_VAR || task->type == ET_VAR_NO_SPLIT)
-			ret = expand_variable(task_list, shell->env_list);
+			ret = expand_variable(cur_task, shell->env_list);
 		else if (task->type == ET_EXIT_CODE)
-			ret = expand_exit_code(task_list, shell->exit_code);
-		task_list = task_list->next;
+			ret = expand_exit_code(cur_task, shell->exit_code);
+		if (task->type == ET_VAR_NO_SPLIT || task->type == ET_EXIT_CODE)
+			ft_lstdrop_node(task_list, &cur_task, (void *)free_expander_task);
+		else
+			cur_task = cur_task->next;
 	}
 	return (ret);
 }

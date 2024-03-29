@@ -47,7 +47,7 @@ void			skip_to_dollar_not_in_single_quotes(char *str, int *i);
 /* expansion_handler.c */
 bool			handle_expansion(t_list **lst, t_shell *shell,
 					t_expander_op op_mask);
-bool			handle_parameter_expansion(t_list *task_list, t_shell *shell);
+bool			handle_parameter_expansion(t_list **task_list, t_shell *shell);
 bool			set_expanded_list(t_list **lst, t_expander_op op_mask,
 					t_list **task_list);
 
@@ -55,7 +55,7 @@ bool			set_expanded_list(t_list **lst, t_expander_op op_mask,
 void			drop_null_expansion_nodes(t_list **lst);
 
 /* quote_removal.c */
-bool			handle_quote_removal(t_list *task_list);
+bool			handle_quote_removal(t_list **task_list);
 bool			remove_quote(t_list *task_list);
 
 /* special_param_expansion.c */
