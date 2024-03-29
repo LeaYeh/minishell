@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 09:43:44 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/21 17:36:47 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/28 22:20:27 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 		return (free(new_str), MALLOC_ERROR);
 	if (!handle_expansion(lst, shell, op_mask))
 		return (MALLOC_ERROR);
-	expand_wildcard(new_str);
 	return (SUCCESS);
 }
 
@@ -41,6 +40,7 @@ bool	handle_expansion(t_list **lst, t_shell *shell, t_expander_op op_mask)
 	if (!set_expander_task_list(&task_list, base_str, op_mask) || \
 		!handle_parameter_expansion(task_list, shell) || \
 		!set_expanded_list(lst, op_mask, &task_list) || \
+		!handle_wildcard_expansion(lst) || \
 		!handle_quote_removal(task_list))
 		return (ft_lstclear(&task_list, (void *)free_expander_task), false);
 	ft_lstclear(&task_list, (void *)free_expander_task);
