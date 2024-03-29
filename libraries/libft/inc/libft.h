@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/27 13:59:17 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/28 18:12:46 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char		*ft_strndup(const char *s, size_t n);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
 char		*ft_strrchr(const char *s, int c);
+char		*ft_strrnstr(const char *big, const char *little, size_t len);
 bool		ft_strrplc_part(char **str, const char *rplcmt, size_t start, \
 							size_t len);
 char		*ft_strrplc_sequence(const char *str, const char *sequence, \
