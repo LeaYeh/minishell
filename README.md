@@ -31,6 +31,7 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
             * [Exception Handling](#exception-handling)
             * [Known Issue](#known-issue)
 * DevOPS Spirit
+    * How to Re-use Our CI/CD Framework For Your Own Minishell
     * Basic cowork flow and git command
 
 # Support Features
@@ -440,6 +441,58 @@ Reference:
     - https://stackoverflow.com/questions/78140706/exception-handling-through-signal-communication-in-multiprocess-programs-in-c
 
 # DevOPS Spirit
+
+## How to Re-use Our CI/CD Framework For Your Own Minishell
+
+0. Pre-requirement
+
+Handle the non-interactive mode readline for the tester
+> https://github.com/LeaYeh/42_minishell_tester?tab=readme-ov-file#setup
+
+Reference: https://github.com/zstenger93/42_minishell_tester
+
+
+1. Download our GitHub Action setting `.github` into your project folder
+
+```sh
+curl -L -o github.tar.gz https://github.com/LeaYeh/minishell/archive/main/github.tar.gz && \
+tar -xzvf github.tar.gz --strip-components=1 "minishell-main/.github" && \
+rm -rf github.tar.gz
+```
+
+2. Commit and push GitHub Action setting into the remote stream
+
+```sh
+git add .github
+git commit -m "feat: Init ci/cd framework for minishell"
+git push
+```
+
+3. Config the repository setting
+
+<details>
+<summary>Find settings of the repository 
+</summary>
+
+![setting_btn](/doc/images/setup_btn.png)
+
+</details>
+
+<details>
+<summary>Config the setting of your main branch
+</summary>
+
+![config_branch_rule](/doc/images/config_branch_rule.jpeg)
+
+</details>
+
+<details>
+<summary>Config the permissions of GitHub Action
+</summary>
+
+![config_action](/doc/images/config_action.jpeg)
+
+</details>
 
 ## Basic Cowork Flow and Git Command
 
