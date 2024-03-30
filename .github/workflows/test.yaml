@@ -3,6 +3,7 @@ name: Test Workflow
 
 on:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   compilation_test:
