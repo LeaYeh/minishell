@@ -18,6 +18,10 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
 # Table of Contents
 
 * [Support Features](#support-features)
+* [DevOPS Spirit](#devops-spirit)
+    * [Embrace Development Consistency with Docker](#embrace-development-consistency-with-docker)
+    * [How to Re-use Our CI/CD Framework For Your Own Minishell](#how-to-re-use-our-cicd-framework-for-your-own-minishell)
+    * Basic cowork flow and git command
 * [Things Before the Implementation](#things-before-the-implementation)
     * [Why We Need to Follow the Bash POSIX](#why-we-need-to-follow-the-bash-posix)
     * [How to Avoid Corner Cases Hell at Beginning](#how-to-avoid-corner-cases-hell-at-beginning)
@@ -43,9 +47,6 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
             * [Signal Handling](#signal-handling)
             * [Exception Handling](#exception-handling)
             * [Known Issue](#known-issue)
-* DevOPS Spirit
-    * How to Re-use Our CI/CD Framework For Your Own Minishell
-    * Basic cowork flow and git command
 
 # Support Features
 
@@ -87,6 +88,137 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
 |            |             | Exception Handling     | Ignored `SIGPIPE` in internal process and set it back as default in external commands sub-process.       | ✅      |
 |            |             |                        | Used `SIGABRT` and `SIGTERM` to raise internal critical error to all related process and handle it depends on scenario.       | ✅      |
 
+
+# DevOPS Spirit
+
+## Embrace Development Consistency with Docker
+
+Our [42-Docker-DevEnv](https://github.com/LeaYeh/42-Docker-DevEnv) project ensures a consistent development experience across all devices by seamlessly integrating with VSCode. This setup offers the best of both worlds: the portability and uniformity of Docker, combined with the rich features of VSCode, allowing you to start coding efficiently with minimal setup, anywhere.
+
+## How to Re-use Our CI/CD Framework For Your Own Minishell
+
+0. Pre-requirement
+
+Handle the non-interactive mode readline for the tester
+> https://github.com/LeaYeh/42_minishell_tester?tab=readme-ov-file#setup
+
+Reference: https://github.com/zstenger93/42_minishell_tester
+
+
+1. Download our GitHub Action setting `.github` into your project folder
+
+```sh
+curl -L -o github.tar.gz https://github.com/LeaYeh/minishell/archive/main/github.tar.gz && \
+tar -xzvf github.tar.gz --strip-components=1 "minishell-main/.github" && \
+rm -rf github.tar.gz
+```
+
+2. Commit and push GitHub Action setting into the remote stream
+
+```sh
+git add .github
+git commit -m "feat: Init ci/cd framework for minishell"
+git push
+```
+
+3. Config the repository setting
+
+<details>
+<summary>Find settings of the repository 
+</summary>
+
+![setting_btn](/doc/images/setup_btn.png)
+
+</details>
+
+<details>
+<summary>Config the setting of your main branch
+</summary>
+
+![config_branch_rule](/doc/images/config_branch_rule.jpeg)
+
+</details>
+
+<details>
+<summary>Config the permissions of GitHub Action
+</summary>
+
+![config_action](/doc/images/config_action.jpeg)
+
+</details>
+
+## Basic Cowork Flow and Git Command
+
+### Git Workflow
+
+We choose `Feature Branching Git Workflow` as our cowork flow in the project.
+
+![Diagram](doc/images/gitflow.png)
+
+#### Step 0.
+
+Checkout to main branch to pull the latest update.
+
+```
+> git checkout main
+> git pull
+```
+
+#### Step 1.
+
+Create new feature branch for each feature, the feature develop life cycle should be around hours work.
+
+```
+> git checkout -b feat-<NAME>
+```
+
+#### Step 2.
+
+After your work, checkout back to the main branch and align with the latest version again. Then checkout to feature branch and rebase with main branch.
+
+```
+> git checkout main
+> git pull
+
+> git checkout feat-<NAME>
+> git rebase main
+```
+
+#### Step 2.a
+
+No confiliction happend! Go to the Step 3.
+
+#### Step 2.b
+
+Occur confiliction when rebase...
+
+1. First, git will pause the rebase and allow you to fix the conflict. You can see which files contain conflicts by running git status.
+
+2. Open the file with conflicts. Git marks conflicts in the source code with <<<<<<<, =======, and >>>>>>>. The code between <<<<<<< and ======= is your local changes and the code between ======= and >>>>>>> is the incoming changes. You need to manually edit the file to resolve the conflict.
+
+3. After you've resolved the conflict, you need to add the resolved files to the staging area and continue the rebase process.
+
+```
+> git add <filename>
+> git rebase --continue
+```
+
+#### Step 3
+
+Push the feature branch to the remote repository branch
+PS: Because we use `rebase` to change the history, so it's necessary force push.
+
+```
+> git push origin feat-<NAME> --force
+```
+
+#### Step 4
+
+Make a pull request and wait for the review and merge by your pear.
+
+### Shared Google Doc
+
+[Link](https://docs.google.com/document/d/1zbVAnrPLIJIaJ28Th6ddv0U3SJ_CSCF7k0x34StQpSE/edit)
 
 # Things Before the Implementation
 
@@ -452,130 +584,3 @@ Reference:
     - https://github.com/LeaYeh/minishell/pull/202
 - Our question in Stackoverflow
     - https://stackoverflow.com/questions/78140706/exception-handling-through-signal-communication-in-multiprocess-programs-in-c
-
-# DevOPS Spirit
-
-## How to Re-use Our CI/CD Framework For Your Own Minishell
-
-0. Pre-requirement
-
-Handle the non-interactive mode readline for the tester
-> https://github.com/LeaYeh/42_minishell_tester?tab=readme-ov-file#setup
-
-Reference: https://github.com/zstenger93/42_minishell_tester
-
-
-1. Download our GitHub Action setting `.github` into your project folder
-
-```sh
-curl -L -o github.tar.gz https://github.com/LeaYeh/minishell/archive/main/github.tar.gz && \
-tar -xzvf github.tar.gz --strip-components=1 "minishell-main/.github" && \
-rm -rf github.tar.gz
-```
-
-2. Commit and push GitHub Action setting into the remote stream
-
-```sh
-git add .github
-git commit -m "feat: Init ci/cd framework for minishell"
-git push
-```
-
-3. Config the repository setting
-
-<details>
-<summary>Find settings of the repository 
-</summary>
-
-![setting_btn](/doc/images/setup_btn.png)
-
-</details>
-
-<details>
-<summary>Config the setting of your main branch
-</summary>
-
-![config_branch_rule](/doc/images/config_branch_rule.jpeg)
-
-</details>
-
-<details>
-<summary>Config the permissions of GitHub Action
-</summary>
-
-![config_action](/doc/images/config_action.jpeg)
-
-</details>
-
-## Basic Cowork Flow and Git Command
-
-### Git Workflow
-
-We choose `Feature Branching Git Workflow` as our cowork flow in the project.
-
-![Diagram](doc/images/gitflow.png)
-
-#### Step 0.
-
-Checkout to main branch to pull the latest update.
-
-```
-> git checkout main
-> git pull
-```
-
-#### Step 1.
-
-Create new feature branch for each feature, the feature develop life cycle should be around hours work.
-
-```
-> git checkout -b feat-<NAME>
-```
-
-#### Step 2.
-
-After your work, checkout back to the main branch and align with the latest version again. Then checkout to feature branch and rebase with main branch.
-
-```
-> git checkout main
-> git pull
-
-> git checkout feat-<NAME>
-> git rebase main
-```
-
-#### Step 2.a
-
-No confiliction happend! Go to the Step 3.
-
-#### Step 2.b
-
-Occur confiliction when rebase...
-
-1. First, git will pause the rebase and allow you to fix the conflict. You can see which files contain conflicts by running git status.
-
-2. Open the file with conflicts. Git marks conflicts in the source code with <<<<<<<, =======, and >>>>>>>. The code between <<<<<<< and ======= is your local changes and the code between ======= and >>>>>>> is the incoming changes. You need to manually edit the file to resolve the conflict.
-
-3. After you've resolved the conflict, you need to add the resolved files to the staging area and continue the rebase process.
-
-```
-> git add <filename>
-> git rebase --continue
-```
-
-#### Step 3
-
-Push the feature branch to the remote repository branch
-PS: Because we use `rebase` to change the history, so it's necessary force push.
-
-```
-> git push origin feat-<NAME> --force
-```
-
-#### Step 4
-
-Make a pull request and wait for the review and merge by your pear.
-
-### Shared Google Doc
-
-[Link](https://docs.google.com/document/d/1zbVAnrPLIJIaJ28Th6ddv0U3SJ_CSCF7k0x34StQpSE/edit)
