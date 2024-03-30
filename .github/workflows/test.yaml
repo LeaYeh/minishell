@@ -4,6 +4,12 @@ name: Test Workflow
 on:
   pull_request:
   workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - main
+      - evaluation
 
 jobs:
   compilation_test:
