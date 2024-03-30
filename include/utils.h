@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 14:52:23 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/30 12:02:08 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,13 +131,17 @@ t_list		*pop_num_stack(t_list **stack, int num);
 
 /* String utils */
 bool		is_open_pair(unsigned char c, t_is_open_pair_op operation);
-bool		is_valid_varname(char *str);
-bool		is_valid_varname_char(char c);
-bool		is_valid_varname_start(char c);
 bool		skip_dollar_brace(char *str, int *i, bool is_in_dquote);
 bool		skip_double_quote(char *str, int *i);
 bool		skip_single_quote(char *str, int *i);
 char		*concat_list_to_string(t_list *list, char *delim);
 bool		is_str_quoted(char *str);
+
+/* Variable name utils */
+bool		is_valid_varname(char *str);
+bool		is_valid_varname_char(char c);
+bool		is_valid_varname_start(char c);
+char		*get_varname(char *str);
+int			get_varname_len(char *str);
 
 #endif

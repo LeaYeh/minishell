@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:17:46 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/25 18:41:09 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/30 11:49:31 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static bool	split_str_into_nodes(t_list **lst, t_list *task_list)
 	return (true);
 }
 
-bool	handle_word_splitting(t_list *lst, t_list **task_list)
+static bool	iter_word_splitting(t_list *lst, t_list **task_list)
 {
 	t_expander_task	*task;
 	t_list			*task_node;
@@ -75,5 +75,17 @@ bool	handle_word_splitting(t_list *lst, t_list **task_list)
 		else
 			task_node = task_node->next;
 	}
+	return (true);
+}
+
+bool	handle_word_splitting(
+	t_list **lst, t_expander_op op_mask, t_list **task_list)
+{
+	if (op_mask & E_SPLIT_WORDS)
+	{
+		if (!iter_word_splitting(*lst, task_list))
+			return (false);
+	}
+	drop_null_expansion_nodes(lst);
 	return (true);
 }

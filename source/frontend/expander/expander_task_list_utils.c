@@ -3,15 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   expander_task_list_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:17:30 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 18:17:31 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/30 12:02:32 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 #include "utils.h"
+
+void	drop_task_types(
+	t_list **task_list, char **word, t_expander_task_type type)
+{
+	t_expander_task	*task;
+	t_list			*task_node;
+
+	task_node = *task_list;
+	while (task_node)
+	{
+		task = task_node->content;
+		if ((!word || task->base_str == word) && (!type || task->type == type))
+			ft_lstdrop_node(task_list, &task_node, (void *)free_expander_task);
+		else
+			task_node = task_node->next;
+	}
+}
 
 void	free_expander_task(t_expander_task *task)
 {
@@ -19,24 +36,6 @@ void	free_expander_task(t_expander_task *task)
 		return ;
 	free(task->varname);
 	free(task);
-}
-
-char	*get_varname(char *str)
-{
-	int	varname_len;
-
-	varname_len = get_varname_len(str);
-	return (ft_strndup(str, varname_len));
-}
-
-int	get_varname_len(char *str)
-{
-	int	len;
-
-	len = 0;
-	while (is_valid_varname_char(str[len]))
-		len++;
-	return (len);
 }
 
 t_expander_task	*init_expander_task(

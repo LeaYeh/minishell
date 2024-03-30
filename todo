@@ -14,8 +14,8 @@
 
 ### Matching
 
-- [ ] Don't expand '*' if it is quoted.
-- [ ] Remove quotes from the pattern to match filenames against:
+- [x] Don't expand '*' if it is quoted.
+- [x] Remove quotes from the pattern to match filenames against:
        > If any character (ordinary, shell special, or pattern special) is quoted, that pattern shall match the character itself.
 
 ### Framework
@@ -44,7 +44,6 @@
 ### Test cases
 export A=$
 echo "$A"USER
-$USER
 
 export A="*"
 echo $A""
@@ -54,3 +53,14 @@ echo *""file
 echo *"f"ile
 
 echo *"*"*
+
+echo *" "*
+
+export B="a  b  c Make"
+echo ""$B""*$B*""
+
+echo "*"*""*
+
+echo *"*"*""**
+
+echo "M"*"e"
