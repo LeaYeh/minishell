@@ -97,6 +97,14 @@ Our [42-Docker-DevEnv](https://github.com/LeaYeh/42-Docker-DevEnv) project ensur
 
 ## How to Re-use Our CI/CD Framework For Your Own Minishell
 
+### Introduction
+
+Our CI/CD framework integrates [42_minishell_tester](https://github.com/zstenger93/42_minishell_tester), significantly enhancing our testing capability by adding an extensive set of test cases. This not only expanded our test coverage but also accelerated the testing process by 3x, slashing the time from 15 minutes to just 5 minutes. By adopting this framework, your Minishell project can benefit from a more robust and efficient development workflow.
+
+![gh_action_demo](/doc/images/gh_action_demo.gif)
+
+### Installation
+
 0. Pre-requirement
 
 Handle the non-interactive mode readline for the tester
