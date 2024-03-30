@@ -2,7 +2,8 @@
 
 # 🌊rash Minishell | @42Vienna
 
-[![Actions Status](https://img.shields.io/github/actions/workflow/status/LeaYeh/minishell/test.yaml?branch=main)](https://github.com/LeaYeh/minishell/actions)
+![Workflow Status](https://github.com/LeaYeh/minishell/actions/workflows/test.yaml/badge.svg?branch=main)
+![Norminette Status](https://github.com/LeaYeh/minishell/actions/workflows/norminette.yaml/badge.svg?branch=main)
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LeaYeh/minishell?include_prereleases)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/LeaYeh/minishell?label=version)
 
