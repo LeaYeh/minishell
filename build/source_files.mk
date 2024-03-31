@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:15:33 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/30 12:22:10 by ldulling         ###   ########.fr        #
+#    Updated: 2024/03/31 11:51:24 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             print_cmd_table.c \
             print_expanded_cmd_table.c \
             print_expanded_cmd_table_content.c \
+            print_expander_task_list.c \
             print_final_cmd_table.c \
             print_list.c \
             print_stack.c \
