@@ -54,6 +54,7 @@ bool	set_file_list(t_list **file_list)
 	struct dirent	*file;
 	char			*filename;
 
+	errno = SUCCESS;
 	dir = opendir(".");
 	if (dir == NULL)
 		return (true);
@@ -67,10 +68,6 @@ bool	set_file_list(t_list **file_list)
 			break ;
 		file = readdir(dir);
 	}
-	if (errno != SUCCESS)
-	{
-		perror(PROGRAM_NAME": ");
-		return (closedir(dir), false);
-	}
-	return (closedir(dir), true);
+	closedir(dir);
+	return (errno == SUCCESS);
 }

@@ -93,7 +93,8 @@ bool	handle_wildcard_expansion(t_list **lst, t_list **task_list)
 	t_list	*file_list;
 
 	file_list = NULL;
-	set_file_list(&file_list);
+	if (!set_file_list(&file_list))
+		return (ft_lstclear(&file_list, free), false);
 	sort_file_list(&file_list);
 	if (!iter_word_list(lst, file_list, task_list))
 		return (ft_lstclear(&file_list, free), false);
