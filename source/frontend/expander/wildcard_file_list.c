@@ -6,41 +6,83 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:57:11 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/30 12:20:06 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/30 21:35:05 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
-bool	ascending(const char *str1, const char *str2)
+bool	alphabetic(char *str1, char *str2)
 {
-	return (ft_strcmp(str1, str2) <= 0);
-}
+	char	*str1_start;
+	char	*str2_start;
 
-bool	alphabetic(const char *str1, const char *str2)
-{
-	// Skip non-alphanumeric characters
-	while (!ft_isalnum(*str1) && *str1)
-		str1++;
-	while (!ft_isalnum(*str2) && *str2)
-		str2++;
-
-	// Compare digits
-	if (ft_isdigit(*str1) && ft_isalpha(*str2))
-		return (true);
-	if (ft_isalpha(*str1) && ft_isdigit(*str2))
-		return (false);
-	if (ft_isdigit(*str1) && ft_isdigit(*str2))
-		return (*str1 <= *str2);
-
-	if (ft_isalpha(*str1) && ft_isalpha(*str2))
+	// Non-equal alnum
+	str1_start = str1;
+	str2_start = str2;
+	while (*str1 && *str2)
 	{
-		if (ft_tolower(*str1) == ft_tolower(*str2))
-			return (*str1 >= *str2);
-		else
-			return (ft_tolower(*str1) <= ft_tolower(*str2));
+		if (ft_isalnum(*str1) && ft_isalnum(*str2))
+		{
+			if (ft_tolower(*str1) != ft_tolower(*str2))
+				return (ft_tolower(*str1) <= ft_tolower(*str2));
+			str1++;
+			str2++;
+		}
+		while (!ft_isalnum(*str1) && *str1)
+			str1++;
+		while (!ft_isalnum(*str2) && *str2)
+			str2++;
 	}
-	return (*str1 <= *str2);
+	if (*str1 && !*str2)
+		return (false);
+	if (!*str1 && *str2)
+		return (true);
+
+	// Equal alnum
+	str1 = str1_start;
+	str2 = str2_start;
+	while (*str1 && *str2)
+	{
+		if (ft_isalnum(*str1) && ft_isalnum(*str2))
+		{
+			if (ft_tolower(*str1) == ft_tolower(*str2) && *str1 != *str2)
+				return (*str1 >= *str2);
+			str1++;
+			str2++;
+		}
+		while (!ft_isalnum(*str1) && *str1)
+			str1++;
+		while (!ft_isalnum(*str2) && *str2)
+			str2++;
+	}
+	if (*str1 && !*str2)
+		return (false);
+	if (!*str1 && *str2)
+		return (true);
+
+	// Non-equal non-alnum
+	str1 = str1_start;
+	str2 = str2_start;
+	while (*str1 && *str2)
+	{
+		if (!ft_isalnum(*str1) && ft_isalnum(*str2))
+			return (true);
+		if (ft_isalnum(*str1) && !ft_isalnum(*str2))
+			return (false);
+		if (!ft_isalnum(*str1) && !ft_isalnum(*str2) && *str1 != *str2)
+			return (*str1 <= *str2);
+		str1++;
+		str2++;
+	}
+	if (*str1 && !*str2)
+		return (false);
+	if (!*str1 && *str2)
+		return (true);
+
+	str1 = str1_start;
+	str2 = str2_start;
+	return (ft_strcmp(str1, str2) <= 0);
 }
 
 void	sort_file_list(t_list **file_list)

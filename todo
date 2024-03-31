@@ -5,12 +5,15 @@
 - [ ] Rename all occurances of parameter to variable
 
 ### Sorting
-- [ ] Sort that list alphabetically. (ASCII ascending != alphabetically) - any non-alphanumeric characters can be ignored, just find first alphanumeric character of each filename.
-- Numeric are before alphabetic.
-- Lowercase comes before uppercase if everything else is equal.
-- Special characters with the alphanumeric part being the same are sorted by ASCII.
+- Numeric before alphabetic.
+- Lowercase before uppercase.
+- First, only consider alphanumeric. If that is equal, non-alphanumeric comes first and is sorted by ASCII value.
+- Entirely non-alphanumeric comes very first.
 
-- [ ] Just for sorting,
+1. Compare considering only alphanumeric, not considering case.
+2. If equal so far, lowercase before uppercase.
+3. If equal still, give priority to non-alphanumeric.
+4. If both are non-alphanumeric, just check which has lower ASCII value.
 
 ### Matching
 
