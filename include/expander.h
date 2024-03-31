@@ -67,6 +67,7 @@ bool			handle_wildcard_expansion(t_list **lst, t_list **task_list);
 bool			is_wildcard(char *word, t_list *task_list);
 char			*get_next_wildcard(char *word, t_list *task_list);
 void			skip_wildcard(char **filename, char **word, t_list *task_list);
+bool			any_wildcard(t_list *lst, t_list *task_list);
 
 /* wildcard_file_list.c */
 bool			set_file_list(t_list **file_list);

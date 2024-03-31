@@ -62,3 +62,14 @@ void	skip_wildcard(char **filename, char **word, t_list *task_list)
 	else
 		*filename = ft_strrnstr(*filename, *word, ft_strlen(*filename));
 }
+
+bool	any_wildcard(t_list *lst, t_list *task_list)
+{
+	while (lst)
+	{
+		if (get_next_wildcard(lst->content, task_list))
+			return (true);
+		lst = lst->next;
+	}
+	return (false);
+}
