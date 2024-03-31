@@ -102,6 +102,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             wildcard_expansion.c \
             wildcard_expansion_utils.c \
             wildcard_file_list.c \
+            wildcard_task_list.c \
             word_splitting.c \
             word_splitting_utils.c \
 )

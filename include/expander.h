@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 23:25:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/30 12:24:07 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/31 11:53:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,18 @@ bool			handle_expansion(t_list **lst, t_shell *shell,
 					t_expander_op op_mask);
 
 /* expander_task_list.c */
-bool			set_parameter_expansion_info(t_list **task_list,
-					char **base_str, t_expander_op op_mask);
+bool			set_expander_task_list(t_list **task_list, char **base_str,
+					t_expander_op op_mask);
+bool			append_quote_task(t_list **task_list, char **base_str, int *i);
 bool			append_parameter_task(t_list **task_list, char **base_str,
 					int *i, t_expander_op op_mask);
-bool			set_quote_wildcard_expansion_info(t_list **task_list,
-					t_list *lst, t_expander_op op_mask);
-bool			append_quote_task(t_list **task_list, char **base_str, int *i);
-bool			append_wildcard_task(t_list **task_list, char **base_str,
-					int *i);
 
 /* expander_task_list_utils.c */
 void			drop_task_types(t_list **task_list, char **word,
 					t_expander_task_type type);
 void			free_expander_task(t_expander_task *task);
+t_list			*get_expander_task_node(t_list *task_list, char **base_str,
+					int i, t_expander_task_type type);
 t_expander_task	*init_expander_task(t_expander_task_type type, int start,
 					int replace_len, char *str);
 void			update_expander_tasks(t_list *task_list, int diff,
@@ -73,6 +71,10 @@ void			skip_wildcard(char **filename, char **word, t_list *task_list);
 /* wildcard_file_list.c */
 bool			set_file_list(t_list **file_list);
 void			sort_file_list(t_list **file_list);
+
+/* wildcard_task_list.c */
+bool			set_wildcard_task_list(t_list **task_list, t_list *lst,
+					t_expander_op op_mask);
 
 /* word_splitting.c */
 bool			handle_word_splitting(t_list **lst, t_expander_op op_mask,

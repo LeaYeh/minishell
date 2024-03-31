@@ -37,10 +37,10 @@ bool	handle_expansion(t_list **lst, t_shell *shell, t_expander_op op_mask)
 
 	base_str = (char **)&(*lst)->content;
 	task_list = NULL;
-	if (!set_parameter_expansion_info(&task_list, base_str, op_mask) || \
+	if (!set_expander_task_list(&task_list, base_str, op_mask) || \
 		!handle_parameter_expansion(&task_list, shell) || \
 		!handle_word_splitting(lst, op_mask, &task_list) || \
-		!set_quote_wildcard_expansion_info(&task_list, *lst, op_mask) || \
+		!set_wildcard_task_list(&task_list, *lst, op_mask) || \
 		!handle_quote_removal(&task_list) || \
 		!handle_wildcard_expansion(lst, &task_list))
 		return (ft_lstclear(&task_list, (void *)free_expander_task), false);

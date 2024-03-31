@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:17:30 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/30 12:02:32 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/31 12:42:06 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,22 @@ void	free_expander_task(t_expander_task *task)
 	free(task);
 }
 
+t_list	*get_expander_task_node(
+	t_list *task_list, char **base_str, int i, t_expander_task_type type)
+{
+	t_expander_task	*task;
+
+	while (task_list)
+	{
+		task = task_list->content;
+		if (task->type == type && task->base_str == base_str && \
+			i >= task->start && i < task->start + task->replace_len)
+			return (task_list);
+		task_list = task_list->next;
+	}
+	return (NULL);
+}
+
 t_expander_task	*init_expander_task(
 	t_expander_task_type type, int start, int replace_len, char *str)
 {
@@ -58,7 +74,7 @@ t_expander_task	*init_expander_task(
 	}
 	else
 		task->varname = NULL;
-	task->result_len = 0;
+	task->result_len = -1;
 	return (task);
 }
 
