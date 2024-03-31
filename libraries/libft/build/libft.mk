@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/28 18:13:03 by ldulling         ###   ########.fr        #
+#    Updated: 2024/03/31 23:45:20 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,6 +121,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 #  Strings:
 SUBDIR	:=	strings/
 TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+			ft_alphabetic.c \
 			ft_itoa.c \
 			ft_split.c \
 			ft_split_at_index.c \

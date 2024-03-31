@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/28 18:12:46 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/31 23:45:05 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ size_t		ft_sputnstr(char *str, const char *s, size_t n);
 \
 /* Strings */
 
+bool		ft_alphabetic(const char *str1, const char *str2);
 char		*ft_itoa(int n);
 char		**ft_split(char const *s, char c);
 char		**ft_split_at_index(char *str, size_t index);
