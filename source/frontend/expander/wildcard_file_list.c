@@ -12,20 +12,14 @@
 
 #include "expander.h"
 
-bool	alphabetic(char *str1, char *str2)
+int	compare_non_equal_alnum(char *str1, char *str2)
 {
-	char	*str1_start;
-	char	*str2_start;
-
-	// Non-equal alnum
-	str1_start = str1;
-	str2_start = str2;
 	while (*str1 && *str2)
 	{
 		if (ft_isalnum(*str1) && ft_isalnum(*str2))
 		{
 			if (ft_tolower(*str1) != ft_tolower(*str2))
-				return (ft_tolower(*str1) <= ft_tolower(*str2));
+				return (ft_tolower(*str1) - ft_tolower(*str2));
 			str1++;
 			str2++;
 		}
@@ -34,20 +28,17 @@ bool	alphabetic(char *str1, char *str2)
 		while (!ft_isalnum(*str2) && *str2)
 			str2++;
 	}
-	if (*str1 && !*str2)
-		return (false);
-	if (!*str1 && *str2)
-		return (true);
+	return (*str1 - *str2);
+}
 
-	// Equal alnum
-	str1 = str1_start;
-	str2 = str2_start;
+int	compare_equal_alnum(char *str1, char *str2)
+{
 	while (*str1 && *str2)
 	{
 		if (ft_isalnum(*str1) && ft_isalnum(*str2))
 		{
 			if (ft_tolower(*str1) == ft_tolower(*str2) && *str1 != *str2)
-				return (*str1 >= *str2);
+				return (*str2 - *str1);
 			str1++;
 			str2++;
 		}
@@ -56,32 +47,38 @@ bool	alphabetic(char *str1, char *str2)
 		while (!ft_isalnum(*str2) && *str2)
 			str2++;
 	}
-	if (*str1 && !*str2)
-		return (false);
-	if (!*str1 && *str2)
-		return (true);
+	return (*str1 - *str2);
+}
 
-	// Non-equal non-alnum
-	str1 = str1_start;
-	str2 = str2_start;
+int	compare_non_equal_non_alnum(char *str1, char *str2)
+{
 	while (*str1 && *str2)
 	{
 		if (!ft_isalnum(*str1) && ft_isalnum(*str2))
-			return (true);
+			return (-1);
 		if (ft_isalnum(*str1) && !ft_isalnum(*str2))
-			return (false);
+			return (1);
 		if (!ft_isalnum(*str1) && !ft_isalnum(*str2) && *str1 != *str2)
-			return (*str1 <= *str2);
+			return (*str1 - *str2);
 		str1++;
 		str2++;
 	}
-	if (*str1 && !*str2)
-		return (false);
-	if (!*str1 && *str2)
-		return (true);
+	return (*str1 - *str2);
+}
 
-	str1 = str1_start;
-	str2 = str2_start;
+bool	alphabetic(char *str1, char *str2)
+{
+	int	diff;
+
+	diff = compare_non_equal_alnum(str1, str2);
+	if (diff)
+		return (diff < 0);
+	diff = compare_equal_alnum(str1, str2);
+	if (diff)
+		return (diff < 0);
+	diff = compare_non_equal_non_alnum(str1, str2);
+	if (diff)
+		return (diff < 0);
 	return (ft_strcmp(str1, str2) <= 0);
 }
 
