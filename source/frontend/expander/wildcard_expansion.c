@@ -50,9 +50,7 @@ bool	expand_wildcard(
 		if (match_filename(file_list->content, word, task_list))
 		{
 			dup = ft_strdup(file_list->content);
-			if (!dup)
-				return (false);
-			if (!ft_lstnew_back(tmp_lst, dup))
+			if (!dup || !ft_lstnew_back(tmp_lst, dup))
 				return (free(dup), false);
 		}
 		file_list = file_list->next;
@@ -88,12 +86,11 @@ static bool	iter_word_list(t_list **lst, t_list *file_list, t_list **task_list)
 	return (true);
 }
 
-bool	handle_wildcard_expansion(
-	t_list **lst, t_list **task_list, t_expander_op op_mask)
+bool	handle_wildcard_expansion(t_list **lst, t_list **task_list)
 {
 	t_list	*file_list;
 
-	if (!(op_mask & E_WILDCARD) || !any_wildcard(*lst, *task_list))
+	if (!any_wildcard_task(*task_list))
 		return (true);
 	file_list = NULL;
 	if (!set_file_list(&file_list))

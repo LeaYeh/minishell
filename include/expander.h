@@ -61,14 +61,13 @@ bool			handle_quote_removal(t_list **task_list);
 bool			remove_quote(t_list *task_list);
 
 /* wildcard_expansion.c */
-bool			handle_wildcard_expansion(t_list **lst, t_list **task_list,
-					t_expander_op op_mask);
+bool			handle_wildcard_expansion(t_list **lst, t_list **task_list);
 
 /* wildcard_expansion_utils.c */
 bool			is_wildcard(char *word, t_list *task_list);
 char			*get_next_wildcard(char *word, t_list *task_list);
 void			skip_wildcard(char **filename, char **word, t_list *task_list);
-bool			any_wildcard(t_list *lst, t_list *task_list);
+bool			any_wildcard_task(t_list *task_list);
 
 /* wildcard_file_list.c */
 bool			set_file_list(t_list **file_list);

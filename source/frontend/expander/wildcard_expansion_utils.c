@@ -63,13 +63,16 @@ void	skip_wildcard(char **filename, char **word, t_list *task_list)
 		*filename = ft_strrnstr(*filename, *word, ft_strlen(*filename));
 }
 
-bool	any_wildcard(t_list *lst, t_list *task_list)
+bool	any_wildcard_task(t_list *task_list)
 {
-	while (lst)
+	t_expander_task	*task;
+
+	while (task_list)
 	{
-		if (get_next_wildcard(lst->content, task_list))
+		task = task_list->content;
+		if (task->type == ET_WILDCARD)
 			return (true);
-		lst = lst->next;
+		task_list = task_list->next;
 	}
 	return (false);
 }
