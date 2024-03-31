@@ -61,7 +61,8 @@ bool			handle_quote_removal(t_list **task_list);
 bool			remove_quote(t_list *task_list);
 
 /* wildcard_expansion.c */
-bool			handle_wildcard_expansion(t_list **lst, t_list **task_list);
+bool			handle_wildcard_expansion(t_list **lst, t_list **task_list,
+					t_expander_op op_mask);
 
 /* wildcard_expansion_utils.c */
 bool			is_wildcard(char *word, t_list *task_list);

@@ -62,7 +62,8 @@ bool	set_wildcard_task_list(
 	t_list	*new_task_list;
 	bool	ret;
 
-	(void)op_mask;
+	if (!(op_mask & E_WILDCARD))
+		return (true);
 	ret = true;
 	new_task_list = NULL;
 	while (lst && ret)

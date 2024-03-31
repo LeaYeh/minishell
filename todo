@@ -2,7 +2,11 @@
 
 - [x] Get a list of all files of the current directoy.
 - [ ] Rename `lst` to `expanded_list` in expander.
-- [ ] Rename all occurances of parameter to variable
+- [ ] Rename all occurances of parameter to variable.
+- [ ] Rename `E_EXPAND` to `E_PARAM` or `E_VAR`.
+- [x] Check op_masks WHEN wildcard expansion should happen!
+       - [ ] Not for values when assigning env variables.
+       - [x] Not in heredoc content.
 
 ### Sorting
 - Numeric before alphabetic.

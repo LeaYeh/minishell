@@ -212,9 +212,10 @@ typedef enum e_is_open_pair_op
 
 typedef enum e_expander_op
 {
-	E_EXPAND		= 0b001,
-	E_SPLIT_WORDS	= 0b010,
-	E_RM_QUOTES		= 0b100
+	E_EXPAND		= 0b0001,
+	E_SPLIT_WORDS	= 0b0010,
+	E_WILDCARD		= 0b0100,
+	E_RM_QUOTES		= 0b1000
 }	t_expander_op;
 
 typedef enum e_expander_task_type
