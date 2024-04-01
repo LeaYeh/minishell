@@ -7,7 +7,7 @@
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LeaYeh/minishell?include_prereleases)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/LeaYeh/minishell?label=version)
 
-[![Visits Badge](https://badges.pufler.dev/visits/LeaYeh/minishell)](https://github.com/LeaYeh/minishell)
+[![Visits Badge](https://visitor-badge.laobi.icu/badge?page_id=LeaYeh.minishell&right_color=black)](https://github.com/LeaYeh/minishell)
 [![Lines of Code](https://tokei.rs/b1/github/LeaYeh/minishell?category=code)](https://github.com/LeaYeh/minishell)
 ![GitHub](https://img.shields.io/github/license/LeaYeh/minishell)
 
@@ -132,7 +132,7 @@ git push
 3. Config the repository setting
 
 <details>
-<summary>Find settings of the repository 
+<summary>Find settings of the repository
 </summary>
 
 ![setting_btn](/doc/images/setup_btn.png)
@@ -385,7 +385,7 @@ When designing the subprocess flow in the executor module, we referred to the hi
 
 Therefore, we devised a hierarchical subprocess flow akin to a layered cake. Below, I will illustrate our design philosophy with examples.
 
-> 
+>
 > In the process flow diagram:
 > 1. [P|S|C]n
 >   - P: represents a pipeline
@@ -497,7 +497,7 @@ Output:
 /Users/leayeh/project/git_dev/42/curriculum/minishell
 /Users/leayeh/project/git_dev/42/curriculum/minishell
 
-> pwd && cd source/ && pwd  
+> pwd && cd source/ && pwd
 
 Output:
 /Users/leayeh/project/git_dev/42/curriculum/minishell
