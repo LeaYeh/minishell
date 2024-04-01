@@ -1,7 +1,7 @@
 # wildcard expansion:
 
 - [x] Get a list of all files of the current directoy.
-- [ ] Rename `lst` to `expanded_list` in expander.
+- [x] Rename `lst` to `expanded_list` in expander.
 - [ ] Rename all occurances of parameter to variable.
 - [ ] Rename `E_EXPAND` to `E_PARAM` or `E_VAR`.
 - [x] Check op_masks WHEN wildcard expansion should happen!

@@ -12,7 +12,8 @@
 
 #include "expander.h"
 
-int	expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
+int	expander(
+	char *str, t_list **expanded_list, t_shell *shell, t_expander_op op_mask)
 {
 	char	*new_str;
 
@@ -23,26 +24,27 @@ int	expander(char *str, t_list **lst, t_shell *shell, t_expander_op op_mask)
 		return (MALLOC_ERROR);
 	if (is_bad_substitution(new_str, op_mask))
 		return (free(new_str), BAD_SUBSTITUTION);
-	if (!ft_lstnew_back(lst, new_str))
+	if (!ft_lstnew_back(expanded_list, new_str))
 		return (free(new_str), MALLOC_ERROR);
-	if (!handle_expansion(lst, shell, op_mask))
+	if (!handle_expansion(expanded_list, shell, op_mask))
 		return (MALLOC_ERROR);
 	return (SUCCESS);
 }
 
-bool	handle_expansion(t_list **lst, t_shell *shell, t_expander_op op_mask)
+bool	handle_expansion(
+	t_list **expanded_list, t_shell *shell, t_expander_op op_mask)
 {
 	char	**base_str;
 	t_list	*task_list;
 
-	base_str = (char **)&(*lst)->content;
+	base_str = (char **)&(*expanded_list)->content;
 	task_list = NULL;
 	if (!set_expander_task_list(&task_list, base_str, op_mask) || \
 		!handle_parameter_expansion(&task_list, shell) || \
-		!handle_word_splitting(lst, op_mask, &task_list) || \
-		!set_wildcard_task_list(&task_list, *lst, op_mask) || \
+		!handle_word_splitting(expanded_list, op_mask, &task_list) || \
+		!set_wildcard_task_list(&task_list, *expanded_list, op_mask) || \
 		!handle_quote_removal(&task_list) || \
-		!handle_wildcard_expansion(lst, &task_list))
+		!handle_wildcard_expansion(expanded_list, &task_list))
 		return (ft_lstclear(&task_list, (void *)free_expander_task), false);
 	ft_lstclear(&task_list, (void *)free_expander_task);
 	return (true);
