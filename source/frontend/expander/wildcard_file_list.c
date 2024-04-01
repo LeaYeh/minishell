@@ -26,10 +26,11 @@ bool	set_file_list(t_list **file_list)
 	while (file != NULL)
 	{
 		filename = ft_strdup(file->d_name);
-		if (!filename)
+		if (!filename || !ft_lstnew_front(file_list, filename))
+		{
+			free(filename);
 			break ;
-		if (!ft_lstnew_front(file_list, filename))
-			break ;
+		}
 		file = readdir(dir);
 	}
 	closedir(dir);
