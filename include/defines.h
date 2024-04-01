@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 15:35:09 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/28 22:39:15 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,7 +336,7 @@ typedef struct s_shell
 	int					signal_record;
 	t_pipe				old_pipe;
 	t_pipe				new_pipe;
-	int					exit_code;
+	unsigned char		exit_code;
 	char				*input_line;
 	t_list				*child_pid_list;
 	t_list				*env_list;

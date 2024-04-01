@@ -68,5 +68,5 @@ void	setup_signal(t_shell *shell, int signo, t_state state)
 	else if (state == SIG_RECORD)
 		sa.sa_sigaction = handle_signal_record;
 	if (sigaction(signo, &sa, NULL) != 0)
-		perror("The signal is not supported:");
+		perror("The signal is not supported");
 }
