@@ -6,12 +6,25 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:17:30 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/31 12:42:06 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/01 02:02:51 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-#include "utils.h"
+
+bool	any_task_of_type(t_list *task_list, t_expander_task_type type)
+{
+	t_expander_task	*task;
+
+	while (task_list)
+	{
+		task = task_list->content;
+		if (task->type == type)
+			return (true);
+		task_list = task_list->next;
+	}
+	return (false);
+}
 
 void	drop_task_types(
 	t_list **task_list, char **word, t_expander_task_type type)
@@ -30,14 +43,6 @@ void	drop_task_types(
 	}
 }
 
-void	free_expander_task(t_expander_task *task)
-{
-	if (!task)
-		return ;
-	free(task->varname);
-	free(task);
-}
-
 t_list	*get_expander_task_node(
 	t_list *task_list, char **base_str, int i, t_expander_task_type type)
 {
@@ -52,30 +57,6 @@ t_list	*get_expander_task_node(
 		task_list = task_list->next;
 	}
 	return (NULL);
-}
-
-t_expander_task	*init_expander_task(
-	t_expander_task_type type, int start, int replace_len, char *str)
-{
-	t_expander_task	*task;
-
-	task = (t_expander_task *)malloc(sizeof(t_expander_task));
-	if (!task)
-		return (NULL);
-	task->type = type;
-	task->base_str = NULL;
-	task->start = start;
-	task->replace_len = replace_len;
-	if (type == ET_VAR || type == ET_VAR_NO_SPLIT)
-	{
-		task->varname = get_varname(str);
-		if (!task->varname)
-			return (free(task), NULL);
-	}
-	else
-		task->varname = NULL;
-	task->result_len = -1;
-	return (task);
 }
 
 void	update_expander_tasks(t_list *task_list, int diff, char **new_base_str)

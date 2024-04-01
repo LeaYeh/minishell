@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:15:33 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/31 11:51:24 by ldulling         ###   ########.fr        #
+#    Updated: 2024/04/01 02:06:40 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,6 +95,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             expander.c \
             expander_task_list.c \
             expander_task_list_utils.c \
+            expander_task_utils.c \
             expander_utils.c \
             null_expansion.c \
             parameter_expansion.c \

@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 23:25:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/31 11:53:43 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/01 02:05:23 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,18 @@ bool			append_parameter_task(t_list **task_list, char **base_str,
 					int *i, t_expander_op op_mask);
 
 /* expander_task_list_utils.c */
+bool			any_task_of_type(t_list *task_list, t_expander_task_type type);
 void			drop_task_types(t_list **task_list, char **word,
 					t_expander_task_type type);
-void			free_expander_task(t_expander_task *task);
 t_list			*get_expander_task_node(t_list *task_list, char **base_str,
 					int i, t_expander_task_type type);
-t_expander_task	*init_expander_task(t_expander_task_type type, int start,
-					int replace_len, char *str);
 void			update_expander_tasks(t_list *task_list, int diff,
 					char **new_base_str);
+
+/* expander_task_utils.c */
+void			free_expander_task(t_expander_task *task);
+t_expander_task	*init_expander_task(t_expander_task_type type, int start,
+					int replace_len, char *str);
 
 /* expander_utils.c */
 int				get_offset(char *str);
@@ -67,7 +70,6 @@ bool			handle_wildcard_expansion(t_list **lst, t_list **task_list);
 bool			is_wildcard(char *word, t_list *task_list);
 char			*get_next_wildcard(char *word, t_list *task_list);
 void			skip_wildcard(char **filename, char **word, t_list *task_list);
-bool			any_wildcard_task(t_list *task_list);
 
 /* wildcard_file_list.c */
 bool			set_file_list(t_list **file_list);

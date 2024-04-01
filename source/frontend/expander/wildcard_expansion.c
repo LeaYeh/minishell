@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:47:40 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/30 21:19:59 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/01 02:03:18 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ bool	handle_wildcard_expansion(t_list **lst, t_list **task_list)
 {
 	t_list	*file_list;
 
-	if (!any_wildcard_task(*task_list))
+	if (!any_task_of_type(*task_list, ET_WILDCARD))
 		return (true);
 	file_list = NULL;
 	if (!set_file_list(&file_list))

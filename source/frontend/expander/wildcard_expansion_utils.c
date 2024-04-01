@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 12:03:50 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/30 12:04:07 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/01 02:02:05 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,4 @@ void	skip_wildcard(char **filename, char **word, t_list *task_list)
 	}
 	else
 		*filename = ft_strrnstr(*filename, *word, ft_strlen(*filename));
-}
-
-bool	any_wildcard_task(t_list *task_list)
-{
-	t_expander_task	*task;
-
-	while (task_list)
-	{
-		task = task_list->content;
-		if (task->type == ET_WILDCARD)
-			return (true);
-		task_list = task_list->next;
-	}
-	return (false);
 }
