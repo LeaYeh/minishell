@@ -21,7 +21,7 @@ int	expand_filename(t_shell *shell, char **filename)
 	t_list			*expanded_list;
 	int				ret;
 
-	op_mask = E_EXPAND | E_RM_QUOTES;
+	op_mask = E_PARAM | E_RM_QUOTES;
 	if (shell->is_interactive)
 		op_mask |= E_WILDCARD;
 	expanded_list = NULL;

@@ -21,7 +21,7 @@ bool	expand_and_print(char *str, t_shell *shell)
 
 	expanded_list = NULL;
 	ret = expander(str, &expanded_list, shell,
-			E_EXPAND | E_SPLIT_WORDS | E_WILDCARD | E_RM_QUOTES);
+			E_PARAM | E_SPLIT_WORDS | E_WILDCARD | E_RM_QUOTES);
 	if (ret == MALLOC_ERROR)
 		return (printf("malloc failed in expander"), false);
 	if (ret == BAD_SUBSTITUTION)
