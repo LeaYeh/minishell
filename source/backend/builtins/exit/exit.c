@@ -16,7 +16,7 @@
 
 void	handle_exit(t_shell *shell, int args_error)
 {
-	if (shell->subshell_level == 0 && !TEST_MODE)
+	if (shell->subshell_level == 0 && shell->is_interactive)
 		ft_dprintf(STDERR_FILENO, EXIT_MSG);
 	if (args_error == EX_TOO_MANY_ARGS)
 	{

@@ -34,10 +34,6 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 
-# ifndef TEST_MODE
-#  define TEST_MODE false
-# endif
-
 # ifndef PARSING_TABLE
 #  define DEFINITIONS_OK	false
 # else
@@ -333,6 +329,7 @@ typedef struct s_pipe
 
 typedef struct s_shell
 {
+	bool				is_interactive;
 	pid_t				pid;
 	pid_t				subshell_pid;
 	int					subshell_level;

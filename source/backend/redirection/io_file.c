@@ -17,12 +17,15 @@
 
 int	expand_filename(t_shell *shell, char **filename)
 {
-	t_list		*expanded_list;
-	int			ret;
+	t_expander_op	op_mask;
+	t_list			*expanded_list;
+	int				ret;
 
+	op_mask = E_EXPAND | E_RM_QUOTES;
+	if (shell->is_interactive)
+		op_mask |= E_WILDCARD;
 	expanded_list = NULL;
-	ret = expander(*filename,
-			&expanded_list, shell, E_EXPAND | E_WILDCARD | E_RM_QUOTES);
+	ret = expander(*filename, &expanded_list, shell, op_mask);
 	if (ret == MALLOC_ERROR || ret == BAD_SUBSTITUTION)
 		return (ft_lstclear(&expanded_list, free), ret);
 	if (ft_lstsize_non_null(expanded_list) != 1)

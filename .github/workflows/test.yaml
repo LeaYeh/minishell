@@ -67,7 +67,7 @@ jobs:
           done
       - name: 🔍 Check memory leaks
         run: |
-          make fclean test
+          make re CC=clang-12
           $HOME/42_minishell_tester/tester.sh va > $HOME/leak_result.txt
         env:
           GH_BRANCH: IGNORE
@@ -97,7 +97,7 @@ jobs:
         uses: ./.github/actions/setup
       - name: 🌱 Test source branch of pull request
         run: |
-          make fclean test
+          make re CC=clang-12
           $HOME/42_minishell_tester/tester.sh m > $HOME/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
@@ -111,7 +111,7 @@ jobs:
           ref: ${{ github.base_ref }}
       - name: 🎯 Test target branch of pull request
         run: |
-          make fclean test
+          make re CC=clang-12
           $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
@@ -135,7 +135,7 @@ jobs:
         uses: ./.github/actions/setup
       - name: 🌱 Test source branch of pull request
         run: |
-          make fclean test
+          make re CC=clang-12
           $HOME/42_minishell_tester/tester.sh b > $HOME/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
@@ -149,7 +149,7 @@ jobs:
           ref: ${{ github.base_ref }}
       - name: 🎯 Test target branch of pull request
         run: |
-          make fclean test
+          make re CC=clang-12
           $HOME/42_minishell_tester/tester.sh b > $HOME/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
@@ -173,7 +173,7 @@ jobs:
         uses: ./.github/actions/setup
       - name: 🌱 Test source branch of pull request
         run: |
-          make fclean test
+          make re CC=clang-12
           $HOME/42_minishell_tester/tester.sh ne > $HOME/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
@@ -187,7 +187,7 @@ jobs:
           ref: ${{ github.base_ref }}
       - name: 🎯 Test target branch of pull request
         run: |
-          make fclean test
+          make re CC=clang-12
           $HOME/42_minishell_tester/tester.sh ne > $HOME/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
@@ -211,7 +211,7 @@ jobs:
         uses: ./.github/actions/setup
       - name: 🌱 Test source branch of pull request
         run: |
-          make fclean test
+          make re CC=clang-12
           $HOME/42_minishell_tester/tester.sh d > $HOME/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
@@ -225,7 +225,7 @@ jobs:
           ref: ${{ github.base_ref }}
       - name: 🎯 Test target branch of pull request
         run: |
-          make fclean test
+          make re CC=clang-12
           $HOME/42_minishell_tester/tester.sh d > $HOME/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
