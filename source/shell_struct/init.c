@@ -16,6 +16,7 @@
 
 bool	init_shell(t_shell *shell)
 {
+	shell->is_interactive = isatty(STDIN_FILENO);
 	shell->pid = getpid();
 	shell->subshell_pid = -1;
 	shell->subshell_level = 0;

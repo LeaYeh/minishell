@@ -333,6 +333,7 @@ typedef struct s_pipe
 
 typedef struct s_shell
 {
+	bool				is_interactive;
 	pid_t				pid;
 	pid_t				subshell_pid;
 	int					subshell_level;
