@@ -13,6 +13,7 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
+# include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -211,9 +212,10 @@ typedef enum e_is_open_pair_op
 
 typedef enum e_expander_op
 {
-	E_EXPAND		= 0b001,
-	E_SPLIT_WORDS	= 0b010,
-	E_RM_QUOTES		= 0b100
+	E_EXPAND		= 0b0001,
+	E_SPLIT_WORDS	= 0b0010,
+	E_WILDCARD		= 0b0100,
+	E_RM_QUOTES		= 0b1000
 }	t_expander_op;
 
 typedef enum e_expander_task_type
@@ -221,6 +223,7 @@ typedef enum e_expander_task_type
 	ET_VAR			= 0,
 	ET_VAR_NO_SPLIT,
 	ET_EXIT_CODE,
+	ET_WILDCARD,
 	ET_QUOTE
 }	t_expander_task_type;
 

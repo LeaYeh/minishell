@@ -1,29 +1,73 @@
-# Expander
+# wildcard expansion:
 
-- I want each each task to have a double pointer to the string that task operates on.
-	- How to update those pointers after every task execution and word split?
+- [x] Get a list of all files of the current directoy.
+- [ ] Rename `lst` to `expanded_list` in expander.
+- [ ] Rename all occurances of parameter to variable.
+- [ ] Rename `E_EXPAND` to `E_PARAM` or `E_VAR`.
+- [x] Check op_masks WHEN wildcard expansion should happen!
+       - [ ] Not for values when assigning env variables.
+       - [x] Not in heredoc content.
 
+### Sorting
+- Numeric before alphabetic.
+- Lowercase before uppercase.
+- First, only consider alphanumeric. If that is equal, non-alphanumeric comes first and is sorted by ASCII value.
+- Entirely non-alphanumeric comes very first.
 
+1. Compare considering only alphanumeric, not considering case.
+2. If equal so far, lowercase before uppercase.
+3. If equal still, give priority to non-alphanumeric.
+4. If both are non-alphanumeric, just check which has lower ASCII value.
 
-# export:
+### Matching
 
-- [x] If args_len < 2, print all exported env vars in ASCII order, with "export " prepended.
-	- [x] The value gets put in double-quotes.
-	- [ ] Quotes, dollar signs, backslash and '`' are escaped with a backslash.
+- [x] Don't expand '*' if it is quoted.
+- [x] Remove quotes from the pattern to match filenames against:
+       > If any character (ordinary, shell special, or pattern special) is quoted, that pattern shall match the character itself.
 
-- [x] If one of the variable assignments is not a valid variable name, return value will be GENERAL_ERROR (1), but export will still go through all arguments.
-The error message gets printed for every invalid identifier.
+### Framework
+- [x] Search each word of `lst` for '*'.
+       - [x] If found, set a new `tmp_lst` variable to NULL and go to other function which sets the `tmp_lst`.
+              Then, if `tmp_lst` is still NULL, do nothing and go to next word.
+              Else, drop that word and insert the `tmp_lst` before the new current node.
 
-- [x] If the argument string does not have an '=' and the key does not already exist, the value will be set to NULL.
-- [x] If the key already exists, the env_node will be set to be exported.
+- [x] If a filename matches, ft_strdup the filename and append a node with it to `tmp_lst`.
 
-### Error messages:
-- bash: export: `<invalid name>': not a valid identifier
+//- [ ] When searching each word for '*' and one is found, first check if that index is within quote tasks.
+       If it is, skip until next quote task.
 
-### Test cases:
-- [x] export "" -> export: `': not a valid identifier
-- [ ] export without any variable in env left -> just a newline.
+- "." and ".." don't have to be filtered, bash also displays them.
+- [x] Only search files starting with "." if the first character of arg is also '.'.
 
+- [ ] Test with files that have no permissions.
+       If  the end of the directory stream is reached, NULL is returned and errno is not changed.  If
+       an error occurs, NULL is returned and errno is  set  appropriately.   To  distinguish  end  of
+       stream  from  an error, set errno to zero before calling readdir() and then check the value of
+       errno if NULL is returned.
+	- Filenames can still be read even of files that have no read permissions.
 
+- Wildcard at first and last position have a high impact.
 
-env -i /usr/bin/valgrind ./minishell
+### Test cases
+export A=$
+echo "$A"USER
+
+export A="*"
+echo $A""
+
+echo *""file
+
+echo *"f"ile
+
+echo *"*"*
+
+echo *" "*
+
+export B="a  b  c Make"
+echo ""$B""*$B*""
+
+echo "*"*""*
+
+echo *"*"*""**
+
+echo "M"*"e"

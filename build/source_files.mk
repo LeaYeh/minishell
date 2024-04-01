@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:15:33 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/27 00:18:39 by ldulling         ###   ########.fr        #
+#    Updated: 2024/04/01 02:06:40 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             print_cmd_table.c \
             print_expanded_cmd_table.c \
             print_expanded_cmd_table_content.c \
+            print_expander_task_list.c \
             print_final_cmd_table.c \
             print_list.c \
             print_stack.c \
@@ -94,11 +95,15 @@ SRC		+=	$(addprefix $(SUBDIR), \
             expander.c \
             expander_task_list.c \
             expander_task_list_utils.c \
+            expander_task_utils.c \
             expander_utils.c \
             null_expansion.c \
+            parameter_expansion.c \
             quote_removal.c \
-            special_param_expansion.c \
-            variable_expansion.c \
+            wildcard_expansion.c \
+            wildcard_expansion_utils.c \
+            wildcard_file_list.c \
+            wildcard_task_list.c \
             word_splitting.c \
             word_splitting_utils.c \
 )

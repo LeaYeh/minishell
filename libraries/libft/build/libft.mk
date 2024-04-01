@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/21 21:36:07 by ldulling         ###   ########.fr        #
+#    Updated: 2024/03/31 23:45:20 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstdelone.c \
 			ft_lstdrop_node.c \
 			ft_lstinsert_after.c \
+			ft_lstinsert_before.c \
 			ft_lstiter.c \
 			ft_lstlast.c \
 			ft_lstmap.c \
@@ -77,6 +78,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstsize.c \
 			ft_lstsize_non_null.c \
 			ft_lstsort_bubble.c \
+			ft_lstsort_merge.c \
 			ft_lstswap_head.c \
 )
 
@@ -119,6 +121,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 #  Strings:
 SUBDIR	:=	strings/
 TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+			ft_alphabetic.c \
 			ft_itoa.c \
 			ft_split.c \
 			ft_split_at_index.c \
@@ -138,6 +141,7 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_strndup.c \
 			ft_strnstr.c \
 			ft_strrchr.c \
+			ft_strrnstr.c \
 			ft_strrplc_part.c \
 			ft_strrplc_sequence.c \
 			ft_strtok.c \

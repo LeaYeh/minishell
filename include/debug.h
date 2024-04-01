@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 18:02:03 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/26 22:50:08 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/31 13:02:58 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,10 @@ void	print_unexpanded_cmd_table(t_cmd_table *cmd_table);
 bool	print_expanded_simple_cmd_list(t_cmd_table *cmd_table, t_shell *shell);
 bool	print_expanded_assignment_list(t_cmd_table *cmd_table, t_shell *shell);
 bool	print_expanded_io_red_list(t_cmd_table *cmd_table, t_shell *shell);
+
+/* Expander task list */
+bool	print_expander_task_list(t_list *task_list, char *calling_function);
+bool	print_expander_task_node(t_list *task_node);
+char	*get_expander_task_type_name(t_expander_task_type type);
 
 #endif

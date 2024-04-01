@@ -19,7 +19,7 @@ int	setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
 
 	expanded_list = NULL;
 	ret = expand_list(shell, simple_cmd_list, &expanded_list,
-			E_EXPAND | E_SPLIT_WORDS | E_RM_QUOTES);
+			E_EXPAND | E_SPLIT_WORDS | E_WILDCARD | E_RM_QUOTES);
 	if (ret != SUCCESS)
 		return (ft_lstclear(&expanded_list, free), ret);
 	shell->final_cmd_table->simple_cmd = \

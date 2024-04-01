@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_task_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:17:36 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 18:17:37 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/31 11:53:30 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ bool	set_expander_task_list(
 	i = 0;
 	while ((*base_str)[i] && ret)
 	{
-		if (ft_strchr(QUOTES, (*base_str)[i]) && op_mask & E_RM_QUOTES)
+		if (op_mask & E_RM_QUOTES && ft_strchr(QUOTES, (*base_str)[i]))
 			ret = append_quote_task(task_list, base_str, &i);
-		else if ((*base_str)[i] == '$' && op_mask & E_EXPAND)
+		else if (op_mask & E_EXPAND && (*base_str)[i] == '$')
 			ret = append_parameter_task(task_list, base_str, &i, op_mask);
 		else
 			i++;
@@ -37,8 +37,7 @@ bool	append_quote_task(t_list **task_list, char **base_str, int *i)
 {
 	t_expander_task	*task;
 
-	if (((*base_str)[*i] == '"' && !is_open_pair('\'', OP_GET)) || \
-		((*base_str)[*i] == '\'' && !is_open_pair('"', OP_GET)))
+	if (is_unquoted_quote((*base_str)[*i]))
 	{
 		task = init_expander_task(ET_QUOTE, *i, 1, &(*base_str)[*i]);
 		if (!task || !ft_lstnew_back(task_list, task))
@@ -63,7 +62,7 @@ bool	append_parameter_task(
 	offset = get_offset(&(*base_str)[*i]);
 	if (is_valid_varname_start((*base_str)[*i + offset]))
 	{
-		if (!is_open_pair('"', OP_GET) && op_mask & E_SPLIT_WORDS)
+		if (op_mask & E_SPLIT_WORDS && !is_open_pair('"', OP_GET))
 			type = ET_VAR;
 		else
 			type = ET_VAR_NO_SPLIT;

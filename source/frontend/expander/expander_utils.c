@@ -34,18 +34,32 @@ int	get_replace_len(char *str)
 
 	replace_len = 0;
 	if (str[replace_len] == '$')
-		replace_len++;
-	if (str[replace_len] == OPENING_BRACE)
 	{
-		if (skip_dollar_brace(str, &replace_len, is_open_pair('"', OP_GET)))
-			replace_len++;
-	}
-	else if (str[replace_len] == '?')
 		replace_len++;
-	else
-		while (is_valid_varname_char(str[replace_len]))
+		if (str[replace_len] == OPENING_BRACE)
+		{
+			if (skip_dollar_brace(str, &replace_len, is_open_pair('"', OP_GET)))
+				replace_len++;
+		}
+		else if (str[replace_len] == '?')
+			replace_len++;
+		else
+			while (is_valid_varname_char(str[replace_len]))
+				replace_len++;
+	}
+	else if (str[replace_len] == '*')
+		while (str[replace_len] == '*')
 			replace_len++;
 	return (replace_len);
+}
+
+bool	is_unquoted_quote(char quote)
+{
+	if (quote == '"' && !is_open_pair('\'', OP_GET))
+		return (true);
+	if (quote == '\'' && !is_open_pair('"', OP_GET))
+		return (true);
+	return (false);
 }
 
 void	skip_to_dollar_not_in_single_quotes(char *str, int *i)

@@ -3,64 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   expander_task_list_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:17:30 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 18:17:31 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/01 02:02:51 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-#include "utils.h"
 
-void	free_expander_task(t_expander_task *task)
-{
-	if (!task)
-		return ;
-	free(task->varname);
-	free(task);
-}
-
-char	*get_varname(char *str)
-{
-	int	varname_len;
-
-	varname_len = get_varname_len(str);
-	return (ft_strndup(str, varname_len));
-}
-
-int	get_varname_len(char *str)
-{
-	int	len;
-
-	len = 0;
-	while (is_valid_varname_char(str[len]))
-		len++;
-	return (len);
-}
-
-t_expander_task	*init_expander_task(
-	t_expander_task_type type, int start, int replace_len, char *str)
+bool	any_task_of_type(t_list *task_list, t_expander_task_type type)
 {
 	t_expander_task	*task;
 
-	task = (t_expander_task *)malloc(sizeof(t_expander_task));
-	if (!task)
-		return (NULL);
-	task->type = type;
-	task->base_str = NULL;
-	task->start = start;
-	task->replace_len = replace_len;
-	if (type == ET_VAR || type == ET_VAR_NO_SPLIT)
+	while (task_list)
 	{
-		task->varname = get_varname(str);
-		if (!task->varname)
-			return (free(task), NULL);
+		task = task_list->content;
+		if (task->type == type)
+			return (true);
+		task_list = task_list->next;
 	}
-	else
-		task->varname = NULL;
-	task->result_len = 0;
-	return (task);
+	return (false);
+}
+
+void	drop_task_types(
+	t_list **task_list, char **word, t_expander_task_type type)
+{
+	t_expander_task	*task;
+	t_list			*task_node;
+
+	task_node = *task_list;
+	while (task_node)
+	{
+		task = task_node->content;
+		if ((!word || task->base_str == word) && (!type || task->type == type))
+			ft_lstdrop_node(task_list, &task_node, (void *)free_expander_task);
+		else
+			task_node = task_node->next;
+	}
+}
+
+t_list	*get_expander_task_node(
+	t_list *task_list, char **base_str, int i, t_expander_task_type type)
+{
+	t_expander_task	*task;
+
+	while (task_list)
+	{
+		task = task_list->content;
+		if (task->type == type && task->base_str == base_str && \
+			i >= task->start && i < task->start + task->replace_len)
+			return (task_list);
+		task_list = task_list->next;
+	}
+	return (NULL);
 }
 
 void	update_expander_tasks(t_list *task_list, int diff, char **new_base_str)
