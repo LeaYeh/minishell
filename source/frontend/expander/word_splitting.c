@@ -13,7 +13,7 @@
 #include "expander.h"
 
 static bool	split_node(
-	t_list **expanded_list, t_list *task_list, int *i, int *end)
+	t_list **expanded_list, t_list *task_node, int *i, int *end)
 {
 	char	**base_str;
 	char	*rest;
@@ -27,12 +27,12 @@ static bool	split_node(
 	if (trimmed_len == -1)
 		return (free(rest), false);
 	trimmed_len += ft_strlen(*base_str);
-	if (!append_rest_to_list(expanded_list, task_list, rest, trimmed_len))
+	if (!append_rest_to_list(expanded_list, task_node, rest, trimmed_len))
 		return (free(rest), false);
 	return (true);
 }
 
-static bool	split_str_into_nodes(t_list **expanded_list, t_list *task_list)
+static bool	split_str_into_nodes(t_list **expanded_list, t_list *task_node)
 {
 	char			**base_str;
 	int				end;
@@ -40,14 +40,14 @@ static bool	split_str_into_nodes(t_list **expanded_list, t_list *task_list)
 	t_expander_task	*task;
 
 	base_str = (char **)&(*expanded_list)->content;
-	task = task_list->content;
+	task = task_node->content;
 	end = task->start + task->result_len;
 	i = task->start;
 	while (i < end)
 	{
 		if (ft_strchr(WORD_SEPERATORS, (*base_str)[i]))
 		{
-			if (!split_node(expanded_list, task_list, &i, &end))
+			if (!split_node(expanded_list, task_node, &i, &end))
 				return (false);
 			*expanded_list = (*expanded_list)->next;
 			base_str = (char **)&(*expanded_list)->content;

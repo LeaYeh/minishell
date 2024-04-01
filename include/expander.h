@@ -56,12 +56,12 @@ void			drop_null_expansion_nodes(t_list **expanded_list);
 
 /* parameter_expansion.c */
 bool			handle_parameter_expansion(t_list **task_list, t_shell *shell);
-bool			expand_variable(t_list *task_list, t_list *env_list);
-bool			expand_exit_code(t_list *task_list, int exit_code);
+bool			expand_variable(t_list *task_node, t_list *env_list);
+bool			expand_exit_code(t_list *task_node, int exit_code);
 
 /* quote_removal.c */
 bool			handle_quote_removal(t_list **task_list);
-bool			remove_quote(t_list *task_list);
+bool			remove_quote(t_list *task_node);
 
 /* wildcard_expansion.c */
 bool			handle_wildcard_expansion(t_list **expanded_list,
@@ -87,7 +87,7 @@ bool			handle_word_splitting(t_list **expanded_list,
 /* word_splitting_utils.c */
 char			*split_base_str(char **base_str, int *i, int *end);
 int				trim_front_whitespace(char **base_str, int *i, int *end);
-bool			append_rest_to_list(t_list **expanded_list, t_list *task_list,
+bool			append_rest_to_list(t_list **expanded_list, t_list *task_node,
 					char *rest, int trimmed_len);
 
 #endif

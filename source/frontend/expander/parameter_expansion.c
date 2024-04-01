@@ -36,13 +36,13 @@ bool	handle_parameter_expansion(t_list **task_list, t_shell *shell)
 	return (ret);
 }
 
-bool	expand_variable(t_list *task_list, t_list *env_list)
+bool	expand_variable(t_list *task_node, t_list *env_list)
 {
 	int				diff_len;
 	t_expander_task	*task;
 	char			*value;
 
-	task = task_list->content;
+	task = task_node->content;
 	value = get_value_from_env_list(env_list, task->varname);
 	if (!value)
 		value = "";
@@ -50,17 +50,17 @@ bool	expand_variable(t_list *task_list, t_list *env_list)
 		return (false);
 	task->result_len = ft_strlen(value);
 	diff_len = task->result_len - task->replace_len;
-	update_expander_tasks(task_list, diff_len, task->base_str);
+	update_expander_tasks(task_node, diff_len, task->base_str);
 	return (true);
 }
 
-bool	expand_exit_code(t_list *task_list, int exit_code)
+bool	expand_exit_code(t_list *task_node, int exit_code)
 {
 	char			*exit_code_str;
 	int				diff_len;
 	t_expander_task	*task;
 
-	task = task_list->content;
+	task = task_node->content;
 	exit_code_str = ft_itoa(exit_code);
 	if (!exit_code_str)
 		return (false);
@@ -69,6 +69,6 @@ bool	expand_exit_code(t_list *task_list, int exit_code)
 		return (free(exit_code_str), false);
 	task->result_len = ft_strlen(exit_code_str);
 	diff_len = task->result_len - task->replace_len;
-	update_expander_tasks(task_list, diff_len, task->base_str);
+	update_expander_tasks(task_node, diff_len, task->base_str);
 	return (free(exit_code_str), true);
 }

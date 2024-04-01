@@ -33,16 +33,16 @@ bool	handle_quote_removal(t_list **task_list)
 	return (true);
 }
 
-bool	remove_quote(t_list *task_list)
+bool	remove_quote(t_list *task_node)
 {
 	int				diff_len;
 	t_expander_task	*task;
 
-	task = task_list->content;
+	task = task_node->content;
 	if (!ft_strrplc_part(task->base_str, "", task->start, task->replace_len))
 		return (false);
 	task->result_len = 0;
 	diff_len = task->result_len - task->replace_len;
-	update_expander_tasks(task_list, diff_len, task->base_str);
+	update_expander_tasks(task_node, diff_len, task->base_str);
 	return (true);
 }
