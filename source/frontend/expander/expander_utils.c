@@ -61,13 +61,3 @@ void	skip_to_dollar_not_in_single_quotes(char *str, int *i)
 		(*i)++;
 	}
 }
-
-void	skip_to_expander_symbol(char *str, int *i)
-{
-	while (str[*i])
-	{
-		if (ft_strchr(EXPANDER_SYMBOLS, str[*i]))
-			return ;
-		(*i)++;
-	}
-}

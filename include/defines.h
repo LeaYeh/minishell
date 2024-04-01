@@ -91,8 +91,8 @@
 # define STY_RES			"\e[0m"
 
 /* Symbols */
+# define WORD_SEPERATORS	" \t\n"
 # define QUOTES				"'\""
-# define EXPANDER_SYMBOLS	"$*\"'"
 # define OPENING_BRACE		'{'
 # define CLOSING_BRACE		'}'
 # define DOLLAR_BRACE		"${"
@@ -254,6 +254,7 @@ typedef struct s_token
 typedef struct s_expander_task
 {
 	t_expander_task_type	type;
+	char					**base_str;
 	int						start;
 	int						replace_len;
 	char					*varname;

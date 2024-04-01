@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 23:25:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/27 22:07:39 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/03/25 18:44:19 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ int				expander(char *str, t_list **lst, t_shell *shell,
 					t_expander_op op_mask);
 
 /* expander_task_list.c */
-bool			set_expander_task_list(t_list **task_list, char *new_str,
+bool			set_expander_task_list(t_list **task_list, char **base_str,
 					t_expander_op op_mask);
-bool			append_quote_task(t_list **task_list, char *new_str, int *i);
-bool			append_parameter_task(t_list **task_list, char *new_str,
+bool			append_quote_task(
+					t_list **task_list, char **base_str, int *i);
+bool			append_parameter_task(t_list **task_list, char **base_str,
 					int *i, t_expander_op op_mask);
 
 /* expander_task_list_utils.c */
@@ -35,37 +36,41 @@ char			*get_varname(char *str);
 int				get_varname_len(char *str);
 t_expander_task	*init_expander_task(t_expander_task_type type, int start,
 					int replace_len, char *str);
-void			update_expander_tasks(t_list *task_list, int diff);
+void			update_expander_tasks(t_list *task_list, int diff,
+					char **new_base_str);
 
 /* expander_utils.c */
 int				get_offset(char *str);
 int				get_replace_len(char *str);
 void			skip_to_dollar_not_in_single_quotes(char *str, int *i);
-void			skip_to_expander_symbol(char *str, int *i);
 
 /* expansion_handler.c */
-bool			handle_expansion(t_list **lst, char **new_str, t_shell *shell,
+bool			handle_expansion(t_list **lst, t_shell *shell,
 					t_expander_op op_mask);
-bool			execute_expander_task_list(char **new_str, t_list *task_list,
-					t_shell *shell);
-bool			set_expanded_list(t_list **lst, char **new_str,
-					t_expander_op op_mask, t_list *task_list);
+bool			handle_parameter_expansion(t_list *task_list, t_shell *shell);
+bool			set_expanded_list(t_list **lst, t_expander_op op_mask,
+					t_list **task_list);
 
 /* null_expansion.c */
-void			check_null_expansions(t_list **lst, t_list *task_list);
+void			drop_null_expansion_nodes(t_list **lst);
 
 /* quote_removal.c */
-bool			remove_quote(char **new_str, t_list *task_list);
+bool			handle_quote_removal(t_list *task_list);
+bool			remove_quote(t_list *task_list);
 
 /* special_param_expansion.c */
-bool			expand_exit_code(char **new_str, t_list *task_list,
-					int exit_code);
+bool			expand_exit_code(t_list *task_list, int exit_code);
 
 /* variable_expansion.c */
-bool			expand_variable(char **new_str, t_list *task_list,
-					t_list *env_list);
+bool			expand_variable(t_list *task_list, t_list *env_list);
 
 /* word_splitting.c */
-bool			split_words(t_list **lst, char **new_str, t_list *task_list);
+bool			handle_word_splitting(t_list *lst, t_list **task_list);
+
+/* word_splitting_utils.c */
+char			*split_base_str(char **base_str, int *i, int *end);
+int				trim_front_whitespace(char **base_str, int *i, int *end);
+bool			append_rest_to_list(t_list **lst, t_list *task_list,
+					char *rest, int trimmed_len);
 
 #endif

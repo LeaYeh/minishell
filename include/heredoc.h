@@ -16,7 +16,6 @@
 # include "defines.h"
 
 int		heredoc(t_shell *shell);
-bool	is_here_end_quoted(char *here_end);
 bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red);
 int		expand_heredoc_content(t_shell *shell, char **content);
 bool	remove_here_end_quote(t_shell *shell,

@@ -1,3 +1,10 @@
+# Expander
+
+- I want each each task to have a double pointer to the string that task operates on.
+	- How to update those pointers after every task execution and word split?
+
+
+
 # export:
 
 - [x] If args_len < 2, print all exported env vars in ASCII order, with "export " prepended.
