@@ -53,14 +53,6 @@ include				$(BUILD_DIR)/parsing_table.mk
 MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE)
 
 
-#	Test mode
-
-ifeq ($(filter test,$(MAKECMDGOALS)),test)
-CC 				:=	clang-12
-MACROS			+=	-D TEST_MODE=true
-endif
-
-
 #	Characters
 
 COMMA			:=	,
@@ -133,10 +125,6 @@ all				:
 						|| (echo -n $(MSG_INFO)$(MSG_START) \
 							&& ($(MAKE) build && echo $(MSG_SUCCESS)) \
 							|| (echo $(MSG_FAILURE) && exit 42))
-
-test			:
-					echo $(MSG_TEST_MODE)
-					$(MAKE) all
 
 run				:	all
 					"./$(NAME)"
@@ -258,8 +246,6 @@ MSG_SUCCESS		:=	"\e[1;3;36m\nDONE!\e[0m"
 MSG_NO_CHNG		:=	"\e[3;37mEverything up-to-date!\e[0m"
 ################################################################################
 MSG_FAILURE		:=	"\e[1;3;31mBUILD FAILED!\e[0m"
-################################################################################
-MSG_TEST_MODE	:=	"\e[1;3;4;33m-------------- TEST MODE --------------\e[0m"
 ################################################################################
 
 

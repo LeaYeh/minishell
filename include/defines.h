@@ -34,10 +34,6 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 
-# ifndef TEST_MODE
-#  define TEST_MODE false
-# endif
-
 # ifndef PARSING_TABLE
 #  define DEFINITIONS_OK	false
 # else
