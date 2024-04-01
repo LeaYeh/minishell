@@ -68,6 +68,7 @@ char	*get_expander_task_type_name(t_expander_task_type type)
 		"ET_VAR",
 		"ET_VAR_NO_SPLIT",
 		"ET_EXIT_CODE",
+		"ET_SHELL_PID",
 		"ET_WILDCARD",
 		"ET_QUOTE"
 	};

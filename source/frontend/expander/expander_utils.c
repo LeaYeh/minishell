@@ -41,7 +41,7 @@ int	get_replace_len(char *str)
 			if (skip_dollar_brace(str, &replace_len, is_open_pair('"', OP_GET)))
 				replace_len++;
 		}
-		else if (str[replace_len] == '?')
+		else if (str[replace_len] == '?' || str[replace_len] == '$')
 			replace_len++;
 		else
 			while (is_valid_varname_char(str[replace_len]))

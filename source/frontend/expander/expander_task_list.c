@@ -69,6 +69,8 @@ bool	append_parameter_task(
 	}
 	else if ((*base_str)[*i + offset] == '?')
 		type = ET_EXIT_CODE;
+	else if ((*base_str)[*i + offset] == '$')
+		type = ET_SHELL_PID;
 	else
 		return (*i += replace_len, true);
 	task = init_expander_task(type, *i, replace_len, &(*base_str)[*i + offset]);

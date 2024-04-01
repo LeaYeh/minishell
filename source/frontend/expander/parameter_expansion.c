@@ -26,9 +26,10 @@ bool	handle_parameter_expansion(t_list **task_list, t_shell *shell)
 		task = task_node->content;
 		if (task->type == ET_VAR || task->type == ET_VAR_NO_SPLIT)
 			ret = expand_variable(task_node, shell->env_list);
-		else if (task->type == ET_EXIT_CODE)
-			ret = expand_exit_code(task_node, shell->exit_code);
-		if (task->type == ET_VAR_NO_SPLIT || task->type == ET_EXIT_CODE)
+		else if (task->type == ET_EXIT_CODE || task->type == ET_SHELL_PID)
+			ret = expand_special_variable(task_node, shell);
+		if (task->type == ET_VAR_NO_SPLIT || task->type == ET_EXIT_CODE || \
+			task->type == ET_SHELL_PID)
 			ft_lstdrop_node(task_list, &task_node, (void *)free_expander_task);
 		else
 			task_node = task_node->next;
@@ -54,21 +55,25 @@ bool	expand_variable(t_list *task_node, t_list *env_list)
 	return (true);
 }
 
-bool	expand_exit_code(t_list *task_node, int exit_code)
+bool	expand_special_variable(t_list *task_node, t_shell *shell)
 {
-	char			*exit_code_str;
 	int				diff_len;
+	char			*special_var_string;
 	t_expander_task	*task;
 
 	task = task_node->content;
-	exit_code_str = ft_itoa(exit_code);
-	if (!exit_code_str)
+	special_var_string = NULL;
+	if (task->type == ET_EXIT_CODE)
+		special_var_string = ft_itoa(shell->exit_code);
+	else if (task->type == ET_SHELL_PID)
+		special_var_string = ft_itoa(shell->pid);
+	if (!special_var_string)
 		return (false);
 	if (!ft_strrplc_part(
-			task->base_str, exit_code_str, task->start, task->replace_len))
-		return (free(exit_code_str), false);
-	task->result_len = ft_strlen(exit_code_str);
+			task->base_str, special_var_string, task->start, task->replace_len))
+		return (free(special_var_string), false);
+	task->result_len = ft_strlen(special_var_string);
 	diff_len = task->result_len - task->replace_len;
 	update_expander_tasks(task_node, diff_len, task->base_str);
-	return (free(exit_code_str), true);
+	return (free(special_var_string), true);
 }
