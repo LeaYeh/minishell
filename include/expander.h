@@ -30,6 +30,8 @@ bool			set_expander_task_list(t_list **task_list, char **base_str,
 bool			append_quote_task(t_list **task_list, char **base_str, int *i);
 bool			append_parameter_task(t_list **task_list, char **base_str,
 					int *i, t_expander_op op_mask);
+bool			set_parameter_task_type(t_expander_task_type *type, char c,
+					t_expander_op op_mask);
 
 /* expander_task_list_utils.c */
 bool			any_task_of_type(t_list *task_list, t_expander_task_type type);
