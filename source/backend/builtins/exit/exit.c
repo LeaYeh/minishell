@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:40:10 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 17:40:11 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/28 22:38:57 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	exec_exit(t_shell *shell, char *args[])
 
 	args_error = get_args_error(args);
 	if (args_error == EX_NORM_ARGS)
-		shell->exit_code = (ft_atol(args[1])) % 256;
+		shell->exit_code = ft_atol(args[1]);
 	else if (args_error != EX_NO_ARGS)
 		shell->exit_code = args_error;
 	handle_exit(shell, args_error);
