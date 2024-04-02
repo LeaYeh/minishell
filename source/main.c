@@ -19,7 +19,8 @@
 #include "utils.h"
 #include "signals.h"
 
-bool	read_input(t_shell *shell);
+bool	read_input(char **line,
+			char *prompt, bool add_to_history, bool is_interactive);
 
 int	main(void)
 {
@@ -29,7 +30,7 @@ int	main(void)
 		raise_error_and_escape(&shell, "init shell failed");
 	while (true)
 	{
-		if (!read_input(&shell))
+		if (!read_input(&shell.input_line, PROMPT, true, shell.is_interactive))
 			continue ;
 		if (!shell.input_line)
 			exec_exit(&shell, NULL);
@@ -45,30 +46,30 @@ int	main(void)
 	return (EXIT_SUCCESS);
 }
 
-bool	read_input(t_shell *shell)
+bool	read_input(
+	char **line, char *prompt, bool add_to_history, bool is_interactive)
 {
-	char	*line;
+	char	*tmp;
 
 	errno = SUCCESS;
-	if (isatty(STDIN_FILENO))
-		shell->input_line = readline(PROMPT);
+	if (is_interactive)
+		*line = readline(prompt);
 	else
 	{
-		errno = SUCCESS;
-		line = get_next_line(STDIN_FILENO);
+		tmp = get_next_line(STDIN_FILENO);
 		if (errno != SUCCESS)
 			return (false);
-		if (line)
+		if (tmp)
 		{
-			shell->input_line = ft_strtrim(line, "\n");
-			free(line);
+			*line = ft_strtrim(tmp, "\n");
+			free(tmp);
 		}
 	}
 	if (errno == EINTR)
 		errno = SUCCESS;
 	else if (errno != SUCCESS)
 		return (false);
-	if (shell->input_line && *shell->input_line)
-		add_history(shell->input_line);
+	if (add_to_history && *line && **line)
+		add_history(*line);
 	return (errno == SUCCESS);
 }
