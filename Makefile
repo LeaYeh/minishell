@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+         #
+#    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/25 18:59:05 by ldulling         ###   ########.fr        #
+#    Updated: 2024/04/02 17:20:11 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ LIBRARIES_EXT	:=	readline termcap
 INCLUDES 		:=	-I./include -I./$(LIBRARIES)/inc
 BUILDFILES		:=	Makefile \
 					$(BUILD_DIR)/parsing_table.mk \
-					$(BUILD_DIR)/source_files.mk
+					$(BUILD_DIR)/source_files.mk \
+					$(BUILD_DIR)/welcome_msg.mk
 
 
 #	Flags
@@ -50,7 +51,7 @@ MAKEFLAGS		:=	-j -s
 #	Macro definitions
 
 include				$(BUILD_DIR)/parsing_table.mk $(BUILD_DIR)/welcome_msg.mk
-MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE) -D WELCOME_MSG=\"$(WELCOME_MSG)\"
+MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE) -D WELCOME_MSG=$(WELCOME_MSG)
 
 
 #	Characters
