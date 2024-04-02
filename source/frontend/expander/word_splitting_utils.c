@@ -44,19 +44,19 @@ int	trim_front_whitespace(char **base_str, int *i, int *end)
 }
 
 bool	append_rest_to_list(
-	t_list **lst, t_list *task_list, char *rest, int trimmed_len)
+	t_list **expanded_list, t_list *task_node, char *rest, int trimmed_len)
 {
 	char			**new_base_str;
 	t_list			*new_node;
 	t_expander_task	*task;
 
-	task = task_list->content;
+	task = task_node->content;
 	new_node = ft_lstnew(rest);
 	if (!new_node)
 		return (false);
-	ft_lstadd_back(lst, new_node);
+	ft_lstadd_back(expanded_list, new_node);
 	new_base_str = (char **)&new_node->content;
-	update_expander_tasks(task_list, 0 - trimmed_len, new_base_str);
+	update_expander_tasks(task_node, 0 - trimmed_len, new_base_str);
 	task->base_str = new_base_str;
 	return (true);
 }

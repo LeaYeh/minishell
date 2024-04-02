@@ -1,9 +1,8 @@
 # wildcard expansion:
 
 - [x] Get a list of all files of the current directoy.
-- [ ] Rename `lst` to `expanded_list` in expander.
-- [ ] Rename all occurances of parameter to variable.
-- [ ] Rename `E_EXPAND` to `E_PARAM` or `E_VAR`.
+- [x] Rename `lst` to `expanded_list` in expander.
+- [x] Rename `E_EXPAND` to `E_PARAM` or `E_VAR`.
 - [x] Check op_masks WHEN wildcard expansion should happen!
        - [ ] Not for values when assigning env variables.
        - [x] Not in heredoc content.
@@ -39,7 +38,7 @@
 - "." and ".." don't have to be filtered, bash also displays them.
 - [x] Only search files starting with "." if the first character of arg is also '.'.
 
-- [ ] Test with files that have no permissions.
+- [x] Test with files that have no permissions.
        If  the end of the directory stream is reached, NULL is returned and errno is not changed.  If
        an error occurs, NULL is returned and errno is  set  appropriately.   To  distinguish  end  of
        stream  from  an error, set errno to zero before calling readdir() and then check the value of

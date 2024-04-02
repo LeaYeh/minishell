@@ -12,13 +12,14 @@
 
 #include "expander.h"
 
-static bool	split_node(t_list **lst, t_list *task_list, int *i, int *end)
+static bool	split_node(
+	t_list **expanded_list, t_list *task_node, int *i, int *end)
 {
 	char	**base_str;
 	char	*rest;
 	int		trimmed_len;
 
-	base_str = (char **)&(*lst)->content;
+	base_str = (char **)&(*expanded_list)->content;
 	rest = split_base_str(base_str, i, end);
 	if (!rest)
 		return (false);
@@ -26,30 +27,30 @@ static bool	split_node(t_list **lst, t_list *task_list, int *i, int *end)
 	if (trimmed_len == -1)
 		return (free(rest), false);
 	trimmed_len += ft_strlen(*base_str);
-	if (!append_rest_to_list(lst, task_list, rest, trimmed_len))
+	if (!append_rest_to_list(expanded_list, task_node, rest, trimmed_len))
 		return (free(rest), false);
 	return (true);
 }
 
-static bool	split_str_into_nodes(t_list **lst, t_list *task_list)
+static bool	split_str_into_nodes(t_list **expanded_list, t_list *task_node)
 {
 	char			**base_str;
 	int				end;
 	int				i;
 	t_expander_task	*task;
 
-	base_str = (char **)&(*lst)->content;
-	task = task_list->content;
+	base_str = (char **)&(*expanded_list)->content;
+	task = task_node->content;
 	end = task->start + task->result_len;
 	i = task->start;
 	while (i < end)
 	{
 		if (ft_strchr(WORD_SEPERATORS, (*base_str)[i]))
 		{
-			if (!split_node(lst, task_list, &i, &end))
+			if (!split_node(expanded_list, task_node, &i, &end))
 				return (false);
-			*lst = (*lst)->next;
-			base_str = (char **)&(*lst)->content;
+			*expanded_list = (*expanded_list)->next;
+			base_str = (char **)&(*expanded_list)->content;
 		}
 		else
 			i++;
@@ -57,7 +58,7 @@ static bool	split_str_into_nodes(t_list **lst, t_list *task_list)
 	return (true);
 }
 
-static bool	iter_word_splitting(t_list *lst, t_list **task_list)
+static bool	iter_word_splitting(t_list *expanded_list, t_list **task_list)
 {
 	t_expander_task	*task;
 	t_list			*task_node;
@@ -68,7 +69,7 @@ static bool	iter_word_splitting(t_list *lst, t_list **task_list)
 		task = task_node->content;
 		if (task->type == ET_VAR)
 		{
-			if (!split_str_into_nodes(&lst, task_node))
+			if (!split_str_into_nodes(&expanded_list, task_node))
 				return (false);
 			ft_lstdrop_node(task_list, &task_node, (void *)free_expander_task);
 		}
@@ -79,13 +80,13 @@ static bool	iter_word_splitting(t_list *lst, t_list **task_list)
 }
 
 bool	handle_word_splitting(
-	t_list **lst, t_expander_op op_mask, t_list **task_list)
+	t_list **expanded_list, t_expander_op op_mask, t_list **task_list)
 {
 	if (op_mask & E_SPLIT_WORDS)
 	{
-		if (!iter_word_splitting(*lst, task_list))
+		if (!iter_word_splitting(*expanded_list, task_list))
 			return (false);
 	}
-	drop_null_expansion_nodes(lst);
+	drop_null_expansion_nodes(expanded_list);
 	return (true);
 }

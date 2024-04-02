@@ -30,16 +30,16 @@ t_relation_ast	*init_relation_ast_node(
 bool	append_relation_ast_node(
 	t_list **queue, int level, t_ast *parent, t_ast *current)
 {
-	t_list			*lst;
+	t_list			*new_node;
 	t_relation_ast	*tmp;
 
 	tmp = init_relation_ast_node(level, parent, current, current->children);
 	if (!tmp)
 		return (false);
-	lst = ft_lstnew(tmp);
-	if (!lst)
+	new_node = ft_lstnew(tmp);
+	if (!new_node)
 		return (free(tmp), false);
-	ft_lstadd_back(queue, lst);
+	ft_lstadd_back(queue, new_node);
 	return (true);
 }
 

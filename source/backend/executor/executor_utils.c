@@ -24,7 +24,7 @@ int	set_expanded_cmd_name(
 
 	expanded_list = NULL;
 	ret = expand_list(shell, simple_cmd_list, &expanded_list, \
-			E_EXPAND | E_SPLIT_WORDS | E_WILDCARD | E_RM_QUOTES);
+			E_PARAM | E_SPLIT_WORDS | E_WILDCARD | E_RM_QUOTES);
 	*cmd_name = ft_lstpop_front_content(&expanded_list);
 	ft_lstclear(&expanded_list, free);
 	return (ret);

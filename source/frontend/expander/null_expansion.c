@@ -19,15 +19,15 @@ static bool	is_null_expansion(char *str)
 	return (false);
 }
 
-void	drop_null_expansion_nodes(t_list **lst)
+void	drop_null_expansion_nodes(t_list **expanded_list)
 {
 	t_list	*cur;
 
-	cur = *lst;
+	cur = *expanded_list;
 	while (cur)
 	{
 		if (is_null_expansion(cur->content))
-			ft_lstdrop_node(lst, &cur, free);
+			ft_lstdrop_node(expanded_list, &cur, free);
 		else
 			cur = cur->next;
 	}

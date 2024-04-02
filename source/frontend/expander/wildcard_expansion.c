@@ -58,13 +58,14 @@ bool	expand_wildcard(
 	return (true);
 }
 
-static bool	iter_word_list(t_list **lst, t_list *file_list, t_list **task_list)
+static bool	iter_word_list(
+	t_list **expanded_list, t_list *file_list, t_list **task_list)
 {
 	t_list	*cur;
 	t_list	*tmp_lst;
 	char	*word;
 
-	cur = *lst;
+	cur = *expanded_list;
 	while (cur)
 	{
 		word = cur->content;
@@ -76,8 +77,8 @@ static bool	iter_word_list(t_list **lst, t_list *file_list, t_list **task_list)
 			drop_task_types(task_list, (char **)&cur->content, ET_WILDCARD);
 			if (tmp_lst)
 			{
-				ft_lstdrop_node(lst, &cur, free);
-				ft_lstinsert_before(lst, cur, tmp_lst);
+				ft_lstdrop_node(expanded_list, &cur, free);
+				ft_lstinsert_before(expanded_list, cur, tmp_lst);
 				continue ;
 			}
 		}
@@ -86,7 +87,7 @@ static bool	iter_word_list(t_list **lst, t_list *file_list, t_list **task_list)
 	return (true);
 }
 
-bool	handle_wildcard_expansion(t_list **lst, t_list **task_list)
+bool	handle_wildcard_expansion(t_list **expanded_list, t_list **task_list)
 {
 	t_list	*file_list;
 
@@ -96,7 +97,7 @@ bool	handle_wildcard_expansion(t_list **lst, t_list **task_list)
 	if (!set_file_list(&file_list))
 		return (ft_lstclear(&file_list, free), false);
 	sort_file_list(&file_list);
-	if (!iter_word_list(lst, file_list, task_list))
+	if (!iter_word_list(expanded_list, file_list, task_list))
 		return (ft_lstclear(&file_list, free), false);
 	ft_lstclear(&file_list, free);
 	return (true);

@@ -53,7 +53,7 @@ bool	is_bad_substitution(char *str, t_expander_op op_mask)
 {
 	int	i;
 
-	if (!(op_mask & E_EXPAND))
+	if (!(op_mask & E_PARAM))
 		return (false);
 	i = 0;
 	while (str[i])

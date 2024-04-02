@@ -19,9 +19,9 @@
 bool			is_bad_substitution(char *str, t_expander_op op_mask);
 
 /* expander.c */
-int				expander(char *str, t_list **lst, t_shell *shell,
+int				expander(char *str, t_list **expanded_list, t_shell *shell,
 					t_expander_op op_mask);
-bool			handle_expansion(t_list **lst, t_shell *shell,
+bool			handle_expansion(t_list **expanded_list, t_shell *shell,
 					t_expander_op op_mask);
 
 /* expander_task_list.c */
@@ -52,19 +52,20 @@ bool			is_unquoted_quote(char quote);
 void			skip_to_dollar_not_in_single_quotes(char *str, int *i);
 
 /* null_expansion.c */
-void			drop_null_expansion_nodes(t_list **lst);
+void			drop_null_expansion_nodes(t_list **expanded_list);
 
 /* parameter_expansion.c */
 bool			handle_parameter_expansion(t_list **task_list, t_shell *shell);
-bool			expand_variable(t_list *task_list, t_list *env_list);
-bool			expand_exit_code(t_list *task_list, int exit_code);
+bool			expand_variable(t_list *task_node, t_list *env_list);
+bool			expand_exit_code(t_list *task_node, int exit_code);
 
 /* quote_removal.c */
 bool			handle_quote_removal(t_list **task_list);
-bool			remove_quote(t_list *task_list);
+bool			remove_quote(t_list *task_node);
 
 /* wildcard_expansion.c */
-bool			handle_wildcard_expansion(t_list **lst, t_list **task_list);
+bool			handle_wildcard_expansion(t_list **expanded_list,
+					t_list **task_list);
 
 /* wildcard_expansion_utils.c */
 bool			is_wildcard(char *word, t_list *task_list);
@@ -76,17 +77,17 @@ bool			set_file_list(t_list **file_list);
 void			sort_file_list(t_list **file_list);
 
 /* wildcard_task_list.c */
-bool			set_wildcard_task_list(t_list **task_list, t_list *lst,
-					t_expander_op op_mask);
+bool			set_wildcard_task_list(t_list **task_list,
+					t_list *expanded_list, t_expander_op op_mask);
 
 /* word_splitting.c */
-bool			handle_word_splitting(t_list **lst, t_expander_op op_mask,
-					t_list **task_list);
+bool			handle_word_splitting(t_list **expanded_list,
+					t_expander_op op_mask, t_list **task_list);
 
 /* word_splitting_utils.c */
 char			*split_base_str(char **base_str, int *i, int *end);
 int				trim_front_whitespace(char **base_str, int *i, int *end);
-bool			append_rest_to_list(t_list **lst, t_list *task_list,
+bool			append_rest_to_list(t_list **expanded_list, t_list *task_node,
 					char *rest, int trimmed_len);
 
 #endif

@@ -56,7 +56,7 @@ static bool	iter_base_str(
 }
 
 bool	set_wildcard_task_list(
-	t_list **task_list, t_list *lst, t_expander_op op_mask)
+	t_list **task_list, t_list *expanded_list, t_expander_op op_mask)
 {
 	char	**base_str;
 	t_list	*new_task_list;
@@ -66,11 +66,11 @@ bool	set_wildcard_task_list(
 		return (true);
 	ret = true;
 	new_task_list = NULL;
-	while (lst && ret)
+	while (expanded_list && ret)
 	{
-		base_str = (char **)&lst->content;
+		base_str = (char **)&expanded_list->content;
 		ret = iter_base_str(&new_task_list, task_list, base_str);
-		lst = lst->next;
+		expanded_list = expanded_list->next;
 	}
 	ft_lstadd_front(task_list, new_task_list);
 	return (ret);

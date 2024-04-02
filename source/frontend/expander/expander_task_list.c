@@ -25,7 +25,7 @@ bool	set_expander_task_list(
 	{
 		if (op_mask & E_RM_QUOTES && ft_strchr(QUOTES, (*base_str)[i]))
 			ret = append_quote_task(task_list, base_str, &i);
-		else if (op_mask & E_EXPAND && (*base_str)[i] == '$')
+		else if (op_mask & E_PARAM && (*base_str)[i] == '$')
 			ret = append_parameter_task(task_list, base_str, &i, op_mask);
 		else
 			i++;
