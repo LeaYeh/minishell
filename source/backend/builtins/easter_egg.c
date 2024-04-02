@@ -20,6 +20,7 @@ int	exec_easter_egg(void)
 		printf(WELCOME_ART1);
 	else
 		printf(WELCOME_ART2);
+	printf(VALERIA_MSG);
 	egg_counter++;
 	return (42);
 }

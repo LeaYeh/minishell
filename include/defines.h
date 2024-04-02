@@ -52,6 +52,9 @@
                     │  Dive deep into the shell  │\n\
                     ╰───────────🌊🌊🌊───────────╯\n"
 
+# define VALERIA_MSG		"\
+           Big thank you to \e[1m@ValeriaGart\e[0m for the pixel art!\n"
+
 /* Error Codes */
 # define SUCCESS			0
 # define EXIT_SUCCESS		0
