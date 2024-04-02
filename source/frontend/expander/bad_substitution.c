@@ -18,7 +18,7 @@ bool	is_valid_brace_content(char *str, int *i)
 	if (str[*i] != OPENING_BRACE)
 		return (true);
 	(*i)++;
-	if (!(str[*i] == '?' || is_valid_varname_start(str[*i])))
+	if (!(str[*i] == '?' || str[*i] == '$' || is_valid_varname_start(str[*i])))
 		return (false);
 	(*i)++;
 	if (str[*i - 1] != '?')

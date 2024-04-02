@@ -60,20 +60,30 @@ bool	append_parameter_task(
 	if (is_open_pair('\'', OP_GET))
 		return (*i += replace_len, true);
 	offset = get_offset(&(*base_str)[*i]);
-	if (is_valid_varname_start((*base_str)[*i + offset]))
-	{
-		if (op_mask & E_SPLIT_WORDS && !is_open_pair('"', OP_GET))
-			type = ET_VAR;
-		else
-			type = ET_VAR_NO_SPLIT;
-	}
-	else if ((*base_str)[*i + offset] == '?')
-		type = ET_EXIT_CODE;
-	else
+	if (!set_parameter_task_type(&type, (*base_str)[*i + offset], op_mask))
 		return (*i += replace_len, true);
 	task = init_expander_task(type, *i, replace_len, &(*base_str)[*i + offset]);
 	if (!task || !ft_lstnew_back(task_list, task))
 		return (free_expander_task(task), false);
 	task->base_str = base_str;
 	return (*i += replace_len, true);
+}
+
+bool	set_parameter_task_type(
+	t_expander_task_type *type, char c, t_expander_op op_mask)
+{
+	if (is_valid_varname_start(c))
+	{
+		if (op_mask & E_SPLIT_WORDS && !is_open_pair('"', OP_GET))
+			*type = ET_VAR;
+		else
+			*type = ET_VAR_NO_SPLIT;
+	}
+	else if (c == '?')
+		*type = ET_EXIT_CODE;
+	else if (c == '$')
+		*type = ET_SHELL_PID;
+	else
+		return (false);
+	return (true);
 }

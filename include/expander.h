@@ -30,6 +30,8 @@ bool			set_expander_task_list(t_list **task_list, char **base_str,
 bool			append_quote_task(t_list **task_list, char **base_str, int *i);
 bool			append_parameter_task(t_list **task_list, char **base_str,
 					int *i, t_expander_op op_mask);
+bool			set_parameter_task_type(t_expander_task_type *type, char c,
+					t_expander_op op_mask);
 
 /* expander_task_list_utils.c */
 bool			any_task_of_type(t_list *task_list, t_expander_task_type type);
@@ -57,7 +59,7 @@ void			drop_null_expansion_nodes(t_list **expanded_list);
 /* parameter_expansion.c */
 bool			handle_parameter_expansion(t_list **task_list, t_shell *shell);
 bool			expand_variable(t_list *task_node, t_list *env_list);
-bool			expand_exit_code(t_list *task_node, int exit_code);
+bool			expand_special_variable(t_list *task_node, t_shell *shell);
 
 /* quote_removal.c */
 bool			handle_quote_removal(t_list **task_list);
