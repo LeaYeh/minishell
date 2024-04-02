@@ -35,9 +35,18 @@
 # include "get_next_line.h"
 
 # ifndef PARSING_TABLE
+#  define PARSING_TABLE		0
 #  define DEFINITIONS_OK	false
 # else
 #  define DEFINITIONS_OK	true
+# endif
+
+# ifndef WELCOME_ART1
+#  define WELCOME_ART1		0
+# endif
+
+# ifndef WELCOME_ART2
+#  define WELCOME_ART2		0
 # endif
 
 # define PROGRAM_NAME		"crash"
