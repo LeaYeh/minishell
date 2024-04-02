@@ -239,7 +239,7 @@ MSG_MAKE_V4.3-	:=	"\e[3;37m Make version 4.4+ not detected\n\
 					Make version: $(MAKE_VERSION)\n\
 					Parallel build for libraries disabled\n\e[0m"
 ################################################################################
-MSG_START		:=	"\e[3mBuilding \e[1;34m🌊rash \e[0;3m... \e[0m"
+MSG_START		:=	"\e[3mBuilding Crash ... \e[0m"
 ################################################################################
 MSG_PROGRESS	:=	"\e[3m🌊\e[0m"
 ################################################################################
