@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/04/02 17:20:11 by ldulling         ###   ########.fr        #
+#    Updated: 2024/04/02 23:08:11 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,8 @@ MAKEFLAGS		:=	-j -s
 
 include				$(BUILD_DIR)/parsing_table.mk $(BUILD_DIR)/welcome_art.mk
 MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE) \
-					-D WELCOME_ART=$(WELCOME_ART1)
+					-D WELCOME_ART1=$(WELCOME_ART1) \
+					-D WELCOME_ART2=$(WELCOME_ART2)
 
 
 #	Characters
