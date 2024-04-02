@@ -22,6 +22,7 @@ SRC		:=	$(addprefix $(SUBDIR), \
 #   Builtins:
 SUBDIR	:=	backend/builtins/
 SRC		+=	$(addprefix $(SUBDIR), \
+            easter_egg.c \
             echo.c \
             env.c \
             pwd.c \

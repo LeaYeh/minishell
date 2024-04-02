@@ -39,7 +39,8 @@ bool	is_builtin(char *cmd_name)
 		ft_strcmp(cmd_name, "export") == 0 || \
 		ft_strcmp(cmd_name, "cd") == 0 || \
 		ft_strcmp(cmd_name, "pwd") == 0 || \
-		ft_strcmp(cmd_name, "exit") == 0)
+		ft_strcmp(cmd_name, "exit") == 0 || \
+		ft_strcmp(cmd_name, "~") == 0)
 		return (true);
 	return (false);
 }
