@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:15:33 by ldulling          #+#    #+#              #
-#    Updated: 2024/04/03 01:17:55 by ldulling         ###   ########.fr        #
+#    Updated: 2024/04/03 01:29:23 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -138,6 +138,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             default_env_list.c \
             env_list.c \
             init.c \
+            read_input.c \
 )
 
 #  Signal:
