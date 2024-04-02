@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/30 12:02:08 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:50:36 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,5 +147,9 @@ bool		is_valid_varname_char(char c);
 bool		is_valid_varname_start(char c);
 char		*get_varname(char *str);
 int			get_varname_len(char *str);
+
+/* Print utils */
+void		clear_terminal_soft(void);
+void		print_welcome_msg(t_shell *shell);
 
 #endif

@@ -19,16 +19,13 @@
 #include "utils.h"
 #include "signals.h"
 
-static void	print_welcome_msg(void);
-static void	clear_terminal_soft(void);
-
 int	main(void)
 {
 	t_shell	shell;
 
 	if (!DEFINITIONS_OK || !init_shell(&shell))
 		raise_error_and_escape(&shell, "init shell failed");
-	print_welcome_msg();
+	print_welcome_msg(&shell);
 	while (true)
 	{
 		if (!read_input(&shell.input_line, PROMPT, true, shell.is_interactive))
@@ -45,19 +42,4 @@ int	main(void)
 		reset_submodule_variable(&shell);
 	}
 	return (EXIT_SUCCESS);
-}
-
-static void	print_welcome_msg(void)
-{
-	if (isatty(STDIN_FILENO))
-	{
-		clear_terminal_soft();
-		printf("%s", WELCOME_MSG);
-	}
-}
-
-static void	clear_terminal_soft(void)
-{
-	if (isatty(STDIN_FILENO))
-		printf("\e[2J\e[1;1H");
 }
