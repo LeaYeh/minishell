@@ -35,7 +35,7 @@ INCLUDES 		:=	-I./include -I./$(LIBRARIES)/inc
 BUILDFILES		:=	Makefile \
 					$(BUILD_DIR)/parsing_table.mk \
 					$(BUILD_DIR)/source_files.mk \
-					$(BUILD_DIR)/welcome_msg.mk
+					$(BUILD_DIR)/welcome_art.mk
 
 
 #	Flags
@@ -50,9 +50,9 @@ MAKEFLAGS		:=	-j -s
 
 #	Macro definitions
 
-include				$(BUILD_DIR)/parsing_table.mk $(BUILD_DIR)/welcome_msg.mk
+include				$(BUILD_DIR)/parsing_table.mk $(BUILD_DIR)/welcome_art.mk
 MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE) \
-					-D WELCOME_MSG=$(WELCOME_MSG1)
+					-D WELCOME_ART=$(WELCOME_ART1)
 
 
 #	Characters

@@ -23,6 +23,7 @@ void	print_welcome_msg(t_shell *shell)
 	if (shell->is_interactive)
 	{
 		clear_terminal_soft();
+		printf("%s", WELCOME_ART);
 		printf("%s", WELCOME_MSG);
 	}
 }

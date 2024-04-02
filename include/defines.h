@@ -47,6 +47,13 @@
 # define HEREDOC_PROMPT		"\e[1;37m> \e[0m"
 # define EXIT_MSG			"exit\n"
 
+# define WELCOME_MSG		"\
+                 欻 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 壳\n\
+                  ╭───────────🌊🌊🌊───────────╮\n\
+                  │  Dive deep into the shell  │\n\
+                  ╰───────────🌊🌊🌊───────────╯\n\
+                  波 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 浪\n"
+
 /* Error Codes */
 # define SUCCESS			0
 # define EXIT_SUCCESS		0
