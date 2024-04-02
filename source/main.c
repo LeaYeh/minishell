@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/03 13:54:54 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:55:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "signals.h"
 
 static void	print_welcome_msg(void);
+static void	clear_terminal_soft(void);
 
 int	main(void)
 {
@@ -49,5 +50,14 @@ int	main(void)
 static void	print_welcome_msg(void)
 {
 	if (isatty(STDIN_FILENO))
+	{
+		clear_terminal_soft();
 		printf("%s", WELCOME_MSG);
+	}
+}
+
+static void	clear_terminal_soft(void)
+{
+	if (isatty(STDIN_FILENO))
+		printf("\e[2J\e[1;1H");
 }
