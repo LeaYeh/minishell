@@ -51,7 +51,8 @@ MAKEFLAGS		:=	-j -s
 #	Macro definitions
 
 include				$(BUILD_DIR)/parsing_table.mk $(BUILD_DIR)/welcome_msg.mk
-MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE) -D WELCOME_MSG=$(WELCOME_MSG)
+MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE) \
+					-D WELCOME_MSG=$(WELCOME_MSG1)
 
 
 #	Characters
