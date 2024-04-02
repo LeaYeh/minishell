@@ -29,7 +29,7 @@ bool	is_control_op_cmd_table(int cmd_table_type)
 		cmd_table_type == C_PIPE);
 }
 
-bool	is_builtin(char *cmd_name)
+bool	is_builtin(char *cmd_name, t_shell *shell)
 {
 	if (!cmd_name)
 		return (false);
@@ -40,7 +40,7 @@ bool	is_builtin(char *cmd_name)
 		ft_strcmp(cmd_name, "cd") == 0 || \
 		ft_strcmp(cmd_name, "pwd") == 0 || \
 		ft_strcmp(cmd_name, "exit") == 0 || \
-		ft_strcmp(cmd_name, "~") == 0)
+		(ft_strcmp(cmd_name, "~") == 0 && shell->is_interactive))
 		return (true);
 	return (false);
 }

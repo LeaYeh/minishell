@@ -37,7 +37,7 @@ int	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 	if (ret == MALLOC_ERROR)
 		return (MALLOC_ERROR);
 	if (!setup_env(shell->final_cmd_table, shell->env_list) || \
-		!setup_exec_path(shell->final_cmd_table) || \
+		!setup_exec_path(shell, shell->final_cmd_table) || \
 		!setup_assignment_array(
 			shell->final_cmd_table, cmd_table->assignment_list))
 		return (MALLOC_ERROR);

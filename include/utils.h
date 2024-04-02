@@ -58,7 +58,7 @@ t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list);
 t_cmd_table	*get_subshell_start(t_list_d *cmd_table_node);
 char		*get_cmd_name_from_list(t_list *simple_cmd_list);
 bool		is_control_op_cmd_table(int cmd_table_type);
-bool		is_builtin(char *cmd_name);
+bool		is_builtin(char *cmd_name, t_shell *shell);
 bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);
 void		move_past_subshell(t_list_d **cmd_table_node);
 void		move_past_pipeline(t_list_d **cmd_table_node);
@@ -66,7 +66,7 @@ void		move_past_pipeline(t_list_d **cmd_table_node);
 /* Final cmd table utils */
 void		free_final_cmd_table(t_final_cmd_table **final_cmd_table);
 int			set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
-bool		setup_exec_path(t_final_cmd_table *final_cmd_table);
+bool		setup_exec_path(t_shell *shell, t_final_cmd_table *final_cmd_table);
 int			setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list);
 bool		setup_assignment_array(t_final_cmd_table *final_cmd_table,
 				t_list *assignment_list);

@@ -30,11 +30,11 @@ int	setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
 	return (SUCCESS);
 }
 
-bool	setup_exec_path(t_final_cmd_table *final_cmd_table)
+bool	setup_exec_path(t_shell *shell, t_final_cmd_table *final_cmd_table)
 {
 	if (!final_cmd_table->simple_cmd || \
 		!final_cmd_table->simple_cmd[0] || \
-		is_builtin(final_cmd_table->simple_cmd[0]))
+		is_builtin(final_cmd_table->simple_cmd[0], shell))
 		final_cmd_table->exec_path = NULL;
 	else if (!set_exec_path(&final_cmd_table->exec_path,
 			final_cmd_table->simple_cmd[0], final_cmd_table->env))
