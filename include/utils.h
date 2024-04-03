@@ -15,6 +15,10 @@
 
 # include "defines.h"
 
+/* User input utils */
+bool		read_input(char **line,
+				char *prompt, bool add_to_history, bool is_interactive);
+
 /* Token list utils */
 t_token		*init_token_node(int type, char *data);
 void		free_token_node(t_token *token);

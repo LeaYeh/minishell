@@ -13,9 +13,6 @@
 #include "heredoc.h"
 #include "utils.h"
 
-bool	read_input(char **line,
-			char *prompt, bool add_to_history, bool is_interactive);
-
 int	handle_heredoc_content(t_shell *shell,
 		char *filename, t_list **line_list, bool need_content_expansion)
 {
