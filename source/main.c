@@ -19,9 +19,6 @@
 #include "utils.h"
 #include "signals.h"
 
-bool	read_input(char **line,
-			char *prompt, bool add_to_history, bool is_interactive);
-
 int	main(void)
 {
 	t_shell	shell;

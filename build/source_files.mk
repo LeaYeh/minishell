@@ -138,7 +138,6 @@ SRC		+=	$(addprefix $(SUBDIR), \
             default_env_list.c \
             env_list.c \
             init.c \
-            read_input.c \
 )
 
 #  Signal:
@@ -175,5 +174,6 @@ SRC		+=	$(addprefix $(SUBDIR), \
             token_status_utils.c \
             token_type_utils.c \
             token_utils.c \
+            user_input_utils.c \
             varname_utils.c \
 )
