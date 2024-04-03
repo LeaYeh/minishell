@@ -19,7 +19,7 @@ int	exec_pwd(void)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		ft_dprintf(2, "%s: %s: ", PROGRAM_NAME, "pwd");
+		ft_dprintf(STDERR_FILENO, "%s: %s: ", PROGRAM_NAME, "pwd");
 		perror(NULL);
 		return (CMD_EXEC_FAILED);
 	}

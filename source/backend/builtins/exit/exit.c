@@ -20,12 +20,13 @@ void	handle_exit(t_shell *shell, int args_error)
 		ft_dprintf(STDERR_FILENO, EXIT_MSG);
 	if (args_error == EX_TOO_MANY_ARGS)
 	{
-		ft_dprintf(2, ERROR_EXIT_TOO_MANY_ARGS, PROGRAM_NAME, "exit");
+		ft_dprintf(STDERR_FILENO, ERROR_EXIT_TOO_MANY_ARGS,
+			PROGRAM_NAME, "exit");
 		if (shell->subshell_level == 0)
 			return ;
 	}
 	else if (args_error == EX_NOT_NUMERIC)
-		ft_dprintf(2, ERROR_EXIT_NUMERIC_ARG,
+		ft_dprintf(STDERR_FILENO, ERROR_EXIT_NUMERIC_ARG,
 			PROGRAM_NAME, "exit", shell->final_cmd_table->simple_cmd[1]);
 	clean_and_exit_shell(shell, shell->exit_code, NULL);
 }

@@ -29,7 +29,7 @@ char	*generate_tmp_filename(int cmdtable_id, char *category)
 void	remove_file(char *filename)
 {
 	if (unlink(filename) == -1)
-		ft_dprintf(2, ERROR_REMOVE_FILE, PROGRAM_NAME, filename);
+		ft_dprintf(STDERR_FILENO, ERROR_REMOVE_FILE, PROGRAM_NAME, filename);
 }
 
 bool	write_content_to_file(char *content, char *filename)
@@ -51,7 +51,7 @@ bool	write_content_to_file(char *content, char *filename)
 
 void	safe_close(int *fd)
 {
-	if (*fd > 2)
+	if (*fd > STDERR_FILENO)
 	{
 		close(*fd);
 		*fd = -1;

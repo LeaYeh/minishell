@@ -30,7 +30,8 @@ int	expand_filename(t_shell *shell, char **filename)
 		return (ft_lstclear(&expanded_list, free), ret);
 	if (ft_lstsize_non_null(expanded_list) != 1)
 	{
-		ft_dprintf(2, ERROR_AMBIGUOUS_REDIRECT, PROGRAM_NAME, *filename);
+		ft_dprintf(STDERR_FILENO,
+			ERROR_AMBIGUOUS_REDIRECT, PROGRAM_NAME, *filename);
 		return (ft_lstclear(&expanded_list, free), AMBIGUOUS_REDIR);
 	}
 	free(*filename);
@@ -46,7 +47,7 @@ bool	handle_red_in(int *read_fd, char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_dprintf(2, "%s: %s: ", PROGRAM_NAME, filename);
+		ft_dprintf(STDERR_FILENO, "%s: %s: ", PROGRAM_NAME, filename);
 		perror("");
 		return (false);
 	}
@@ -61,7 +62,7 @@ bool	handle_red_out(int *write_fd, char *filename, int o_flags)
 	fd = open(filename, o_flags, (S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
 	if (fd < 0)
 	{
-		ft_dprintf(2, "%s: %s: ", PROGRAM_NAME, filename);
+		ft_dprintf(STDERR_FILENO, "%s: %s: ", PROGRAM_NAME, filename);
 		perror("");
 		return (false);
 	}
