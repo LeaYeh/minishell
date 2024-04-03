@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/30 12:02:08 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:50:36 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list);
 t_cmd_table	*get_subshell_start(t_list_d *cmd_table_node);
 char		*get_cmd_name_from_list(t_list *simple_cmd_list);
 bool		is_control_op_cmd_table(int cmd_table_type);
-bool		is_builtin(char *cmd_name);
+bool		is_builtin(char *cmd_name, t_shell *shell);
 bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);
 void		move_past_subshell(t_list_d **cmd_table_node);
 void		move_past_pipeline(t_list_d **cmd_table_node);
@@ -66,7 +66,7 @@ void		move_past_pipeline(t_list_d **cmd_table_node);
 /* Final cmd table utils */
 void		free_final_cmd_table(t_final_cmd_table **final_cmd_table);
 int			set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
-bool		setup_exec_path(t_final_cmd_table *final_cmd_table);
+bool		setup_exec_path(t_shell *shell, t_final_cmd_table *final_cmd_table);
 int			setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list);
 bool		setup_assignment_array(t_final_cmd_table *final_cmd_table,
 				t_list *assignment_list);
@@ -147,5 +147,9 @@ bool		is_valid_varname_char(char c);
 bool		is_valid_varname_start(char c);
 char		*get_varname(char *str);
 int			get_varname_len(char *str);
+
+/* Print utils */
+void		clear_terminal_soft(void);
+void		print_welcome_msg(t_shell *shell);
 
 #endif

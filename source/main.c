@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/03 01:15:59 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:55:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(void)
 
 	if (!DEFINITIONS_OK || !init_shell(&shell))
 		raise_error_and_escape(&shell, "init shell failed");
+	print_welcome_msg(&shell);
 	while (true)
 	{
 		if (!read_input(&shell.input_line, PROMPT, true, shell.is_interactive))

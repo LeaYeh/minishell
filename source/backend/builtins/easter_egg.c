@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   easter_egg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 18:22:38 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/02 22:56:18 by ldulling         ###   ########.fr       */
+/*   Created: 2024/04/02 22:54:08 by ldulling          #+#    #+#             */
+/*   Updated: 2024/04/02 23:07:48 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
-
 # include "defines.h"
 
-int		exec_env(char *env[]);
-int		exec_echo(char *args[]);
-int		exec_pwd(void);
-int		exec_cd(char *args[], t_list **env_list);
-int		exec_export(char *args[], t_list **env_list);
-int		exec_unset(char *args[], t_list **env_list);
-void	exec_exit(t_shell *shell, char *args[]);
-int		exec_easter_egg(void);
+int	exec_easter_egg(void)
+{
+	static int	egg_counter;
 
-int		get_args_error(char *args[]);
-
-#endif
+	if (egg_counter % 2 == 0 && WELCOME_ART1)
+		printf(WELCOME_ART1);
+	else if (WELCOME_ART2)
+		printf(WELCOME_ART2);
+	else
+		printf(WELCOME_MSG);
+	if (WELCOME_ART1 || WELCOME_ART2)
+		printf(VALERIA_MSG);
+	egg_counter++;
+	return (42);
+}

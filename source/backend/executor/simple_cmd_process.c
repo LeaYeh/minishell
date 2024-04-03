@@ -25,7 +25,7 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 		raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
 	if (ret == BAD_SUBSTITUTION)
 		shell->exit_code = BAD_SUBSTITUTION;
-	else if (is_builtin(shell->final_cmd_table->simple_cmd[0]))
+	else if (is_builtin(shell->final_cmd_table->simple_cmd[0], shell))
 	{
 		setup_signal(shell, SIGPIPE, SIG_IGNORE);
 		handle_builtin(shell, cmd_table_node);

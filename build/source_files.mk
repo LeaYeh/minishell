@@ -22,6 +22,7 @@ SRC		:=	$(addprefix $(SUBDIR), \
 #   Builtins:
 SUBDIR	:=	backend/builtins/
 SRC		+=	$(addprefix $(SUBDIR), \
+            easter_egg.c \
             echo.c \
             env.c \
             pwd.c \
@@ -166,6 +167,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             final_cmd_table_utils.c \
             io_redirect_status_utils.c \
             io_redirect_utils.c \
+            print_utils.c \
             process_utils.c \
             stack_status_utils.c \
             stack_utils.c \

@@ -38,6 +38,8 @@ void	exec_builtin_cmd(t_shell *shell)
 				&shell->env_list);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") == 0)
 		exec_exit(shell, final_cmd_table->simple_cmd);
+	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "~") == 0)
+		shell->exit_code = exec_easter_egg();
 }
 
 static void	safe_redirect_io_and_exec_builtin(t_shell *shell)

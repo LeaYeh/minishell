@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/25 18:59:05 by ldulling         ###   ########.fr        #
+#    Updated: 2024/04/02 23:08:11 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ LIBRARIES_EXT	:=	readline termcap
 INCLUDES 		:=	-I./include -I./$(LIBRARIES)/inc
 BUILDFILES		:=	Makefile \
 					$(BUILD_DIR)/parsing_table.mk \
-					$(BUILD_DIR)/source_files.mk
+					$(BUILD_DIR)/source_files.mk \
+					$(BUILD_DIR)/welcome_art.mk
 
 
 #	Flags
@@ -49,8 +50,10 @@ MAKEFLAGS		:=	-j -s
 
 #	Macro definitions
 
-include				$(BUILD_DIR)/parsing_table.mk
-MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE)
+include				$(BUILD_DIR)/parsing_table.mk $(BUILD_DIR)/welcome_art.mk
+MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE) \
+					-D WELCOME_ART1=$(WELCOME_ART1) \
+					-D WELCOME_ART2=$(WELCOME_ART2)
 
 
 #	Characters
@@ -237,7 +240,7 @@ MSG_MAKE_V4.3-	:=	"\e[3;37m Make version 4.4+ not detected\n\
 					Make version: $(MAKE_VERSION)\n\
 					Parallel build for libraries disabled\n\e[0m"
 ################################################################################
-MSG_START		:=	"\e[3mBuilding \e[1;34m🌊rash \e[0;3m... \e[0m"
+MSG_START		:=	"\e[3mBuilding Crash ... \e[0m"
 ################################################################################
 MSG_PROGRESS	:=	"\e[3m🌊\e[0m"
 ################################################################################

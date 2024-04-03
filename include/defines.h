@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/28 22:39:15 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/02 23:02:09 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,18 @@
 # include "get_next_line.h"
 
 # ifndef PARSING_TABLE
+#  define PARSING_TABLE		0
 #  define DEFINITIONS_OK	false
 # else
 #  define DEFINITIONS_OK	true
+# endif
+
+# ifndef WELCOME_ART1
+#  define WELCOME_ART1		0
+# endif
+
+# ifndef WELCOME_ART2
+#  define WELCOME_ART2		0
 # endif
 
 # define PROGRAM_NAME		"crash"
@@ -46,6 +55,14 @@
 
 # define HEREDOC_PROMPT		"\e[1;37m> \e[0m"
 # define EXIT_MSG			"exit\n"
+
+# define WELCOME_MSG		"\
+                    ╭───────────🌊🌊🌊───────────╮\n\
+                    │  Dive deep into the shell  │\n\
+                    ╰───────────🌊🌊🌊───────────╯\n"
+
+# define VALERIA_MSG		"\
+           Big thank you to \e[1m@ValeriaGart\e[0m for the pixel art!\n"
 
 /* Error Codes */
 # define SUCCESS			0
