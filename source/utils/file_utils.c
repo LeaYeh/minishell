@@ -51,7 +51,7 @@ bool	write_content_to_file(char *content, char *filename)
 
 void	safe_close(int *fd)
 {
-	if (*fd > 2)
+	if (*fd > STDERR_FILENO)
 	{
 		close(*fd);
 		*fd = -1;
