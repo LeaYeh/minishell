@@ -2,14 +2,14 @@
 
 # 🌊rash Minishell | @42Vienna
 
-![Workflow Status](https://github.com/LeaYeh/minishell/actions/workflows/test.yaml/badge.svg?branch=main)
-![Norminette Status](https://github.com/LeaYeh/minishell/actions/workflows/norminette.yaml/badge.svg?branch=main)
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LeaYeh/minishell?include_prereleases)
-![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/LeaYeh/minishell?label=version)
+![Workflow Status](https://github.com/LeaYeh/minishell/actions/workflows/test.yaml/badge.svg?branch=main&style=flat)
+![Norminette Status](https://github.com/LeaYeh/minishell/actions/workflows/norminette.yaml/badge.svg?branch=main&style=flat)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LeaYeh/minishell?include_prereleases&style=flat&color=blue)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/LeaYeh/minishell?label=version&style=flat&color=yellow)
 
-[![Visits Badge](https://visitor-badge.laobi.icu/badge?page_id=LeaYeh.minishell&right_color=black)](https://github.com/LeaYeh/minishell)
-[![Lines of Code](https://tokei.rs/b1/github/LeaYeh/minishell?category=code)](https://github.com/LeaYeh/minishell)
-![GitHub](https://img.shields.io/github/license/LeaYeh/minishell)
+[![Visits Badge](https://visitor-badge.laobi.icu/badge?page_id=LeaYeh.minishell&style=flat&right_color=navy)](https://github.com/LeaYeh/minishell)
+[![Lines of Code](https://tokei.rs/b1/github/LeaYeh/minishell?category=code&style=flat&color=purple)](https://github.com/LeaYeh/minishell)
+![GitHub](https://img.shields.io/github/license/LeaYeh/minishell?style=flat&color=darkred)
 
 </div>
 
