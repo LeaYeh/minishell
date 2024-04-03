@@ -13,6 +13,9 @@
 #include "heredoc.h"
 #include "utils.h"
 
+bool	read_input(char **line,
+			char *prompt, bool add_to_history, bool is_interactive);
+
 int	handle_heredoc_content(t_shell *shell,
 		char *filename, t_list **line_list, bool need_content_expansion)
 {
@@ -39,7 +42,9 @@ int	read_heredoc(t_shell *shell, t_list **line_list, char *here_end)
 
 	while (true)
 	{
-		line = readline(HEREDOC_PROMPT);
+		line = NULL;
+		if (!read_input(&line, HEREDOC_PROMPT, false, shell->is_interactive))
+			return (free(line), HEREDOC_ERROR);
 		if (shell->exit_code == TERM_BY_SIGNAL + SIGINT)
 			return (free(line), HEREDOC_ABORT);
 		if (!line)

@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:15:33 by ldulling          #+#    #+#              #
-#    Updated: 2024/04/01 02:06:40 by ldulling         ###   ########.fr        #
+#    Updated: 2024/04/03 01:29:23 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,13 +131,14 @@ SRC		+=	$(addprefix $(SUBDIR), \
             syntax_error.c \
 )
 
-#  Shell Struct:
-SUBDIR	:=	shell_struct/
+#  Shell:
+SUBDIR	:=	shell/
 SRC		+=	$(addprefix $(SUBDIR), \
             clean.c \
             default_env_list.c \
             env_list.c \
             init.c \
+            read_input.c \
 )
 
 #  Signal:
