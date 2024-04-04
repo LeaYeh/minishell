@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_utils.c                                     :+:      :+:    :+:   */
+/*   heredoc_string_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 18:50:32 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/03 14:28:00 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/04 23:25:02 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "defines.h"
 
-static int	get_list_strlen(t_list *list, char *delim)
+static int	get_list_strlen(t_list *list, char *delim);
+
+bool	is_str_quoted(char *str)
 {
-	int		total_length;
-	t_list	*node;
-
-	total_length = 0;
-	node = list;
-	while (node)
-	{
-		if (node->content)
-			total_length += ft_strlen(node->content);
-		total_length += ft_strlen(delim);
-		node = node->next;
-	}
-	return (total_length);
+	if (ft_strchr(str, '\'') || ft_strchr(str, '\"'))
+		return (true);
+	return (false);
 }
 
 char	*concat_list_to_string(t_list *list, char *delim)
@@ -53,9 +45,19 @@ char	*concat_list_to_string(t_list *list, char *delim)
 	return (str);
 }
 
-bool	is_str_quoted(char *str)
+static int	get_list_strlen(t_list *list, char *delim)
 {
-	if (ft_strchr(str, '\'') || ft_strchr(str, '\"'))
-		return (true);
-	return (false);
+	int		total_length;
+	t_list	*node;
+
+	total_length = 0;
+	node = list;
+	while (node)
+	{
+		if (node->content)
+			total_length += ft_strlen(node->content);
+		total_length += ft_strlen(delim);
+		node = node->next;
+	}
+	return (total_length);
 }

@@ -69,6 +69,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
 SUBDIR	:=	backend/redirection/
 SRC		+=	$(addprefix $(SUBDIR), \
             heredoc.c \
+            heredoc_string_utils.c \
             heredoc_utils.c \
             io_file.c \
             pipe.c \
@@ -169,9 +170,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
             io_redirect_status_utils.c \
             io_redirect_utils.c \
             print_utils.c \
-            stack_status_utils.c \
             stack_utils.c \
-            string_utils.c \
             symbol_utils.c \
             token_status_utils.c \
             token_type_utils.c \

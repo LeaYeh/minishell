@@ -129,13 +129,11 @@ void		print_parse_stack(t_list *stack);
 bool		drop_num_stack(t_list **stack, int num, void (*del)(void *));
 t_list		*pop_num_stack(t_list **stack, int num);
 
-/* String utils */
-bool		is_open_pair(unsigned char c, t_is_open_pair_op operation);
-bool		skip_dollar_brace(char *str, int *i, bool is_in_dquote);
-bool		skip_double_quote(char *str, int *i);
+/* Symbol utils */
 bool		skip_single_quote(char *str, int *i);
-char		*concat_list_to_string(t_list *list, char *delim);
-bool		is_str_quoted(char *str);
+bool		skip_double_quote(char *str, int *i);
+bool		skip_dollar_brace(char *str, int *i, bool is_in_dquote);
+bool		is_open_pair(unsigned char c, t_is_open_pair_op operation);
 
 /* Variable name utils */
 bool		is_valid_varname(char *str);
