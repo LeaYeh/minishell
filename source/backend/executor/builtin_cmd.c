@@ -16,30 +16,35 @@
 #include "clean.h"
 #include "signals.h"
 
-void	exec_builtin_cmd(t_shell *shell)
-{
-	t_final_cmd_table	*final_cmd_table;
+static void	safe_redirect_io_and_exec_builtin(t_shell *shell);
+static void	redirect_io_and_exec_builtin(t_shell *shell);
+static void	exec_builtin_cmd(t_shell *shell);
 
-	final_cmd_table = shell->final_cmd_table;
-	if (ft_strcmp(final_cmd_table->simple_cmd[0], "env") == 0)
-		shell->exit_code = exec_env(final_cmd_table->env);
-	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "unset") == 0)
-		shell->exit_code = exec_unset(final_cmd_table->simple_cmd,
-				&shell->env_list);
-	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "echo") == 0)
-		shell->exit_code = exec_echo(final_cmd_table->simple_cmd);
-	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "pwd") == 0)
-		shell->exit_code = exec_pwd();
-	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "cd") == 0)
-		shell->exit_code = exec_cd(final_cmd_table->simple_cmd,
-				&shell->env_list);
-	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "export") == 0)
-		shell->exit_code = exec_export(final_cmd_table->simple_cmd,
-				&shell->env_list);
-	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") == 0)
-		exec_exit(shell, final_cmd_table->simple_cmd);
-	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "~") == 0)
-		shell->exit_code = exec_easter_egg();
+void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
+{
+	t_cmd_table	*cmd_table;
+	int			ret;
+
+	cmd_table = (*cmd_table_node)->content;
+	ret = handle_io_redirect(shell,
+			&shell->final_cmd_table->read_fd,
+			&shell->final_cmd_table->write_fd, cmd_table->io_red_list);
+	if (ret == MALLOC_ERROR)
+		raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
+	else if (ret != SUCCESS)
+	{
+		shell->exit_code = GENERAL_ERROR;
+		if (shell->subshell_level != 0)
+			clean_and_exit_shell(shell, shell->exit_code, NULL);
+	}
+	else if (shell->final_cmd_table->simple_cmd[0] && \
+				shell->subshell_level == 0)
+		safe_redirect_io_and_exec_builtin(shell);
+	else if (shell->final_cmd_table->simple_cmd[0])
+		redirect_io_and_exec_builtin(shell);
+	if (shell->exit_code == BUILTIN_ERROR)
+		raise_error_to_own_subprocess(shell, MALLOC_ERROR, NULL);
+	*cmd_table_node = (*cmd_table_node)->next;
 }
 
 static void	safe_redirect_io_and_exec_builtin(t_shell *shell)
@@ -78,29 +83,28 @@ static void	redirect_io_and_exec_builtin(t_shell *shell)
 	exec_builtin_cmd(shell);
 }
 
-void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
+static void	exec_builtin_cmd(t_shell *shell)
 {
-	t_cmd_table	*cmd_table;
-	int			ret;
+	t_final_cmd_table	*final_cmd_table;
 
-	cmd_table = (*cmd_table_node)->content;
-	ret = handle_io_redirect(shell,
-			&shell->final_cmd_table->read_fd,
-			&shell->final_cmd_table->write_fd, cmd_table->io_red_list);
-	if (ret == MALLOC_ERROR)
-		raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
-	else if (ret != SUCCESS)
-	{
-		shell->exit_code = GENERAL_ERROR;
-		if (shell->subshell_level != 0)
-			clean_and_exit_shell(shell, shell->exit_code, NULL);
-	}
-	else if (shell->final_cmd_table->simple_cmd[0] && \
-				shell->subshell_level == 0)
-		safe_redirect_io_and_exec_builtin(shell);
-	else if (shell->final_cmd_table->simple_cmd[0])
-		redirect_io_and_exec_builtin(shell);
-	if (shell->exit_code == BUILTIN_ERROR)
-		raise_error_to_own_subprocess(shell, MALLOC_ERROR, NULL);
-	*cmd_table_node = (*cmd_table_node)->next;
+	final_cmd_table = shell->final_cmd_table;
+	if (ft_strcmp(final_cmd_table->simple_cmd[0], "env") == 0)
+		shell->exit_code = exec_env(final_cmd_table->env);
+	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "unset") == 0)
+		shell->exit_code = exec_unset(final_cmd_table->simple_cmd,
+				&shell->env_list);
+	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "echo") == 0)
+		shell->exit_code = exec_echo(final_cmd_table->simple_cmd);
+	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "pwd") == 0)
+		shell->exit_code = exec_pwd();
+	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "cd") == 0)
+		shell->exit_code = exec_cd(final_cmd_table->simple_cmd,
+				&shell->env_list);
+	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "export") == 0)
+		shell->exit_code = exec_export(final_cmd_table->simple_cmd,
+				&shell->env_list);
+	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") == 0)
+		exec_exit(shell, final_cmd_table->simple_cmd);
+	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "~") == 0)
+		shell->exit_code = exec_easter_egg();
 }

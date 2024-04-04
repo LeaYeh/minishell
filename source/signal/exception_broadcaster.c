@@ -12,6 +12,8 @@
 
 #include "signals.h"
 
+static void	signal_to_all_subprocess(t_shell *shell, int signo);
+
 void	raise_error_and_escape(t_shell *shell, char *msg)
 {
 	if (msg)
@@ -30,7 +32,20 @@ void	raise_error_to_all_subprocess(t_shell *shell, int exit_code, char *msg)
 	kill(-shell->pid, SIGTERM);
 }
 
-void	signal_to_all_subprocess(t_shell *shell, int signo)
+void	raise_error_to_own_subprocess(t_shell *shell, int exit_code, char *msg)
+{
+	shell->exit_code = exit_code;
+	if (msg)
+		printf(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
+	setup_signal(shell, SIGINT, SIG_STANDARD);
+	setup_signal(shell, SIGABRT, SIG_STANDARD);
+	setup_signal(shell, SIGTERM, SIG_STANDARD);
+	setup_signal(shell, SIGQUIT, SIG_IGNORE);
+	signal_to_all_subprocess(shell, SIGTERM);
+	kill(getpid(), SIGTERM);
+}
+
+static void	signal_to_all_subprocess(t_shell *shell, int signo)
 {
 	pid_t	pid;
 	pid_t	child_pid;
@@ -46,17 +61,4 @@ void	signal_to_all_subprocess(t_shell *shell, int signo)
 		kill(child_pid, signo);
 		node = node->next;
 	}
-}
-
-void	raise_error_to_own_subprocess(t_shell *shell, int exit_code, char *msg)
-{
-	shell->exit_code = exit_code;
-	if (msg)
-		printf(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
-	setup_signal(shell, SIGINT, SIG_STANDARD);
-	setup_signal(shell, SIGABRT, SIG_STANDARD);
-	setup_signal(shell, SIGTERM, SIG_STANDARD);
-	setup_signal(shell, SIGQUIT, SIG_IGNORE);
-	signal_to_all_subprocess(shell, SIGTERM);
-	kill(getpid(), SIGTERM);
 }

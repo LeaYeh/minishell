@@ -15,9 +15,7 @@
 
 # include "defines.h"
 
-void	clean_shell(t_shell *shell);
 void	clean_and_exit_shell(t_shell *shell, int exit_code, char *msg);
-void	free_env_node(t_env *env);
 void	reset_submodule_variable(t_shell *shell);
 
 #endif

@@ -12,8 +12,26 @@
 
 #include "utils.h"
 
-// If no OLDPWD key exists, create one with no VALUE
-bool	add_default_oldpwd_env_node(t_list **env_list)
+static bool	add_default_oldpwd_env_node(t_list **env_list);
+static bool	add_default_pwd_env_node(t_list **env_list);
+
+bool	setup_default_env_list(t_shell *shell)
+{
+	extern char	**environ;
+
+	if (!is_key_in_env(environ, "OLDPWD") && \
+		!add_default_oldpwd_env_node(&shell->env_list))
+		return (false);
+	if (!is_key_in_env(environ, "PWD") && \
+		!add_default_pwd_env_node(&shell->env_list))
+		return (false);
+	return (true);
+}
+
+/**
+ * If no OLDPWD key exists, create one with no VALUE
+ */
+static bool	add_default_oldpwd_env_node(t_list **env_list)
 {
 	char	*key;
 	char	*value;
@@ -27,7 +45,7 @@ bool	add_default_oldpwd_env_node(t_list **env_list)
 	return (true);
 }
 
-bool	add_default_pwd_env_node(t_list **env_list)
+static bool	add_default_pwd_env_node(t_list **env_list)
 {
 	char	*key;
 	char	*value;
@@ -40,18 +58,5 @@ bool	add_default_pwd_env_node(t_list **env_list)
 		return (free(key), false);
 	if (!append_env_node(env_list, key, value, EXPORT_YES))
 		return (free(key), free(value), false);
-	return (true);
-}
-
-bool	setup_default_env_list(t_shell *shell)
-{
-	extern char	**environ;
-
-	if (!is_key_in_env(environ, "OLDPWD") && \
-		!add_default_oldpwd_env_node(&shell->env_list))
-		return (false);
-	if (!is_key_in_env(environ, "PWD") && \
-		!add_default_pwd_env_node(&shell->env_list))
-		return (false);
 	return (true);
 }

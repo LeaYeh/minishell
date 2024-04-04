@@ -13,8 +13,24 @@
 #include "expander.h"
 #include "utils.h"
 
+static bool	append_quote_task(
+				t_list **task_list,
+				char **base_str,
+				int *i);
+static bool	append_parameter_task(
+				t_list **task_list,
+				char **base_str,
+				int *i,
+				t_expander_op op_mask);
+static bool	set_parameter_task_type(
+				t_expander_task_type *type,
+				char c,
+				t_expander_op op_mask);
+
 bool	set_expander_task_list(
-	t_list **task_list, char **base_str, t_expander_op op_mask)
+	t_list **task_list,
+	char **base_str,
+	t_expander_op op_mask)
 {
 	int		i;
 	bool	ret;
@@ -33,7 +49,10 @@ bool	set_expander_task_list(
 	return (is_open_pair(0, OP_CLEAN), ret);
 }
 
-bool	append_quote_task(t_list **task_list, char **base_str, int *i)
+static bool	append_quote_task(
+	t_list **task_list,
+	char **base_str,
+	int *i)
 {
 	t_expander_task	*task;
 
@@ -48,8 +67,11 @@ bool	append_quote_task(t_list **task_list, char **base_str, int *i)
 	return ((*i)++, true);
 }
 
-bool	append_parameter_task(
-	t_list **task_list, char **base_str, int *i, t_expander_op op_mask)
+static bool	append_parameter_task(
+	t_list **task_list,
+	char **base_str,
+	int *i,
+	t_expander_op op_mask)
 {
 	int						offset;
 	int						replace_len;
@@ -69,8 +91,10 @@ bool	append_parameter_task(
 	return (*i += replace_len, true);
 }
 
-bool	set_parameter_task_type(
-	t_expander_task_type *type, char c, t_expander_op op_mask)
+static bool	set_parameter_task_type(
+	t_expander_task_type *type,
+	char c,
+	t_expander_op op_mask)
 {
 	if (is_valid_varname_start(c))
 	{

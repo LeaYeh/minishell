@@ -12,6 +12,8 @@
 
 #include "defines.h"
 
+static char	*get_value_with_key(char *str, char *key);
+
 bool	extract_env_key(char **res, const char *str)
 {
 	char	*equal_sign;
@@ -44,20 +46,23 @@ bool	extract_env_value(char **res, const char *str)
 	return (true);
 }
 
-static char	*get_value_with_key(char *str, char *key)
+bool	is_key_in_env(char *env[], char *key)
 {
-	int		key_len;
-	char	*value;
+	int	i;
+	int	key_len;
 
-	if (!str || !key)
-		return (NULL);
+	if (!env || !key)
+		return (false);
 	key_len = ft_strlen(key);
-	if (ft_strncmp(str, key, key_len) == 0 && str[key_len] == '=')
+	i = 0;
+	while (env[i])
 	{
-		value = str + key_len + 1;
-		return (value);
+		if (ft_strncmp(env[i], key, key_len) == 0 && \
+			(env[i][key_len] == '=' || env[i][key_len] == '\0'))
+			return (true);
+		i++;
 	}
-	return (NULL);
+	return (false);
 }
 
 char	*get_value_from_env(char *env[], char *key)
@@ -79,21 +84,18 @@ char	*get_value_from_env(char *env[], char *key)
 	return (value);
 }
 
-bool	is_key_in_env(char *env[], char *key)
+static char	*get_value_with_key(char *str, char *key)
 {
-	int	i;
-	int	key_len;
+	int		key_len;
+	char	*value;
 
-	if (!env || !key)
-		return (false);
+	if (!str || !key)
+		return (NULL);
 	key_len = ft_strlen(key);
-	i = 0;
-	while (env[i])
+	if (ft_strncmp(str, key, key_len) == 0 && str[key_len] == '=')
 	{
-		if (ft_strncmp(env[i], key, key_len) == 0 && \
-			(env[i][key_len] == '=' || env[i][key_len] == '\0'))
-			return (true);
-		i++;
+		value = str + key_len + 1;
+		return (value);
 	}
-	return (false);
+	return (NULL);
 }

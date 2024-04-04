@@ -10,36 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "clean.h"
 #include "executor.h"
+#include "utils.h"
 
-void	free_env_node(t_env *env)
+static void	clean_shell(t_shell *shell);
+static void	remove_heredoc_files(t_cmd_table *cmd_table);
+
+void	clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)
 {
-	if (!env)
-		return ;
-	ft_free_and_null((void **)&env->key);
-	ft_free_and_null((void **)&env->value);
-	free(env);
+	if (msg)
+		printf("%s\n", msg);
+	clean_shell(shell);
+	safe_close_all_pipes(shell);
+	(void)get_next_line(-1);
+	exit(exit_code);
 }
 
-void	remove_heredoc_files(t_cmd_table *cmd_table)
-{
-	t_list		*io_red_list;
-	t_io_red	*io_red;
-
-	if (!cmd_table)
-		return ;
-	io_red_list = cmd_table->io_red_list;
-	while (io_red_list)
-	{
-		io_red = io_red_list->content;
-		if (io_red->type == T_HERE_DOC)
-			remove_file(io_red->filename);
-		io_red_list = io_red_list->next;
-	}
-}
-
-void	clean_shell(t_shell *shell)
+static void	clean_shell(t_shell *shell)
 {
 	ft_free_and_null((void **)&shell->input_line);
 	ft_lstclear(&shell->child_pid_list, NULL);
@@ -65,12 +53,19 @@ void	reset_submodule_variable(t_shell *shell)
 	free_final_cmd_table(&shell->final_cmd_table);
 }
 
-void	clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)
+static void	remove_heredoc_files(t_cmd_table *cmd_table)
 {
-	if (msg)
-		printf("%s\n", msg);
-	clean_shell(shell);
-	safe_close_all_pipes(shell);
-	(void)get_next_line(-1);
-	exit(exit_code);
+	t_list		*io_red_list;
+	t_io_red	*io_red;
+
+	if (!cmd_table)
+		return ;
+	io_red_list = cmd_table->io_red_list;
+	while (io_red_list)
+	{
+		io_red = io_red_list->content;
+		if (io_red->type == T_HERE_DOC)
+			remove_file(io_red->filename);
+		io_red_list = io_red_list->next;
+	}
 }

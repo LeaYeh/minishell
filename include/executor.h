@@ -44,6 +44,7 @@ int		handle_io_redirect(
 /* Redirection - Pipe */
 bool	need_pipe(t_list_d *cmd_table_node);
 bool	create_pipe(t_pipe *new_pipe);
+void	init_pipe(t_pipe *pipe);
 void	safe_close_pipe(t_pipe *pipe);
 void	handle_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe);
 void	handle_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe);

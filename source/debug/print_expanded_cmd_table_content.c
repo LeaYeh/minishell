@@ -13,32 +13,6 @@
 #include "debug.h"
 #include "expander.h"
 
-bool	expand_and_print(char *str, t_shell *shell)
-{
-	t_list	*expanded_list;
-	t_list	*cur;
-	int		ret;
-
-	expanded_list = NULL;
-	ret = expander(str, &expanded_list, shell,
-			E_PARAM | E_SPLIT_WORDS | E_WILDCARD | E_RM_QUOTES);
-	if (ret == MALLOC_ERROR)
-		return (printf("malloc failed in expander"), false);
-	if (ret == BAD_SUBSTITUTION)
-		printf(STY_RED "Bad substitution." STY_RES);
-	else if (!expanded_list)
-		return (printf("(NULL)"), true);
-	cur = expanded_list;
-	while (cur)
-	{
-		printf(STY_BLU "|" STY_RES "%s" STY_BLU "|" STY_RES,
-			(char *)expanded_list->content);
-		cur = cur->next;
-	}
-	ft_lstclear(&expanded_list, free);
-	return (true);
-}
-
 bool	print_expanded_simple_cmd_list(t_cmd_table *cmd_table, t_shell *shell)
 {
 	t_list	*node;
@@ -47,7 +21,8 @@ bool	print_expanded_simple_cmd_list(t_cmd_table *cmd_table, t_shell *shell)
 	node = cmd_table->simple_cmd_list;
 	while (node)
 	{
-		if (!expand_and_print(node->content, shell))
+		if (!print_expanded_str(node->content,
+				shell, E_PARAM | E_SPLIT_WORDS | E_WILDCARD | E_RM_QUOTES))
 			return (false);
 		printf(" -> ");
 		node = node->next;
@@ -64,7 +39,8 @@ bool	print_expanded_assignment_list(t_cmd_table *cmd_table, t_shell *shell)
 	node = cmd_table->assignment_list;
 	while (node)
 	{
-		if (!expand_and_print(node->content, shell))
+		if (!print_expanded_str(node->content,
+				shell, E_PARAM | E_SPLIT_WORDS | E_WILDCARD | E_RM_QUOTES))
 			return (false);
 		printf(" -> ");
 		node = node->next;
@@ -86,13 +62,39 @@ bool	print_expanded_io_red_list(t_cmd_table *cmd_table, t_shell *shell)
 		io_red = (t_io_red *)node->content;
 		printf("\ttype:     %d", io_red->type);
 		printf("\n\filename:  ");
-		if (!expand_and_print(io_red->filename, shell))
+		if (!print_expanded_str(
+				io_red->filename, shell, E_PARAM | E_WILDCARD | E_RM_QUOTES))
 			return (false);
 		printf("\n\there_end: ");
-		if (!expand_and_print(io_red->here_end, shell))
+		if (!print_expanded_str(io_red->here_end, shell, E_RM_QUOTES))
 			return (false);
 		printf("\n-----------------\n");
 		node = node->next;
 	}
+	return (true);
+}
+
+bool	print_expanded_str(char *str, t_shell *shell, t_expander_op op_mask)
+{
+	t_list	*expanded_list;
+	t_list	*cur;
+	int		ret;
+
+	expanded_list = NULL;
+	ret = expander(str, &expanded_list, shell, op_mask);
+	if (ret == MALLOC_ERROR)
+		return (printf("malloc failed in expander"), false);
+	if (ret == BAD_SUBSTITUTION)
+		printf(STY_RED "Bad substitution." STY_RES);
+	else if (!expanded_list)
+		return (printf("(NULL)"), true);
+	cur = expanded_list;
+	while (cur)
+	{
+		printf(STY_BLU "|" STY_RES "%s" STY_BLU "|" STY_RES,
+			(char *)expanded_list->content);
+		cur = cur->next;
+	}
+	ft_lstclear(&expanded_list, free);
 	return (true);
 }

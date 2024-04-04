@@ -16,7 +16,50 @@
 #include "utils.h"
 #include "signals.h"
 
-void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
+static void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node);
+static void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node);
+
+void	executor(t_shell *shell)
+{
+	int	heredoc_status;
+
+	heredoc_status = heredoc(shell);
+	if (heredoc_status == HEREDOC_ERROR)
+		clean_and_exit_shell(shell, MALLOC_ERROR, "heredoc malloc/fd error");
+	else if (heredoc_status == HEREDOC_ABORT)
+		return ;
+	handle_process(shell, shell->cmd_table_list);
+}
+
+void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
+{
+	t_cmd_table	*cmd_table;
+
+	while (cmd_table_node)
+	{
+		cmd_table = cmd_table_node->content;
+		if (cmd_table->type == C_SUBSHELL_END)
+			clean_and_exit_shell(shell, shell->exit_code, NULL);
+		else if (is_control_op_cmd_table(cmd_table->type))
+			handle_control_op(shell, &cmd_table_node);
+		else if (cmd_table->type == C_SIMPLE_CMD)
+			handle_cmd_execution(shell, &cmd_table_node);
+		else if (cmd_table->type == C_SUBSHELL_START)
+			fork_pipeline(shell, &cmd_table_node);
+		else
+			raise_error_and_escape(shell, "unexpected unknown command type");
+	}
+}
+
+static void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
+{
+	if (is_scmd_in_pipeline(*cmd_table_node))
+		fork_pipeline(shell, cmd_table_node);
+	else
+		handle_simple_cmd(shell, cmd_table_node);
+}
+
+static void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 {
 	char		*cmd_name;
 	t_cmd_table	*cmd_table;
@@ -41,44 +84,4 @@ void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 		free(cmd_name);
 		fork_pipeline(shell, cmd_table_node);
 	}
-}
-
-void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
-{
-	if (is_scmd_in_pipeline(*cmd_table_node))
-		fork_pipeline(shell, cmd_table_node);
-	else
-		handle_simple_cmd(shell, cmd_table_node);
-}
-
-void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
-{
-	t_cmd_table	*cmd_table;
-
-	while (cmd_table_node)
-	{
-		cmd_table = cmd_table_node->content;
-		if (cmd_table->type == C_SUBSHELL_END)
-			clean_and_exit_shell(shell, shell->exit_code, NULL);
-		else if (is_control_op_cmd_table(cmd_table->type))
-			handle_control_op(shell, &cmd_table_node);
-		else if (cmd_table->type == C_SIMPLE_CMD)
-			handle_cmd_execution(shell, &cmd_table_node);
-		else if (cmd_table->type == C_SUBSHELL_START)
-			fork_pipeline(shell, &cmd_table_node);
-		else
-			raise_error_and_escape(shell, "unexpected unknown command type");
-	}
-}
-
-void	executor(t_shell *shell)
-{
-	int	heredoc_status;
-
-	heredoc_status = heredoc(shell);
-	if (heredoc_status == HEREDOC_ERROR)
-		clean_and_exit_shell(shell, MALLOC_ERROR, "heredoc malloc/fd error");
-	else if (heredoc_status == HEREDOC_ABORT)
-		return ;
-	handle_process(shell, shell->cmd_table_list);
 }

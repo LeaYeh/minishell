@@ -13,6 +13,9 @@
 #include "cd.h"
 #include "utils.h"
 
+static bool	handle_existing_pwd(t_list **env_list, char *prev_pwd);
+static bool	handle_non_existing_pwd(t_list **env_list, char *new_pwd);
+
 bool	update_pwd_env(t_list **env_list, char *new_pwd)
 {
 	char	*prev_pwd;
@@ -28,7 +31,7 @@ bool	update_pwd_env(t_list **env_list, char *new_pwd)
 	return (true);
 }
 
-bool	handle_existing_pwd(t_list **env_list, char *prev_pwd)
+static bool	handle_existing_pwd(t_list **env_list, char *prev_pwd)
 {
 	char	*key;
 	char	*prev_oldpwd;
@@ -46,7 +49,7 @@ bool	handle_existing_pwd(t_list **env_list, char *prev_pwd)
 	return (true);
 }
 
-bool	handle_non_existing_pwd(t_list **env_list, char *new_pwd)
+static bool	handle_non_existing_pwd(t_list **env_list, char *new_pwd)
 {
 	char	*key;
 

@@ -13,6 +13,8 @@
 #include "lexer.h"
 #include "utils.h"
 
+static bool	set_token_data(char **token_data, char *input_line, int *i);
+
 bool	create_token_data_list(t_list **token_data_list, char *input_line)
 {
 	int		i;
@@ -38,7 +40,7 @@ bool	create_token_data_list(t_list **token_data_list, char *input_line)
 	return (true);
 }
 
-bool	set_token_data(char **token_data, char *input_line, int *i)
+static bool	set_token_data(char **token_data, char *input_line, int *i)
 {
 	bool	is_missing_pair;
 	int		start;

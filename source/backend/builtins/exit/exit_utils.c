@@ -13,14 +13,25 @@
 #include "utils.h"
 #include "builtins.h"
 
-bool	is_sign(char c)
+static bool	valid_number(char *str);
+static bool	is_sign(char c);
+static bool	is_atol_overflow(char *str);
+
+int	get_args_error(char *args[])
 {
-	if (c == '+' || c == '-')
-		return (true);
-	return (false);
+	int	type;
+
+	if (!args || !args[1])
+		return (EX_NO_ARGS);
+	type = EX_NORM_ARGS;
+	if (!valid_number(args[1]) || is_atol_overflow(args[1]))
+		type = EX_NOT_NUMERIC;
+	else if (args[2])
+		type = EX_TOO_MANY_ARGS;
+	return (type);
 }
 
-bool	valid_number(char *str)
+static bool	valid_number(char *str)
 {
 	int	i;
 
@@ -47,7 +58,14 @@ bool	valid_number(char *str)
 	return (true);
 }
 
-bool	is_atol_overflow(char *str)
+static bool	is_sign(char c)
+{
+	if (c == '+' || c == '-')
+		return (true);
+	return (false);
+}
+
+static bool	is_atol_overflow(char *str)
 {
 	int		i;
 	char	*long_max;
@@ -71,18 +89,4 @@ bool	is_atol_overflow(char *str)
 		ft_strncmp(&str[i], long_max, num_len) > 0)
 		return (true);
 	return (false);
-}
-
-int	get_args_error(char *args[])
-{
-	int	type;
-
-	if (!args || !args[1])
-		return (EX_NO_ARGS);
-	type = EX_NORM_ARGS;
-	if (!valid_number(args[1]) || is_atol_overflow(args[1]))
-		type = EX_NOT_NUMERIC;
-	else if (args[2])
-		type = EX_TOO_MANY_ARGS;
-	return (type);
 }

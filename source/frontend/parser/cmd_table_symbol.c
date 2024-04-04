@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "parser.h"
 #include "utils.h"
 
 bool	handle_symbol_token(t_list **token_list, t_list_d **cmd_table_list)

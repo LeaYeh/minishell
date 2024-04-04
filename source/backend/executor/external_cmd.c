@@ -16,15 +16,8 @@
 #include "signals.h"
 
 static bool	check_execfile_exist(char *exec_path, char *cmd_name);
+static void	reset_external_signal_handler(t_shell *shell);
 static void	handle_exec_error(t_shell *shell, char *exec_path);
-
-static void	reset_external_signal_handler(t_shell *shell)
-{
-	setup_signal(shell, SIGINT, SIG_DEFAULT);
-	setup_signal(shell, SIGQUIT, SIG_DEFAULT);
-	setup_signal(shell, SIGTERM, SIG_DEFAULT);
-	setup_signal(shell, SIGABRT, SIG_DEFAULT);
-}
 
 void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table)
 {
@@ -63,6 +56,14 @@ static bool	check_execfile_exist(char *exec_path, char *cmd_name)
 	else
 		return (true);
 	return (false);
+}
+
+static void	reset_external_signal_handler(t_shell *shell)
+{
+	setup_signal(shell, SIGINT, SIG_DEFAULT);
+	setup_signal(shell, SIGQUIT, SIG_DEFAULT);
+	setup_signal(shell, SIGTERM, SIG_DEFAULT);
+	setup_signal(shell, SIGABRT, SIG_DEFAULT);
 }
 
 static void	handle_exec_error(t_shell *shell, char *exec_path)

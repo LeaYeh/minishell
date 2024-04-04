@@ -12,7 +12,30 @@
 
 #include "utils.h"
 
-bool	is_newline_option(char *args[], int *i)
+static bool	is_newline_option(char *args[], int *i);
+static char	*combine_args(char *args[], bool end_with_newline);
+static int	get_combined_args_len(char *args[], bool end_with_newline);
+
+int	exec_echo(char *args[])
+{
+	int		i;
+	bool	end_with_newline;
+	char	*combined_str;
+
+	i = 1;
+	if (is_newline_option(args, &i))
+		end_with_newline = false;
+	else
+		end_with_newline = true;
+	combined_str = combine_args(args + i, end_with_newline);
+	if (!combined_str)
+		return (MALLOC_ERROR);
+	ft_printf("%s", combined_str);
+	free(combined_str);
+	return (EXIT_SUCCESS);
+}
+
+static bool	is_newline_option(char *args[], int *i)
 {
 	int	j;
 
@@ -30,25 +53,7 @@ bool	is_newline_option(char *args[], int *i)
 	return (false);
 }
 
-int	get_combined_args_len(char *args[], bool end_with_newline)
-{
-	int		i;
-	int		len;
-
-	i = 0;
-	len = 0;
-	while (args[i])
-	{
-		len += ft_strlen(args[i]);
-		if (args[++i])
-			len++;
-	}
-	if (end_with_newline)
-		len++;
-	return (len);
-}
-
-char	*combine_args(char *args[], bool end_with_newline)
+static char	*combine_args(char *args[], bool end_with_newline)
 {
 	int		i;
 	char	*str;
@@ -75,21 +80,20 @@ char	*combine_args(char *args[], bool end_with_newline)
 	return (str);
 }
 
-int	exec_echo(char *args[])
+static int	get_combined_args_len(char *args[], bool end_with_newline)
 {
 	int		i;
-	bool	end_with_newline;
-	char	*combined_str;
+	int		len;
 
-	i = 1;
-	if (is_newline_option(args, &i))
-		end_with_newline = false;
-	else
-		end_with_newline = true;
-	combined_str = combine_args(args + i, end_with_newline);
-	if (!combined_str)
-		return (MALLOC_ERROR);
-	ft_printf("%s", combined_str);
-	free(combined_str);
-	return (EXIT_SUCCESS);
+	i = 0;
+	len = 0;
+	while (args[i])
+	{
+		len += ft_strlen(args[i]);
+		if (args[++i])
+			len++;
+	}
+	if (end_with_newline)
+		len++;
+	return (len);
 }

@@ -168,7 +168,6 @@ SRC		+=	$(addprefix $(SUBDIR), \
             file_utils.c \
             final_cmd_table_setup.c \
             final_cmd_table_utils.c \
-            io_redirect_status_utils.c \
             io_redirect_utils.c \
             print_utils.c \
             stack_utils.c \

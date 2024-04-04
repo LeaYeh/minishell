@@ -13,6 +13,9 @@
 #include "export.h"
 #include "utils.h"
 
+static bool	handle_var_export(char *str, t_list **env_list);
+static void	change_export_flag(t_list *env_list, char *key, t_export export);
+
 int	exec_export(char *args[], t_list **env_list)
 {
 	int	i;
@@ -37,7 +40,7 @@ int	exec_export(char *args[], t_list **env_list)
 	return (ret);
 }
 
-bool	handle_var_export(char *str, t_list **env_list)
+static bool	handle_var_export(char *str, t_list **env_list)
 {
 	char	*key;
 	char	*old_value;
@@ -63,7 +66,7 @@ bool	handle_var_export(char *str, t_list **env_list)
 	return (true);
 }
 
-void	change_export_flag(t_list *env_list, char *key, t_export export)
+static void	change_export_flag(t_list *env_list, char *key, t_export export)
 {
 	t_env	*env_node;
 

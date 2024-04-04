@@ -12,6 +12,32 @@
 
 #include "utils.h"
 
+static bool	fill_red_node(t_io_red *io_red, int type, char *data);
+static bool	fill_redirect(t_list **token_list, t_cmd_table *cmd_table);
+
+bool	fill_redirect_by_scenario(
+			t_list **token_list, t_list_d **cmd_table_list)
+{
+	t_cmd_table	*cmd_table;
+	t_list_d	*cmd_table_node;
+
+	cmd_table_node = ft_lstlast_d(*cmd_table_list);
+	cmd_table = cmd_table_node->content;
+	if (cmd_table->type == C_SIMPLE_CMD)
+	{
+		if (!fill_redirect(token_list, cmd_table))
+			return (false);
+	}
+	else
+	{
+		cmd_table = get_subshell_start(cmd_table_node);
+		if (!fill_redirect(token_list, cmd_table))
+			return (false);
+	}
+	*token_list = (*token_list)->next;
+	return (true);
+}
+
 void	fill_control_op(t_list **token_list, t_list_d **cmd_table_list)
 {
 	t_token		*token;
@@ -40,22 +66,7 @@ void	fill_bracket(t_list **token_list, t_list_d **cmd_table_list)
 		cmd_table->type = C_SUBSHELL_END;
 }
 
-bool	fill_red_node(t_io_red *io_red, int type, char *data)
-{
-	char	*dup_data;
-
-	dup_data = ft_strdup(data);
-	if (!dup_data)
-		return (false);
-	io_red->type = type;
-	if (type == T_HERE_DOC)
-		io_red->here_end = dup_data;
-	else
-		io_red->filename = dup_data;
-	return (true);
-}
-
-bool	fill_redirect(t_list **token_list, t_cmd_table *cmd_table)
+static bool	fill_redirect(t_list **token_list, t_cmd_table *cmd_table)
 {
 	t_token		*red_op;
 	t_token		*filename;
@@ -76,25 +87,17 @@ bool	fill_redirect(t_list **token_list, t_cmd_table *cmd_table)
 	return (true);
 }
 
-bool	fill_redirect_by_scenario(
-			t_list **token_list, t_list_d **cmd_table_list)
+static bool	fill_red_node(t_io_red *io_red, int type, char *data)
 {
-	t_cmd_table	*cmd_table;
-	t_list_d	*cmd_table_node;
+	char	*dup_data;
 
-	cmd_table_node = ft_lstlast_d(*cmd_table_list);
-	cmd_table = cmd_table_node->content;
-	if (cmd_table->type == C_SIMPLE_CMD)
-	{
-		if (!fill_redirect(token_list, cmd_table))
-			return (false);
-	}
+	dup_data = ft_strdup(data);
+	if (!dup_data)
+		return (false);
+	io_red->type = type;
+	if (type == T_HERE_DOC)
+		io_red->here_end = dup_data;
 	else
-	{
-		cmd_table = get_subshell_start(cmd_table_node);
-		if (!fill_redirect(token_list, cmd_table))
-			return (false);
-	}
-	*token_list = (*token_list)->next;
+		io_red->filename = dup_data;
 	return (true);
 }

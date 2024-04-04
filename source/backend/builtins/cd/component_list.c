@@ -12,7 +12,18 @@
 
 #include "cd.h"
 
-t_list_d	*get_abs_path_cmpnt_list(char *pwd, char *target_dir)
+static bool	create_root_cmpnt_nodes(
+				t_list_d **cmpnt_list,
+				char *path);
+static void	convert_root_cmpnt_nodes_to_path(
+				t_list_d **cmpnt_list,
+				t_list_d *cmpnt_node,
+				char *path,
+				int *i);
+
+t_list_d	*get_abs_path_cmpnt_list(
+	char *pwd,
+	char *target_dir)
 {
 	t_list_d	*cmpnt_list;
 	t_list_d	*tmp_list;
@@ -34,7 +45,8 @@ t_list_d	*get_abs_path_cmpnt_list(char *pwd, char *target_dir)
 	return (cmpnt_list);
 }
 
-t_list_d	*create_cmpnt_list(char *path)
+t_list_d	*create_cmpnt_list(
+	char *path)
 {
 	char		*cmpnt;
 	t_list_d	*cmpnt_list;
@@ -59,7 +71,9 @@ t_list_d	*create_cmpnt_list(char *path)
 	return (free(path), cmpnt_list);
 }
 
-bool	create_root_cmpnt_nodes(t_list_d **cmpnt_list, char *path)
+static bool	create_root_cmpnt_nodes(
+	t_list_d **cmpnt_list,
+	char *path)
 {
 	char	*tmp;
 
@@ -75,7 +89,9 @@ bool	create_root_cmpnt_nodes(t_list_d **cmpnt_list, char *path)
 	return (true);
 }
 
-char	*convert_cmpnt_node_to_path(t_list_d *cmpnt_list, t_list_d *cmpnt_node)
+char	*convert_cmpnt_node_to_path(
+	t_list_d *cmpnt_list,
+	t_list_d *cmpnt_node)
 {
 	int		i;
 	int		len;
@@ -100,8 +116,11 @@ char	*convert_cmpnt_node_to_path(t_list_d *cmpnt_list, t_list_d *cmpnt_node)
 	return (path);
 }
 
-void	convert_root_cmpnt_nodes_to_path(
-	t_list_d **cmpnt_list, t_list_d *cmpnt_node, char *path, int *i)
+static void	convert_root_cmpnt_nodes_to_path(
+	t_list_d **cmpnt_list,
+	t_list_d *cmpnt_node,
+	char *path,
+	int *i)
 {
 	while (*cmpnt_list && (*cmpnt_list)->prev != cmpnt_node && \
 		is_root_cmpnt_node(*cmpnt_list))

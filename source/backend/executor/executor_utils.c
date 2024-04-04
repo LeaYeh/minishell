@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:15:37 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 15:29:08 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/04 22:45:47 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
-#include "heredoc.h"
 #include "clean.h"
-#include "utils.h"
 #include "signals.h"
+#include "utils.h"
 
 int	set_expanded_cmd_name(
 	char **cmd_name, t_shell *shell, t_list *simple_cmd_list)

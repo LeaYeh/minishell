@@ -12,25 +12,27 @@
 
 #include "utils.h"
 
-bool	append_path(t_list **path_list, char *path, char *colon)
-{
-	int		len;
-	char	*path_part;
+static bool	set_path_list(t_list **path_list, char *env[]);
+static bool	append_path(t_list **path_list, char *path, char *colon);
+static bool	find_exec_path(char **exec_path, t_list *path_list, char *cmd_name);
+static bool	confirm_exec_path(char **exec_path, char **tmp);
 
-	if (colon)
-		len = colon - path;
-	else
-		len = ft_strlen(path);
-	if (len != 0)
-		path_part = ft_strndup(path, len);
-	else
-		path_part = ft_strdup(".");
-	if (!path_part)
+bool	set_exec_path(char **exec_path, char *cmd_name, char *env[])
+{
+	t_list	*path_list;
+
+	if (ft_strchr(cmd_name, '/'))
+		return ((*exec_path = ft_strdup(cmd_name)) != NULL);
+	if (!set_path_list(&path_list, env))
 		return (false);
-	return (ft_lstnew_back(path_list, path_part));
+	if (!path_list)
+		return ((*exec_path = ft_strdup(cmd_name)) != NULL);
+	if (!find_exec_path(exec_path, path_list, cmd_name))
+		return (ft_lstclear(&path_list, free), false);
+	return (ft_lstclear(&path_list, free), true);
 }
 
-bool	set_path_list(t_list **path_list, char *env[])
+static bool	set_path_list(t_list **path_list, char *env[])
 {
 	char	*colon;
 	char	*path;
@@ -51,22 +53,25 @@ bool	set_path_list(t_list **path_list, char *env[])
 	return (true);
 }
 
-bool	confirm_exec_path(char **exec_path, char **tmp)
+static bool	append_path(t_list **path_list, char *path, char *colon)
 {
-	if (access(*tmp, X_OK) == 0 && !is_dir(*tmp))
-	{
-		free(*exec_path);
-		*exec_path = *tmp;
-		return (true);
-	}
-	else if (!*exec_path && access(*tmp, F_OK) == 0 && !is_dir(*tmp))
-		*exec_path = *tmp;
+	int		len;
+	char	*path_part;
+
+	if (colon)
+		len = colon - path;
 	else
-		ft_free_and_null((void **)tmp);
-	return (false);
+		len = ft_strlen(path);
+	if (len != 0)
+		path_part = ft_strndup(path, len);
+	else
+		path_part = ft_strdup(".");
+	if (!path_part)
+		return (false);
+	return (ft_lstnew_back(path_list, path_part));
 }
 
-bool	find_exec_path(char **exec_path, t_list *path_list, char *cmd_name)
+static bool	find_exec_path(char **exec_path, t_list *path_list, char *cmd_name)
 {
 	int		cmd_name_len;
 	int		exec_path_len;
@@ -89,17 +94,17 @@ bool	find_exec_path(char **exec_path, t_list *path_list, char *cmd_name)
 	return (true);
 }
 
-bool	set_exec_path(char **exec_path, char *cmd_name, char *env[])
+static bool	confirm_exec_path(char **exec_path, char **tmp)
 {
-	t_list	*path_list;
-
-	if (ft_strchr(cmd_name, '/'))
-		return ((*exec_path = ft_strdup(cmd_name)) != NULL);
-	if (!set_path_list(&path_list, env))
-		return (false);
-	if (!path_list)
-		return ((*exec_path = ft_strdup(cmd_name)) != NULL);
-	if (!find_exec_path(exec_path, path_list, cmd_name))
-		return (ft_lstclear(&path_list, free), false);
-	return (ft_lstclear(&path_list, free), true);
+	if (access(*tmp, X_OK) == 0 && !is_dir(*tmp))
+	{
+		free(*exec_path);
+		*exec_path = *tmp;
+		return (true);
+	}
+	else if (!*exec_path && access(*tmp, F_OK) == 0 && !is_dir(*tmp))
+		*exec_path = *tmp;
+	else
+		ft_free_and_null((void **)tmp);
+	return (false);
 }

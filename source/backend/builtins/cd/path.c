@@ -12,6 +12,9 @@
 
 #include "cd.h"
 
+static int	simplify_path(char **new_path, char *target_dir, char *pwd);
+static char	*try_to_convert_abs_to_rel_path(char *abs_path, char *pwd);
+
 int	set_final_path(char **final_path, char **new_pwd, char *target_dir)
 {
 	char	*pwd;
@@ -39,7 +42,7 @@ int	set_final_path(char **final_path, char **new_pwd, char *target_dir)
 	return (SUCCESS);
 }
 
-int	simplify_path(char **new_path, char *target_dir, char *pwd)
+static int	simplify_path(char **new_path, char *target_dir, char *pwd)
 {
 	t_list_d	*cmpnt_list;
 	int			ret;
@@ -61,7 +64,7 @@ int	simplify_path(char **new_path, char *target_dir, char *pwd)
 	return (SUCCESS);
 }
 
-char	*try_to_convert_abs_to_rel_path(char *abs_path, char *pwd)
+static char	*try_to_convert_abs_to_rel_path(char *abs_path, char *pwd)
 {
 	int		abs_path_len;
 	int		pwd_len;

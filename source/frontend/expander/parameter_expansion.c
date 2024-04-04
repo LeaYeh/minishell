@@ -13,6 +13,9 @@
 #include "expander.h"
 #include "utils.h"
 
+static bool	expand_variable(t_list *task_node, t_list *env_list);
+static bool	expand_special_variable(t_list *task_node, t_shell *shell);
+
 bool	handle_parameter_expansion(t_list **task_list, t_shell *shell)
 {
 	bool			ret;
@@ -37,7 +40,7 @@ bool	handle_parameter_expansion(t_list **task_list, t_shell *shell)
 	return (ret);
 }
 
-bool	expand_variable(t_list *task_node, t_list *env_list)
+static bool	expand_variable(t_list *task_node, t_list *env_list)
 {
 	int				diff_len;
 	t_expander_task	*task;
@@ -55,7 +58,7 @@ bool	expand_variable(t_list *task_node, t_list *env_list)
 	return (true);
 }
 
-bool	expand_special_variable(t_list *task_node, t_shell *shell)
+static bool	expand_special_variable(t_list *task_node, t_shell *shell)
 {
 	int				diff_len;
 	char			*special_var_string;

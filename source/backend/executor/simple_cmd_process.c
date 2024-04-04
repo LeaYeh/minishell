@@ -16,7 +16,25 @@
 #include "clean.h"
 #include "signals.h"
 
-void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
+static void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node);
+
+void	fork_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
+{
+	shell->subshell_pid = fork();
+	if (shell->subshell_pid == -1)
+		raise_error_to_all_subprocess(
+			shell, FORK_ERROR, "simple_cmd fork failed");
+	else if (shell->subshell_pid == 0)
+	{
+		shell->subshell_level += 1;
+		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
+		exec_simple_cmd(shell, cmd_table_node);
+	}
+	else
+		*cmd_table_node = (*cmd_table_node)->next;
+}
+
+static void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 {
 	int			ret;
 
@@ -33,20 +51,4 @@ void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 	else
 		handle_external_cmd(shell, get_cmd_table_from_list(*cmd_table_node));
 	clean_and_exit_shell(shell, shell->exit_code, NULL);
-}
-
-void	fork_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
-{
-	shell->subshell_pid = fork();
-	if (shell->subshell_pid == -1)
-		raise_error_to_all_subprocess(
-			shell, FORK_ERROR, "simple_cmd fork failed");
-	else if (shell->subshell_pid == 0)
-	{
-		shell->subshell_level += 1;
-		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
-		exec_simple_cmd(shell, cmd_table_node);
-	}
-	else
-		*cmd_table_node = (*cmd_table_node)->next;
 }

@@ -12,14 +12,6 @@
 
 #include "utils.h"
 
-void	free_expander_task(t_expander_task *task)
-{
-	if (!task)
-		return ;
-	free(task->varname);
-	free(task);
-}
-
 t_expander_task	*init_expander_task(
 	t_expander_task_type type, int start, int replace_len, char *str)
 {
@@ -42,4 +34,12 @@ t_expander_task	*init_expander_task(
 		task->varname = NULL;
 	task->result_len = -1;
 	return (task);
+}
+
+void	free_expander_task(t_expander_task *task)
+{
+	if (!task)
+		return ;
+	free(task->varname);
+	free(task);
 }

@@ -12,24 +12,6 @@
 
 #include "utils.h"
 
-void	move_past_subshell(t_list_d **cmd_table_node)
-{
-	int	cmd_table_type;
-	int	subshell_count;
-
-	subshell_count = 1;
-	while (subshell_count > 0)
-	{
-		*cmd_table_node = (*cmd_table_node)->next;
-		cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
-		if (cmd_table_type == C_SUBSHELL_START)
-			subshell_count++;
-		else if (cmd_table_type == C_SUBSHELL_END)
-			subshell_count--;
-	}
-	*cmd_table_node = (*cmd_table_node)->next;
-}
-
 void	move_past_pipeline(t_list_d **cmd_table_node)
 {
 	t_cmd_table	*cmd_table;
@@ -46,4 +28,22 @@ void	move_past_pipeline(t_list_d **cmd_table_node)
 			return ;
 		cmd_table = (*cmd_table_node)->content;
 	}
+}
+
+void	move_past_subshell(t_list_d **cmd_table_node)
+{
+	int	cmd_table_type;
+	int	subshell_count;
+
+	subshell_count = 1;
+	while (subshell_count > 0)
+	{
+		*cmd_table_node = (*cmd_table_node)->next;
+		cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
+		if (cmd_table_type == C_SUBSHELL_START)
+			subshell_count++;
+		else if (cmd_table_type == C_SUBSHELL_END)
+			subshell_count--;
+	}
+	*cmd_table_node = (*cmd_table_node)->next;
 }

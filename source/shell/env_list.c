@@ -13,6 +13,8 @@
 #include "init.h"
 #include "utils.h"
 
+static bool	check_special_env_vars(t_list **env_list);
+
 bool	setup_env_list(t_shell *shell)
 {
 	extern char	**environ;
@@ -37,12 +39,12 @@ bool	setup_env_list(t_shell *shell)
 	return (true);
 }
 
-/*
+/**
  * PWD should always be set by current shell.
  * If OLDPWD exists and its value is not a real directory,
  * delete OLDPWD entirely (permissions don't matter).
  */
-bool	check_special_env_vars(t_list **env_list)
+static bool	check_special_env_vars(t_list **env_list)
 {
 	t_env	*env_node;
 

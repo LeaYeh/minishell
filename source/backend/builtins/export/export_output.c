@@ -13,13 +13,33 @@
 #include "export.h"
 #include "utils.h"
 
-// Print all exported env vars in ASCII order, with "export " prepended.
-// The value gets put in double-quotes.
+static int		get_total_export_printout_len(
+					t_list *env_list,
+					int prefix_len,
+					int format_len);
+static int		get_env_str_len(
+					t_env *env_node,
+					int prefix_len,
+					int format_len);
+static void		fill_export_printout(
+					t_list *env_list,
+					char *export_printout,
+					int prefix_len,
+					int format_len);
+static t_env	*get_next_env_node(
+					t_list *env_list,
+					char *prev_key);
 
-// Get the total length of everything that will have to be printed.
-// Malloc once, then use ft_snprintf to fill.
-// Then print once.
-int	print_exported_env(t_list *env_list)
+/**
+ * Print all exported env vars in ASCII order, with "export " prepended.
+ * The value gets put in double-quotes.
+ *
+ * Get the total length of everything that will have to be printed.
+ * Malloc once, then use ft_snprintf to fill.
+ * Then print once.
+ */
+int	print_exported_env(
+	t_list *env_list)
 {
 	char	*export_printout;
 	int		format_len;
@@ -40,8 +60,10 @@ int	print_exported_env(t_list *env_list)
 	return (SUCCESS);
 }
 
-int	get_total_export_printout_len(
-	t_list *env_list, int prefix_len, int format_len)
+static int	get_total_export_printout_len(
+	t_list *env_list,
+	int prefix_len,
+	int format_len)
 {
 	t_env	*env_node;
 	int		total_len;
@@ -57,7 +79,10 @@ int	get_total_export_printout_len(
 	return (total_len);
 }
 
-int	get_env_str_len(t_env *env_node, int prefix_len, int format_len)
+static int	get_env_str_len(
+	t_env *env_node,
+	int prefix_len,
+	int format_len)
 {
 	int	len;
 
@@ -69,8 +94,11 @@ int	get_env_str_len(t_env *env_node, int prefix_len, int format_len)
 	return (len);
 }
 
-void	fill_export_printout(
-		t_list *env_list, char *export_printout, int prefix_len, int format_len)
+static void	fill_export_printout(
+		t_list *env_list,
+		char *export_printout,
+		int prefix_len,
+		int format_len)
 {
 	t_env	*env_node;
 	int		i;
@@ -98,7 +126,9 @@ void	fill_export_printout(
 	}
 }
 
-t_env	*get_next_env_node(t_list *env_list, char *prev_key)
+static t_env	*get_next_env_node(
+	t_list *env_list,
+	char *prev_key)
 {
 	t_env	*env_node;
 	t_env	*next_node;

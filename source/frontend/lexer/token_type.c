@@ -13,6 +13,11 @@
 #include "lexer.h"
 #include "utils.h"
 
+static int	which_lesser(char *token_data);
+static int	which_greater(char *token_data);
+static int	which_pipe(char *token_data);
+static bool	is_assignment_word(char *str);
+
 void	set_token_type(t_list *lst_node)
 {
 	t_token	*token;
@@ -42,7 +47,7 @@ void	set_token_type(t_list *lst_node)
 	}
 }
 
-int	which_lesser(char *token_data)
+static int	which_lesser(char *token_data)
 {
 	if (ft_strcmp("<<", token_data) == 0)
 		return (T_HERE_DOC);
@@ -50,7 +55,7 @@ int	which_lesser(char *token_data)
 		return (T_RED_IN);
 }
 
-int	which_greater(char *token_data)
+static int	which_greater(char *token_data)
 {
 	if (ft_strcmp(">>", token_data) == 0)
 		return (T_APPEND);
@@ -58,7 +63,7 @@ int	which_greater(char *token_data)
 		return (T_RED_OUT);
 }
 
-int	which_pipe(char *token_data)
+static int	which_pipe(char *token_data)
 {
 	if (ft_strcmp("||", token_data) == 0)
 		return (T_OR);
@@ -66,7 +71,7 @@ int	which_pipe(char *token_data)
 		return (T_PIPE);
 }
 
-bool	is_assignment_word(char *str)
+static bool	is_assignment_word(char *str)
 {
 	int	i;
 

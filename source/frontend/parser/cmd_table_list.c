@@ -13,24 +13,32 @@
 #include "parser.h"
 #include "utils.h"
 
-void	fill_subshell_level(t_list_d *cmd_table_list)
-{
-	t_cmd_table	*cmd_table;
-	int			level;
+static bool	handle_current_token(
+				t_list **token_list,
+				t_list_d **cmd_table_list);
+static void	fill_subshell_level(
+				t_list_d *cmd_table_list);
 
-	level = 0;
-	while (cmd_table_list)
+t_list_d	*build_cmd_table_list(
+	t_list *token_list)
+{
+	t_list_d	*cmd_table_list;
+
+	cmd_table_list = NULL;
+	while (token_list)
 	{
-		cmd_table = cmd_table_list->content;
-		if (cmd_table->type == C_SUBSHELL_START)
-			cmd_table->subshell_level = level++;
-		else if (cmd_table->type == C_SUBSHELL_END)
-			cmd_table->subshell_level = --level;
-		cmd_table_list = cmd_table_list->next;
+		if (!handle_current_token(&token_list, &cmd_table_list))
+			return (
+				ft_lstclear_d(&cmd_table_list, (void *)free_cmd_table), NULL);
+		token_list = token_list->next;
 	}
+	fill_subshell_level(cmd_table_list);
+	return (cmd_table_list);
 }
 
-bool	handle_current_token(t_list **token_list, t_list_d **cmd_table_list)
+static bool	handle_current_token(
+	t_list **token_list,
+	t_list_d **cmd_table_list)
 {
 	int	token_type;
 
@@ -53,18 +61,20 @@ bool	handle_current_token(t_list **token_list, t_list_d **cmd_table_list)
 	return (false);
 }
 
-t_list_d	*build_cmd_table_list(t_list *token_list)
+static void	fill_subshell_level(
+	t_list_d *cmd_table_list)
 {
-	t_list_d	*cmd_table_list;
+	t_cmd_table	*cmd_table;
+	int			level;
 
-	cmd_table_list = NULL;
-	while (token_list)
+	level = 0;
+	while (cmd_table_list)
 	{
-		if (!handle_current_token(&token_list, &cmd_table_list))
-			return (
-				ft_lstclear_d(&cmd_table_list, (void *)free_cmd_table), NULL);
-		token_list = token_list->next;
+		cmd_table = cmd_table_list->content;
+		if (cmd_table->type == C_SUBSHELL_START)
+			cmd_table->subshell_level = level++;
+		else if (cmd_table->type == C_SUBSHELL_END)
+			cmd_table->subshell_level = --level;
+		cmd_table_list = cmd_table_list->next;
 	}
-	fill_subshell_level(cmd_table_list);
-	return (cmd_table_list);
 }

@@ -6,24 +6,12 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 20:02:02 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/23 04:06:48 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/04 22:30:54 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "executor.h"
 #include "utils.h"
-
-void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
-{
-	if (!final_cmd_table || !*final_cmd_table)
-		return ;
-	free_array(&(*final_cmd_table)->env);
-	free_array(&(*final_cmd_table)->simple_cmd);
-	ft_free_and_null((void **)&(*final_cmd_table)->exec_path);
-	free_array(&(*final_cmd_table)->assignment_array);
-	safe_close(&(*final_cmd_table)->read_fd);
-	safe_close(&(*final_cmd_table)->write_fd);
-	ft_free_and_null((void **)final_cmd_table);
-}
 
 int	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 {
@@ -43,4 +31,17 @@ int	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 		return (MALLOC_ERROR);
 	setup_fd(shell, shell->final_cmd_table);
 	return (ret);
+}
+
+void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
+{
+	if (!final_cmd_table || !*final_cmd_table)
+		return ;
+	free_array(&(*final_cmd_table)->env);
+	free_array(&(*final_cmd_table)->simple_cmd);
+	ft_free_and_null((void **)&(*final_cmd_table)->exec_path);
+	free_array(&(*final_cmd_table)->assignment_array);
+	safe_close(&(*final_cmd_table)->read_fd);
+	safe_close(&(*final_cmd_table)->write_fd);
+	ft_free_and_null((void **)final_cmd_table);
 }

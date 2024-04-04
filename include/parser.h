@@ -15,7 +15,6 @@
 
 # include "defines.h"
 
-char		*get_error_token_data(t_list *token_list, t_list *parse_stack);
 void		report_syntax_error(t_shell *shell, t_parser_data *parser_data);
 
 bool		set_next_pt_entry(t_pt_node **pt_entry,
@@ -35,6 +34,11 @@ bool		parser(t_shell *shell);
 t_list_d	*build_cmd_table_list(t_list *token_list);
 bool		handle_symbol_token(t_list **token_list, t_list_d **cmd_table_list);
 bool		handle_word_token(t_list **token_list, t_list_d **cmd_table_list);
-void		fill_subshell_level(t_list_d *cmd_table_list);
+
+/* cmd table symbol utils */
+bool		fill_redirect_by_scenario(
+				t_list **token_list, t_list_d **cmd_table_list);
+void		fill_control_op(t_list **token_list, t_list_d **cmd_table_list);
+void		fill_bracket(t_list **token_list, t_list_d **cmd_table_list);
 
 #endif
