@@ -68,6 +68,7 @@ SRC		+=	$(addprefix $(SUBDIR), \
 #   Redirection:
 SUBDIR	:=	backend/redirection/
 SRC		+=	$(addprefix $(SUBDIR), \
+            file_descriptor.c \
             heredoc.c \
             heredoc_string_utils.c \
             heredoc_utils.c \

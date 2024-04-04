@@ -115,9 +115,8 @@ bool		is_subshell_symbol(int token_type);
 
 /* File utils */
 char		*generate_tmp_filename(int cmdtable_id, char *category);
-void		remove_file(char *filename);
 bool		write_content_to_file(char *content, char *filename);
-void		safe_close(int *fd);
+void		remove_file(char *filename);
 bool		is_dir(char *dir);
 
 /* Stack utils */

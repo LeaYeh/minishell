@@ -32,6 +32,8 @@ bool	wait_process(t_shell *shell, pid_t pid);
 void	wait_all_child_pid(t_shell *shell);
 
 /* Redirection */
+void	safe_close(int *fd);
+void	replace_fd(int *from_end, int *to_end);
 bool	restore_std_io(int saved_std_io[2]);
 bool	save_std_io(int saved_std_io[2]);
 bool	redirect_scmd_io(t_shell *shell, int *read_fd, int *write_fd);
@@ -46,6 +48,5 @@ void	safe_close_pipe(t_pipe *pipe);
 void	handle_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe);
 void	handle_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe);
 void	safe_close_all_pipes(t_shell *shell);
-void	replace_fd(int *from_end, int *to_end);
 
 #endif
