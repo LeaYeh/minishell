@@ -106,10 +106,6 @@ int			get_array_len(char *arr[]);
 char		**convert_list_to_string_array(t_list *list);
 char		**append_string_array(char *array[], char *str);
 
-/* Process utils */
-bool		wait_process(t_shell *shell, pid_t pid);
-int			handle_exit_status(int wstatus);
-
 /* Type utils */
 char		*get_token_type_str(int type);
 bool		is_control_op(int token_type);

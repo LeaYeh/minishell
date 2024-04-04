@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:12 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:44:10 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/04 22:48:15 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,38 @@
 #include "clean.h"
 #include "signals.h"
 
-void	wait_all_child_pid(t_shell *shell)
-{
-	t_list	*child_pid_node;
-	bool	got_sigint;
-	pid_t	pid;
-	int		wstatus;
+static void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node);
+static bool	insert_child_pid_list(t_shell *shell, pid_t pid);
+static void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node);
 
-	got_sigint = false;
-	child_pid_node = shell->child_pid_list;
-	pid = (pid_t)(long)child_pid_node->content;
-	if (wait_process(shell, pid) && shell->exit_code == TERM_BY_SIGNAL + SIGINT)
-		got_sigint = true;
-	child_pid_node = child_pid_node->next;
-	while (child_pid_node)
+void	fork_pipeline(t_shell *shell, t_list_d **cmd_table_node)
+{
+	shell->subshell_pid = fork();
+	if (shell->subshell_pid == -1)
 	{
-		pid = (pid_t)(long)child_pid_node->content;
-		if (waitpid(pid, &wstatus, 0) != -1 && \
-			WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGINT)
-			got_sigint = true;
-		child_pid_node = child_pid_node->next;
+		raise_error_to_all_subprocess(
+			shell, FORK_ERROR, "pipeline fork failed");
+		*cmd_table_node = NULL;
 	}
-	if (got_sigint)
-		printf("\n");
+	else if (shell->subshell_pid == 0)
+	{
+		setup_signal(shell, SIGINT, SIG_IGNORE);
+		setup_signal(shell, SIGTERM, SIG_STANDARD);
+		shell->subshell_level += 1;
+		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
+		exec_pipeline(shell, cmd_table_node);
+	}
+	else
+	{
+		setup_signal(shell, SIGINT, SIG_RECORD);
+		move_past_pipeline(cmd_table_node);
+		handle_end_of_pipeline(shell, cmd_table_node);
+		shell->subshell_pid = -1;
+		setup_signal(shell, SIGINT, SIG_STANDARD);
+	}
 }
 
-bool	insert_child_pid_list(t_shell *shell, pid_t pid)
-{
-	return (ft_lstnew_front(&shell->child_pid_list, (void *)(long)pid));
-}
-
-void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
+static void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
 	int	cmd_table_type;
 
@@ -74,7 +75,12 @@ void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
-void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
+static bool	insert_child_pid_list(t_shell *shell, pid_t pid)
+{
+	return (ft_lstnew_front(&shell->child_pid_list, (void *)(long)pid));
+}
+
+static void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 {
 	int	cmd_table_type;
 
@@ -91,32 +97,5 @@ void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 				shell->exit_code = TERM_BY_SIGNAL + shell->signal_record;
 			clean_and_exit_shell(shell, shell->exit_code, NULL);
 		}
-	}
-}
-
-void	fork_pipeline(t_shell *shell, t_list_d **cmd_table_node)
-{
-	shell->subshell_pid = fork();
-	if (shell->subshell_pid == -1)
-	{
-		raise_error_to_all_subprocess(
-			shell, FORK_ERROR, "pipeline fork failed");
-		*cmd_table_node = NULL;
-	}
-	else if (shell->subshell_pid == 0)
-	{
-		setup_signal(shell, SIGINT, SIG_IGNORE);
-		setup_signal(shell, SIGTERM, SIG_STANDARD);
-		shell->subshell_level += 1;
-		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
-		exec_pipeline(shell, cmd_table_node);
-	}
-	else
-	{
-		setup_signal(shell, SIGINT, SIG_RECORD);
-		move_past_pipeline(cmd_table_node);
-		handle_end_of_pipeline(shell, cmd_table_node);
-		shell->subshell_pid = -1;
-		setup_signal(shell, SIGINT, SIG_STANDARD);
 	}
 }
