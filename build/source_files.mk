@@ -156,8 +156,8 @@ SUBDIR	:=	utils/
 SRC		+=	$(addprefix $(SUBDIR), \
             array_utils.c \
             ast_utils.c \
+            cmd_table_list_utils.c \
             cmd_table_operation_utils.c \
-            cmd_table_status_utils.c \
             cmd_table_traversal_utils.c \
             cmd_table_type_utils.c \
             env_list_operation_utils.c \

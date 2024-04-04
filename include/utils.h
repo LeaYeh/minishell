@@ -49,7 +49,6 @@ int			get_redirect_type_from_list(t_list *io_red_list);
 /* Cmd table utils */
 t_cmd_table	*init_cmd_table(void);
 void		free_cmd_table(t_cmd_table *cmd_table);
-bool		append_empty_cmd_table(t_list_d **cmd_table_list);
 bool		append_cmd_table_by_scenario(
 				int token_type, t_list_d **cmd_table_list);
 t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node);
