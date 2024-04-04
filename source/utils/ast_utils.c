@@ -26,6 +26,7 @@ t_ast	*init_ast_node(int type, char *data, t_list *children)
 	node->children = children;
 	return (node);
 }
+
 /**
  * Free all the children recursively and then free the node
  */
