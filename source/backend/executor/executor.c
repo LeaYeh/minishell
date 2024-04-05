@@ -24,9 +24,9 @@ void	executor(t_sh *shell)
 	int	heredoc_status;
 
 	heredoc_status = heredoc(shell);
-	if (heredoc_status == HEREDOC_ERROR)
+	if (heredoc_status == HD_ERROR)
 		clean_and_exit_shell(shell, MALLOC_ERROR, "heredoc malloc/fd error");
-	else if (heredoc_status == HEREDOC_ABORT)
+	else if (heredoc_status == HD_ABORT)
 		return ;
 	handle_process(shell, shell->cmd_table_list);
 }

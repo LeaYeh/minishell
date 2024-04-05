@@ -157,9 +157,9 @@
 
 typedef enum e_heredoc_status
 {
-	HEREDOC_SUCCESS	= 0,
-	HEREDOC_ABORT,
-	HEREDOC_ERROR
+	HD_SUCCESS		= 0,
+	HD_ABORT,
+	HD_ERROR
 }	t_hd_st;
 
 typedef enum e_signal_state
