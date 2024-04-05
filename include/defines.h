@@ -112,8 +112,8 @@
 # define DOLLAR_BRACE		"${"
 
 /* Parsing Table */
-# define PT_COLUMNS			5
-# define PT_ROWS			192
+# define PT_COL_NUM			5
+# define PT_ROW_NUM			192
 # define UNDEFINED_STATE	-1
 
 /* Export */

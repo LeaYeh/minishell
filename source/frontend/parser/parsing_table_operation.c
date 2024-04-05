@@ -17,9 +17,9 @@ static bool			match_rule(
 						int token_type,
 						int action_mask,
 						int row_index,
-						const int parsing_table[PT_ROWS][PT_COLUMNS]);
+						const int parsing_table[PT_ROW_NUM][PT_COL_NUM]);
 static t_pt_node	*init_pt_node(
-						const int pt_row[PT_ROWS]);
+						const int pt_row[PT_ROW_NUM]);
 
 bool	set_next_pt_entry(
 	t_pt_node **pt_entry,
@@ -27,11 +27,11 @@ bool	set_next_pt_entry(
 	int token_type,
 	int action_mask)
 {
-	const int	parsing_table[PT_ROWS][PT_COLUMNS] = PARSING_TABLE;
+	const int	parsing_table[PT_ROW_NUM][PT_COL_NUM] = PARSING_TABLE;
 	int			i;
 
 	i = 0;
-	while (i < PT_ROWS)
+	while (i < PT_ROW_NUM)
 	{
 		if (parsing_table[i][PT_COL_STATE] == state)
 		{
@@ -40,7 +40,7 @@ bool	set_next_pt_entry(
 		}
 		i++;
 	}
-	if (i == PT_ROWS)
+	if (i == PT_ROW_NUM)
 		return (true);
 	*pt_entry = init_pt_node(parsing_table[i]);
 	if (!*pt_entry)
@@ -52,7 +52,7 @@ static bool	match_rule(
 	int token_type,
 	int action_mask,
 	int row_index,
-	const int parsing_table[PT_ROWS][PT_COLUMNS])
+	const int parsing_table[PT_ROW_NUM][PT_COL_NUM])
 {
 	if ((action_mask & A_ACCEPT) == A_ACCEPT && \
 		parsing_table[row_index][PT_COL_ACTION] == A_ACCEPT)
@@ -72,7 +72,7 @@ static bool	match_rule(
 }
 
 static t_pt_node	*init_pt_node(
-	const int pt_row[PT_ROWS])
+	const int pt_row[PT_ROW_NUM])
 {
 	t_pt_node	*pt_node;
 
