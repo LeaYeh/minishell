@@ -16,7 +16,7 @@
 # include "defines.h"
 
 /* lexer.c */
-bool	lexer(t_shell *shell);
+bool	lexer(t_sh *shell);
 
 /* lexer_utils.c */
 bool	is_operator(char *token_data);

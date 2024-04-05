@@ -12,29 +12,29 @@
 
 #include "defines.h"
 
-static bool				append_relation_ast_node(
-							t_list **queue,
-							int level,
-							t_ast *parent,
-							t_ast *current);
-static t_relation_ast	*init_relation_ast_node(
-							int level,
-							t_ast *parent,
-							t_ast *current,
-							t_list *children);
-static int				print_relation_ast_node(
-							t_relation_ast *node,
-							int cur_level);
-static bool				append_children_to_queue(
-							t_list **queue,
-							t_relation_ast *node);
+static bool			append_relation_ast_node(
+						t_list **queue,
+						int level,
+						t_ast *parent,
+						t_ast *current);
+static t_rel_ast	*init_relation_ast_node(
+						int level,
+						t_ast *parent,
+						t_ast *current,
+						t_list *children);
+static int			print_relation_ast_node(
+						t_rel_ast *node,
+						int cur_level);
+static bool			append_children_to_queue(
+						t_list **queue,
+						t_rel_ast *node);
 
 bool	print_ast_bfs(
 	t_ast *root)
 {
-	t_list			*queue;
-	t_relation_ast	*node;
-	int				cur_level;
+	t_list		*queue;
+	t_rel_ast	*node;
+	int			cur_level;
 
 	if (!root)
 		return (true);
@@ -44,7 +44,7 @@ bool	print_ast_bfs(
 		return (false);
 	while (queue)
 	{
-		node = (t_relation_ast *)ft_lstpop_front_content(&queue);
+		node = (t_rel_ast *)ft_lstpop_front_content(&queue);
 		cur_level = print_relation_ast_node(node, cur_level);
 		if (!append_children_to_queue(&queue, node))
 			return (ft_lstclear(&queue, free), false);
@@ -60,8 +60,8 @@ static bool	append_relation_ast_node(
 	t_ast *parent,
 	t_ast *current)
 {
-	t_list			*new_node;
-	t_relation_ast	*tmp;
+	t_list		*new_node;
+	t_rel_ast	*tmp;
 
 	tmp = init_relation_ast_node(level, parent, current, current->children);
 	if (!tmp)
@@ -73,15 +73,15 @@ static bool	append_relation_ast_node(
 	return (true);
 }
 
-static t_relation_ast	*init_relation_ast_node(
+static t_rel_ast	*init_relation_ast_node(
 	int level,
 	t_ast *parent,
 	t_ast *current,
 	t_list *children)
 {
-	t_relation_ast	*node;
+	t_rel_ast	*node;
 
-	node = (t_relation_ast *)malloc(sizeof(t_relation_ast));
+	node = (t_rel_ast *)malloc(sizeof(t_rel_ast));
 	if (!node)
 		return (NULL);
 	node->level = level;
@@ -92,7 +92,7 @@ static t_relation_ast	*init_relation_ast_node(
 }
 
 static int	print_relation_ast_node(
-	t_relation_ast *node,
+	t_rel_ast *node,
 	int cur_level)
 {
 	if (node->level != cur_level)
@@ -109,7 +109,7 @@ static int	print_relation_ast_node(
 
 static bool	append_children_to_queue(
 	t_list **queue,
-	t_relation_ast *node)
+	t_rel_ast *node)
 {
 	while (node->children)
 	{

@@ -14,12 +14,12 @@
 #include "utils.h"
 #include "clean.h"
 
-static bool	should_execute_next_pipeline(t_shell *shell, int type);
-static void	handle_and_or_op(t_shell *shell, t_list_d **cmd_table_node);
+static bool	should_execute_next_pipeline(t_sh *shell, int type);
+static void	handle_and_or_op(t_sh *shell, t_list_d **cmd_table_node);
 
-void	handle_control_op(t_shell *shell, t_list_d **cmd_table_node)
+void	handle_control_op(t_sh *shell, t_list_d **cmd_table_node)
 {
-	t_cmd_table	*cmd_table;
+	t_ct	*cmd_table;
 
 	cmd_table = (*cmd_table_node)->content;
 	if (cmd_table->type == C_PIPE)
@@ -28,9 +28,9 @@ void	handle_control_op(t_shell *shell, t_list_d **cmd_table_node)
 		handle_and_or_op(shell, cmd_table_node);
 }
 
-static void	handle_and_or_op(t_shell *shell, t_list_d **cmd_table_node)
+static void	handle_and_or_op(t_sh *shell, t_list_d **cmd_table_node)
 {
-	t_cmd_table	*cmd_table;
+	t_ct	*cmd_table;
 
 	if (shell->subshell_pid > 0)
 		wait_process(shell, shell->subshell_pid);
@@ -40,7 +40,7 @@ static void	handle_and_or_op(t_shell *shell, t_list_d **cmd_table_node)
 		move_past_pipeline(cmd_table_node);
 }
 
-static bool	should_execute_next_pipeline(t_shell *shell, int type)
+static bool	should_execute_next_pipeline(t_sh *shell, int type)
 {
 	if (shell->signal_record != 0)
 	{

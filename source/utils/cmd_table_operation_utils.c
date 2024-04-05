@@ -12,7 +12,7 @@
 
 #include "utils.h"
 
-void	free_cmd_table(t_cmd_table *cmd_table)
+void	free_cmd_table(t_ct *cmd_table)
 {
 	if (!cmd_table)
 		return ;
@@ -22,11 +22,11 @@ void	free_cmd_table(t_cmd_table *cmd_table)
 	free(cmd_table);
 }
 
-t_cmd_table	*init_cmd_table(void)
+t_ct	*init_cmd_table(void)
 {
-	t_cmd_table	*cmd_table;
+	t_ct	*cmd_table;
 
-	cmd_table = (t_cmd_table *)malloc(sizeof(t_cmd_table));
+	cmd_table = (t_ct *)malloc(sizeof(t_ct));
 	if (!cmd_table)
 		return (NULL);
 	cmd_table->id = 0;

@@ -160,17 +160,17 @@ typedef enum e_heredoc_status
 	HEREDOC_SUCCESS	= 0,
 	HEREDOC_ABORT,
 	HEREDOC_ERROR
-}	t_heredoc_status;
+}	t_hd_st;
 
-typedef enum e_state
+typedef enum e_signal_state
 {
 	SIG_DEFAULT		= 0,
 	SIG_IGNORE,
 	SIG_STANDARD,
 	SIG_RECORD
-}	t_state;
+}	t_sig;
 
-typedef enum e_pt_col
+typedef enum e_parsing_table_column
 {
 	PT_COL_STATE	= 0,
 	PT_COL_TOKEN_TYPE,
@@ -179,13 +179,13 @@ typedef enum e_pt_col
 	PT_COL_NUM_REDUCED
 }	t_pt_col;
 
-typedef enum e_action_type
+typedef enum e_parser_action
 {
 	A_ACCEPT		= 0,
 	A_SHIFT			= 0b001,
 	A_REDUCE		= 0b010,
 	A_GOTO			= 0b100
-}	t_action_type;
+}	t_prs_act;
 
 typedef enum e_token_type
 {
@@ -202,9 +202,9 @@ typedef enum e_token_type
 	T_AND,
 	T_L_BRACKET,
 	T_R_BRACKET
-}	t_token_type;
+}	t_tok_typ;
 
-typedef enum e_cmdtable_type
+typedef enum e_command_table_type
 {
 	C_NONE			= -1,
 	C_SIMPLE_CMD	= 0,
@@ -213,23 +213,23 @@ typedef enum e_cmdtable_type
 	C_OR,
 	C_SUBSHELL_START,
 	C_SUBSHELL_END
-}	t_cmdtable_type;
+}	t_ct_typ;
 
-typedef enum e_is_open_pair_op
+typedef enum e_open_pair_operator
 {
 	OP_GET			= 0,
 	OP_SET,
 	OP_RESET,
 	OP_CLEAN
-}	t_is_open_pair_op;
+}	t_pair_op;
 
-typedef enum e_expander_op
+typedef enum e_expander_operator
 {
 	E_PARAM			= 0b0001,
 	E_SPLIT_WORDS	= 0b0010,
 	E_WILDCARD		= 0b0100,
 	E_RM_QUOTES		= 0b1000
-}	t_expander_op;
+}	t_expd_op;
 
 typedef enum e_expander_task_type
 {
@@ -239,68 +239,68 @@ typedef enum e_expander_task_type
 	ET_SHELL_PID,
 	ET_WILDCARD,
 	ET_QUOTE
-}	t_expander_task_type;
+}	t_expd_tsk_typ;
 
 typedef enum e_export
 {
 	EXPORT_NO		= 0,
 	EXPORT_YES
-}	t_export;
+}	t_expt;
 
-typedef enum e_exit_args_error
+typedef enum e_exit_argument_error
 {
 	EX_NO_ARGS		= -1,
 	EX_NORM_ARGS	= 0,
 	EX_TOO_MANY_ARGS,
 	EX_NOT_NUMERIC,
-}	t_exit_args_error;
+}	t_exit_err;
 
-typedef struct s_env
+typedef struct s_environment_node
 {
 	char			*key;
 	char			*value;
-	t_export		export;
+	t_expt			export;
 }	t_env;
 
 typedef struct s_token
 {
 	int				type;
 	char			*data;
-}	t_token;
+}	t_tok;
 
 typedef struct s_expander_task
 {
-	t_expander_task_type	type;
-	char					**base_str;
-	int						start;
-	int						replace_len;
-	char					*varname;
-	int						result_len;
-}	t_expander_task;
+	t_expd_tsk_typ	type;
+	char			**base_str;
+	int				start;
+	int				replace_len;
+	char			*varname;
+	int				result_len;
+}	t_expd_tsk;
 
-typedef struct s_ast
+typedef struct s_abstract_syntax_tree
 {
 	int				type;
 	char			*data;
 	t_list			*children;
 }	t_ast;
 
-typedef struct s_relation_ast
+typedef struct s_relational_abstract_syntax_tree
 {
 	int				level;
 	t_ast			*parent;
 	t_ast			*current;
 	t_list			*children;
-}	t_relation_ast;
+}	t_rel_ast;
 
 typedef struct s_parser_data
 {
 	t_list			*token_list;
 	t_list			*state_stack;
 	t_list			*parse_stack;
-}	t_parser_data;
+}	t_prs_data;
 
-typedef struct s_pt_node
+typedef struct s_parsing_table_node
 {
 	int				state;
 	int				token_type;
@@ -309,14 +309,14 @@ typedef struct s_pt_node
 	int				num_reduced;
 }	t_pt_node;
 
-typedef struct s_io_red
+typedef struct s_io_redirection
 {
 	int				type;
 	char			*filename;
 	char			*here_end;
 }	t_io_red;
 
-typedef struct s_cmd_table
+typedef struct s_command_table
 {
 	int				id;
 	int				subshell_level;
@@ -326,9 +326,9 @@ typedef struct s_cmd_table
 	t_list			*simple_cmd_list;
 	t_list			*assignment_list;
 	t_list			*io_red_list;
-}	t_cmd_table;
+}	t_ct;
 
-typedef struct s_final_cmd_table
+typedef struct s_final_command_table
 {
 	char			**simple_cmd;
 	char			*exec_path;
@@ -336,7 +336,7 @@ typedef struct s_final_cmd_table
 	char			**env;
 	int				read_fd;
 	int				write_fd;
-}	t_final_cmd_table;
+}	t_fct;
 
 typedef struct s_pipe
 {
@@ -347,20 +347,20 @@ typedef struct s_pipe
 
 typedef struct s_shell
 {
-	bool				is_interactive;
-	pid_t				pid;
-	pid_t				subshell_pid;
-	int					subshell_level;
-	int					signal_record;
-	t_pipe				old_pipe;
-	t_pipe				new_pipe;
-	unsigned char		exit_code;
-	char				*input_line;
-	t_list				*child_pid_list;
-	t_list				*env_list;
-	t_list				*token_list;
-	t_list_d			*cmd_table_list;
-	t_final_cmd_table	*final_cmd_table;
-}	t_shell;
+	bool			is_interactive;
+	pid_t			pid;
+	pid_t			subshell_pid;
+	int				subshell_level;
+	int				signal_record;
+	t_pipe			old_pipe;
+	t_pipe			new_pipe;
+	unsigned char	exit_code;
+	char			*input_line;
+	t_list			*child_pid_list;
+	t_list			*env_list;
+	t_list			*token_list;
+	t_list_d		*cmd_table_list;
+	t_fct			*final_cmd_table;
+}	t_sh;
 
 #endif

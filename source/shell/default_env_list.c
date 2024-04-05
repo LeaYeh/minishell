@@ -15,7 +15,7 @@
 static bool	add_default_oldpwd_env_node(t_list **env_list);
 static bool	add_default_pwd_env_node(t_list **env_list);
 
-bool	setup_default_env_list(t_shell *shell)
+bool	setup_default_env_list(t_sh *shell)
 {
 	extern char	**environ;
 

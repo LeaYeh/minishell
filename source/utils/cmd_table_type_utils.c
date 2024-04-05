@@ -34,7 +34,7 @@ bool	is_scmd_in_pipeline(t_list_d *cmd_table_node)
 
 int	get_cmd_table_type_from_list(t_list_d *cmd_table_list)
 {
-	t_cmd_table	*cmd_table;
+	t_ct	*cmd_table;
 
 	if (!cmd_table_list || !cmd_table_list->content)
 		return (C_NONE);
@@ -42,7 +42,7 @@ int	get_cmd_table_type_from_list(t_list_d *cmd_table_list)
 	return (cmd_table->type);
 }
 
-bool	is_builtin(char *cmd_name, t_shell *shell)
+bool	is_builtin(char *cmd_name, t_sh *shell)
 {
 	if (!cmd_name)
 		return (false);

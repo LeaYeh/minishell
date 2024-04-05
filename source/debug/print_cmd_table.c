@@ -16,13 +16,13 @@
 void	print_cmd_table_list(t_list_d *cmd_table_list)
 {
 	t_list_d	*node;
-	t_cmd_table	*cmd_table;
+	t_ct		*cmd_table;
 
 	printf("\n\n========= cmd_table_list =========\n");
 	node = cmd_table_list;
 	while (node && node->content)
 	{
-		cmd_table = (t_cmd_table *)node->content;
+		cmd_table = (t_ct *)node->content;
 		printf("========= %d =========\n", cmd_table->id);
 		print_cmd_table(cmd_table);
 		node = node->next;
@@ -31,7 +31,7 @@ void	print_cmd_table_list(t_list_d *cmd_table_list)
 	printf("===================================\n\n");
 }
 
-void	print_cmd_table(t_cmd_table *cmd_table)
+void	print_cmd_table(t_ct *cmd_table)
 {
 	printf("type:            %d\n", cmd_table->type);
 	print_simple_cmd_list(cmd_table->simple_cmd_list);

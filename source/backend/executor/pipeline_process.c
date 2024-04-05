@@ -15,11 +15,11 @@
 #include "clean.h"
 #include "signals.h"
 
-static void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node);
-static bool	insert_child_pid_list(t_shell *shell, pid_t pid);
-static void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node);
+static void	exec_pipeline(t_sh *shell, t_list_d **cmd_table_node);
+static bool	insert_child_pid_list(t_sh *shell, pid_t pid);
+static void	handle_end_of_pipeline(t_sh *shell, t_list_d **cmd_table_node);
 
-void	fork_pipeline(t_shell *shell, t_list_d **cmd_table_node)
+void	fork_pipeline(t_sh *shell, t_list_d **cmd_table_node)
 {
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
@@ -46,7 +46,7 @@ void	fork_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	}
 }
 
-static void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
+static void	exec_pipeline(t_sh *shell, t_list_d **cmd_table_node)
 {
 	int	cmd_table_type;
 
@@ -75,12 +75,12 @@ static void	exec_pipeline(t_shell *shell, t_list_d **cmd_table_node)
 	clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
-static bool	insert_child_pid_list(t_shell *shell, pid_t pid)
+static bool	insert_child_pid_list(t_sh *shell, pid_t pid)
 {
 	return (ft_lstnew_front(&shell->child_pid_list, (void *)(long)pid));
 }
 
-static void	handle_end_of_pipeline(t_shell *shell, t_list_d **cmd_table_node)
+static void	handle_end_of_pipeline(t_sh *shell, t_list_d **cmd_table_node)
 {
 	int	cmd_table_type;
 

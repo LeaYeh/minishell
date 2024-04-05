@@ -15,7 +15,7 @@
 
 static char	*get_error_token_data(t_list *token_list, t_list *parse_stack);
 
-void	report_syntax_error(t_shell *shell, t_parser_data *parser_data)
+void	report_syntax_error(t_sh *shell, t_prs_data *parser_data)
 {
 	char	*error_token;
 

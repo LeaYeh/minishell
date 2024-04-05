@@ -12,13 +12,13 @@
 
 #include "utils.h"
 
-static bool	fill_simple_cmd(t_token *token, t_cmd_table *cmd_table);
-static bool	fill_assignment(t_token *token, t_cmd_table *cmd_table);
+static bool	fill_simple_cmd(t_tok *token, t_ct *cmd_table);
+static bool	fill_assignment(t_tok *token, t_ct *cmd_table);
 
 bool	handle_word_token(t_list **token_list, t_list_d **cmd_table_list)
 {
-	t_token		*token;
-	t_cmd_table	*cmd_table;
+	t_tok	*token;
+	t_ct	*cmd_table;
 
 	token = get_token_from_list(*token_list);
 	cmd_table = get_last_simple_cmd_table(*cmd_table_list);
@@ -30,7 +30,7 @@ bool	handle_word_token(t_list **token_list, t_list_d **cmd_table_list)
 	return (false);
 }
 
-static bool	fill_simple_cmd(t_token *token, t_cmd_table *cmd_table)
+static bool	fill_simple_cmd(t_tok *token, t_ct *cmd_table)
 {
 	char	*cmd_arg;
 
@@ -42,7 +42,7 @@ static bool	fill_simple_cmd(t_token *token, t_cmd_table *cmd_table)
 	return (true);
 }
 
-static bool	fill_assignment(t_token *token, t_cmd_table *cmd_table)
+static bool	fill_assignment(t_tok *token, t_ct *cmd_table)
 {
 	char	*assignment;
 	t_list	*node;

@@ -14,7 +14,7 @@
 
 void	move_past_pipeline(t_list_d **cmd_table_node)
 {
-	t_cmd_table	*cmd_table;
+	t_ct	*cmd_table;
 
 	cmd_table = (*cmd_table_node)->content;
 	while (cmd_table->type != C_SUBSHELL_END && \

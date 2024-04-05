@@ -16,7 +16,7 @@
 #include "clean.h"
 
 static int	expand_filename(
-				t_shell *shell,
+				t_sh *shell,
 				char **filename);
 static bool	handle_redirect_by_type(
 				int *read_fd,
@@ -31,7 +31,7 @@ static bool	handle_red_out(
 				int o_flags);
 
 int	handle_io_redirect(
-	t_shell *shell, int *read_fd, int *write_fd, t_list *io_red_list)
+	t_sh *shell, int *read_fd, int *write_fd, t_list *io_red_list)
 {
 	t_io_red	*io_red;
 	int			ret;
@@ -55,12 +55,12 @@ int	handle_io_redirect(
 }
 
 static int	expand_filename(
-	t_shell *shell,
+	t_sh *shell,
 	char **filename)
 {
-	t_expander_op	op_mask;
-	t_list			*expanded_list;
-	int				ret;
+	t_expd_op	op_mask;
+	t_list		*expanded_list;
+	int			ret;
 
 	op_mask = E_PARAM | E_RM_QUOTES;
 	if (shell->is_interactive)

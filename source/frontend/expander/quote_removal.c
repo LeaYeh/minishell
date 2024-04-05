@@ -16,8 +16,8 @@ static bool	remove_quote(t_list *task_node);
 
 bool	handle_quote_removal(t_list **task_list)
 {
-	t_expander_task	*task;
-	t_list			*task_node;
+	t_expd_tsk	*task;
+	t_list		*task_node;
 
 	task_node = *task_list;
 	while (task_node)
@@ -37,8 +37,8 @@ bool	handle_quote_removal(t_list **task_list)
 
 static bool	remove_quote(t_list *task_node)
 {
-	int				diff_len;
-	t_expander_task	*task;
+	int			diff_len;
+	t_expd_tsk	*task;
 
 	task = task_node->content;
 	if (!ft_strrplc_part(task->base_str, "", task->start, task->replace_len))

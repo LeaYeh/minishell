@@ -51,12 +51,12 @@ void	skip_operator(char *token_data, int *i)
 bool	split_token_node(t_list *lst_node_front, int i)
 {
 	t_list	*lst_node_back;
-	t_token	*new_token;
+	t_tok	*new_token;
 	char	*token_data_node_back;
 	char	**token_data_node_front;
 	char	**token_data_split;
 
-	token_data_node_front = &((t_token *)lst_node_front->content)->data;
+	token_data_node_front = &((t_tok *)lst_node_front->content)->data;
 	token_data_split = ft_split_at_index(*token_data_node_front, i);
 	if (!token_data_split)
 		return (false);

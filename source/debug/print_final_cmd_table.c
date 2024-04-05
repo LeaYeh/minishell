@@ -15,7 +15,7 @@
 static void	print_simple_cmd_array(char *simple_cmd[]);
 static void	print_assignment_array(char *assignment_array[]);
 
-void	print_final_cmd_table(t_final_cmd_table *final_cmd_table)
+void	print_final_cmd_table(t_fct *final_cmd_table)
 {
 	printf("\n\n========= final cmd table =========\n");
 	print_simple_cmd_array(final_cmd_table->simple_cmd);

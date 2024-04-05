@@ -12,7 +12,7 @@
 
 #include "utils.h"
 
-void	print_welcome_msg(t_shell *shell)
+void	print_welcome_msg(t_sh *shell)
 {
 	if (shell->is_interactive)
 	{

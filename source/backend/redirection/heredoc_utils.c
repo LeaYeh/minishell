@@ -32,7 +32,7 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
 	return (true);
 }
 
-int	expand_heredoc_content(t_shell *shell, char **content)
+int	expand_heredoc_content(t_sh *shell, char **content)
 {
 	t_list	*expanded_list;
 	int		ret;
@@ -54,7 +54,7 @@ int	expand_heredoc_content(t_shell *shell, char **content)
 }
 
 bool	remove_here_end_quote(
-	t_shell *shell, t_io_red *io_red, bool *need_content_expansion)
+	t_sh *shell, t_io_red *io_red, bool *need_content_expansion)
 {
 	t_list	*expanded_list;
 

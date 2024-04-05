@@ -16,9 +16,9 @@
 #include "clean.h"
 #include "signals.h"
 
-static void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node);
+static void	exec_simple_cmd(t_sh *shell, t_list_d **cmd_table_node);
 
-void	fork_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
+void	fork_simple_cmd(t_sh *shell, t_list_d **cmd_table_node)
 {
 	shell->subshell_pid = fork();
 	if (shell->subshell_pid == -1)
@@ -34,7 +34,7 @@ void	fork_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
 		*cmd_table_node = (*cmd_table_node)->next;
 }
 
-static void	exec_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
+static void	exec_simple_cmd(t_sh *shell, t_list_d **cmd_table_node)
 {
 	int			ret;
 

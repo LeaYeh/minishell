@@ -21,16 +21,16 @@ static bool	append_parameter_task(
 				t_list **task_list,
 				char **base_str,
 				int *i,
-				t_expander_op op_mask);
+				t_expd_op op_mask);
 static bool	set_parameter_task_type(
-				t_expander_task_type *type,
+				t_expd_tsk_typ *type,
 				char c,
-				t_expander_op op_mask);
+				t_expd_op op_mask);
 
 bool	set_expander_task_list(
 	t_list **task_list,
 	char **base_str,
-	t_expander_op op_mask)
+	t_expd_op op_mask)
 {
 	int		i;
 	bool	ret;
@@ -54,7 +54,7 @@ static bool	append_quote_task(
 	char **base_str,
 	int *i)
 {
-	t_expander_task	*task;
+	t_expd_tsk	*task;
 
 	if (is_unquoted_quote((*base_str)[*i]))
 	{
@@ -71,12 +71,12 @@ static bool	append_parameter_task(
 	t_list **task_list,
 	char **base_str,
 	int *i,
-	t_expander_op op_mask)
+	t_expd_op op_mask)
 {
-	int						offset;
-	int						replace_len;
-	t_expander_task			*task;
-	t_expander_task_type	type;
+	int				offset;
+	int				replace_len;
+	t_expd_tsk		*task;
+	t_expd_tsk_typ	type;
 
 	replace_len = get_replace_len(&(*base_str)[*i]);
 	if (is_open_pair('\'', OP_GET))
@@ -92,9 +92,9 @@ static bool	append_parameter_task(
 }
 
 static bool	set_parameter_task_type(
-	t_expander_task_type *type,
+	t_expd_tsk_typ *type,
 	char c,
-	t_expander_op op_mask)
+	t_expd_op op_mask)
 {
 	if (is_valid_varname_start(c))
 	{

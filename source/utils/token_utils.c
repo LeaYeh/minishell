@@ -12,13 +12,13 @@
 
 #include "utils.h"
 
-static t_token	*dup_token_node(t_token *token);
+static t_tok	*dup_token_node(t_tok *token);
 
-t_token	*init_token_node(int type, char *data)
+t_tok	*init_token_node(int type, char *data)
 {
-	t_token	*token_node;
+	t_tok	*token_node;
 
-	token_node = (t_token *)malloc(sizeof(t_token));
+	token_node = (t_tok *)malloc(sizeof(t_tok));
 	if (!token_node)
 		return (NULL);
 	token_node->type = type;
@@ -26,7 +26,7 @@ t_token	*init_token_node(int type, char *data)
 	return (token_node);
 }
 
-void	free_token_node(t_token *token)
+void	free_token_node(t_tok *token)
 {
 	if (!token)
 		return ;
@@ -38,7 +38,7 @@ t_list	*dup_token_list(t_list *token_list)
 {
 	t_list	*dup_list;
 	t_list	*node;
-	t_token	*token;
+	t_tok	*token;
 
 	dup_list = NULL;
 	while (token_list)
@@ -60,9 +60,9 @@ t_list	*dup_token_list(t_list *token_list)
 	return (dup_list);
 }
 
-static t_token	*dup_token_node(t_token *token)
+static t_tok	*dup_token_node(t_tok *token)
 {
-	t_token	*dup_token;
+	t_tok	*dup_token;
 	char	*dup_data;
 
 	dup_data = NULL;

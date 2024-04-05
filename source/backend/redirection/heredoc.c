@@ -14,20 +14,20 @@
 #include "utils.h"
 
 static int	handle_heredoc(
-				t_shell *shell,
+				t_sh *shell,
 				int cmdtable_id,
 				t_list *io_red_list);
 static int	exec_heredoc(
-				t_shell *shell,
+				t_sh *shell,
 				int cmdtable_id,
 				t_io_red *io_red,
 				bool need_content_expansion);
 static int	read_heredoc(
-				t_shell *shell,
+				t_sh *shell,
 				t_list **line_list,
 				char *here_end);
 static int	handle_heredoc_content(
-				t_shell *shell,
+				t_sh *shell,
 				char *filename,
 				t_list **line_list,
 				bool need_content_expansion);
@@ -38,9 +38,9 @@ static int	handle_heredoc_content(
  *     2. the quotes shall be removed from the delimiter
  */
 int	heredoc(
-	t_shell *shell)
+	t_sh *shell)
 {
-	t_cmd_table	*cur_cmd_table;
+	t_ct		*cur_cmd_table;
 	t_list_d	*cmd_table_node;
 	int			ret;
 
@@ -58,7 +58,7 @@ int	heredoc(
 }
 
 static int	handle_heredoc(
-	t_shell *shell,
+	t_sh *shell,
 	int cmdtable_id,
 	t_list *io_red_list)
 {
@@ -87,7 +87,7 @@ static int	handle_heredoc(
 }
 
 static int	exec_heredoc(
-	t_shell *shell,
+	t_sh *shell,
 	int cmdtable_id,
 	t_io_red *io_red,
 	bool need_content_expansion)
@@ -111,7 +111,7 @@ static int	exec_heredoc(
 }
 
 static int	read_heredoc(
-	t_shell *shell,
+	t_sh *shell,
 	t_list **line_list,
 	char *here_end)
 {
@@ -138,7 +138,7 @@ static int	read_heredoc(
 }
 
 static int	handle_heredoc_content(
-	t_shell *shell,
+	t_sh *shell,
 	char *filename,
 	t_list **line_list,
 	bool need_content_expansion)

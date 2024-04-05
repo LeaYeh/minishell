@@ -14,7 +14,7 @@
 
 bool	is_wildcard(char *word, t_list *task_list)
 {
-	t_expander_task	*task;
+	t_expd_tsk	*task;
 
 	while (task_list)
 	{

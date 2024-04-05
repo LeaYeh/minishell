@@ -16,10 +16,10 @@
 #include "utils.h"
 #include "signals.h"
 
-static void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node);
-static void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node);
+static void	handle_cmd_execution(t_sh *shell, t_list_d **cmd_table_node);
+static void	handle_simple_cmd(t_sh *shell, t_list_d **cmd_table_node);
 
-void	executor(t_shell *shell)
+void	executor(t_sh *shell)
 {
 	int	heredoc_status;
 
@@ -31,9 +31,9 @@ void	executor(t_shell *shell)
 	handle_process(shell, shell->cmd_table_list);
 }
 
-void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
+void	handle_process(t_sh *shell, t_list_d *cmd_table_node)
 {
-	t_cmd_table	*cmd_table;
+	t_ct	*cmd_table;
 
 	while (cmd_table_node)
 	{
@@ -51,7 +51,7 @@ void	handle_process(t_shell *shell, t_list_d *cmd_table_node)
 	}
 }
 
-static void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
+static void	handle_cmd_execution(t_sh *shell, t_list_d **cmd_table_node)
 {
 	if (is_scmd_in_pipeline(*cmd_table_node))
 		fork_pipeline(shell, cmd_table_node);
@@ -59,11 +59,11 @@ static void	handle_cmd_execution(t_shell *shell, t_list_d **cmd_table_node)
 		handle_simple_cmd(shell, cmd_table_node);
 }
 
-static void	handle_simple_cmd(t_shell *shell, t_list_d **cmd_table_node)
+static void	handle_simple_cmd(t_sh *shell, t_list_d **cmd_table_node)
 {
-	char		*cmd_name;
-	t_cmd_table	*cmd_table;
-	int			ret;
+	char	*cmd_name;
+	t_ct	*cmd_table;
+	int		ret;
 
 	cmd_table = (*cmd_table_node)->content;
 	ret = set_expanded_cmd_name(&cmd_name, shell, cmd_table->simple_cmd_list);

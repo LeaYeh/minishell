@@ -13,12 +13,12 @@
 #include "utils.h"
 
 static bool	fill_red_node(t_io_red *io_red, int type, char *data);
-static bool	fill_redirect(t_list **token_list, t_cmd_table *cmd_table);
+static bool	fill_redirect(t_list **token_list, t_ct *cmd_table);
 
 bool	fill_redirect_by_scenario(
 			t_list **token_list, t_list_d **cmd_table_list)
 {
-	t_cmd_table	*cmd_table;
+	t_ct		*cmd_table;
 	t_list_d	*cmd_table_node;
 
 	cmd_table_node = ft_lstlast_d(*cmd_table_list);
@@ -40,8 +40,8 @@ bool	fill_redirect_by_scenario(
 
 void	fill_control_op(t_list **token_list, t_list_d **cmd_table_list)
 {
-	t_token		*token;
-	t_cmd_table	*cmd_table;
+	t_tok	*token;
+	t_ct	*cmd_table;
 
 	token = get_token_from_list(*token_list);
 	cmd_table = ft_lstlast_d(*cmd_table_list)->content;
@@ -55,8 +55,8 @@ void	fill_control_op(t_list **token_list, t_list_d **cmd_table_list)
 
 void	fill_bracket(t_list **token_list, t_list_d **cmd_table_list)
 {
-	t_token		*token;
-	t_cmd_table	*cmd_table;
+	t_tok	*token;
+	t_ct	*cmd_table;
 
 	token = get_token_from_list(*token_list);
 	cmd_table = ft_lstlast_d(*cmd_table_list)->content;
@@ -66,10 +66,10 @@ void	fill_bracket(t_list **token_list, t_list_d **cmd_table_list)
 		cmd_table->type = C_SUBSHELL_END;
 }
 
-static bool	fill_redirect(t_list **token_list, t_cmd_table *cmd_table)
+static bool	fill_redirect(t_list **token_list, t_ct *cmd_table)
 {
-	t_token		*red_op;
-	t_token		*filename;
+	t_tok		*red_op;
+	t_tok		*filename;
 	t_io_red	*io_red;
 	t_list		*node;
 

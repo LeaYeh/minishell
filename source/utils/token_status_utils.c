@@ -12,23 +12,23 @@
 
 #include "defines.h"
 
-t_token	*get_token_from_list(t_list *token_list)
+t_tok	*get_token_from_list(t_list *token_list)
 {
 	if (!token_list)
 		return (NULL);
-	return ((t_token *)token_list->content);
+	return ((t_tok *)token_list->content);
 }
 
 int	get_token_type_from_list(t_list *token_list)
 {
 	if (!token_list)
 		return (T_NONE);
-	return (((t_token *)token_list->content)->type);
+	return (((t_tok *)token_list->content)->type);
 }
 
 char	*get_token_data_from_list(t_list *token_list)
 {
 	if (!token_list)
 		return (NULL);
-	return (((t_token *)token_list->content)->data);
+	return (((t_tok *)token_list->content)->data);
 }

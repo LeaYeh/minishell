@@ -25,7 +25,7 @@ static bool	append_wildcard_task(
 bool	set_wildcard_task_list(
 	t_list **task_list,
 	t_list *expanded_list,
-	t_expander_op op_mask)
+	t_expd_op op_mask)
 {
 	char	**base_str;
 	t_list	*new_task_list;
@@ -79,8 +79,8 @@ static bool	append_wildcard_task(
 	char **base_str,
 	int *i)
 {
-	int				replace_len;
-	t_expander_task	*task;
+	int			replace_len;
+	t_expd_tsk	*task;
 
 	replace_len = get_replace_len(&(*base_str)[*i]);
 	if (is_open_pair('\'', OP_GET) || is_open_pair('"', OP_GET))

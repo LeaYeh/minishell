@@ -13,7 +13,7 @@
 #include "parser.h"
 #include "utils.h"
 
-bool	init_parser_data(t_parser_data *parser_data, t_list *token_list)
+bool	init_parser_data(t_prs_data *parser_data, t_list *token_list)
 {
 	parser_data->token_list = dup_token_list(token_list);
 	if (!parser_data->token_list)
@@ -25,7 +25,7 @@ bool	init_parser_data(t_parser_data *parser_data, t_list *token_list)
 	return (true);
 }
 
-void	free_parser_data(t_parser_data *parser_data)
+void	free_parser_data(t_prs_data *parser_data)
 {
 	if (!parser_data)
 		return ;

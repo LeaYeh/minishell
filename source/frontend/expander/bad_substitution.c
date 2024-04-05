@@ -16,7 +16,7 @@
 static bool	is_valid_brace_content(char *str, int *i);
 static void	print_bad_substitution_error(char *str, int i);
 
-bool	is_bad_substitution(char *str, t_expander_op op_mask)
+bool	is_bad_substitution(char *str, t_expd_op op_mask)
 {
 	int	i;
 

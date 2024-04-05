@@ -13,7 +13,7 @@
 #include "signals.h"
 #include "clean.h"
 
-void	setup_signal(t_shell *shell, int signo, t_state state)
+void	setup_signal(t_sh *shell, int signo, t_sig state)
 {
 	struct sigaction	sa;
 
@@ -34,7 +34,7 @@ void	setup_signal(t_shell *shell, int signo, t_state state)
 
 void	handle_signal_std(int signo, siginfo_t *info, void *context)
 {
-	static t_shell	*shell;
+	static t_sh	*shell;
 
 	(void)info;
 	if (!shell)
@@ -60,7 +60,7 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 
 void	handle_signal_record(int signo, siginfo_t *info, void *context)
 {
-	static t_shell	*shell;
+	static t_sh	*shell;
 
 	(void)info;
 	if (!shell)

@@ -15,7 +15,7 @@
 static int	handle_exit_status(int wstatus);
 static void	print_exit_msg(int wstatus, int signo);
 
-bool	wait_process(t_shell *shell, pid_t pid)
+bool	wait_process(t_sh *shell, pid_t pid)
 {
 	int	wstatus;
 
@@ -25,7 +25,7 @@ bool	wait_process(t_shell *shell, pid_t pid)
 	return (true);
 }
 
-void	wait_all_child_pid(t_shell *shell)
+void	wait_all_child_pid(t_sh *shell)
 {
 	t_list	*child_pid_node;
 	bool	got_sigint;

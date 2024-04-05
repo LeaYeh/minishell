@@ -14,10 +14,10 @@
 #include "executor.h"
 #include "utils.h"
 
-static void	clean_shell(t_shell *shell);
-static void	remove_heredoc_files(t_cmd_table *cmd_table);
+static void	clean_shell(t_sh *shell);
+static void	remove_heredoc_files(t_ct *cmd_table);
 
-void	clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)
+void	clean_and_exit_shell(t_sh *shell, int exit_code, char *msg)
 {
 	if (msg)
 		printf("%s\n", msg);
@@ -27,7 +27,7 @@ void	clean_and_exit_shell(t_shell *shell, int exit_code, char *msg)
 	exit(exit_code);
 }
 
-static void	clean_shell(t_shell *shell)
+static void	clean_shell(t_sh *shell)
 {
 	ft_free_and_null((void **)&shell->input_line);
 	ft_lstclear(&shell->child_pid_list, NULL);
@@ -40,7 +40,7 @@ static void	clean_shell(t_shell *shell)
 	rl_clear_history();
 }
 
-void	reset_submodule_variable(t_shell *shell)
+void	reset_submodule_variable(t_sh *shell)
 {
 	shell->subshell_level = 0;
 	shell->subshell_pid = -1;
@@ -53,7 +53,7 @@ void	reset_submodule_variable(t_shell *shell)
 	free_final_cmd_table(&shell->final_cmd_table);
 }
 
-static void	remove_heredoc_files(t_cmd_table *cmd_table)
+static void	remove_heredoc_files(t_ct *cmd_table)
 {
 	t_list		*io_red_list;
 	t_io_red	*io_red;

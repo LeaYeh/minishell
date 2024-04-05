@@ -16,14 +16,14 @@
 #include "clean.h"
 #include "signals.h"
 
-static void	safe_redirect_io_and_exec_builtin(t_shell *shell);
-static void	redirect_io_and_exec_builtin(t_shell *shell);
-static void	exec_builtin_cmd(t_shell *shell);
+static void	safe_redirect_io_and_exec_builtin(t_sh *shell);
+static void	redirect_io_and_exec_builtin(t_sh *shell);
+static void	exec_builtin_cmd(t_sh *shell);
 
-void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
+void	handle_builtin(t_sh *shell, t_list_d **cmd_table_node)
 {
-	t_cmd_table	*cmd_table;
-	int			ret;
+	t_ct	*cmd_table;
+	int		ret;
 
 	cmd_table = (*cmd_table_node)->content;
 	ret = handle_io_redirect(shell,
@@ -47,11 +47,11 @@ void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node)
 	*cmd_table_node = (*cmd_table_node)->next;
 }
 
-static void	safe_redirect_io_and_exec_builtin(t_shell *shell)
+static void	safe_redirect_io_and_exec_builtin(t_sh *shell)
 {
-	t_final_cmd_table	*final_cmd_table;
-	int					saved_std_io[2];
-	bool				ret;
+	t_fct	*final_cmd_table;
+	int		saved_std_io[2];
+	bool	ret;
 
 	final_cmd_table = shell->final_cmd_table;
 	ret = true;
@@ -74,7 +74,7 @@ static void	safe_redirect_io_and_exec_builtin(t_shell *shell)
 		raise_error_to_own_subprocess(shell, GENERAL_ERROR, NULL);
 }
 
-static void	redirect_io_and_exec_builtin(t_shell *shell)
+static void	redirect_io_and_exec_builtin(t_sh *shell)
 {
 	if (!redirect_scmd_io(shell, &shell->final_cmd_table->read_fd,
 			&shell->final_cmd_table->write_fd))
@@ -83,9 +83,9 @@ static void	redirect_io_and_exec_builtin(t_shell *shell)
 	exec_builtin_cmd(shell);
 }
 
-static void	exec_builtin_cmd(t_shell *shell)
+static void	exec_builtin_cmd(t_sh *shell)
 {
-	t_final_cmd_table	*final_cmd_table;
+	t_fct	*final_cmd_table;
 
 	final_cmd_table = shell->final_cmd_table;
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "env") == 0)

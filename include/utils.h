@@ -20,9 +20,9 @@ bool		read_input(char **line,
 				char *prompt, bool add_to_history, bool is_interactive);
 
 /* Token list utils */
-t_token		*init_token_node(int type, char *data);
-void		free_token_node(t_token *token);
-t_token		*get_token_from_list(t_list *token_list);
+t_tok		*init_token_node(int type, char *data);
+void		free_token_node(t_tok *token);
+t_tok		*get_token_from_list(t_list *token_list);
 int			get_token_type_from_list(t_list *token_list);
 char		*get_token_data_from_list(t_list *token_list);
 t_list		*dup_token_list(t_list *token_list);
@@ -36,31 +36,31 @@ t_io_red	*init_io_red(void);
 void		free_io_red(t_io_red *io_red);
 
 /* Cmd table utils */
-t_cmd_table	*init_cmd_table(void);
-void		free_cmd_table(t_cmd_table *cmd_table);
+t_ct		*init_cmd_table(void);
+void		free_cmd_table(t_ct *cmd_table);
 bool		append_cmd_table_by_scenario(
 				int token_type, t_list_d **cmd_table_list);
-t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node);
-t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list);
-t_cmd_table	*get_subshell_start(t_list_d *cmd_table_node);
+t_ct		*get_cmd_table_from_list(t_list_d *cmd_table_node);
+t_ct		*get_last_simple_cmd_table(t_list_d *cmd_table_list);
+t_ct		*get_subshell_start(t_list_d *cmd_table_node);
 bool		is_control_op_cmd_table(int cmd_table_type);
 bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);
 int			get_cmd_table_type_from_list(t_list_d *cmd_table_list);
-bool		is_builtin(char *cmd_name, t_shell *shell);
+bool		is_builtin(char *cmd_name, t_sh *shell);
 void		move_past_pipeline(t_list_d **cmd_table_node);
 void		move_past_subshell(t_list_d **cmd_table_node);
 
 /* Final cmd table utils */
-int			set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table);
-void		free_final_cmd_table(t_final_cmd_table **final_cmd_table);
-bool		setup_exec_path(t_shell *shell, t_final_cmd_table *final_cmd_table);
-int			setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list);
-bool		setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list);
+int			set_final_cmd_table(t_sh *shell, t_ct *cmd_table);
+void		free_final_cmd_table(t_fct **final_cmd_table);
+bool		setup_exec_path(t_sh *shell, t_fct *final_cmd_table);
+int			setup_simple_cmd(t_sh *shell, t_list *simple_cmd_list);
+bool		setup_env(t_fct *final_cmd_table, t_list *env_list);
 bool		set_exec_path(char **exec_path, char *cmd_name, char *env[]);
-bool		setup_assignment_array(t_final_cmd_table *final_cmd_table,
+bool		setup_assignment_array(t_fct *final_cmd_table,
 				t_list *assignment_list);
 void		setup_fd(
-				t_shell *shell, t_final_cmd_table *final_cmd_table);
+				t_sh *shell, t_fct *final_cmd_table);
 
 /* Environment utils */
 bool		extract_env_key(char **res, const char *str);
@@ -69,7 +69,7 @@ char		*get_value_from_env(char *env[], char *key);
 bool		is_key_in_env(char *env[], char *key);
 
 bool		append_env_node(
-				t_list **env_list, char *key, char *value, t_export export);
+				t_list **env_list, char *key, char *value, t_expt export);
 void		free_env_node(t_env *env);
 bool		is_key_in_env_list(t_list *env_list, char *key);
 char		*get_value_from_env_list(t_list *env_list, char *key);
@@ -77,14 +77,14 @@ t_env		*find_env_node(t_list *env_list, char *key, char *value);
 bool		is_exported_env_node(t_list *env_list, char *key);
 int			get_exported_env_size(t_list *env_list);
 bool		process_str_to_env_list(
-				char *str, t_list **env_list, t_export export);
+				char *str, t_list **env_list, t_expt export);
 void		remove_env_node(t_list **env_list, char *key, char *value);
 bool		replace_env_value(
 				t_list *env_list, char *key, char *value, char **old_value);
 
 /* Expansion utils */
-int			expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
-						t_expander_op op_mask);
+int			expand_list(t_sh *shell, t_list *list, t_list **expanded_list, \
+						t_expd_op op_mask);
 
 /* Array utils */
 void		free_array(char **array[]);
@@ -106,7 +106,7 @@ bool		is_dir(char *dir);
 
 /* Stack utils */
 int			get_state_from_stack(t_list *node);
-t_token		*get_token_from_stack(t_list *node);
+t_tok		*get_token_from_stack(t_list *node);
 t_ast		*get_ast_from_stack(t_list *node);
 bool		drop_num_stack(t_list **stack, int num, void (*del)(void *));
 t_list		*pop_num_stack(t_list **stack, int num);
@@ -115,7 +115,7 @@ t_list		*pop_num_stack(t_list **stack, int num);
 bool		skip_single_quote(char *str, int *i);
 bool		skip_double_quote(char *str, int *i);
 bool		skip_dollar_brace(char *str, int *i, bool is_in_dquote);
-bool		is_open_pair(unsigned char c, t_is_open_pair_op operation);
+bool		is_open_pair(unsigned char c, t_pair_op operation);
 
 /* Variable name utils */
 bool		is_valid_varname(char *str);
@@ -124,7 +124,7 @@ bool		is_valid_varname_start(char c);
 char		*get_varname(char *str);
 
 /* Print utils */
-void		print_welcome_msg(t_shell *shell);
+void		print_welcome_msg(t_sh *shell);
 void		clear_terminal_soft(void);
 
 #endif
