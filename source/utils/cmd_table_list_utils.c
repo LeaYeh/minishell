@@ -27,22 +27,22 @@ bool	append_cmd_table_by_scenario(int token_type, t_list_d **cmd_table_list)
 	return (append_empty_cmd_table(cmd_table_list));
 }
 
-t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node)
+t_ct	*get_cmd_table_from_list(t_list_d *cmd_table_node)
 {
 	if (!cmd_table_node || !cmd_table_node->content)
 		return (NULL);
 	return (cmd_table_node->content);
 }
 
-t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
+t_ct	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
 {
-	t_cmd_table	*last_simple_cmd_table;
-	int			cur_type;
+	t_ct	*last_simple_cmd_table;
+	int		cur_type;
 
 	last_simple_cmd_table = NULL;
 	while (cmd_table_list && cmd_table_list->content)
 	{
-		cur_type = ((t_cmd_table *)cmd_table_list->content)->type;
+		cur_type = ((t_ct *)cmd_table_list->content)->type;
 		if (cur_type == C_PIPE || cur_type == C_AND || cur_type == C_OR)
 			last_simple_cmd_table = NULL;
 		else if (cur_type == C_SIMPLE_CMD)
@@ -52,10 +52,10 @@ t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
 	return (last_simple_cmd_table);
 }
 
-t_cmd_table	*get_subshell_start(t_list_d *cmd_table_node)
+t_ct	*get_subshell_start(t_list_d *cmd_table_node)
 {
-	t_cmd_table	*cmd_table;
-	int			subshell_cnt;
+	t_ct	*cmd_table;
+	int		subshell_cnt;
 
 	cmd_table = NULL;
 	subshell_cnt = 0;
@@ -76,7 +76,7 @@ t_cmd_table	*get_subshell_start(t_list_d *cmd_table_node)
 static bool	append_empty_cmd_table(t_list_d **cmd_table_list)
 {
 	t_list_d	*last_node;
-	t_cmd_table	*cmd_table;
+	t_ct		*cmd_table;
 
 	cmd_table = init_cmd_table();
 	if (!cmd_table)
@@ -85,7 +85,7 @@ static bool	append_empty_cmd_table(t_list_d **cmd_table_list)
 	if (!last_node)
 		cmd_table->id = 0;
 	else
-		cmd_table->id = ((t_cmd_table *)last_node->content)->id + 1;
+		cmd_table->id = ((t_ct *)last_node->content)->id + 1;
 	if (!ft_lstnew_back_d(cmd_table_list, cmd_table))
 		return (free_cmd_table(cmd_table), false);
 	return (true);

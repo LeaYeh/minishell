@@ -15,31 +15,31 @@
 
 # include "defines.h"
 
-void	executor(t_shell *shell);
+void	executor(t_sh *shell);
 int		set_expanded_cmd_name(
-			char **cmd_name, t_shell *shell, t_list *simple_cmd_list);
+			char **cmd_name, t_sh *shell, t_list *simple_cmd_list);
 void	handle_expansion_error(
-			t_shell *shell, t_list_d **cmd_table_node, int ret);
+			t_sh *shell, t_list_d **cmd_table_node, int ret);
 
-void	handle_process(t_shell *shell, t_list_d *cmd_table_node);
-void	fork_subshell(t_shell *shell, t_list_d **cmd_table_node);
-void	fork_pipeline(t_shell *shell, t_list_d **cmd_table_list);
-void	fork_simple_cmd(t_shell *shell, t_list_d **cmd_table_list);
-void	handle_control_op(t_shell *shell, t_list_d **cmd_table_node);
-void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table);
-void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node);
-bool	wait_process(t_shell *shell, pid_t pid);
-void	wait_all_child_pid(t_shell *shell);
+void	handle_process(t_sh *shell, t_list_d *cmd_table_node);
+void	fork_subshell(t_sh *shell, t_list_d **cmd_table_node);
+void	fork_pipeline(t_sh *shell, t_list_d **cmd_table_list);
+void	fork_simple_cmd(t_sh *shell, t_list_d **cmd_table_list);
+void	handle_control_op(t_sh *shell, t_list_d **cmd_table_node);
+void	handle_external_cmd(t_sh *shell, t_ct *cmd_table);
+void	handle_builtin(t_sh *shell, t_list_d **cmd_table_node);
+bool	wait_process(t_sh *shell, pid_t pid);
+void	wait_all_child_pid(t_sh *shell);
 
 /* Redirection */
 void	safe_close(int *fd);
 void	replace_fd(int *from_end, int *to_end);
 bool	restore_std_io(int saved_std_io[2]);
 bool	save_std_io(int saved_std_io[2]);
-bool	redirect_scmd_io(t_shell *shell, int *read_fd, int *write_fd);
-int		redirect_subshell_io(t_shell *shell, t_cmd_table *cmd_table);
+bool	redirect_scmd_io(t_sh *shell, int *read_fd, int *write_fd);
+int		redirect_subshell_io(t_sh *shell, t_ct *cmd_table);
 int		handle_io_redirect(
-			t_shell *shell, int *read_fd, int *write_fd, t_list *io_red_list);
+			t_sh *shell, int *read_fd, int *write_fd, t_list *io_red_list);
 
 /* Redirection - Pipe */
 bool	need_pipe(t_list_d *cmd_table_node);
@@ -48,6 +48,6 @@ void	init_pipe(t_pipe *pipe);
 void	safe_close_pipe(t_pipe *pipe);
 void	handle_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe);
 void	handle_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe);
-void	safe_close_all_pipes(t_shell *shell);
+void	safe_close_all_pipes(t_sh *shell);
 
 #endif

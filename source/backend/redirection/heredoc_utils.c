@@ -32,7 +32,7 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
 	return (true);
 }
 
-int	expand_heredoc_content(t_shell *shell, char **content)
+int	expand_heredoc_content(t_sh *shell, char **content)
 {
 	t_list	*expanded_list;
 	int		ret;
@@ -40,11 +40,11 @@ int	expand_heredoc_content(t_shell *shell, char **content)
 	expanded_list = NULL;
 	ret = expander(*content, &expanded_list, shell, E_PARAM);
 	if (ret == MALLOC_ERROR)
-		return (ft_lstclear(&expanded_list, free), HEREDOC_ERROR);
+		return (ft_lstclear(&expanded_list, free), HD_ERROR);
 	if (ret == BAD_SUBSTITUTION)
 	{
 		shell->exit_code = BAD_SUBSTITUTION;
-		return (ft_lstclear(&expanded_list, free), HEREDOC_ABORT);
+		return (ft_lstclear(&expanded_list, free), HD_ABORT);
 	}
 	ft_free_and_null((void **)content);
 	if (expanded_list)
@@ -54,7 +54,7 @@ int	expand_heredoc_content(t_shell *shell, char **content)
 }
 
 bool	remove_here_end_quote(
-	t_shell *shell, t_io_red *io_red, bool *need_content_expansion)
+	t_sh *shell, t_io_red *io_red, bool *need_content_expansion)
 {
 	t_list	*expanded_list;
 

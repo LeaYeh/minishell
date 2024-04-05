@@ -12,7 +12,7 @@
 
 #include "utils.h"
 
-int	setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
+int	setup_simple_cmd(t_sh *shell, t_list *simple_cmd_list)
 {
 	t_list		*expanded_list;
 	int			ret;
@@ -30,7 +30,7 @@ int	setup_simple_cmd(t_shell *shell, t_list *simple_cmd_list)
 	return (SUCCESS);
 }
 
-bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
+bool	setup_env(t_fct *final_cmd_table, t_list *env_list)
 {
 	t_env	*env_node;
 	char	*tmp;
@@ -59,7 +59,7 @@ bool	setup_env(t_final_cmd_table *final_cmd_table, t_list *env_list)
 	return (final_cmd_table->env[i] = NULL, true);
 }
 
-bool	setup_exec_path(t_shell *shell, t_final_cmd_table *final_cmd_table)
+bool	setup_exec_path(t_sh *shell, t_fct *final_cmd_table)
 {
 	if (!final_cmd_table->simple_cmd || \
 		!final_cmd_table->simple_cmd[0] || \
@@ -71,9 +71,7 @@ bool	setup_exec_path(t_shell *shell, t_final_cmd_table *final_cmd_table)
 	return (true);
 }
 
-bool	setup_assignment_array(
-			t_final_cmd_table *final_cmd_table,
-			t_list *assignment_list)
+bool	setup_assignment_array(t_fct *final_cmd_table, t_list *assignment_list)
 {
 	final_cmd_table->assignment_array = NULL;
 	if (!assignment_list)
@@ -85,8 +83,7 @@ bool	setup_assignment_array(
 	return (true);
 }
 
-void	setup_fd(
-	t_shell *shell, t_final_cmd_table *final_cmd_table)
+void	setup_fd(t_sh *shell, t_fct *final_cmd_table)
 {
 	final_cmd_table->read_fd = STDIN_FILENO;
 	final_cmd_table->write_fd = STDOUT_FILENO;

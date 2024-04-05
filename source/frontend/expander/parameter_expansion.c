@@ -14,13 +14,13 @@
 #include "utils.h"
 
 static bool	expand_variable(t_list *task_node, t_list *env_list);
-static bool	expand_special_variable(t_list *task_node, t_shell *shell);
+static bool	expand_special_variable(t_list *task_node, t_sh *shell);
 
-bool	handle_parameter_expansion(t_list **task_list, t_shell *shell)
+bool	handle_parameter_expansion(t_list **task_list, t_sh *shell)
 {
-	bool			ret;
-	t_expander_task	*task;
-	t_list			*task_node;
+	bool		ret;
+	t_expd_tsk	*task;
+	t_list		*task_node;
 
 	ret = true;
 	task_node = *task_list;
@@ -42,9 +42,9 @@ bool	handle_parameter_expansion(t_list **task_list, t_shell *shell)
 
 static bool	expand_variable(t_list *task_node, t_list *env_list)
 {
-	int				diff_len;
-	t_expander_task	*task;
-	char			*value;
+	int			diff_len;
+	t_expd_tsk	*task;
+	char		*value;
 
 	task = task_node->content;
 	value = get_value_from_env_list(env_list, task->varname);
@@ -58,11 +58,11 @@ static bool	expand_variable(t_list *task_node, t_list *env_list)
 	return (true);
 }
 
-static bool	expand_special_variable(t_list *task_node, t_shell *shell)
+static bool	expand_special_variable(t_list *task_node, t_sh *shell)
 {
-	int				diff_len;
-	char			*special_var_string;
-	t_expander_task	*task;
+	int			diff_len;
+	char		*special_var_string;
+	t_expd_tsk	*task;
 
 	task = task_node->content;
 	special_var_string = NULL;

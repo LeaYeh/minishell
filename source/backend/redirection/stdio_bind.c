@@ -28,7 +28,7 @@ bool	save_std_io(int saved_std_io[2])
 	return (true);
 }
 
-bool	redirect_scmd_io(t_shell *shell, int *read_fd, int *write_fd)
+bool	redirect_scmd_io(t_sh *shell, int *read_fd, int *write_fd)
 {
 	bool	ret;
 
@@ -49,7 +49,7 @@ bool	redirect_scmd_io(t_shell *shell, int *read_fd, int *write_fd)
 	return (ret);
 }
 
-int	redirect_subshell_io(t_shell *shell, t_cmd_table *cmd_table)
+int	redirect_subshell_io(t_sh *shell, t_ct *cmd_table)
 {
 	int		read_fd;
 	int		write_fd;

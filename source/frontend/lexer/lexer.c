@@ -13,7 +13,7 @@
 #include "lexer.h"
 #include "clean.h"
 
-bool	lexer(t_shell *shell)
+bool	lexer(t_sh *shell)
 {
 	t_list	*token_data_list;
 

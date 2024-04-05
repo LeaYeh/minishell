@@ -14,7 +14,7 @@
 
 static char	*get_token_type_str(int type);
 
-void	print_env_list(t_shell *shell)
+void	print_env_list(t_sh *shell)
 {
 	printf("--------- ENV LIST ---------\n");
 	ft_lstiter(shell->env_list, (void *)print_env);
@@ -33,7 +33,7 @@ void	print_token_list(t_list *token_list)
 	printf("----------------------------\n\n");
 }
 
-void	print_token(t_token *token)
+void	print_token(t_tok *token)
 {
 	printf("(type: %s, data: %s)\n",
 		get_token_type_str(token->type), token->data);

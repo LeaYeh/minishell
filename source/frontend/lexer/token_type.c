@@ -20,12 +20,12 @@ static bool	is_assignment_word(char *str);
 
 void	set_token_type(t_list *lst_node)
 {
-	t_token	*token;
+	t_tok	*token;
 	char	*token_data;
 
 	while (lst_node)
 	{
-		token = (t_token *)lst_node->content;
+		token = (t_tok *)lst_node->content;
 		token_data = token->data;
 		if (*token_data == '<')
 			token->type = which_lesser(token_data);

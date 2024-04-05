@@ -12,16 +12,16 @@
 
 #include "debug.h"
 
-bool	print_expanded_cmd_table_list(t_shell *shell)
+bool	print_expanded_cmd_table_list(t_sh *shell)
 {
 	t_list_d	*node;
-	t_cmd_table	*cmd_table;
+	t_ct		*cmd_table;
 
 	printf(STY_BLD STY_BLU "\n\n===== EXPANDED cmd_table_list =====\n" STY_RES);
 	node = shell->cmd_table_list;
 	while (node)
 	{
-		cmd_table = (t_cmd_table *)node->content;
+		cmd_table = (t_ct *)node->content;
 		if (cmd_table->type == C_SIMPLE_CMD)
 		{
 			print_unexpanded_cmd_table(cmd_table);
@@ -36,7 +36,7 @@ bool	print_expanded_cmd_table_list(t_shell *shell)
 	return (true);
 }
 
-void	print_unexpanded_cmd_table(t_cmd_table *cmd_table)
+void	print_unexpanded_cmd_table(t_ct *cmd_table)
 {
 	printf(STY_BLD STY_RED "BEFORE EXPANSION:\n" STY_RES);
 	printf(STY_RED "========= %d =========\n" STY_RES, cmd_table->id);
@@ -44,7 +44,7 @@ void	print_unexpanded_cmd_table(t_cmd_table *cmd_table)
 	printf(STY_RED "=====================\n" STY_RES);
 }
 
-bool	print_expanded_cmd_table(t_cmd_table *cmd_table, t_shell *shell)
+bool	print_expanded_cmd_table(t_ct *cmd_table, t_sh *shell)
 {
 	printf(STY_BLD STY_GRN "AFTER EXPANSION:\n" STY_RES);
 	printf(STY_GRN "========= %d =========\n" STY_RES, cmd_table->id);
@@ -59,7 +59,7 @@ bool	print_expanded_cmd_table(t_cmd_table *cmd_table, t_shell *shell)
 	return (true);
 }
 
-void	print_operator_cmd_table(t_cmd_table *cmd_table)
+void	print_operator_cmd_table(t_ct *cmd_table)
 {
 	printf(STY_BLD STY_MAG "OPERATOR NODE:\n" STY_RES);
 	printf(STY_MAG "========= %d =========\n" STY_RES, cmd_table->id);

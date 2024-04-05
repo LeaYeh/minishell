@@ -14,20 +14,20 @@
 #include "utils.h"
 
 static int	handle_heredoc(
-				t_shell *shell,
+				t_sh *shell,
 				int cmdtable_id,
 				t_list *io_red_list);
 static int	exec_heredoc(
-				t_shell *shell,
+				t_sh *shell,
 				int cmdtable_id,
 				t_io_red *io_red,
 				bool need_content_expansion);
 static int	read_heredoc(
-				t_shell *shell,
+				t_sh *shell,
 				t_list **line_list,
 				char *here_end);
 static int	handle_heredoc_content(
-				t_shell *shell,
+				t_sh *shell,
 				char *filename,
 				t_list **line_list,
 				bool need_content_expansion);
@@ -38,9 +38,9 @@ static int	handle_heredoc_content(
  *     2. the quotes shall be removed from the delimiter
  */
 int	heredoc(
-	t_shell *shell)
+	t_sh *shell)
 {
-	t_cmd_table	*cur_cmd_table;
+	t_ct		*cur_cmd_table;
 	t_list_d	*cmd_table_node;
 	int			ret;
 
@@ -50,15 +50,15 @@ int	heredoc(
 		cur_cmd_table = cmd_table_node->content;
 		ret = handle_heredoc(
 				shell, cur_cmd_table->id, cur_cmd_table->io_red_list);
-		if (ret != HEREDOC_SUCCESS)
+		if (ret != HD_SUCCESS)
 			return (ret);
 		cmd_table_node = cmd_table_node->next;
 	}
-	return (HEREDOC_SUCCESS);
+	return (HD_SUCCESS);
 }
 
 static int	handle_heredoc(
-	t_shell *shell,
+	t_sh *shell,
 	int cmdtable_id,
 	t_list *io_red_list)
 {
@@ -74,20 +74,20 @@ static int	handle_heredoc(
 			need_content_expansion = true;
 			if (is_str_quoted(io_red->here_end) && \
 				!remove_here_end_quote(shell, io_red, &need_content_expansion))
-				return (HEREDOC_ERROR);
+				return (HD_ERROR);
 			shell->exit_code = SUCCESS;
 			ret = exec_heredoc(
 					shell, cmdtable_id, io_red, need_content_expansion);
-			if (ret != HEREDOC_SUCCESS)
+			if (ret != HD_SUCCESS)
 				return (ret);
 		}
 		io_red_list = io_red_list->next;
 	}
-	return (HEREDOC_SUCCESS);
+	return (HD_SUCCESS);
 }
 
 static int	exec_heredoc(
-	t_shell *shell,
+	t_sh *shell,
 	int cmdtable_id,
 	t_io_red *io_red,
 	bool need_content_expansion)
@@ -96,7 +96,7 @@ static int	exec_heredoc(
 	int		ret;
 
 	if (!setup_tmp_hdfile(cmdtable_id, io_red))
-		return (HEREDOC_ERROR);
+		return (HD_ERROR);
 	line_list = NULL;
 	ret = read_heredoc(shell, &line_list, io_red->here_end);
 	if (ret != SUCCESS)
@@ -105,13 +105,13 @@ static int	exec_heredoc(
 	ret = handle_heredoc_content(
 			shell, io_red->filename, &line_list, need_content_expansion);
 	ft_lstclear(&line_list, free);
-	if (ret != HEREDOC_SUCCESS)
+	if (ret != HD_SUCCESS)
 		return (remove_file(io_red->filename), ret);
-	return (HEREDOC_SUCCESS);
+	return (HD_SUCCESS);
 }
 
 static int	read_heredoc(
-	t_shell *shell,
+	t_sh *shell,
 	t_list **line_list,
 	char *here_end)
 {
@@ -121,16 +121,16 @@ static int	read_heredoc(
 	{
 		line = NULL;
 		if (!read_input(&line, HEREDOC_PROMPT, false, shell->is_interactive))
-			return (free(line), HEREDOC_ERROR);
+			return (free(line), HD_ERROR);
 		if (shell->exit_code == TERM_BY_SIGNAL + SIGINT)
-			return (free(line), HEREDOC_ABORT);
+			return (free(line), HD_ABORT);
 		if (!line)
 			return (ft_dprintf(STDERR_FILENO, ERROR_HEREDOC_UNEXPECTED_EOF,
 					PROGRAM_NAME, here_end), SUCCESS);
 		if (ft_strcmp(line, here_end) == 0)
 			break ;
 		if (!append_line_to_list(line_list, line))
-			return (free(line), HEREDOC_ERROR);
+			return (free(line), HD_ERROR);
 		ft_free_and_null((void **)&line);
 	}
 	free(line);
@@ -138,7 +138,7 @@ static int	read_heredoc(
 }
 
 static int	handle_heredoc_content(
-	t_shell *shell,
+	t_sh *shell,
 	char *filename,
 	t_list **line_list,
 	bool need_content_expansion)
@@ -148,7 +148,7 @@ static int	handle_heredoc_content(
 
 	content = concat_list_to_string(*line_list, "\n");
 	if (!content)
-		return (HEREDOC_ERROR);
+		return (HD_ERROR);
 	if (need_content_expansion)
 	{
 		ret = expand_heredoc_content(shell, &content);
@@ -156,6 +156,6 @@ static int	handle_heredoc_content(
 			return (free(content), ret);
 	}
 	if (!write_content_to_file(content, filename))
-		return (free(content), HEREDOC_ERROR);
-	return (free(content), HEREDOC_SUCCESS);
+		return (free(content), HD_ERROR);
+	return (free(content), HD_SUCCESS);
 }

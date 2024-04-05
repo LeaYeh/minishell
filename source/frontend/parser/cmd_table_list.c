@@ -64,8 +64,8 @@ static bool	handle_current_token(
 static void	fill_subshell_level(
 	t_list_d *cmd_table_list)
 {
-	t_cmd_table	*cmd_table;
-	int			level;
+	t_ct	*cmd_table;
+	int		level;
 
 	level = 0;
 	while (cmd_table_list)

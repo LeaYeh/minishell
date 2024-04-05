@@ -15,7 +15,7 @@
 
 static bool	check_special_env_vars(t_list **env_list);
 
-bool	setup_env_list(t_shell *shell)
+bool	setup_env_list(t_sh *shell)
 {
 	extern char	**environ;
 	int			i;

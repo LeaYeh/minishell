@@ -14,7 +14,7 @@
 #include "clean.h"
 
 bool	append_env_node(
-	t_list **env_list, char *key, char *value, t_export export)
+	t_list **env_list, char *key, char *value, t_expt export)
 {
 	t_env	*env_node;
 
@@ -38,7 +38,7 @@ void	free_env_node(t_env *env)
 	free(env);
 }
 
-bool	process_str_to_env_list(char *str, t_list **env_list, t_export export)
+bool	process_str_to_env_list(char *str, t_list **env_list, t_expt export)
 {
 	char	*key;
 	char	*value;

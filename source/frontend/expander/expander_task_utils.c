@@ -12,12 +12,12 @@
 
 #include "utils.h"
 
-t_expander_task	*init_expander_task(
-	t_expander_task_type type, int start, int replace_len, char *str)
+t_expd_tsk	*init_expander_task(
+	t_expd_tsk_typ type, int start, int replace_len, char *str)
 {
-	t_expander_task	*task;
+	t_expd_tsk	*task;
 
-	task = (t_expander_task *)malloc(sizeof(t_expander_task));
+	task = (t_expd_tsk *)malloc(sizeof(t_expd_tsk));
 	if (!task)
 		return (NULL);
 	task->type = type;
@@ -36,7 +36,7 @@ t_expander_task	*init_expander_task(
 	return (task);
 }
 
-void	free_expander_task(t_expander_task *task)
+void	free_expander_task(t_expd_tsk *task)
 {
 	if (!task)
 		return ;

@@ -14,7 +14,7 @@
 #include "executor.h"
 #include "signals.h"
 
-bool	init_shell(t_shell *shell)
+bool	init_shell(t_sh *shell)
 {
 	shell->is_interactive = isatty(STDIN_FILENO);
 	shell->pid = getpid();

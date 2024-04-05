@@ -14,12 +14,12 @@
 #include "parser.h"
 #include "utils.h"
 
-static bool	parse_step(t_parser_data *parser_data, t_pt_node *pt_entry);
-static bool	parse(t_shell *shell, t_parser_data *parser_data);
+static bool	parse_step(t_prs_data *parser_data, t_pt_node *pt_entry);
+static bool	parse(t_sh *shell, t_prs_data *parser_data);
 
-bool	parser(t_shell *shell)
+bool	parser(t_sh *shell)
 {
-	t_parser_data	parser_data;
+	t_prs_data	parser_data;
 
 	if (!init_parser_data(&parser_data, shell->token_list))
 		clean_and_exit_shell(shell, PREPROCESS_ERROR, "parser malloc failed");
@@ -34,7 +34,7 @@ bool	parser(t_shell *shell)
 	return (true);
 }
 
-static bool	parse(t_shell *shell, t_parser_data *parser_data)
+static bool	parse(t_sh *shell, t_prs_data *parser_data)
 {
 	t_pt_node	*pt_entry;
 
@@ -63,7 +63,7 @@ static bool	parse(t_shell *shell, t_parser_data *parser_data)
 	}
 }
 
-static bool	parse_step(t_parser_data *parser_data, t_pt_node *pt_entry)
+static bool	parse_step(t_prs_data *parser_data, t_pt_node *pt_entry)
 {
 	if (pt_entry->action == A_SHIFT)
 	{

@@ -21,7 +21,7 @@
 
 int	main(void)
 {
-	t_shell	shell;
+	t_sh	shell;
 
 	if (!DEFINITIONS_OK || !init_shell(&shell))
 		raise_error_and_escape(&shell, "init shell failed");

@@ -26,7 +26,7 @@ bool	create_token_list(
 	t_list **token_data_list)
 {
 	t_list	*new_nodes;
-	t_token	*token;
+	t_tok	*token;
 
 	new_nodes = NULL;
 	while (*token_data_list)
@@ -55,7 +55,7 @@ bool	append_end_node(
 	t_list	**token_list)
 {
 	t_list	*new_node;
-	t_token	*token;
+	t_tok	*token;
 
 	token = init_token_node(T_END, NULL);
 	if (!token)

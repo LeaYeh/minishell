@@ -26,7 +26,7 @@ static bool	split_node(
 
 bool	handle_word_splitting(
 	t_list **expanded_list,
-	t_expander_op op_mask,
+	t_expd_op op_mask,
 	t_list **task_list)
 {
 	if (op_mask & E_SPLIT_WORDS)
@@ -42,8 +42,8 @@ static bool	iter_word_splitting(
 	t_list *expanded_list,
 	t_list **task_list)
 {
-	t_expander_task	*task;
-	t_list			*task_node;
+	t_expd_tsk	*task;
+	t_list		*task_node;
 
 	task_node = *task_list;
 	while (task_node)
@@ -65,10 +65,10 @@ static bool	split_str_into_nodes(
 	t_list **expanded_list,
 	t_list *task_node)
 {
-	char			**base_str;
-	int				end;
-	int				i;
-	t_expander_task	*task;
+	char		**base_str;
+	int			end;
+	int			i;
+	t_expd_tsk	*task;
 
 	base_str = (char **)&(*expanded_list)->content;
 	task = task_node->content;

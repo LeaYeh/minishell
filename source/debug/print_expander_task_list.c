@@ -39,10 +39,10 @@ bool	print_expander_task_list(t_list *task_list, char *calling_function)
 
 bool	print_expander_task_node(t_list *task_node)
 {
-	t_expander_task	*task;
-	char			*to_be_replaced;
+	t_expd_tsk	*task;
+	char		*to_be_replaced;
 
-	task = (t_expander_task *)task_node->content;
+	task = (t_expd_tsk *)task_node->content;
 	to_be_replaced = (char *)malloc((task->replace_len + 1) * sizeof(char));
 	if (!to_be_replaced)
 		return (false);
@@ -62,7 +62,7 @@ bool	print_expander_task_node(t_list *task_node)
 	return (true);
 }
 
-char	*get_expander_task_type_name(t_expander_task_type type)
+char	*get_expander_task_type_name(t_expd_tsk_typ type)
 {
 	const char	*task_type_names[] = {
 		"ET_VAR",

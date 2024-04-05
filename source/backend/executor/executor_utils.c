@@ -14,8 +14,7 @@
 #include "signals.h"
 #include "utils.h"
 
-int	set_expanded_cmd_name(
-	char **cmd_name, t_shell *shell, t_list *simple_cmd_list)
+int	set_expanded_cmd_name(char **cmd_name, t_sh *shell, t_list *simple_cmd_list)
 {
 	t_list	*expanded_list;
 	int		ret;
@@ -28,8 +27,7 @@ int	set_expanded_cmd_name(
 	return (ret);
 }
 
-void	handle_expansion_error(
-	t_shell *shell, t_list_d **cmd_table_node, int ret)
+void	handle_expansion_error(t_sh *shell, t_list_d **cmd_table_node, int ret)
 {
 	if (ret == MALLOC_ERROR)
 	{

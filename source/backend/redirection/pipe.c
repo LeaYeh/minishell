@@ -30,7 +30,7 @@ void	safe_close_pipe(t_pipe *pipe)
 	safe_close(pipe->write_fd);
 }
 
-void	safe_close_all_pipes(t_shell *shell)
+void	safe_close_all_pipes(t_sh *shell)
 {
 	safe_close_pipe(&shell->old_pipe);
 	safe_close_pipe(&shell->new_pipe);

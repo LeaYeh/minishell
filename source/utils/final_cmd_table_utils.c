@@ -13,12 +13,11 @@
 #include "executor.h"
 #include "utils.h"
 
-int	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
+int	set_final_cmd_table(t_sh *shell, t_ct *cmd_table)
 {
 	int	ret;
 
-	shell->final_cmd_table = (t_final_cmd_table *)ft_calloc(
-			1, sizeof(t_final_cmd_table));
+	shell->final_cmd_table = (t_fct *)ft_calloc(1, sizeof(t_fct));
 	if (!shell->final_cmd_table)
 		return (MALLOC_ERROR);
 	ret = setup_simple_cmd(shell, cmd_table->simple_cmd_list);
@@ -33,7 +32,7 @@ int	set_final_cmd_table(t_shell *shell, t_cmd_table *cmd_table)
 	return (ret);
 }
 
-void	free_final_cmd_table(t_final_cmd_table **final_cmd_table)
+void	free_final_cmd_table(t_fct **final_cmd_table)
 {
 	if (!final_cmd_table || !*final_cmd_table)
 		return ;

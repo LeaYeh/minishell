@@ -13,7 +13,7 @@
 #include "debug.h"
 #include "expander.h"
 
-bool	print_expanded_simple_cmd_list(t_cmd_table *cmd_table, t_shell *shell)
+bool	print_expanded_simple_cmd_list(t_ct *cmd_table, t_sh *shell)
 {
 	t_list	*node;
 
@@ -31,7 +31,7 @@ bool	print_expanded_simple_cmd_list(t_cmd_table *cmd_table, t_shell *shell)
 	return (true);
 }
 
-bool	print_expanded_assignment_list(t_cmd_table *cmd_table, t_shell *shell)
+bool	print_expanded_assignment_list(t_ct *cmd_table, t_sh *shell)
 {
 	t_list	*node;
 
@@ -49,7 +49,7 @@ bool	print_expanded_assignment_list(t_cmd_table *cmd_table, t_shell *shell)
 	return (true);
 }
 
-bool	print_expanded_io_red_list(t_cmd_table *cmd_table, t_shell *shell)
+bool	print_expanded_io_red_list(t_ct *cmd_table, t_sh *shell)
 {
 	t_list		*node;
 	t_io_red	*io_red;
@@ -74,7 +74,7 @@ bool	print_expanded_io_red_list(t_cmd_table *cmd_table, t_shell *shell)
 	return (true);
 }
 
-bool	print_expanded_str(char *str, t_shell *shell, t_expander_op op_mask)
+bool	print_expanded_str(char *str, t_sh *shell, t_expd_op op_mask)
 {
 	t_list	*expanded_list;
 	t_list	*cur;

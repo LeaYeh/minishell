@@ -19,11 +19,11 @@ int	get_state_from_stack(t_list *node)
 	return (*((int *)node->content));
 }
 
-t_token	*get_token_from_stack(t_list *node)
+t_tok	*get_token_from_stack(t_list *node)
 {
 	if (!node)
 		return (NULL);
-	return ((t_token *)node->content);
+	return ((t_tok *)node->content);
 }
 
 t_ast	*get_ast_from_stack(t_list *node)

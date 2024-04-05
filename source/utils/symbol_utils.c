@@ -12,7 +12,7 @@
 
 #include "utils.h"
 
-static int	get_open_pair_index(unsigned char c, t_is_open_pair_op operation);
+static int	get_open_pair_index(unsigned char c, t_pair_op operation);
 
 bool	skip_single_quote(char *str, int *i)
 {
@@ -78,7 +78,7 @@ bool	skip_dollar_brace(char *str, int *i, bool is_in_dquote)
 	return (false);
 }
 
-bool	is_open_pair(unsigned char c, t_is_open_pair_op operation)
+bool	is_open_pair(unsigned char c, t_pair_op operation)
 {
 	static bool	status[2];
 	int			i;
@@ -100,7 +100,7 @@ bool	is_open_pair(unsigned char c, t_is_open_pair_op operation)
 	return (status[i]);
 }
 
-static int	get_open_pair_index(unsigned char c, t_is_open_pair_op operation)
+static int	get_open_pair_index(unsigned char c, t_pair_op operation)
 {
 	if (operation == OP_CLEAN)
 		return (0);
