@@ -29,6 +29,15 @@ bool	append_env_node(
 	return (true);
 }
 
+void	free_env_node(t_env *env)
+{
+	if (!env)
+		return ;
+	ft_free_and_null((void **)&env->key);
+	ft_free_and_null((void **)&env->value);
+	free(env);
+}
+
 bool	process_str_to_env_list(char *str, t_list **env_list, t_export export)
 {
 	char	*key;

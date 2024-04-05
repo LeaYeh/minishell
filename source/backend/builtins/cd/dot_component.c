@@ -12,6 +12,9 @@
 
 #include "cd.h"
 
+static void	rm_dot_cmpnts(t_list_d **cmpnt_list);
+static int	rm_dotdot_cmptnts(t_list_d **cmpnt_list, char *target_dir);
+
 int	handle_dot_cmpnts(t_list_d **cmpnt_list, char *target_dir)
 {
 	int	ret;
@@ -21,7 +24,7 @@ int	handle_dot_cmpnts(t_list_d **cmpnt_list, char *target_dir)
 	return (ret);
 }
 
-void	rm_dot_cmpnts(t_list_d **cmpnt_list)
+static void	rm_dot_cmpnts(t_list_d **cmpnt_list)
 {
 	t_list_d	*cur;
 
@@ -35,7 +38,7 @@ void	rm_dot_cmpnts(t_list_d **cmpnt_list)
 	}
 }
 
-int	rm_dotdot_cmptnts(t_list_d **cmpnt_list, char *target_dir)
+static int	rm_dotdot_cmptnts(t_list_d **cmpnt_list, char *target_dir)
 {
 	t_list_d	*cur;
 	t_list_d	*prev;
@@ -60,12 +63,4 @@ int	rm_dotdot_cmptnts(t_list_d **cmpnt_list, char *target_dir)
 			cur = cur->next;
 	}
 	return (SUCCESS);
-}
-
-bool	is_dot_cmpnt(char *dir)
-{
-	if (ft_strncmp(dir, ".", 2) == 0 || ft_strncmp(dir, "..", 3) == 0 || \
-		ft_strncmp(dir, "./", 3) == 0 || ft_strncmp(dir, "../", 4) == 0)
-		return (true);
-	return (false);
 }

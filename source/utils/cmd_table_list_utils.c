@@ -1,16 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_table_status_utils.c                           :+:      :+:    :+:   */
+/*   cmd_table_list_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/04 17:33:43 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 15:11:14 by codespace        ###   ########.fr       */
+/*   Created: 2024/04/04 21:16:41 by ldulling          #+#    #+#             */
+/*   Updated: 2024/04/04 21:16:41 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "defines.h"
+#include "utils.h"
+
+static bool	append_empty_cmd_table(t_list_d **cmd_table_list);
+
+bool	append_cmd_table_by_scenario(int token_type, t_list_d **cmd_table_list)
+{
+	if (*cmd_table_list)
+	{
+		if (token_type == T_END)
+			return (true);
+		if (get_last_simple_cmd_table(*cmd_table_list) && \
+			(is_io_red_op(token_type) || is_word(token_type)))
+			return (true);
+	}
+	return (append_empty_cmd_table(cmd_table_list));
+}
+
+t_cmd_table	*get_cmd_table_from_list(t_list_d *cmd_table_node)
+{
+	if (!cmd_table_node || !cmd_table_node->content)
+		return (NULL);
+	return (cmd_table_node->content);
+}
 
 t_cmd_table	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
 {
@@ -51,9 +73,20 @@ t_cmd_table	*get_subshell_start(t_list_d *cmd_table_node)
 	return (cmd_table);
 }
 
-char	*get_cmd_name_from_list(t_list *simple_cmd_list)
+static bool	append_empty_cmd_table(t_list_d **cmd_table_list)
 {
-	if (ft_lstsize_non_null(simple_cmd_list) == 0)
-		return (NULL);
-	return ((char *)simple_cmd_list->content);
+	t_list_d	*last_node;
+	t_cmd_table	*cmd_table;
+
+	cmd_table = init_cmd_table();
+	if (!cmd_table)
+		return (false);
+	last_node = ft_lstlast_d(*cmd_table_list);
+	if (!last_node)
+		cmd_table->id = 0;
+	else
+		cmd_table->id = ((t_cmd_table *)last_node->content)->id + 1;
+	if (!ft_lstnew_back_d(cmd_table_list, cmd_table))
+		return (free_cmd_table(cmd_table), false);
+	return (true);
 }

@@ -12,6 +12,8 @@
 
 #include "lexer.h"
 
+static void	adjust_assignment_word_tokens(t_list *token_list);
+
 void	finetune_token_list(t_list *token_list)
 {
 	if (!token_list)
@@ -19,7 +21,7 @@ void	finetune_token_list(t_list *token_list)
 	adjust_assignment_word_tokens(token_list);
 }
 
-void	adjust_assignment_word_tokens(t_list *token_list)
+static void	adjust_assignment_word_tokens(t_list *token_list)
 {
 	int		prev_type;
 	t_token	*token;

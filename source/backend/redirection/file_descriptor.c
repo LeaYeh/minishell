@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   io_redirect_status_utils.c                         :+:      :+:    :+:   */
+/*   file_descriptor.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/17 23:49:36 by lyeh              #+#    #+#             */
-/*   Updated: 2024/02/17 23:49:38 by lyeh             ###   ########.fr       */
+/*   Created: 2024/04/04 22:26:59 by ldulling          #+#    #+#             */
+/*   Updated: 2024/04/04 22:26:59 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-int	get_redirect_type_from_list(t_list *io_red_list)
+void	safe_close(int *fd)
 {
-	t_io_red	*io_red;
+	if (*fd > STDERR_FILENO)
+	{
+		close(*fd);
+		*fd = -1;
+	}
+}
 
-	if (!io_red_list)
-		return (T_NONE);
-	io_red = io_red_list->content;
-	return (io_red->type);
+void	replace_fd(int *from_end, int *to_end)
+{
+	if (*from_end == -1)
+		return ;
+	safe_close(to_end);
+	*to_end = *from_end;
+	*from_end = -1;
 }

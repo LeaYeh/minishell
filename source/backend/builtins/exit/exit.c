@@ -11,10 +11,23 @@
 /* ************************************************************************** */
 
 #include "builtins.h"
-#include "utils.h"
 #include "clean.h"
 
-void	handle_exit(t_shell *shell, int args_error)
+static void	handle_exit(t_shell *shell, int args_error);
+
+void	exec_exit(t_shell *shell, char *args[])
+{
+	int	args_error;
+
+	args_error = get_args_error(args);
+	if (args_error == EX_NORM_ARGS)
+		shell->exit_code = ft_atol(args[1]);
+	else if (args_error != EX_NO_ARGS)
+		shell->exit_code = args_error;
+	handle_exit(shell, args_error);
+}
+
+static void	handle_exit(t_shell *shell, int args_error)
 {
 	if (shell->subshell_level == 0 && shell->is_interactive)
 		ft_dprintf(STDERR_FILENO, EXIT_MSG);
@@ -29,16 +42,4 @@ void	handle_exit(t_shell *shell, int args_error)
 		ft_dprintf(STDERR_FILENO, ERROR_EXIT_NUMERIC_ARG,
 			PROGRAM_NAME, "exit", shell->final_cmd_table->simple_cmd[1]);
 	clean_and_exit_shell(shell, shell->exit_code, NULL);
-}
-
-void	exec_exit(t_shell *shell, char *args[])
-{
-	int	args_error;
-
-	args_error = get_args_error(args);
-	if (args_error == EX_NORM_ARGS)
-		shell->exit_code = ft_atol(args[1]);
-	else if (args_error != EX_NO_ARGS)
-		shell->exit_code = args_error;
-	handle_exit(shell, args_error);
 }

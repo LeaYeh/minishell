@@ -14,7 +14,33 @@
 #include "utils.h"
 #include "clean.h"
 
-bool	should_execute_next_pipeline(t_shell *shell, int type)
+static bool	should_execute_next_pipeline(t_shell *shell, int type);
+static void	handle_and_or_op(t_shell *shell, t_list_d **cmd_table_node);
+
+void	handle_control_op(t_shell *shell, t_list_d **cmd_table_node)
+{
+	t_cmd_table	*cmd_table;
+
+	cmd_table = (*cmd_table_node)->content;
+	if (cmd_table->type == C_PIPE)
+		*cmd_table_node = (*cmd_table_node)->next;
+	else
+		handle_and_or_op(shell, cmd_table_node);
+}
+
+static void	handle_and_or_op(t_shell *shell, t_list_d **cmd_table_node)
+{
+	t_cmd_table	*cmd_table;
+
+	if (shell->subshell_pid > 0)
+		wait_process(shell, shell->subshell_pid);
+	cmd_table = (*cmd_table_node)->content;
+	*cmd_table_node = (*cmd_table_node)->next;
+	if (!should_execute_next_pipeline(shell, cmd_table->type))
+		move_past_pipeline(cmd_table_node);
+}
+
+static bool	should_execute_next_pipeline(t_shell *shell, int type)
 {
 	if (shell->signal_record != 0)
 	{
@@ -28,27 +54,4 @@ bool	should_execute_next_pipeline(t_shell *shell, int type)
 	else if (type == C_OR && shell->exit_code != 0)
 		return (true);
 	return (false);
-}
-
-void	handle_and_or_op(t_shell *shell, t_list_d **cmd_table_node)
-{
-	t_cmd_table	*cmd_table;
-
-	if (shell->subshell_pid > 0)
-		wait_process(shell, shell->subshell_pid);
-	cmd_table = (*cmd_table_node)->content;
-	*cmd_table_node = (*cmd_table_node)->next;
-	if (!should_execute_next_pipeline(shell, cmd_table->type))
-		move_past_pipeline(cmd_table_node);
-}
-
-void	handle_control_op(t_shell *shell, t_list_d **cmd_table_node)
-{
-	t_cmd_table	*cmd_table;
-
-	cmd_table = (*cmd_table_node)->content;
-	if (cmd_table->type == C_PIPE)
-		*cmd_table_node = (*cmd_table_node)->next;
-	else
-		handle_and_or_op(shell, cmd_table_node);
 }

@@ -19,18 +19,16 @@
 bool			is_bad_substitution(char *str, t_expander_op op_mask);
 
 /* expander.c */
-int				expander(char *str, t_list **expanded_list, t_shell *shell,
-					t_expander_op op_mask);
-bool			handle_expansion(t_list **expanded_list, t_shell *shell,
+int				expander(
+					char *str,
+					t_list **expanded_list,
+					t_shell *shell,
 					t_expander_op op_mask);
 
 /* expander_task_list.c */
-bool			set_expander_task_list(t_list **task_list, char **base_str,
-					t_expander_op op_mask);
-bool			append_quote_task(t_list **task_list, char **base_str, int *i);
-bool			append_parameter_task(t_list **task_list, char **base_str,
-					int *i, t_expander_op op_mask);
-bool			set_parameter_task_type(t_expander_task_type *type, char c,
+bool			set_expander_task_list(
+					t_list **task_list,
+					char **base_str,
 					t_expander_op op_mask);
 
 /* expander_task_list_utils.c */
@@ -58,15 +56,13 @@ void			drop_null_expansion_nodes(t_list **expanded_list);
 
 /* parameter_expansion.c */
 bool			handle_parameter_expansion(t_list **task_list, t_shell *shell);
-bool			expand_variable(t_list *task_node, t_list *env_list);
-bool			expand_special_variable(t_list *task_node, t_shell *shell);
 
 /* quote_removal.c */
 bool			handle_quote_removal(t_list **task_list);
-bool			remove_quote(t_list *task_node);
 
 /* wildcard_expansion.c */
-bool			handle_wildcard_expansion(t_list **expanded_list,
+bool			handle_wildcard_expansion(
+					t_list **expanded_list,
 					t_list **task_list);
 
 /* wildcard_expansion_utils.c */
@@ -79,12 +75,16 @@ bool			set_file_list(t_list **file_list);
 void			sort_file_list(t_list **file_list);
 
 /* wildcard_task_list.c */
-bool			set_wildcard_task_list(t_list **task_list,
-					t_list *expanded_list, t_expander_op op_mask);
+bool			set_wildcard_task_list(
+					t_list **task_list,
+					t_list *expanded_list,
+					t_expander_op op_mask);
 
 /* word_splitting.c */
-bool			handle_word_splitting(t_list **expanded_list,
-					t_expander_op op_mask, t_list **task_list);
+bool			handle_word_splitting(
+					t_list **expanded_list,
+					t_expander_op op_mask,
+					t_list **task_list);
 
 /* word_splitting_utils.c */
 char			*split_base_str(char **base_str, int *i, int *end);

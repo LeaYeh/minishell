@@ -6,11 +6,13 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 00:12:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/30 12:02:11 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/04 23:36:44 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+
+static int	get_varname_len(char *str);
 
 bool	is_valid_varname(char *str)
 {
@@ -29,14 +31,14 @@ bool	is_valid_varname(char *str)
 	return (true);
 }
 
-bool	is_valid_varname_char(char c)
-{
-	return (ft_isalnum(c) || c == '_');
-}
-
 bool	is_valid_varname_start(char c)
 {
 	return (ft_isalpha(c) || c == '_');
+}
+
+bool	is_valid_varname_char(char c)
+{
+	return (ft_isalnum(c) || c == '_');
 }
 
 char	*get_varname(char *str)
@@ -47,7 +49,7 @@ char	*get_varname(char *str)
 	return (ft_strndup(str, varname_len));
 }
 
-int	get_varname_len(char *str)
+static int	get_varname_len(char *str)
 {
 	int	len;
 

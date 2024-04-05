@@ -13,14 +13,6 @@
 #include "utils.h"
 #include "executor.h"
 
-void	init_pipe(t_pipe *pipe)
-{
-	pipe->pipe_fd[0] = -1;
-	pipe->pipe_fd[1] = -1;
-	pipe->read_fd = &pipe->pipe_fd[0];
-	pipe->write_fd = &pipe->pipe_fd[1];
-}
-
 bool	need_pipe(t_list_d *cmd_table_node)
 {
 	if (get_cmd_table_type_from_list(cmd_table_node) == C_SUBSHELL_START)
@@ -32,11 +24,19 @@ bool	need_pipe(t_list_d *cmd_table_node)
 	return (false);
 }
 
+void	init_pipe(t_pipe *pipe)
+{
+	pipe->pipe_fd[0] = -1;
+	pipe->pipe_fd[1] = -1;
+	pipe->read_fd = &pipe->pipe_fd[0];
+	pipe->write_fd = &pipe->pipe_fd[1];
+}
+
 bool	create_pipe(t_pipe *new_pipe)
 {
 	if (new_pipe->pipe_fd[0] != -1 || new_pipe->pipe_fd[1] != -1)
 	{
-		printf("Warning: Pipe is not empty\n");
+		ft_dprintf(STDERR_FILENO, "Warning: Pipe is not empty\n");
 		safe_close_pipe(new_pipe);
 	}
 	if (pipe(new_pipe->pipe_fd) == -1)

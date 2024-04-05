@@ -13,23 +13,42 @@
 #include "expander.h"
 #include "utils.h"
 
-static bool	append_wildcard_task(t_list **task_list, char **base_str, int *i)
-{
-	int				replace_len;
-	t_expander_task	*task;
+static bool	iter_base_str(
+				t_list **new_task_list,
+				t_list **old_task_list,
+				char **base_str);
+static bool	append_wildcard_task(
+				t_list **task_list,
+				char **base_str,
+				int *i);
 
-	replace_len = get_replace_len(&(*base_str)[*i]);
-	if (is_open_pair('\'', OP_GET) || is_open_pair('"', OP_GET))
-		return (*i += replace_len, true);
-	task = init_expander_task(ET_WILDCARD, *i, replace_len, &(*base_str)[*i]);
-	if (!task || !ft_lstnew_back(task_list, task))
-		return (free_expander_task(task), false);
-	task->base_str = base_str;
-	return (*i += replace_len, true);
+bool	set_wildcard_task_list(
+	t_list **task_list,
+	t_list *expanded_list,
+	t_expander_op op_mask)
+{
+	char	**base_str;
+	t_list	*new_task_list;
+	bool	ret;
+
+	if (!(op_mask & E_WILDCARD))
+		return (true);
+	ret = true;
+	new_task_list = NULL;
+	while (expanded_list && ret)
+	{
+		base_str = (char **)&expanded_list->content;
+		ret = iter_base_str(&new_task_list, task_list, base_str);
+		expanded_list = expanded_list->next;
+	}
+	ft_lstadd_front(task_list, new_task_list);
+	return (ret);
 }
 
 static bool	iter_base_str(
-	t_list **new_task_list, t_list **old_task_list, char **base_str)
+	t_list **new_task_list,
+	t_list **old_task_list,
+	char **base_str)
 {
 	int		i;
 	bool	ret;
@@ -55,23 +74,20 @@ static bool	iter_base_str(
 	return (ret);
 }
 
-bool	set_wildcard_task_list(
-	t_list **task_list, t_list *expanded_list, t_expander_op op_mask)
+static bool	append_wildcard_task(
+	t_list **task_list,
+	char **base_str,
+	int *i)
 {
-	char	**base_str;
-	t_list	*new_task_list;
-	bool	ret;
+	int				replace_len;
+	t_expander_task	*task;
 
-	if (!(op_mask & E_WILDCARD))
-		return (true);
-	ret = true;
-	new_task_list = NULL;
-	while (expanded_list && ret)
-	{
-		base_str = (char **)&expanded_list->content;
-		ret = iter_base_str(&new_task_list, task_list, base_str);
-		expanded_list = expanded_list->next;
-	}
-	ft_lstadd_front(task_list, new_task_list);
-	return (ret);
+	replace_len = get_replace_len(&(*base_str)[*i]);
+	if (is_open_pair('\'', OP_GET) || is_open_pair('"', OP_GET))
+		return (*i += replace_len, true);
+	task = init_expander_task(ET_WILDCARD, *i, replace_len, &(*base_str)[*i]);
+	if (!task || !ft_lstnew_back(task_list, task))
+		return (free_expander_task(task), false);
+	task->base_str = base_str;
+	return (*i += replace_len, true);
 }

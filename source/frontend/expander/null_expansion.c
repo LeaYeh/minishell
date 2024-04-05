@@ -12,12 +12,7 @@
 
 #include "expander.h"
 
-static bool	is_null_expansion(char *str)
-{
-	if (!str || !*str)
-		return (true);
-	return (false);
-}
+static bool	is_null_expansion(char *str);
 
 void	drop_null_expansion_nodes(t_list **expanded_list)
 {
@@ -31,4 +26,11 @@ void	drop_null_expansion_nodes(t_list **expanded_list)
 		else
 			cur = cur->next;
 	}
+}
+
+static bool	is_null_expansion(char *str)
+{
+	if (!str || !*str)
+		return (true);
+	return (false);
 }

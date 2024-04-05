@@ -26,12 +26,6 @@ char	*generate_tmp_filename(int cmdtable_id, char *category)
 	return (filename);
 }
 
-void	remove_file(char *filename)
-{
-	if (unlink(filename) == -1)
-		ft_dprintf(STDERR_FILENO, ERROR_REMOVE_FILE, PROGRAM_NAME, filename);
-}
-
 bool	write_content_to_file(char *content, char *filename)
 {
 	int	fd;
@@ -49,13 +43,10 @@ bool	write_content_to_file(char *content, char *filename)
 	return (close(fd) != -1);
 }
 
-void	safe_close(int *fd)
+void	remove_file(char *filename)
 {
-	if (*fd > STDERR_FILENO)
-	{
-		close(*fd);
-		*fd = -1;
-	}
+	if (unlink(filename) == -1)
+		ft_dprintf(STDERR_FILENO, ERROR_REMOVE_FILE, PROGRAM_NAME, filename);
 }
 
 bool	is_dir(char *dir)

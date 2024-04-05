@@ -6,11 +6,32 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 21:55:34 by lyeh              #+#    #+#             */
-/*   Updated: 2023/12/23 18:41:05 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/04 23:03:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
+
+int	get_state_from_stack(t_list *node)
+{
+	if (!node || !node->content)
+		return (UNDEFINED_STATE);
+	return (*((int *)node->content));
+}
+
+t_token	*get_token_from_stack(t_list *node)
+{
+	if (!node)
+		return (NULL);
+	return ((t_token *)node->content);
+}
+
+t_ast	*get_ast_from_stack(t_list *node)
+{
+	if (!node)
+		return (NULL);
+	return ((t_ast *)node->content);
+}
 
 bool	drop_num_stack(t_list **stack, int num, void (*del)(void *))
 {
@@ -46,18 +67,4 @@ t_list	*pop_num_stack(t_list **stack, int num)
 		i++;
 	}
 	return (head);
-}
-
-int	get_state_from_stack(t_list *node)
-{
-	if (!node || !node->content)
-		return (UNDEFINED_STATE);
-	return (*((int *)node->content));
-}
-
-t_token	*get_token_from_stack(t_list *node)
-{
-	if (!node)
-		return (NULL);
-	return ((t_token *)node->content);
 }

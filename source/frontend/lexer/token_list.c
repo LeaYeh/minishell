@@ -13,7 +13,17 @@
 #include "lexer.h"
 #include "utils.h"
 
-bool	create_token_list(t_list **token_list, t_list **token_data_list)
+static bool	separate_operators(
+				t_list *lst_node,
+				int i);
+static bool	split_and_advance_node(
+				t_list **lst_node,
+				char **token_data,
+				int *i);
+
+bool	create_token_list(
+	t_list **token_list,
+	t_list **token_data_list)
 {
 	t_list	*new_nodes;
 	t_token	*token;
@@ -41,7 +51,25 @@ bool	create_token_list(t_list **token_list, t_list **token_data_list)
 	return (true);
 }
 
-bool	separate_operators(t_list *lst_node, int i)
+bool	append_end_node(
+	t_list	**token_list)
+{
+	t_list	*new_node;
+	t_token	*token;
+
+	token = init_token_node(T_END, NULL);
+	if (!token)
+		return (false);
+	new_node = (ft_lstnew(token));
+	if (!new_node)
+		return (free_token_node(token), false);
+	ft_lstadd_back(token_list, new_node);
+	return (true);
+}
+
+static bool	separate_operators(
+	t_list *lst_node,
+	int i)
 {
 	char	*token_data;
 
@@ -65,7 +93,10 @@ bool	separate_operators(t_list *lst_node, int i)
 	return (true);
 }
 
-bool	split_and_advance_node(t_list **lst_node, char **token_data, int *i)
+static bool	split_and_advance_node(
+	t_list **lst_node,
+	char **token_data,
+	int *i)
 {
 	if (*i == 0)
 		skip_operator(*token_data, i);
@@ -77,20 +108,5 @@ bool	split_and_advance_node(t_list **lst_node, char **token_data, int *i)
 		*token_data = get_token_data_from_list(*lst_node);
 		*i = 0;
 	}
-	return (true);
-}
-
-bool	add_end_node(t_list	**token_list)
-{
-	t_list	*new_node;
-	t_token	*token;
-
-	token = init_token_node(T_END, NULL);
-	if (!token)
-		return (false);
-	new_node = (ft_lstnew(token));
-	if (!new_node)
-		return (free_token_node(token), false);
-	ft_lstadd_back(token_list, new_node);
 	return (true);
 }

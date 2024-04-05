@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_stack.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:56:05 by lyeh              #+#    #+#             */
-/*   Updated: 2024/02/17 23:56:18 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/04 22:56:50 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@ void	print_state_stack(t_list *stack)
 	while (node)
 	{
 		printf("%d <- ", get_state_from_stack(node));
+		node = node->next;
+	}
+	printf("(NULL)\n");
+}
+
+void	print_parse_stack(t_list *node)
+{
+	while (node)
+	{
+		if (get_token_from_stack(node))
+			printf("%d <- ", get_ast_from_stack(node)->type);
 		node = node->next;
 	}
 	printf("(NULL)\n");

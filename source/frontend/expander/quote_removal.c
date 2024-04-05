@@ -12,6 +12,8 @@
 
 #include "expander.h"
 
+static bool	remove_quote(t_list *task_node);
+
 bool	handle_quote_removal(t_list **task_list)
 {
 	t_expander_task	*task;
@@ -33,7 +35,7 @@ bool	handle_quote_removal(t_list **task_list)
 	return (true);
 }
 
-bool	remove_quote(t_list *task_node)
+static bool	remove_quote(t_list *task_node)
 {
 	int				diff_len;
 	t_expander_task	*task;

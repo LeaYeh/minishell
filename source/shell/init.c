@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "init.h"
-#include "utils.h"
+#include "executor.h"
 #include "signals.h"
 
 bool	init_shell(t_shell *shell)

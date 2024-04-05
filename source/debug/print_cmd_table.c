@@ -11,25 +11,32 @@
 /* ************************************************************************** */
 
 #include "defines.h"
+#include "debug.h"
 
-void	print_io_red_list(t_list *io_red_list)
+void	print_cmd_table_list(t_list_d *cmd_table_list)
 {
-	t_list		*node;
-	t_io_red	*io_red;
+	t_list_d	*node;
+	t_cmd_table	*cmd_table;
 
-	printf("io_red_list:\n");
-	printf("-----------------\n");
-	node = io_red_list;
-	while (node)
+	printf("\n\n========= cmd_table_list =========\n");
+	node = cmd_table_list;
+	while (node && node->content)
 	{
-		io_red = (t_io_red *)node->content;
-		printf("\ttype:    %d,\n", io_red->type);
-		printf("\tfilename: %s,\n", io_red->filename);
-		printf("\there_end: %s,\n", io_red->here_end);
-		printf("-----------------\n");
+		cmd_table = (t_cmd_table *)node->content;
+		printf("========= %d =========\n", cmd_table->id);
+		print_cmd_table(cmd_table);
 		node = node->next;
+		printf("=====================\n");
 	}
-	printf("(NULL)\n");
+	printf("===================================\n\n");
+}
+
+void	print_cmd_table(t_cmd_table *cmd_table)
+{
+	printf("type:            %d\n", cmd_table->type);
+	print_simple_cmd_list(cmd_table->simple_cmd_list);
+	print_assignment_list(cmd_table->assignment_list);
+	print_io_red_list(cmd_table->io_red_list);
 }
 
 void	print_simple_cmd_list(t_list *simple_cmd_list)
@@ -60,28 +67,22 @@ void	print_assignment_list(t_list *assignment_list)
 	printf("(NULL)\n");
 }
 
-void	print_cmd_table(t_cmd_table *cmd_table)
+void	print_io_red_list(t_list *io_red_list)
 {
-	printf("type:            %d\n", cmd_table->type);
-	print_simple_cmd_list(cmd_table->simple_cmd_list);
-	print_assignment_list(cmd_table->assignment_list);
-	print_io_red_list(cmd_table->io_red_list);
-}
+	t_list		*node;
+	t_io_red	*io_red;
 
-void	print_cmd_table_list(t_list_d *cmd_table_list)
-{
-	t_list_d	*node;
-	t_cmd_table	*cmd_table;
-
-	printf("\n\n========= cmd_table_list =========\n");
-	node = cmd_table_list;
-	while (node && node->content)
+	printf("io_red_list:\n");
+	printf("-----------------\n");
+	node = io_red_list;
+	while (node)
 	{
-		cmd_table = (t_cmd_table *)node->content;
-		printf("========= %d =========\n", cmd_table->id);
-		print_cmd_table(cmd_table);
+		io_red = (t_io_red *)node->content;
+		printf("\ttype:    %d,\n", io_red->type);
+		printf("\tfilename: %s,\n", io_red->filename);
+		printf("\there_end: %s,\n", io_red->here_end);
+		printf("-----------------\n");
 		node = node->next;
-		printf("=====================\n");
 	}
-	printf("===================================\n\n");
+	printf("(NULL)\n");
 }

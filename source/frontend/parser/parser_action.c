@@ -13,35 +13,7 @@
 #include "parser.h"
 #include "utils.h"
 
-bool	push_state(t_list **state_stack, int next_step)
-{
-	t_list	*node;
-	int		*state;
-
-	state = (int *)malloc(sizeof(int));
-	if (!state)
-		return (false);
-	*state = next_step;
-	node = ft_lstnew(state);
-	if (!node)
-		return (free(state), false);
-	ft_lstadd_front(state_stack, node);
-	return (true);
-}
-
-// Convert the token into the ast_node and push it onto the parse_stack
-bool	push_node(t_list **parse_stack, t_ast *ast_node)
-{
-	t_list	*node;
-
-	if (!ast_node)
-		return (false);
-	node = ft_lstnew(ast_node);
-	if (!node)
-		return (false);
-	ft_lstadd_front(parse_stack, node);
-	return (true);
-}
+static bool	push_node(t_list **parse_stack, t_ast *ast_node);
 
 bool	parse_shift(t_token *token_node,
 	t_list **state_stack, t_list **parse_stack, int next_step)
@@ -94,4 +66,36 @@ bool	parse_goto(t_list **state_stack, int token_type)
 	if (!push_state(state_stack, pt_entry->next_state))
 		return (free(pt_entry), false);
 	return (free(pt_entry), true);
+}
+
+bool	push_state(t_list **state_stack, int next_step)
+{
+	t_list	*node;
+	int		*state;
+
+	state = (int *)malloc(sizeof(int));
+	if (!state)
+		return (false);
+	*state = next_step;
+	node = ft_lstnew(state);
+	if (!node)
+		return (free(state), false);
+	ft_lstadd_front(state_stack, node);
+	return (true);
+}
+
+/**
+ * Convert the token into the ast_node and push it onto the parse_stack
+ */
+static bool	push_node(t_list **parse_stack, t_ast *ast_node)
+{
+	t_list	*node;
+
+	if (!ast_node)
+		return (false);
+	node = ft_lstnew(ast_node);
+	if (!node)
+		return (false);
+	ft_lstadd_front(parse_stack, node);
+	return (true);
 }

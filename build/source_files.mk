@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:15:33 by ldulling          #+#    #+#              #
-#    Updated: 2024/04/03 01:29:23 by ldulling         ###   ########.fr        #
+#    Updated: 2024/04/04 23:25:38 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,11 +63,14 @@ SRC		+=	$(addprefix $(SUBDIR), \
             pipeline_process.c \
             simple_cmd_process.c \
             subshell_process.c \
+            wait_process.c \
 )
 #   Redirection:
 SUBDIR	:=	backend/redirection/
 SRC		+=	$(addprefix $(SUBDIR), \
+            file_descriptor.c \
             heredoc.c \
+            heredoc_string_utils.c \
             heredoc_utils.c \
             io_file.c \
             pipe.c \
@@ -153,8 +156,8 @@ SUBDIR	:=	utils/
 SRC		+=	$(addprefix $(SUBDIR), \
             array_utils.c \
             ast_utils.c \
+            cmd_table_list_utils.c \
             cmd_table_operation_utils.c \
-            cmd_table_status_utils.c \
             cmd_table_traversal_utils.c \
             cmd_table_type_utils.c \
             env_list_operation_utils.c \
@@ -165,13 +168,9 @@ SRC		+=	$(addprefix $(SUBDIR), \
             file_utils.c \
             final_cmd_table_setup.c \
             final_cmd_table_utils.c \
-            io_redirect_status_utils.c \
             io_redirect_utils.c \
             print_utils.c \
-            process_utils.c \
-            stack_status_utils.c \
             stack_utils.c \
-            string_utils.c \
             symbol_utils.c \
             token_status_utils.c \
             token_type_utils.c \

@@ -12,32 +12,8 @@
 
 #include "utils.h"
 
-bool	fill_simple_cmd(t_token *token, t_cmd_table *cmd_table)
-{
-	char	*cmd_arg;
-
-	cmd_arg = ft_strdup(token->data);
-	if (!cmd_arg)
-		return (false);
-	if (!ft_lstnew_back(&cmd_table->simple_cmd_list, cmd_arg))
-		return (free(cmd_arg), false);
-	return (true);
-}
-
-bool	fill_assignment(t_token *token, t_cmd_table *cmd_table)
-{
-	char	*assignment;
-	t_list	*node;
-
-	assignment = ft_strdup(token->data);
-	if (!assignment)
-		return (false);
-	node = ft_lstnew(assignment);
-	if (!node)
-		return (free(assignment), false);
-	ft_lstadd_back(&cmd_table->assignment_list, node);
-	return (true);
-}
+static bool	fill_simple_cmd(t_token *token, t_cmd_table *cmd_table);
+static bool	fill_assignment(t_token *token, t_cmd_table *cmd_table);
 
 bool	handle_word_token(t_list **token_list, t_list_d **cmd_table_list)
 {
@@ -52,4 +28,31 @@ bool	handle_word_token(t_list **token_list, t_list_d **cmd_table_list)
 	else if (token->type == T_ASSIGNMENT_WORD)
 		return (fill_assignment(token, cmd_table));
 	return (false);
+}
+
+static bool	fill_simple_cmd(t_token *token, t_cmd_table *cmd_table)
+{
+	char	*cmd_arg;
+
+	cmd_arg = ft_strdup(token->data);
+	if (!cmd_arg)
+		return (false);
+	if (!ft_lstnew_back(&cmd_table->simple_cmd_list, cmd_arg))
+		return (free(cmd_arg), false);
+	return (true);
+}
+
+static bool	fill_assignment(t_token *token, t_cmd_table *cmd_table)
+{
+	char	*assignment;
+	t_list	*node;
+
+	assignment = ft_strdup(token->data);
+	if (!assignment)
+		return (false);
+	node = ft_lstnew(assignment);
+	if (!node)
+		return (free(assignment), false);
+	ft_lstadd_back(&cmd_table->assignment_list, node);
+	return (true);
 }

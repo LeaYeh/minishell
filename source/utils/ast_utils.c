@@ -12,6 +12,8 @@
 
 #include "defines.h"
 
+static void	free_ast_data(t_ast *ast);
+
 t_ast	*init_ast_node(int type, char *data, t_list *children)
 {
 	t_ast	*node;
@@ -25,14 +27,9 @@ t_ast	*init_ast_node(int type, char *data, t_list *children)
 	return (node);
 }
 
-void	free_ast_data(t_ast *ast)
-{
-	if (!ast)
-		return ;
-	ft_free_and_null((void **)&ast->data);
-}
-
-// Free all the children recursively and then free the node
+/**
+ * Free all the children recursively and then free the node
+ */
 void	free_ast_node(t_ast *ast)
 {
 	t_list	*child;
@@ -48,4 +45,11 @@ void	free_ast_node(t_ast *ast)
 	}
 	free_ast_data(ast);
 	free(ast);
+}
+
+static void	free_ast_data(t_ast *ast)
+{
+	if (!ast)
+		return ;
+	ft_free_and_null((void **)&ast->data);
 }

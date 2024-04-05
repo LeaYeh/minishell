@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:05:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 15:43:25 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/04 23:42:17 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,12 @@ void	fork_simple_cmd(t_shell *shell, t_list_d **cmd_table_list);
 void	handle_control_op(t_shell *shell, t_list_d **cmd_table_node);
 void	handle_external_cmd(t_shell *shell, t_cmd_table *cmd_table);
 void	handle_builtin(t_shell *shell, t_list_d **cmd_table_node);
+bool	wait_process(t_shell *shell, pid_t pid);
+void	wait_all_child_pid(t_shell *shell);
 
 /* Redirection */
+void	safe_close(int *fd);
+void	replace_fd(int *from_end, int *to_end);
 bool	restore_std_io(int saved_std_io[2]);
 bool	save_std_io(int saved_std_io[2]);
 bool	redirect_scmd_io(t_shell *shell, int *read_fd, int *write_fd);
@@ -40,10 +44,10 @@ int		handle_io_redirect(
 /* Redirection - Pipe */
 bool	need_pipe(t_list_d *cmd_table_node);
 bool	create_pipe(t_pipe *new_pipe);
+void	init_pipe(t_pipe *pipe);
 void	safe_close_pipe(t_pipe *pipe);
 void	handle_pipes_parent(t_pipe *new_pipe, t_pipe *old_pipe);
 void	handle_pipes_child(t_pipe *new_pipe, t_pipe *old_pipe);
 void	safe_close_all_pipes(t_shell *shell);
-void	replace_fd(int *from_end, int *to_end);
 
 #endif
