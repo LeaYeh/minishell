@@ -41,6 +41,7 @@ BUILDFILES		:=	Makefile \
 #	Flags
 
 CC 				:=	cc
+CC_VERSION		:=	$(shell $(CC) --version | head -1)
 CFLAGS 			:=	-Wall -Wextra -Werror -g
 LIBFLAGS		:=	$(addprefix -L,$(LIBRARIES)) \
 					$(addprefix -l,$(patsubst lib%,%,$(notdir \
@@ -160,6 +161,10 @@ MSG_INFO		=	$(MSG_MAKE_V4.3-)
 build			:	lib $(NAME)
 endif
 
+#	Compiler version
+
+MSG_INFO		+=	$(MSG_CC_VERSION)
+
 
 #	Library compilation
 
@@ -239,6 +244,8 @@ MSG_MAKE_V4.4+	:=	"\e[3;37m Make version 4.4+ detected\n\
 MSG_MAKE_V4.3-	:=	"\e[3;37m Make version 4.4+ not detected\n\
 					Make version: $(MAKE_VERSION)\n\
 					Parallel build for libraries disabled\n\e[0m"
+################################################################################
+MSG_CC_VERSION	:=	"\e[3;37mCompiler version: $(CC_VERSION)\n\e[0m"
 ################################################################################
 MSG_START		:=	"\e[3mBuilding Crash ... \e[0m"
 ################################################################################
