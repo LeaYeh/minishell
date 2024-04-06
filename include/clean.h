@@ -15,7 +15,11 @@
 
 # include "defines.h"
 
-void	clean_and_exit_shell(t_sh *shell, int exit_code, char *msg);
-void	reset_submodule_variable(t_sh *shell);
+void	clean_and_exit_shell(
+			t_sh *shell,
+			int exit_code,
+			char *msg);
+void	reset_submodule_variable(
+			t_sh *shell);
 
 #endif

@@ -16,25 +16,39 @@
 # include "defines.h"
 
 /* lexer.c */
-bool	lexer(t_sh *shell);
+bool	lexer(
+			t_sh *shell);
 
 /* lexer_utils.c */
-bool	is_operator(char *token_data);
-void	print_missing_pair_error(char *str);
-void	skip_operator(char *token_data, int *i);
-bool	split_token_node(t_list *lst_node_front, int i);
+bool	is_operator(
+			char *token_data);
+void	print_missing_pair_error(
+			char *str);
+void	skip_operator(
+			char *token_data,
+			int *i);
+bool	split_token_node(
+			t_list *lst_node_front,
+			int i);
 
 /* token_data_list.c */
-bool	create_token_data_list(t_list **token_data_list, char *input_line);
+bool	create_token_data_list(
+			t_list **token_data_list,
+			char *input_line);
 
 /* token_list.c */
-bool	create_token_list(t_list **token_list, t_list **token_data_list);
-bool	append_end_node(t_list	**token_list);
+bool	create_token_list(
+			t_list **token_list,
+			t_list **token_data_list);
+bool	append_end_node(
+			t_list	**token_list);
 
 /* token_list_post_processing.c */
-void	finetune_token_list(t_list *token_list);
+void	finetune_token_list(
+			t_list *token_list);
 
 /* token_type.c */
-void	set_token_type(t_list *lst_node);
+void	set_token_type(
+			t_list *lst_node);
 
 #endif
