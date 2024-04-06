@@ -15,23 +15,14 @@
 #include "utils.h"
 #include "clean.h"
 
-static int	expand_filename(
-				t_sh *shell,
-				char **filename);
-static bool	handle_redirect_by_type(
-				int *read_fd,
-				int *write_fd,
+static int	expand_filename(t_sh *shell, char **filename);
+static bool	handle_redirect_by_type(int *read_fd, int *write_fd,
 				t_io_red *io_red);
-static bool	handle_red_in(
-				int *read_fd,
-				char *filename);
-static bool	handle_red_out(
-				int *write_fd,
-				char *filename,
-				int o_flags);
+static bool	handle_red_in(int *read_fd, char *filename);
+static bool	handle_red_out(int *write_fd, char *filename, int o_flags);
 
-int	handle_io_redirect(
-	t_sh *shell, int *read_fd, int *write_fd, t_list *io_red_list)
+int	handle_io_redirect(t_sh *shell, int *read_fd, int *write_fd,
+		t_list *io_red_list)
 {
 	t_io_red	*io_red;
 	int			ret;
@@ -54,9 +45,7 @@ int	handle_io_redirect(
 	return (SUCCESS);
 }
 
-static int	expand_filename(
-	t_sh *shell,
-	char **filename)
+static int	expand_filename(t_sh *shell, char **filename)
 {
 	t_expd_op	op_mask;
 	t_list		*expanded_list;
@@ -81,10 +70,8 @@ static int	expand_filename(
 	return (SUCCESS);
 }
 
-static bool	handle_redirect_by_type(
-	int *read_fd,
-	int *write_fd,
-	t_io_red *io_red)
+static bool	handle_redirect_by_type(int *read_fd, int *write_fd,
+				t_io_red *io_red)
 {
 	if (io_red->type == T_RED_IN || io_red->type == T_HERE_DOC)
 		return (handle_red_in(read_fd, io_red->filename));
@@ -97,9 +84,7 @@ static bool	handle_redirect_by_type(
 	return (true);
 }
 
-static bool	handle_red_in(
-	int *read_fd,
-	char *filename)
+static bool	handle_red_in(int *read_fd, char *filename)
 {
 	int	fd;
 
@@ -114,10 +99,7 @@ static bool	handle_red_in(
 	return (true);
 }
 
-static bool	handle_red_out(
-	int *write_fd,
-	char *filename,
-	int o_flags)
+static bool	handle_red_out(int *write_fd, char *filename, int o_flags)
 {
 	int	fd;
 

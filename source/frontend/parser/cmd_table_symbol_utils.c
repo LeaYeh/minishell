@@ -15,8 +15,8 @@
 static bool	fill_red_node(t_io_red *io_red, int type, char *data);
 static bool	fill_redirect(t_list **token_list, t_ct *cmd_table);
 
-bool	fill_redirect_by_scenario(
-			t_list **token_list, t_list_d **cmd_table_list)
+bool	fill_redirect_by_scenario(t_list **token_list,
+			t_list_d **cmd_table_list)
 {
 	t_ct		*cmd_table;
 	t_list_d	*cmd_table_node;

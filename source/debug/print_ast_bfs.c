@@ -12,25 +12,14 @@
 
 #include "defines.h"
 
-static bool			append_relation_ast_node(
-						t_list **queue,
-						int level,
-						t_ast *parent,
-						t_ast *current);
-static t_rel_ast	*init_relation_ast_node(
-						int level,
-						t_ast *parent,
-						t_ast *current,
-						t_list *children);
-static int			print_relation_ast_node(
-						t_rel_ast *node,
-						int cur_level);
-static bool			append_children_to_queue(
-						t_list **queue,
-						t_rel_ast *node);
+static bool			append_relation_ast_node(t_list **queue, int level,
+						t_ast *parent, t_ast *current);
+static t_rel_ast	*init_relation_ast_node(int level, t_ast *parent,
+						t_ast *current, t_list *children);
+static int			print_relation_ast_node(t_rel_ast *node, int cur_level);
+static bool			append_children_to_queue(t_list **queue, t_rel_ast *node);
 
-bool	print_ast_bfs(
-	t_ast *root)
+bool	print_ast_bfs(t_ast *root)
 {
 	t_list		*queue;
 	t_rel_ast	*node;
@@ -54,11 +43,8 @@ bool	print_ast_bfs(
 	return (ft_lstclear(&queue, free), true);
 }
 
-static bool	append_relation_ast_node(
-	t_list **queue,
-	int level,
-	t_ast *parent,
-	t_ast *current)
+static bool	append_relation_ast_node(t_list **queue, int level,
+				t_ast *parent, t_ast *current)
 {
 	t_list		*new_node;
 	t_rel_ast	*tmp;
@@ -73,11 +59,8 @@ static bool	append_relation_ast_node(
 	return (true);
 }
 
-static t_rel_ast	*init_relation_ast_node(
-	int level,
-	t_ast *parent,
-	t_ast *current,
-	t_list *children)
+static t_rel_ast	*init_relation_ast_node(int level, t_ast *parent,
+						t_ast *current, t_list *children)
 {
 	t_rel_ast	*node;
 
@@ -91,9 +74,7 @@ static t_rel_ast	*init_relation_ast_node(
 	return (node);
 }
 
-static int	print_relation_ast_node(
-	t_rel_ast *node,
-	int cur_level)
+static int	print_relation_ast_node(t_rel_ast *node, int cur_level)
 {
 	if (node->level != cur_level)
 	{
@@ -107,9 +88,7 @@ static int	print_relation_ast_node(
 	return (cur_level);
 }
 
-static bool	append_children_to_queue(
-	t_list **queue,
-	t_rel_ast *node)
+static bool	append_children_to_queue(t_list **queue, t_rel_ast *node)
 {
 	while (node->children)
 	{

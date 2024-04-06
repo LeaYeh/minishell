@@ -13,32 +13,19 @@
 #include "heredoc.h"
 #include "utils.h"
 
-static int	handle_heredoc(
-				t_sh *shell,
-				int cmdtable_id,
-				t_list *io_red_list);
-static int	exec_heredoc(
-				t_sh *shell,
-				int cmdtable_id,
-				t_io_red *io_red,
+static int	handle_heredoc(t_sh *shell, int cmdtable_id, t_list *io_red_list);
+static int	exec_heredoc(t_sh *shell, int cmdtable_id, t_io_red *io_red,
 				bool need_content_expansion);
-static int	read_heredoc(
-				t_sh *shell,
-				t_list **line_list,
-				char *here_end);
-static int	handle_heredoc_content(
-				t_sh *shell,
-				char *filename,
-				t_list **line_list,
-				bool need_content_expansion);
+static int	read_heredoc(t_sh *shell, t_list **line_list, char *here_end);
+static int	handle_heredoc_content(t_sh *shell, char *filename,
+				t_list **line_list, bool need_content_expansion);
 
 /**
  * If the heredoc delimiter has quotes,
  *     1. the here-document lines shall not undergo expansion
  *     2. the quotes shall be removed from the delimiter
  */
-int	heredoc(
-	t_sh *shell)
+int	heredoc(t_sh *shell)
 {
 	t_ct		*cur_cmd_table;
 	t_list_d	*cmd_table_node;
@@ -57,10 +44,7 @@ int	heredoc(
 	return (HD_SUCCESS);
 }
 
-static int	handle_heredoc(
-	t_sh *shell,
-	int cmdtable_id,
-	t_list *io_red_list)
+static int	handle_heredoc(t_sh *shell, int cmdtable_id, t_list *io_red_list)
 {
 	t_io_red	*io_red;
 	int			ret;
@@ -86,11 +70,8 @@ static int	handle_heredoc(
 	return (HD_SUCCESS);
 }
 
-static int	exec_heredoc(
-	t_sh *shell,
-	int cmdtable_id,
-	t_io_red *io_red,
-	bool need_content_expansion)
+static int	exec_heredoc(t_sh *shell, int cmdtable_id, t_io_red *io_red,
+				bool need_content_expansion)
 {
 	t_list	*line_list;
 	int		ret;
@@ -110,10 +91,7 @@ static int	exec_heredoc(
 	return (HD_SUCCESS);
 }
 
-static int	read_heredoc(
-	t_sh *shell,
-	t_list **line_list,
-	char *here_end)
+static int	read_heredoc(t_sh *shell, t_list **line_list, char *here_end)
 {
 	char	*line;
 
@@ -137,11 +115,8 @@ static int	read_heredoc(
 	return (SUCCESS);
 }
 
-static int	handle_heredoc_content(
-	t_sh *shell,
-	char *filename,
-	t_list **line_list,
-	bool need_content_expansion)
+static int	handle_heredoc_content(t_sh *shell, char *filename,
+				t_list **line_list, bool need_content_expansion)
 {
 	char	*content;
 	int		ret;

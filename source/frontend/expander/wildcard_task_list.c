@@ -13,19 +13,12 @@
 #include "expander.h"
 #include "utils.h"
 
-static bool	iter_base_str(
-				t_list **new_task_list,
-				t_list **old_task_list,
+static bool	iter_base_str(t_list **new_task_list, t_list **old_task_list,
 				char **base_str);
-static bool	append_wildcard_task(
-				t_list **task_list,
-				char **base_str,
-				int *i);
+static bool	append_wildcard_task(t_list **task_list, char **base_str, int *i);
 
-bool	set_wildcard_task_list(
-	t_list **task_list,
-	t_list *expanded_list,
-	t_expd_op op_mask)
+bool	set_wildcard_task_list(t_list **task_list, t_list *expanded_list,
+			t_expd_op op_mask)
 {
 	char	**base_str;
 	t_list	*new_task_list;
@@ -45,10 +38,8 @@ bool	set_wildcard_task_list(
 	return (ret);
 }
 
-static bool	iter_base_str(
-	t_list **new_task_list,
-	t_list **old_task_list,
-	char **base_str)
+static bool	iter_base_str(t_list **new_task_list, t_list **old_task_list,
+				char **base_str)
 {
 	int		i;
 	bool	ret;
@@ -74,10 +65,7 @@ static bool	iter_base_str(
 	return (ret);
 }
 
-static bool	append_wildcard_task(
-	t_list **task_list,
-	char **base_str,
-	int *i)
+static bool	append_wildcard_task(t_list **task_list, char **base_str, int *i)
 {
 	int			replace_len;
 	t_expd_tsk	*task;

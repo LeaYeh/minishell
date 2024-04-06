@@ -53,8 +53,8 @@ int	expand_heredoc_content(t_sh *shell, char **content)
 	return (SUCCESS);
 }
 
-bool	remove_here_end_quote(
-	t_sh *shell, t_io_red *io_red, bool *need_content_expansion)
+bool	remove_here_end_quote(t_sh *shell, t_io_red *io_red,
+			bool *need_content_expansion)
 {
 	t_list	*expanded_list;
 

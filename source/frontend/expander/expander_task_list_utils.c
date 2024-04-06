@@ -42,8 +42,8 @@ void	drop_task_types(t_list **task_list, char **word, t_expd_tsk_typ type)
 	}
 }
 
-t_list	*get_expander_task_node(
-	t_list *task_list, char **base_str, int i, t_expd_tsk_typ type)
+t_list	*get_expander_task_node(t_list *task_list, char **base_str, int i,
+			t_expd_tsk_typ type)
 {
 	t_expd_tsk	*task;
 

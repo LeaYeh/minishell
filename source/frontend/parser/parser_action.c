@@ -15,8 +15,8 @@
 
 static bool	push_node(t_list **parse_stack, t_ast *ast_node);
 
-bool	parse_shift(t_tok *token_node,
-	t_list **state_stack, t_list **parse_stack, int next_step)
+bool	parse_shift(t_tok *token_node, t_list **state_stack,
+			t_list **parse_stack, int next_step)
 {
 	t_ast	*ast_node;
 
@@ -31,8 +31,8 @@ bool	parse_shift(t_tok *token_node,
 	return (true);
 }
 
-bool	parse_reduce(
-	t_list **state_stack, t_list **parse_stack, t_pt_node *pt_entry)
+bool	parse_reduce(t_list **state_stack, t_list **parse_stack,
+			t_pt_node *pt_entry)
 {
 	t_list	*children;
 	t_ast	*reduce_node;

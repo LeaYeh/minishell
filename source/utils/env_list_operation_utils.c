@@ -13,8 +13,8 @@
 #include "utils.h"
 #include "clean.h"
 
-bool	append_env_node(
-	t_list **env_list, char *key, char *value, t_expt export)
+bool	append_env_node(t_list **env_list, char *key, char *value,
+			t_expt export)
 {
 	t_env	*env_node;
 
@@ -68,8 +68,8 @@ void	remove_env_node(t_list **env_list, char *key, char *value)
 	}
 }
 
-bool	replace_env_value(
-	t_list *env_list, char *key, char *value, char **old_value)
+bool	replace_env_value(t_list *env_list, char *key, char *value,
+			char **old_value)
 {
 	t_env	*env_node;
 

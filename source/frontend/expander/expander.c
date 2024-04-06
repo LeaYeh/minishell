@@ -12,16 +12,10 @@
 
 #include "expander.h"
 
-static bool	handle_expansion(
-				t_list **expanded_list,
-				t_sh *shell,
+static bool	handle_expansion(t_list **expanded_list, t_sh *shell,
 				t_expd_op op_mask);
 
-int	expander(
-	char *str,
-	t_list **expanded_list,
-	t_sh *shell,
-	t_expd_op op_mask)
+int	expander(char *str, t_list **expanded_list, t_sh *shell, t_expd_op op_mask)
 {
 	char	*new_str;
 
@@ -39,10 +33,8 @@ int	expander(
 	return (SUCCESS);
 }
 
-static bool	handle_expansion(
-	t_list **expanded_list,
-	t_sh *shell,
-	t_expd_op op_mask)
+static bool	handle_expansion(t_list **expanded_list, t_sh *shell,
+				t_expd_op op_mask)
 {
 	char	**base_str;
 	t_list	*task_list;

@@ -12,8 +12,8 @@
 
 #include "cd.h"
 
-int	check_cmpnt_node_path(
-	t_list_d *cmpnt_list, t_list_d *cmpnt_node, char *target_dir)
+int	check_cmpnt_node_path(t_list_d *cmpnt_list, t_list_d *cmpnt_node,
+		char *target_dir)
 {
 	char	*path;
 

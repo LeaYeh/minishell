@@ -13,17 +13,11 @@
 #include "lexer.h"
 #include "utils.h"
 
-static bool	separate_operators(
-				t_list *lst_node,
-				int i);
-static bool	split_and_advance_node(
-				t_list **lst_node,
-				char **token_data,
+static bool	separate_operators(t_list *lst_node, int i);
+static bool	split_and_advance_node(t_list **lst_node, char **token_data,
 				int *i);
 
-bool	create_token_list(
-	t_list **token_list,
-	t_list **token_data_list)
+bool	create_token_list(t_list **token_list, t_list **token_data_list)
 {
 	t_list	*new_nodes;
 	t_tok	*token;
@@ -51,8 +45,7 @@ bool	create_token_list(
 	return (true);
 }
 
-bool	append_end_node(
-	t_list	**token_list)
+bool	append_end_node(t_list	**token_list)
 {
 	t_list	*new_node;
 	t_tok	*token;
@@ -67,9 +60,7 @@ bool	append_end_node(
 	return (true);
 }
 
-static bool	separate_operators(
-	t_list *lst_node,
-	int i)
+static bool	separate_operators(t_list *lst_node, int i)
 {
 	char	*token_data;
 
@@ -93,10 +84,8 @@ static bool	separate_operators(
 	return (true);
 }
 
-static bool	split_and_advance_node(
-	t_list **lst_node,
-	char **token_data,
-	int *i)
+static bool	split_and_advance_node(t_list **lst_node, char **token_data,
+				int *i)
 {
 	if (*i == 0)
 		skip_operator(*token_data, i);
