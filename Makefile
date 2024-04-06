@@ -118,8 +118,8 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
-.PHONY			:	all test run val noenv valfd build lib clean fclean ffclean \
-					re
+.PHONY			:	all test run val noenv valfd build lib waitforlib clean \
+					fclean ffclean re
 
 
 #	Compilation
@@ -157,8 +157,8 @@ MSG_INFO		=	$(MSG_MAKE_V4.4+)
 build			:	lib .WAIT $(NAME)
 else
 MSG_INFO		=	$(MSG_MAKE_V4.3-)
-.NOTPARALLEL	:	lib
-build			:	lib $(NAME)
+build			:	waitforlib
+					$(MAKE) $(NAME)
 endif
 
 #	Compiler version
@@ -172,6 +172,8 @@ export				MAKECMDGOALS
 
 lib				:
 					$(MAKE) -C $(LIBRARIES)
+
+waitforlib		:	lib
 
 
 #	Executable linking
