@@ -55,18 +55,18 @@ t_ct	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
 t_ct	*get_subshell_start(t_list_d *cmd_table_node)
 {
 	t_ct	*cmd_table;
-	int		subshell_cnt;
+	int		subshell_count;
 
 	cmd_table = NULL;
-	subshell_cnt = 0;
+	subshell_count = 0;
 	while (cmd_table_node)
 	{
 		cmd_table = cmd_table_node->content;
 		if (cmd_table->type == C_SUBSHELL_END)
-			subshell_cnt++;
+			subshell_count++;
 		else if (cmd_table->type == C_SUBSHELL_START)
-			subshell_cnt--;
-		if (subshell_cnt <= 0)
+			subshell_count--;
+		if (subshell_count <= 0)
 			break ;
 		cmd_table_node = cmd_table_node->prev;
 	}
