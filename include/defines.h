@@ -319,10 +319,10 @@ typedef struct s_io_redirection
 typedef struct s_command_table
 {
 	int				id;
+	t_ct_typ		type;
 	int				subshell_level;
 	int				read_fd;
 	int				write_fd;
-	int				type;
 	t_list			*simple_cmd_list;
 	t_list			*assignment_list;
 	t_list			*io_red_list;

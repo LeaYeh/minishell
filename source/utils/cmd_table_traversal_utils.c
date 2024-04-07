@@ -32,8 +32,8 @@ void	move_past_pipeline(t_list_d **cmd_table_node)
 
 void	move_past_subshell(t_list_d **cmd_table_node)
 {
-	int	cmd_table_type;
-	int	subshell_count;
+	t_ct_typ	cmd_table_type;
+	int			subshell_count;
 
 	subshell_count = 1;
 	while (subshell_count > 0)

@@ -36,8 +36,8 @@ t_ct	*get_cmd_table_from_list(t_list_d *cmd_table_node)
 
 t_ct	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
 {
-	t_ct	*last_simple_cmd_table;
-	int		cur_type;
+	t_ct		*last_simple_cmd_table;
+	t_ct_typ	cur_type;
 
 	last_simple_cmd_table = NULL;
 	while (cmd_table_list && cmd_table_list->content)

@@ -43,9 +43,9 @@ bool		append_cmd_table_by_scenario(
 t_ct		*get_cmd_table_from_list(t_list_d *cmd_table_node);
 t_ct		*get_last_simple_cmd_table(t_list_d *cmd_table_list);
 t_ct		*get_subshell_start(t_list_d *cmd_table_node);
-bool		is_control_op_cmd_table(int cmd_table_type);
+bool		is_control_op_cmd_table(t_ct_typ cmd_table_type);
 bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);
-int			get_cmd_table_type_from_list(t_list_d *cmd_table_list);
+t_ct_typ	get_cmd_table_type_from_list(t_list_d *cmd_table_list);
 bool		is_builtin(char *cmd_name, t_sh *shell);
 void		move_past_pipeline(t_list_d **cmd_table_node);
 void		move_past_subshell(t_list_d **cmd_table_node);

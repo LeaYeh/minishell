@@ -48,7 +48,7 @@ void	fork_pipeline(t_sh *shell, t_list_d **cmd_table_node)
 
 static void	exec_pipeline(t_sh *shell, t_list_d **cmd_table_node)
 {
-	int	cmd_table_type;
+	t_ct_typ	cmd_table_type;
 
 	cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
 	while (cmd_table_type == C_PIPE || \
@@ -82,7 +82,7 @@ static bool	insert_child_pid_list(t_sh *shell, pid_t pid)
 
 static void	handle_end_of_pipeline(t_sh *shell, t_list_d **cmd_table_node)
 {
-	int	cmd_table_type;
+	t_ct_typ	cmd_table_type;
 
 	cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
 	if (is_control_op_cmd_table(cmd_table_type))
