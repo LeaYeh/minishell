@@ -16,7 +16,7 @@
 static bool	push_node(t_list **parse_stack, t_ast *ast_node);
 
 bool	parse_shift(t_tok *token_node,
-	t_list **state_stack, t_list **parse_stack, int next_step)
+	t_list **state_stack, t_list **parse_stack, int next_state)
 {
 	t_ast	*ast_node;
 
@@ -27,7 +27,7 @@ bool	parse_shift(t_tok *token_node,
 		return (false);
 	if (!push_node(parse_stack, ast_node))
 		return (free_ast_node(ast_node), false);
-	if (!push_state(state_stack, next_step))
+	if (!push_state(state_stack, next_state))
 		return (false);
 	return (true);
 }
@@ -67,7 +67,7 @@ bool	parse_goto(t_list **state_stack, t_prs_elem element)
 	return (free(pt_entry), true);
 }
 
-bool	push_state(t_list **state_stack, int next_step)
+bool	push_state(t_list **state_stack, int next_state)
 {
 	t_list	*node;
 	int		*state;
@@ -75,7 +75,7 @@ bool	push_state(t_list **state_stack, int next_step)
 	state = (int *)malloc(sizeof(int));
 	if (!state)
 		return (false);
-	*state = next_step;
+	*state = next_state;
 	node = ft_lstnew(state);
 	if (!node)
 		return (free(state), false);
