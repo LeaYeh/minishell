@@ -118,8 +118,8 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
-.PHONY			:	all test run val noenv valfd build lib clean fclean ffclean \
-					re
+.PHONY			:	all test run val noenv valfd build lib waitforlib clean \
+					fclean ffclean re
 
 
 #	Compilation
@@ -150,20 +150,14 @@ else
 endif
 
 
-#	Version check for Make
+#	Library dependency management
 
 ifeq ($(firstword $(sort $(MAKE_VERSION) 4.4)),4.4)
-MSG_INFO		=	$(MSG_MAKE_V4.4+)
 build			:	lib .WAIT $(NAME)
 else
-MSG_INFO		=	$(MSG_MAKE_V4.3-)
-.NOTPARALLEL	:	lib
-build			:	lib $(NAME)
+build			:	waitforlib
+					$(MAKE) $(NAME)
 endif
-
-#	Compiler version
-
-MSG_INFO		+=	$(MSG_CC_VERSION)
 
 
 #	Library compilation
@@ -172,6 +166,8 @@ export				MAKECMDGOALS
 
 lib				:
 					$(MAKE) -C $(LIBRARIES)
+
+waitforlib		:	lib
 
 
 #	Executable linking
@@ -237,15 +233,8 @@ endif
 # **************************** CUSTOM MESSAGES ******************************* #
 
 ################################################################################
-MSG_MAKE_V4.4+	:=	"\e[3;37m Make version 4.4+ detected\n\
-					Make version: $(MAKE_VERSION)\n\
-					Parallel build for libraries enabled\n\e[0m"
-################################################################################
-MSG_MAKE_V4.3-	:=	"\e[3;37m Make version 4.4+ not detected\n\
-					Make version: $(MAKE_VERSION)\n\
-					Parallel build for libraries disabled\n\e[0m"
-################################################################################
-MSG_CC_VERSION	:=	"\e[3;37mCompiler version: $(CC_VERSION)\n\e[0m"
+MSG_INFO		:=	"\e[3;37m Make version: $(MAKE_VERSION)\n\
+					\e[3;37mCompiler version: $(CC_VERSION)\n\e[0m"
 ################################################################################
 MSG_START		:=	"\e[3mBuilding Crash ... \e[0m"
 ################################################################################
