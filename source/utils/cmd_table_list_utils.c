@@ -42,7 +42,7 @@ t_ct	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
 	last_simple_cmd_table = NULL;
 	while (cmd_table_list && cmd_table_list->content)
 	{
-		cur_type = ((t_ct *)cmd_table_list->content)->type;
+		cur_type = get_cmd_table_type_from_list(cmd_table_list);
 		if (cur_type == C_PIPE || cur_type == C_AND || cur_type == C_OR)
 			last_simple_cmd_table = NULL;
 		else if (cur_type == C_SIMPLE_CMD)
