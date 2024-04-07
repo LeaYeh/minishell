@@ -19,7 +19,7 @@ void		report_syntax_error(t_sh *shell, t_prs_data *parser_data);
 
 bool		set_next_pt_entry(t_pt_node **pt_entry,
 				int state, t_prs_elem element, t_prs_act action_mask);
-bool		push_state(t_list **state_stack, int next_state);
+bool		push_state(t_list **state_stack, int state);
 bool		parse_shift(t_tok *input_token,
 				t_list **state_stack, t_list **parse_stack, int next_state);
 bool		parse_reduce(t_list **state_stack,
