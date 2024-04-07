@@ -40,7 +40,7 @@ static bool	handle_current_token(
 	t_list **token_list,
 	t_list_d **cmd_table_list)
 {
-	int	token_type;
+	t_tok_typ	token_type;
 
 	token_type = get_token_type_from_list(*token_list);
 	if (!append_cmd_table_by_scenario(token_type, cmd_table_list))

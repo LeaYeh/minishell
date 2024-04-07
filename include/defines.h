@@ -264,7 +264,7 @@ typedef struct s_environment_node
 
 typedef struct s_token
 {
-	int				type;
+	t_tok_typ		type;
 	char			*data;
 }	t_tok;
 
@@ -280,7 +280,7 @@ typedef struct s_expander_task
 
 typedef struct s_abstract_syntax_tree
 {
-	int				type;
+	t_tok_typ		type;
 	char			*data;
 	t_list			*children;
 }	t_ast;
@@ -303,7 +303,7 @@ typedef struct s_parser_data
 typedef struct s_parsing_table_node
 {
 	int				state;
-	int				token_type;
+	t_tok_typ		token_type;
 	t_prs_act		action;
 	int				next_state;
 	int				num_reduced;
@@ -311,7 +311,7 @@ typedef struct s_parsing_table_node
 
 typedef struct s_io_redirection
 {
-	int				type;
+	t_tok_typ		type;
 	char			*filename;
 	char			*here_end;
 }	t_io_red;

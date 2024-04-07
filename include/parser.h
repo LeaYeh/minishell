@@ -18,13 +18,13 @@
 void		report_syntax_error(t_sh *shell, t_prs_data *parser_data);
 
 bool		set_next_pt_entry(t_pt_node **pt_entry,
-				int state, int token_type, t_prs_act action_mask);
+				int state, t_tok_typ token_type, t_prs_act action_mask);
 bool		push_state(t_list **state_stack, int next_step);
 bool		parse_shift(t_tok *input_token,
 				t_list **state_stack, t_list **parse_stack, int next_step);
 bool		parse_reduce(t_list **state_stack,
 				t_list **parse_stack, t_pt_node *pt_entry);
-bool		parse_goto(t_list **state_stack, int token_type);
+bool		parse_goto(t_list **state_stack, t_tok_typ token_type);
 
 bool		init_parser_data(t_prs_data *parser_data, t_list *token_list);
 void		free_parser_data(t_prs_data *parser_data);

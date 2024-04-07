@@ -14,7 +14,7 @@
 
 static bool	append_empty_cmd_table(t_list_d **cmd_table_list);
 
-bool	append_cmd_table_by_scenario(int token_type, t_list_d **cmd_table_list)
+bool	append_cmd_table_by_scenario(t_tok_typ token_type, t_list_d **cmd_table_list)
 {
 	if (*cmd_table_list)
 	{

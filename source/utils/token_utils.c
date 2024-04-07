@@ -14,7 +14,7 @@
 
 static t_tok	*dup_token_node(t_tok *token);
 
-t_tok	*init_token_node(int type, char *data)
+t_tok	*init_token_node(t_tok_typ type, char *data)
 {
 	t_tok	*token_node;
 

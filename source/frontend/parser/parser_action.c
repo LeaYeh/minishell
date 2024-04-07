@@ -51,7 +51,7 @@ bool	parse_reduce(
 	return (true);
 }
 
-bool	parse_goto(t_list **state_stack, int token_type)
+bool	parse_goto(t_list **state_stack, t_tok_typ token_type)
 {
 	t_pt_node	*pt_entry;
 

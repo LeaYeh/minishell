@@ -19,7 +19,7 @@ t_tok	*get_token_from_list(t_list *token_list)
 	return ((t_tok *)token_list->content);
 }
 
-int	get_token_type_from_list(t_list *token_list)
+t_tok_typ	get_token_type_from_list(t_list *token_list)
 {
 	if (!token_list)
 		return (T_NONE);

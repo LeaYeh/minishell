@@ -14,7 +14,7 @@
 
 static void	free_ast_data(t_ast *ast);
 
-t_ast	*init_ast_node(int type, char *data, t_list *children)
+t_ast	*init_ast_node(t_tok_typ type, char *data, t_list *children)
 {
 	t_ast	*node;
 
