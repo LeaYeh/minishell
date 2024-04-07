@@ -77,13 +77,7 @@ bool	push_state(t_list **state_stack, int state)
  */
 static bool	push_node(t_list **parse_stack, t_ast *ast_node)
 {
-	t_list	*node;
-
 	if (!ast_node)
 		return (false);
-	node = ft_lstnew(ast_node);
-	if (!node)
-		return (false);
-	ft_lstadd_front(parse_stack, node);
-	return (true);
+	return (ft_lstnew_front(parse_stack, ast_node));
 }

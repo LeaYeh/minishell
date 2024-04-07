@@ -71,7 +71,6 @@ static bool	fill_redirect(t_list **token_list, t_ct *cmd_table)
 	t_tok		*red_op;
 	t_tok		*filename;
 	t_io_red	*io_red;
-	t_list		*node;
 
 	red_op = get_token_from_list(*token_list);
 	filename = get_token_from_list((*token_list)->next);
@@ -80,10 +79,8 @@ static bool	fill_redirect(t_list **token_list, t_ct *cmd_table)
 		return (false);
 	if (!fill_red_node(io_red, red_op->type, filename->data))
 		return (free_io_red(io_red), false);
-	node = ft_lstnew(io_red);
-	if (!node)
+	if (!ft_lstnew_back(&cmd_table->io_red_list, io_red))
 		return (free_io_red(io_red), false);
-	ft_lstadd_back(&cmd_table->io_red_list, node);
 	return (true);
 }
 

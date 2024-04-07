@@ -54,16 +54,11 @@ bool	create_token_list(
 bool	append_end_node(
 	t_list	**token_list)
 {
-	t_list	*new_node;
 	t_tok	*token;
 
 	token = init_token_node(T_END, NULL);
-	if (!token)
-		return (false);
-	new_node = (ft_lstnew(token));
-	if (!new_node)
+	if (!token || !ft_lstnew_back(token_list, token))
 		return (free_token_node(token), false);
-	ft_lstadd_back(token_list, new_node);
 	return (true);
 }
 

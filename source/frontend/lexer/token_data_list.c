@@ -18,7 +18,6 @@ static bool	set_token_data(char **token_data, char *input_line, int *i);
 bool	create_token_data_list(t_list **token_data_list, char *input_line)
 {
 	int		i;
-	t_list	*new_node;
 	char	*token_data;
 
 	i = 0;
@@ -32,10 +31,8 @@ bool	create_token_data_list(t_list **token_data_list, char *input_line)
 			return (false);
 		if (!token_data)
 			return (ft_lstclear(token_data_list, free), true);
-		new_node = ft_lstnew(token_data);
-		if (!new_node)
+		if (!ft_lstnew_back(token_data_list, token_data))
 			return (free(token_data), false);
-		ft_lstadd_back(token_data_list, new_node);
 	}
 	return (true);
 }

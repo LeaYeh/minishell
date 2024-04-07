@@ -60,16 +60,11 @@ static bool	append_relation_ast_node(
 	t_ast *parent,
 	t_ast *current)
 {
-	t_list		*new_node;
 	t_rel_ast	*tmp;
 
 	tmp = init_relation_ast_node(level, parent, current, current->children);
-	if (!tmp)
-		return (false);
-	new_node = ft_lstnew(tmp);
-	if (!new_node)
+	if (!tmp || !ft_lstnew_back(queue, tmp))
 		return (free(tmp), false);
-	ft_lstadd_back(queue, new_node);
 	return (true);
 }
 
