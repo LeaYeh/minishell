@@ -304,7 +304,7 @@ typedef struct s_parsing_table_node
 {
 	int				state;
 	int				token_type;
-	int				action;
+	t_prs_act		action;
 	int				next_state;
 	int				num_reduced;
 }	t_pt_node;
