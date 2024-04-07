@@ -14,9 +14,9 @@
 
 int	get_state_from_stack(t_list *node)
 {
-	if (!node || !node->content)
+	if (!node)
 		return (UNDEFINED_STATE);
-	return (*((int *)node->content));
+	return ((int)(long)node->content);
 }
 
 t_tok	*get_token_from_stack(t_list *node)

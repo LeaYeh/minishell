@@ -30,6 +30,6 @@ void	free_parser_data(t_prs_data *parser_data)
 	if (!parser_data)
 		return ;
 	ft_lstclear(&parser_data->token_list, (void *)free_token_node);
-	ft_lstclear(&parser_data->state_stack, free);
+	ft_lstclear(&parser_data->state_stack, NULL);
 	ft_lstclear(&parser_data->parse_stack, (void *)free_ast_node);
 }

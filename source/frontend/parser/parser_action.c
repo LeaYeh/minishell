@@ -41,7 +41,7 @@ bool	parse_reduce(
 	reduce_node = init_ast_node((t_prs_elem)pt_entry->next_state, NULL, NULL);
 	if (!reduce_node)
 		return (false);
-	if (!drop_num_stack(state_stack, pt_entry->num_reduced, free))
+	if (!drop_num_stack(state_stack, pt_entry->num_reduced, NULL))
 		return (free_ast_node(reduce_node), false);
 	children = pop_num_stack(parse_stack, pt_entry->num_reduced);
 	if (!children)
@@ -67,20 +67,9 @@ bool	parse_goto(t_list **state_stack, t_prs_elem element)
 	return (free(pt_entry), true);
 }
 
-bool	push_state(t_list **state_stack, int next_state)
+bool	push_state(t_list **state_stack, int state)
 {
-	t_list	*node;
-	int		*state;
-
-	state = (int *)malloc(sizeof(int));
-	if (!state)
-		return (false);
-	*state = next_state;
-	node = ft_lstnew(state);
-	if (!node)
-		return (free(state), false);
-	ft_lstadd_front(state_stack, node);
-	return (true);
+	return (ft_lstnew_front(state_stack, (void *)(long)state));
 }
 
 /**
