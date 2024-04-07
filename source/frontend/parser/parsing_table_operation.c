@@ -14,7 +14,7 @@
 #include "clean.h"
 
 static bool			match_rule(
-						t_tok_typ token_type,
+						int token_type,
 						t_prs_act action_mask,
 						int row_index,
 						const int parsing_table[PT_ROW_NUM][PT_COL_NUM]);
@@ -24,7 +24,7 @@ static t_pt_node	*init_pt_node(
 bool	set_next_pt_entry(
 	t_pt_node **pt_entry,
 	int state,
-	t_tok_typ token_type,
+	int token_type,
 	t_prs_act action_mask)
 {
 	const int	parsing_table[PT_ROW_NUM][PT_COL_NUM] = PARSING_TABLE;
@@ -49,7 +49,7 @@ bool	set_next_pt_entry(
 }
 
 static bool	match_rule(
-	t_tok_typ token_type,
+	int token_type,
 	t_prs_act action_mask,
 	int row_index,
 	const int parsing_table[PT_ROW_NUM][PT_COL_NUM])

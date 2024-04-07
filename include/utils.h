@@ -28,7 +28,7 @@ char		*get_token_data_from_list(t_list *token_list);
 t_list		*dup_token_list(t_list *token_list);
 
 /* AST utils */
-t_ast		*init_ast_node(t_tok_typ type, char *data, t_list *children);
+t_ast		*init_ast_node(int type, char *data, t_list *children);
 void		free_ast_node(t_ast *ast);
 
 /* Redirect utils */

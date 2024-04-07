@@ -280,7 +280,7 @@ typedef struct s_expander_task
 
 typedef struct s_abstract_syntax_tree
 {
-	t_tok_typ		type;
+	int				type;
 	char			*data;
 	t_list			*children;
 }	t_ast;
@@ -303,7 +303,7 @@ typedef struct s_parser_data
 typedef struct s_parsing_table_node
 {
 	int				state;
-	t_tok_typ		token_type;
+	int				token_type;
 	t_prs_act		action;
 	int				next_state;
 	int				num_reduced;
