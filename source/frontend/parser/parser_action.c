@@ -16,7 +16,7 @@
 static bool	push_node(t_list **parse_stack, t_ast *ast_node);
 
 bool	parse_shift(t_tok *token_node,
-	t_list **state_stack, t_list **parse_stack, int next_step)
+	t_list **state_stack, t_list **parse_stack, int next_state)
 {
 	t_ast	*ast_node;
 
@@ -27,7 +27,7 @@ bool	parse_shift(t_tok *token_node,
 		return (false);
 	if (!push_node(parse_stack, ast_node))
 		return (free_ast_node(ast_node), false);
-	if (!push_state(state_stack, next_step))
+	if (!push_state(state_stack, next_state))
 		return (false);
 	return (true);
 }
@@ -41,7 +41,7 @@ bool	parse_reduce(
 	reduce_node = init_ast_node((t_prs_elem)pt_entry->next_state, NULL, NULL);
 	if (!reduce_node)
 		return (false);
-	if (!drop_num_stack(state_stack, pt_entry->num_reduced, free))
+	if (!drop_num_stack(state_stack, pt_entry->num_reduced, NULL))
 		return (free_ast_node(reduce_node), false);
 	children = pop_num_stack(parse_stack, pt_entry->num_reduced);
 	if (!children)
@@ -67,20 +67,9 @@ bool	parse_goto(t_list **state_stack, t_prs_elem element)
 	return (free(pt_entry), true);
 }
 
-bool	push_state(t_list **state_stack, int next_step)
+bool	push_state(t_list **state_stack, int state)
 {
-	t_list	*node;
-	int		*state;
-
-	state = (int *)malloc(sizeof(int));
-	if (!state)
-		return (false);
-	*state = next_step;
-	node = ft_lstnew(state);
-	if (!node)
-		return (free(state), false);
-	ft_lstadd_front(state_stack, node);
-	return (true);
+	return (ft_lstnew_front(state_stack, (void *)(long)state));
 }
 
 /**
@@ -88,13 +77,7 @@ bool	push_state(t_list **state_stack, int next_step)
  */
 static bool	push_node(t_list **parse_stack, t_ast *ast_node)
 {
-	t_list	*node;
-
 	if (!ast_node)
 		return (false);
-	node = ft_lstnew(ast_node);
-	if (!node)
-		return (false);
-	ft_lstadd_front(parse_stack, node);
-	return (true);
+	return (ft_lstnew_front(parse_stack, ast_node));
 }

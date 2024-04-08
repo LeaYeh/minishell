@@ -45,14 +45,9 @@ static bool	fill_simple_cmd(t_tok *token, t_ct *cmd_table)
 static bool	fill_assignment(t_tok *token, t_ct *cmd_table)
 {
 	char	*assignment;
-	t_list	*node;
 
 	assignment = ft_strdup(token->data);
-	if (!assignment)
-		return (false);
-	node = ft_lstnew(assignment);
-	if (!node)
+	if (!assignment || !ft_lstnew_back(&cmd_table->assignment_list, assignment))
 		return (free(assignment), false);
-	ft_lstadd_back(&cmd_table->assignment_list, node);
 	return (true);
 }

@@ -37,24 +37,18 @@ void	free_token_node(t_tok *token)
 t_list	*dup_token_list(t_list *token_list)
 {
 	t_list	*dup_list;
-	t_list	*node;
 	t_tok	*token;
 
 	dup_list = NULL;
 	while (token_list)
 	{
 		token = dup_token_node(token_list->content);
-		if (!token)
+		if (!token || !ft_lstnew_back(&dup_list, token))
 		{
+			free_token_node(token);
 			ft_lstclear(&dup_list, (void *)free_token_node);
 			return (NULL);
 		}
-		node = ft_lstnew(token);
-		if (!node)
-			return (free_token_node(token),
-				ft_lstclear(&dup_list, (void *)free_token_node),
-				NULL);
-		ft_lstadd_back(&dup_list, node);
 		token_list = token_list->next;
 	}
 	return (dup_list);

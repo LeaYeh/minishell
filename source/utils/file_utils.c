@@ -16,7 +16,7 @@ char	*generate_tmp_filename(int cmdtable_id, char *category)
 {
 	char	*filename;
 
-	filename = (char *)malloc(sizeof(char) * NAME_MAX);
+	filename = (char *)malloc(NAME_MAX * sizeof(char));
 	if (!filename)
 		return (NULL);
 	ft_snprintf(
