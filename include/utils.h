@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/04 23:36:52 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:39:59 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char		*get_token_data_from_list(t_list *token_list);
 t_list		*dup_token_list(t_list *token_list);
 
 /* AST utils */
-t_ast		*init_ast_node(int type, char *data, t_list *children);
+t_ast		*init_ast_node(t_prs_elem element, char *data, t_list *children);
 void		free_ast_node(t_ast *ast);
 
 /* Redirect utils */

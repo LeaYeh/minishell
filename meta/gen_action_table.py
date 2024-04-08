@@ -97,7 +97,7 @@ def action_table_to_c_array(action_table):
 
 
 def action_table_to_md(action_table):
-    md_table = "| State | Token Type | Action | Next State | Number of Reduced Tokens |\n|-------|------------|--------|------------|-------------------------|\n"
+    md_table = "| State | Element | Action | Next State | Number of Reduced Tokens |\n|-------|------------|--------|------------|-------------------------|\n"
     for state, actions in action_table.items():
         for symbol, (action_type, action_state, num_reduced_tokens) in actions.items():
             md_table += f"| {state} | {symbol} | {action_type} | {action_state if action_state is not None else ''} | {num_reduced_tokens} |\n"

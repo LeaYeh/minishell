@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:20:11 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/08 15:36:42 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static bool	parse(t_sh *shell, t_prs_data *parser_data)
 	{
 		if (!set_next_pt_entry(&pt_entry,
 				get_state_from_stack(parser_data->state_stack),
-				get_token_type_from_list(parser_data->token_list),
+				(t_prs_elem)get_token_type_from_list(parser_data->token_list),
 				A_SHIFT | A_REDUCE | A_ACCEPT))
 			(free_parser_data(parser_data),
 				clean_and_exit_shell(
@@ -77,7 +77,8 @@ static bool	parse_step(t_prs_data *parser_data, t_pt_node *pt_entry)
 		if (!(parse_reduce(&parser_data->state_stack,
 					&parser_data->parse_stack, pt_entry) && \
 			parse_goto(&parser_data->state_stack,
-					get_token_from_stack(parser_data->parse_stack)->type)))
+					(t_prs_elem)get_token_from_stack(
+						parser_data->parse_stack)->type)))
 			return (false);
 	}
 	return (true);

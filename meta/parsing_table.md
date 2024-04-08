@@ -1,4 +1,4 @@
-| State | Token Type | Action | Next State | Number of Reduced Tokens |
+| State | Element | Action | Next State | Number of Reduced Tokens |
 |-------|------------|--------|------------|-------------------------|
 | 0 | WORD | shift | 1 | -1 |
 | 0 | ASSIGNMENT_WORD | shift | 2 | -1 |

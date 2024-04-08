@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/02 23:02:09 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/08 17:25:12 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,23 +170,6 @@ typedef enum e_signal_state
 	SIG_RECORD
 }	t_sig;
 
-typedef enum e_parsing_table_column
-{
-	PT_COL_STATE	= 0,
-	PT_COL_TOKEN_TYPE,
-	PT_COL_ACTION,
-	PT_COL_NEXT_STATE,
-	PT_COL_NUM_REDUCED
-}	t_pt_col;
-
-typedef enum e_parser_action
-{
-	A_ACCEPT		= 0,
-	A_SHIFT			= 0b001,
-	A_REDUCE		= 0b010,
-	A_GOTO			= 0b100
-}	t_prs_act;
-
 typedef enum e_token_type
 {
 	T_END			= -2,
@@ -203,6 +186,55 @@ typedef enum e_token_type
 	T_L_BRACKET,
 	T_R_BRACKET
 }	t_tok_typ;
+
+typedef enum e_parsing_table_column
+{
+	PT_COL_STATE	= 0,
+	PT_COL_ELEMENT,
+	PT_COL_ACTION,
+	PT_COL_NEXT_STATE,
+	PT_COL_NUM_REDUCED
+}	t_pt_col;
+
+typedef enum e_parser_element
+{
+	P_END			= -2,
+	P_NONE			= -1,
+	P_WORD			= 0,
+	P_ASSIGNMENT_WORD,
+	P_RED_IN,
+	P_RED_OUT,
+	P_PIPE,
+	P_HERE_DOC,
+	P_APPEND,
+	P_OR,
+	P_AND,
+	P_L_BRACKET,
+	P_R_BRACKET,
+	P_AND_OR		= 100,
+	P_PIPE_SEQ,
+	P_CMD,
+	P_SUBSHELL,
+	P_SIMPLE_CMD,
+	P_CMD_NAME,
+	P_CMD_WORD,
+	P_CMD_PREFIX,
+	P_CMD_SUFFIX,
+	P_RED_LIST,
+	P_IO_RED,
+	P_IO_FILE,
+	P_FILENAME,
+	P_IO_HERE,
+	P_HERE_END
+}	t_prs_elem;
+
+typedef enum e_parser_action
+{
+	A_ACCEPT		= 0,
+	A_SHIFT			= 0b001,
+	A_REDUCE		= 0b010,
+	A_GOTO			= 0b100
+}	t_prs_act;
 
 typedef enum e_command_table_type
 {
@@ -280,7 +312,7 @@ typedef struct s_expander_task
 
 typedef struct s_abstract_syntax_tree
 {
-	int				type;
+	t_prs_elem		element;
 	char			*data;
 	t_list			*children;
 }	t_ast;
@@ -303,7 +335,7 @@ typedef struct s_parser_data
 typedef struct s_parsing_table_node
 {
 	int				state;
-	int				token_type;
+	t_prs_elem		element;
 	t_prs_act		action;
 	int				next_state;
 	int				num_reduced;
