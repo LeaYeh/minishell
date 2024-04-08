@@ -15,12 +15,12 @@ TOKEN_TYPES = {key: i for i, key in enumerate(TOKEN_TYPES)}
 TOKEN_TYPES['T_END'] = -2
 TOKEN_TYPES['$end'] = TOKEN_TYPES['T_END']
 
-RULE_NAMES = ['and_or', 'pipe_sequence', 'command',
+PARSER_ELEMENTS = ['and_or', 'pipe_sequence', 'command',
               'subshell', 'simple_command',
               'cmd_name', 'cmd_word', 'cmd_prefix', 'cmd_suffix',
               'redirect_list', 'io_redirect', 'io_file',
               'filename', 'io_here', 'here_end']
-RULE_NAMES = {key: i for i, key in enumerate(RULE_NAMES, 100)}
+PARSER_ELEMENTS = {key: i for i, key in enumerate(PARSER_ELEMENTS, 100)}
 
 
 # Function to map a string to an int, with an optional verbose mode
@@ -47,7 +47,7 @@ def get_next_state(action: str, verbose: bool = False) -> int:
         return int(action.split()[-1])
     elif 'reduce using rule' in action:
         tmp = action.split()[-1].strip('()')
-        return tmp if verbose else RULE_NAMES[tmp]
+        return tmp if verbose else PARSER_ELEMENTS[tmp]
     else:
         return 'None' if verbose else -1
 
@@ -79,7 +79,7 @@ def parse_parsing_table(parsing_table: str, verbose: bool = False):
             parts = line.split()
             token_type = map_string_to_int(parts[0], TOKEN_TYPES, verbose)
             if token_type == -1:
-                token_type = map_string_to_int(parts[0], RULE_NAMES, verbose)
+                token_type = map_string_to_int(parts[0], PARSER_ELEMENTS, verbose)
             action = parse_action(" ".join(parts[1:]), verbose)
             if (isinstance(token_type, str) and token_type != 'None') or \
                 (isinstance(token_type, int) and token_type != -1):
@@ -90,8 +90,8 @@ def parse_parsing_table(parsing_table: str, verbose: bool = False):
 def action_table_to_c_array(action_table):
     c_array = "const int\tg_parsing_table[][5] = {\\\n"
     for state, actions in action_table.items():
-        for symbol, (action_type, next_state, num_reduced_tokens) in actions.items():
-            c_array += f"\t{{{state}, {symbol}, {action_type}, {next_state}, {num_reduced_tokens}}}, \\\n"
+        for element, (action_type, next_state, num_reduced_tokens) in actions.items():
+            c_array += f"\t{{{state}, {element}, {action_type}, {next_state}, {num_reduced_tokens}}}, \\\n"
     c_array += "};"
     return c_array
 
@@ -99,8 +99,8 @@ def action_table_to_c_array(action_table):
 def action_table_to_md(action_table):
     md_table = "| State | Element | Action | Next State | Number of Reduced Tokens |\n|-------|------------|--------|------------|-------------------------|\n"
     for state, actions in action_table.items():
-        for symbol, (action_type, action_state, num_reduced_tokens) in actions.items():
-            md_table += f"| {state} | {symbol} | {action_type} | {action_state if action_state is not None else ''} | {num_reduced_tokens} |\n"
+        for element, (action_type, action_state, num_reduced_tokens) in actions.items():
+            md_table += f"| {state} | {element} | {action_type} | {action_state if action_state is not None else ''} | {num_reduced_tokens} |\n"
     return md_table
 
 
@@ -123,7 +123,7 @@ def parse_grammar(input_string):
         result[key] = values
     return result
 
-def get_redueced_item(input_string, grammer_table, state):
+def get_reduced_item(input_string, grammer_table, state):
     lines = input_string.split("\n")
     while True:
         line = lines.pop(0)
@@ -142,11 +142,11 @@ def get_redueced_item(input_string, grammer_table, state):
 def tune_action_table(input_string, action_table, verbose=False):
     grammer_table = parse_grammar(input_string)
     for state, actions in action_table.items():
-        for symbol, (action_type, action_state, num_reduced_tokens) in actions.items():
+        for element, (action_type, action_state, num_reduced_tokens) in actions.items():
             if (action_type == 2 or action_type == "reduce") and num_reduced_tokens == -1:
-                redueced_item = get_redueced_item(input_string, grammer_table, state)
+                redueced_item = get_reduced_item(input_string, grammer_table, state)
                 num_reduced_tokens = redueced_item if verbose else len(redueced_item)
-                action_table[state][symbol] = (action_type, action_state, num_reduced_tokens)
+                action_table[state][element] = (action_type, action_state, num_reduced_tokens)
     return action_table
 
 
