@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:02:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:36:38 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/08 12:27:27 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	clean_shell(t_sh *shell)
 	ft_free_and_null((void **)&shell->input_line);
 	ft_lstclear(&shell->child_pid_list, NULL);
 	ft_lstclear(&shell->env_list, (void *)free_env_node);
-	ft_lstclear(&shell->token_list, (void *)free_token_node);
+	ft_lstclear(&shell->token_list, (void *)free_token);
 	if (shell->subshell_level == 0)
 		ft_lstiter_d(shell->cmd_table_list, (void *)remove_heredoc_files);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
@@ -46,7 +46,7 @@ void	reset_submodule_variable(t_sh *shell)
 	shell->subshell_pid = -1;
 	shell->signal_record = 0;
 	ft_lstclear(&shell->child_pid_list, NULL);
-	ft_lstclear(&shell->token_list, (void *)free_token_node);
+	ft_lstclear(&shell->token_list, (void *)free_token);
 	ft_lstiter_d(shell->cmd_table_list, (void *)remove_heredoc_files);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
 	ft_free_and_null((void **)&shell->input_line);

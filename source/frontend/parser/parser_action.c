@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/08 16:19:44 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:04:31 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 
 static bool	push_node(t_list **parse_stack, t_ast *ast_node);
 
-bool	parse_shift(t_tok *token_node,
-	t_list **state_stack, t_list **parse_stack, int next_state)
+bool	parse_shift(
+	t_tok *token, t_list **state_stack, t_list **parse_stack, int next_state)
 {
 	t_ast	*ast_node;
 
-	ast_node = init_ast_node(
-			(t_prs_elem)token_node->type, token_node->data, NULL);
-	free(token_node);
+	ast_node = init_ast_node((t_prs_elem)token->type, token->data, NULL);
+	free(token);
 	if (!ast_node)
 		return (false);
 	if (!push_node(parse_stack, ast_node))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:54:32 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/21 17:17:46 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/08 12:28:05 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	create_token_list(
 	new_nodes = NULL;
 	while (*token_data_list)
 	{
-		token = init_token_node(T_NONE, (*token_data_list)->content);
+		token = init_token(T_NONE, (*token_data_list)->content);
 		if (!token)
 			break ;
 		(*token_data_list)->content = NULL;
@@ -46,8 +46,8 @@ bool	create_token_list(
 		free(ft_lstpop_front(token_data_list));
 	}
 	if (*token_data_list)
-		return (free_token_node(token), \
-				ft_lstclear(&new_nodes, (void *)free_token_node), false);
+		return (free_token(token),
+			ft_lstclear(&new_nodes, (void *)free_token), false);
 	return (true);
 }
 
@@ -56,9 +56,9 @@ bool	append_end_node(
 {
 	t_tok	*token;
 
-	token = init_token_node(T_END, NULL);
+	token = init_token(T_END, NULL);
 	if (!token || !ft_lstnew_back(token_list, token))
-		return (free_token_node(token), false);
+		return (free_token(token), false);
 	return (true);
 }
 
