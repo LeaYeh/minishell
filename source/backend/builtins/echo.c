@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:40:02 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 17:40:04 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/08 12:03:31 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	exec_echo(char *args[])
 	combined_str = combine_args(args + i, end_with_newline);
 	if (!combined_str)
 		return (MALLOC_ERROR);
-	printf("%s", combined_str);
+	ft_printf("%s", combined_str);
 	free(combined_str);
 	return (EXIT_SUCCESS);
 }
