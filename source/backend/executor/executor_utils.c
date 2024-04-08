@@ -14,7 +14,8 @@
 #include "signals.h"
 #include "utils.h"
 
-int	set_expanded_cmd_name(char **cmd_name, t_sh *shell, t_list *simple_cmd_list)
+int	set_expanded_cmd_name(
+		char **cmd_name, t_sh *shell, t_list *simple_cmd_list)
 {
 	t_list	*expanded_list;
 	int		ret;

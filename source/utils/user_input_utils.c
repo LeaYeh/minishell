@@ -13,7 +13,10 @@
 #include "defines.h"
 
 bool	read_input(
-	char **line, char *prompt, bool add_to_history, bool is_interactive)
+			char **line,
+			char *prompt,
+			bool add_to_history,
+			bool is_interactive)
 {
 	char	*tmp;
 

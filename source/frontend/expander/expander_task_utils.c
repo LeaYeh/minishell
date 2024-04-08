@@ -13,7 +13,7 @@
 #include "utils.h"
 
 t_expd_tsk	*init_expander_task(
-	t_expd_tsk_typ type, int start, int replace_len, char *str)
+				t_expd_tsk_typ type, int start, int replace_len, char *str)
 {
 	t_expd_tsk	*task;
 

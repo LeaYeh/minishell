@@ -16,8 +16,11 @@
 # include "defines.h"
 
 /* User input utils */
-bool		read_input(char **line,
-				char *prompt, bool add_to_history, bool is_interactive);
+bool		read_input(
+				char **line,
+				char *prompt,
+				bool add_to_history,
+				bool is_interactive);
 
 /* Token list utils */
 t_tok		*init_token(t_tok_typ type, char *data);
@@ -57,10 +60,9 @@ bool		setup_exec_path(t_sh *shell, t_fct *final_cmd_table);
 int			setup_simple_cmd(t_sh *shell, t_list *simple_cmd_list);
 bool		setup_env(t_fct *final_cmd_table, t_list *env_list);
 bool		set_exec_path(char **exec_path, char *cmd_name, char *env[]);
-bool		setup_assignment_array(t_fct *final_cmd_table,
-				t_list *assignment_list);
-void		setup_fd(
-				t_sh *shell, t_fct *final_cmd_table);
+bool		setup_assignment_array(
+				t_fct *final_cmd_table, t_list *assignment_list);
+void		setup_fd(t_sh *shell, t_fct *final_cmd_table);
 
 /* Environment utils */
 bool		extract_env_key(char **res, const char *str);
@@ -83,8 +85,11 @@ bool		replace_env_value(
 				t_list *env_list, char *key, char *value, char **old_value);
 
 /* Expansion utils */
-int			expand_list(t_sh *shell, t_list *list, t_list **expanded_list, \
-						t_expd_op op_mask);
+int			expand_list(
+				t_sh *shell,
+				t_list *list,
+				t_list **expanded_list,
+				t_expd_op op_mask);
 
 /* Array utils */
 void		free_array(char **array[]);

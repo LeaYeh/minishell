@@ -27,23 +27,21 @@ int			expander(
 
 /* expander_task_list.c */
 bool		set_expander_task_list(
-				t_list **task_list,
-				char **base_str,
-				t_expd_op op_mask);
+				t_list **task_list, char **base_str, t_expd_op op_mask);
 
 /* expander_task_list_utils.c */
 bool		any_task_of_type(t_list *task_list, t_expd_tsk_typ type);
-void		drop_task_types(t_list **task_list, char **word,
-				t_expd_tsk_typ type);
-t_list		*get_expander_task_node(t_list *task_list, char **base_str,
-				int i, t_expd_tsk_typ type);
-void		update_expander_tasks(t_list *task_list, int diff,
-				char **new_base_str);
+void		drop_task_types(
+				t_list **task_list, char **word, t_expd_tsk_typ type);
+t_list		*get_expander_task_node(
+				t_list *task_list, char **base_str, int i, t_expd_tsk_typ type);
+void		update_expander_tasks(
+				t_list *task_list, int diff, char **new_base_str);
 
 /* expander_task_utils.c */
 void		free_expander_task(t_expd_tsk *task);
-t_expd_tsk	*init_expander_task(t_expd_tsk_typ type, int start,
-				int replace_len, char *str);
+t_expd_tsk	*init_expander_task(
+				t_expd_tsk_typ type, int start, int replace_len, char *str);
 
 /* expander_utils.c */
 int			get_offset(char *str);
@@ -62,8 +60,7 @@ bool		handle_quote_removal(t_list **task_list);
 
 /* wildcard_expansion.c */
 bool		handle_wildcard_expansion(
-				t_list **expanded_list,
-				t_list **task_list);
+				t_list **expanded_list, t_list **task_list);
 
 /* wildcard_expansion_utils.c */
 bool		is_wildcard(char *word, t_list *task_list);
@@ -76,20 +73,19 @@ void		sort_file_list(t_list **file_list);
 
 /* wildcard_task_list.c */
 bool		set_wildcard_task_list(
-				t_list **task_list,
-				t_list *expanded_list,
-				t_expd_op op_mask);
+				t_list **task_list, t_list *expanded_list, t_expd_op op_mask);
 
 /* word_splitting.c */
 bool		handle_word_splitting(
-				t_list **expanded_list,
-				t_expd_op op_mask,
-				t_list **task_list);
+				t_list **expanded_list, t_expd_op op_mask, t_list **task_list);
 
 /* word_splitting_utils.c */
 char		*split_base_str(char **base_str, int *i, int *end);
 int			trim_front_whitespace(char **base_str, int *i, int *end);
-bool		append_rest_to_list(t_list **expanded_list, t_list *task_node,
-				char *rest, int trimmed_len);
+bool		append_rest_to_list(
+				t_list **expanded_list,
+				t_list *task_node,
+				char *rest,
+				int trimmed_len);
 
 #endif

@@ -13,7 +13,7 @@
 #include "cd.h"
 
 int	check_cmpnt_node_path(
-	t_list_d *cmpnt_list, t_list_d *cmpnt_node, char *target_dir)
+		t_list_d *cmpnt_list, t_list_d *cmpnt_node, char *target_dir)
 {
 	char	*path;
 
@@ -31,7 +31,8 @@ int	check_cmpnt_node_path(
 	return (free(path), SUCCESS);
 }
 
-int	get_path_len_from_cmpnt_node(t_list_d *cmpnt_list, t_list_d *cmpnt_node)
+int	get_path_len_from_cmpnt_node(
+		t_list_d *cmpnt_list, t_list_d *cmpnt_node)
 {
 	int	len;
 
