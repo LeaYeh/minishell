@@ -30,7 +30,7 @@ int	exec_echo(char *args[])
 	combined_str = combine_args(args + i, end_with_newline);
 	if (!combined_str)
 		return (MALLOC_ERROR);
-	ft_printf("%s", combined_str);
+	printf("%s", combined_str);
 	free(combined_str);
 	return (EXIT_SUCCESS);
 }
