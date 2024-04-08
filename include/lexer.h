@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 10:35:51 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/19 15:52:15 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/08 12:44:36 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	lexer(t_sh *shell);
 bool	is_operator(char *token_data);
 void	print_missing_pair_error(char *str);
 void	skip_operator(char *token_data, int *i);
-bool	split_token_node(t_list *lst_node_front, int i);
+bool	split_token_node(t_list *node_front, int i);
 
 /* token_data_list.c */
 bool	create_token_data_list(t_list **token_data_list, char *input_line);
@@ -35,6 +35,6 @@ bool	append_end_node(t_list	**token_list);
 void	finetune_token_list(t_list *token_list);
 
 /* token_type.c */
-void	set_token_type(t_list *lst_node);
+void	set_token_type(t_list *token_list);
 
 #endif
