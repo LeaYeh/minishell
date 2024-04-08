@@ -12,7 +12,7 @@
 
 #include "utils.h"
 
-static bool	fill_red_node(t_io_red *io_red, int type, char *data);
+static bool	fill_red_node(t_io_red *io_red, t_tok_typ type, char *data);
 static bool	fill_redirect(t_list **token_list, t_ct *cmd_table);
 
 bool	fill_redirect_by_scenario(
@@ -87,7 +87,7 @@ static bool	fill_redirect(t_list **token_list, t_ct *cmd_table)
 	return (true);
 }
 
-static bool	fill_red_node(t_io_red *io_red, int type, char *data)
+static bool	fill_red_node(t_io_red *io_red, t_tok_typ type, char *data)
 {
 	char	*dup_data;
 

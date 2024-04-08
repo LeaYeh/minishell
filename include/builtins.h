@@ -15,15 +15,15 @@
 
 # include "defines.h"
 
-int		exec_env(char *env[]);
-int		exec_echo(char *args[]);
-int		exec_pwd(void);
-int		exec_cd(char *args[], t_list **env_list);
-int		exec_export(char *args[], t_list **env_list);
-int		exec_unset(char *args[], t_list **env_list);
-void	exec_exit(t_sh *shell, char *args[]);
-int		exec_easter_egg(void);
+int			exec_env(char *env[]);
+int			exec_echo(char *args[]);
+int			exec_pwd(void);
+int			exec_cd(char *args[], t_list **env_list);
+int			exec_export(char *args[], t_list **env_list);
+int			exec_unset(char *args[], t_list **env_list);
+void		exec_exit(t_sh *shell, char *args[]);
+int			exec_easter_egg(void);
 
-int		get_args_error(char *args[]);
+t_exit_err	get_args_error(char *args[]);
 
 #endif

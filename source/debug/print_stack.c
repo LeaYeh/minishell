@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:56:05 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/04 22:56:50 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:39:23 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	print_parse_stack(t_list *node)
 	while (node)
 	{
 		if (get_token_from_stack(node))
-			printf("%d <- ", get_ast_from_stack(node)->type);
+			printf("%d <- ", get_ast_from_stack(node)->element);
 		node = node->next;
 	}
 	printf("(NULL)\n");

@@ -14,7 +14,7 @@
 #include "utils.h"
 #include "clean.h"
 
-static bool	should_execute_next_pipeline(t_sh *shell, int type);
+static bool	should_execute_next_pipeline(t_sh *shell, t_ct_typ type);
 static void	handle_and_or_op(t_sh *shell, t_list_d **cmd_table_node);
 
 void	handle_control_op(t_sh *shell, t_list_d **cmd_table_node)
@@ -40,7 +40,7 @@ static void	handle_and_or_op(t_sh *shell, t_list_d **cmd_table_node)
 		move_past_pipeline(cmd_table_node);
 }
 
-static bool	should_execute_next_pipeline(t_sh *shell, int type)
+static bool	should_execute_next_pipeline(t_sh *shell, t_ct_typ type)
 {
 	if (shell->signal_record != 0)
 	{

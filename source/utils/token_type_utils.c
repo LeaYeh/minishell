@@ -12,23 +12,23 @@
 
 #include "defines.h"
 
-bool	is_word(int token_type)
+bool	is_word(t_tok_typ token_type)
 {
 	return (token_type == T_WORD || token_type == T_ASSIGNMENT_WORD);
 }
 
-bool	is_io_red_op(int token_type)
+bool	is_io_red_op(t_tok_typ token_type)
 {
 	return (token_type == T_HERE_DOC || token_type == T_APPEND || \
 		token_type == T_RED_IN || token_type == T_RED_OUT);
 }
 
-bool	is_control_op(int token_type)
+bool	is_control_op(t_tok_typ token_type)
 {
 	return (token_type == T_AND || token_type == T_OR || token_type == T_PIPE);
 }
 
-bool	is_subshell_symbol(int token_type)
+bool	is_subshell_symbol(t_tok_typ token_type)
 {
 	return (token_type == T_L_BRACKET || token_type == T_R_BRACKET);
 }

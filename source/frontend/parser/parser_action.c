@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_action.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 19:52:51 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:10:29 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/08 16:19:44 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ bool	parse_shift(t_tok *token_node,
 {
 	t_ast	*ast_node;
 
-	ast_node = init_ast_node(token_node->type, token_node->data, NULL);
+	ast_node = init_ast_node(
+			(t_prs_elem)token_node->type, token_node->data, NULL);
 	free(token_node);
 	if (!ast_node)
 		return (false);
@@ -37,7 +38,7 @@ bool	parse_reduce(
 	t_list	*children;
 	t_ast	*reduce_node;
 
-	reduce_node = init_ast_node(pt_entry->next_state, NULL, NULL);
+	reduce_node = init_ast_node((t_prs_elem)pt_entry->next_state, NULL, NULL);
 	if (!reduce_node)
 		return (false);
 	if (!drop_num_stack(state_stack, pt_entry->num_reduced, free))
@@ -51,15 +52,13 @@ bool	parse_reduce(
 	return (true);
 }
 
-bool	parse_goto(t_list **state_stack, int token_type)
+bool	parse_goto(t_list **state_stack, t_prs_elem element)
 {
 	t_pt_node	*pt_entry;
 
 	pt_entry = NULL;
 	if (!set_next_pt_entry(&pt_entry,
-			get_state_from_stack(*state_stack),
-			token_type,
-			A_GOTO))
+			get_state_from_stack(*state_stack), element, A_GOTO))
 		return (false);
 	if (!pt_entry)
 		return (true);

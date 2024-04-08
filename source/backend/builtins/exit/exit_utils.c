@@ -17,18 +17,18 @@ static bool	valid_number(char *str);
 static bool	is_sign(char c);
 static bool	is_atol_overflow(char *str);
 
-int	get_args_error(char *args[])
+t_exit_err	get_args_error(char *args[])
 {
-	int	type;
+	t_exit_err	error_type;
 
 	if (!args || !args[1])
 		return (EX_NO_ARGS);
-	type = EX_NORM_ARGS;
+	error_type = EX_NORM_ARGS;
 	if (!valid_number(args[1]) || is_atol_overflow(args[1]))
-		type = EX_NOT_NUMERIC;
+		error_type = EX_NOT_NUMERIC;
 	else if (args[2])
-		type = EX_TOO_MANY_ARGS;
-	return (type);
+		error_type = EX_TOO_MANY_ARGS;
+	return (error_type);
 }
 
 static bool	valid_number(char *str)

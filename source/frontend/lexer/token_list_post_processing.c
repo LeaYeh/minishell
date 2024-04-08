@@ -23,8 +23,8 @@ void	finetune_token_list(t_list *token_list)
 
 static void	adjust_assignment_word_tokens(t_list *token_list)
 {
-	int		prev_type;
-	t_tok	*token;
+	t_tok_typ	prev_type;
+	t_tok		*token;
 
 	prev_type = T_NONE;
 	while (token_list)

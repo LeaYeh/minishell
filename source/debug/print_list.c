@@ -12,7 +12,7 @@
 
 #include "debug.h"
 
-static char	*get_token_type_str(int type);
+static char	*get_token_type_str(t_tok_typ type);
 
 void	print_env_list(t_sh *shell)
 {
@@ -39,7 +39,7 @@ void	print_token(t_tok *token)
 		get_token_type_str(token->type), token->data);
 }
 
-static char	*get_token_type_str(int type)
+static char	*get_token_type_str(t_tok_typ type)
 {
 	if (type == T_WORD)
 		return ("WORD");

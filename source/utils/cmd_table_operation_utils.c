@@ -30,10 +30,10 @@ t_ct	*init_cmd_table(void)
 	if (!cmd_table)
 		return (NULL);
 	cmd_table->id = 0;
+	cmd_table->type = C_SIMPLE_CMD;
 	cmd_table->subshell_level = 0;
 	cmd_table->read_fd = -1;
 	cmd_table->write_fd = -1;
-	cmd_table->type = C_SIMPLE_CMD;
 	cmd_table->assignment_list = NULL;
 	cmd_table->simple_cmd_list = NULL;
 	cmd_table->io_red_list = NULL;

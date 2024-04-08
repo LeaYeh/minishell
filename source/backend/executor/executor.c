@@ -21,7 +21,7 @@ static void	handle_simple_cmd(t_sh *shell, t_list_d **cmd_table_node);
 
 void	executor(t_sh *shell)
 {
-	int	heredoc_status;
+	t_hd_st	heredoc_status;
 
 	heredoc_status = heredoc(shell);
 	if (heredoc_status == HD_ERROR)

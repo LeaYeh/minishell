@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 18:58:58 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/27 00:15:38 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:38:34 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ static int	print_relation_ast_node(
 		cur_level = node->level;
 	}
 	if (cur_level == 0)
-		printf("\n%d: %d ", node->level, node->current->type);
+		printf("\n%d: %d ", node->level, node->current->element);
 	else
-		printf("%d(%d) ", node->current->type, node->parent->type);
+		printf("%d(%d) ", node->current->element, node->parent->element);
 	return (cur_level);
 }
 

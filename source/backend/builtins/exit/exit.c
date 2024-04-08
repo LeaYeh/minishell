@@ -13,11 +13,11 @@
 #include "builtins.h"
 #include "clean.h"
 
-static void	handle_exit(t_sh *shell, int args_error);
+static void	handle_exit(t_sh *shell, t_exit_err args_error);
 
 void	exec_exit(t_sh *shell, char *args[])
 {
-	int	args_error;
+	t_exit_err	args_error;
 
 	args_error = get_args_error(args);
 	if (args_error == EX_NORM_ARGS)
@@ -27,7 +27,7 @@ void	exec_exit(t_sh *shell, char *args[])
 	handle_exit(shell, args_error);
 }
 
-static void	handle_exit(t_sh *shell, int args_error)
+static void	handle_exit(t_sh *shell, t_exit_err args_error)
 {
 	if (shell->subshell_level == 0 && shell->is_interactive)
 		ft_dprintf(STDERR_FILENO, EXIT_MSG);
