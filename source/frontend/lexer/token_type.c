@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 16:20:32 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/21 17:17:47 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/08 12:44:36 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ static t_tok_typ	which_greater(char *token_data);
 static t_tok_typ	which_pipe(char *token_data);
 static bool			is_assignment_word(char *str);
 
-void	set_token_type(t_list *lst_node)
+void	set_token_type(t_list *token_list)
 {
 	t_tok	*token;
 	char	*token_data;
 
-	while (lst_node)
+	while (token_list)
 	{
-		token = (t_tok *)lst_node->content;
+		token = (t_tok *)token_list->content;
 		token_data = token->data;
 		if (*token_data == '<')
 			token->type = which_lesser(token_data);
@@ -43,7 +43,7 @@ void	set_token_type(t_list *lst_node)
 			token->type = T_ASSIGNMENT_WORD;
 		else
 			token->type = T_WORD;
-		lst_node = lst_node->next;
+		token_list = token_list->next;
 	}
 }
 

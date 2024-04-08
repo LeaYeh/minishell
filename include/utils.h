@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/08 15:39:59 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:03:51 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ bool		read_input(char **line,
 				char *prompt, bool add_to_history, bool is_interactive);
 
 /* Token list utils */
-t_tok		*init_token_node(t_tok_typ type, char *data);
-void		free_token_node(t_tok *token);
+t_tok		*init_token(t_tok_typ type, char *data);
+void		free_token(t_tok *token);
 t_tok		*get_token_from_list(t_list *token_list);
 t_tok_typ	get_token_type_from_list(t_list *token_list);
 char		*get_token_data_from_list(t_list *token_list);

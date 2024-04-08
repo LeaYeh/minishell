@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/08 15:36:42 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:04:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	parser(t_sh *shell)
 	if (!shell->cmd_table_list)
 		clean_and_exit_shell(
 			shell, PREPROCESS_ERROR, "build cmd table malloc failed");
-	ft_lstclear(&shell->token_list, (void *)free_token_node);
+	ft_lstclear(&shell->token_list, (void *)free_token);
 	return (true);
 }
 

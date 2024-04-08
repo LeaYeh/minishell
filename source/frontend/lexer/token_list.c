@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:54:32 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/21 17:17:46 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/08 12:43:37 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "utils.h"
 
 static bool	separate_operators(
-				t_list *lst_node,
+				t_list *token_node,
 				int i);
 static bool	split_and_advance_node(
-				t_list **lst_node,
+				t_list **token_node,
 				char **token_data,
 				int *i);
 
@@ -31,7 +31,7 @@ bool	create_token_list(
 	new_nodes = NULL;
 	while (*token_data_list)
 	{
-		token = init_token_node(T_NONE, (*token_data_list)->content);
+		token = init_token(T_NONE, (*token_data_list)->content);
 		if (!token)
 			break ;
 		(*token_data_list)->content = NULL;
@@ -46,8 +46,8 @@ bool	create_token_list(
 		free(ft_lstpop_front(token_data_list));
 	}
 	if (*token_data_list)
-		return (free_token_node(token), \
-				ft_lstclear(&new_nodes, (void *)free_token_node), false);
+		return (free_token(token),
+			ft_lstclear(&new_nodes, (void *)free_token), false);
 	return (true);
 }
 
@@ -56,19 +56,19 @@ bool	append_end_node(
 {
 	t_tok	*token;
 
-	token = init_token_node(T_END, NULL);
+	token = init_token(T_END, NULL);
 	if (!token || !ft_lstnew_back(token_list, token))
-		return (free_token_node(token), false);
+		return (free_token(token), false);
 	return (true);
 }
 
 static bool	separate_operators(
-	t_list *lst_node,
+	t_list *token_node,
 	int i)
 {
 	char	*token_data;
 
-	token_data = get_token_data_from_list(lst_node);
+	token_data = get_token_data_from_list(token_node);
 	while (token_data[i])
 	{
 		if (token_data[i] == '\'')
@@ -79,7 +79,7 @@ static bool	separate_operators(
 			skip_dollar_brace(token_data, &i, false);
 		else if (is_operator(&token_data[i]))
 		{
-			if (!split_and_advance_node(&lst_node, &token_data, &i))
+			if (!split_and_advance_node(&token_node, &token_data, &i))
 				return (false);
 			continue ;
 		}
@@ -89,7 +89,7 @@ static bool	separate_operators(
 }
 
 static bool	split_and_advance_node(
-	t_list **lst_node,
+	t_list **token_node,
 	char **token_data,
 	int *i)
 {
@@ -97,10 +97,10 @@ static bool	split_and_advance_node(
 		skip_operator(*token_data, i);
 	if ((*token_data)[*i])
 	{
-		if (!split_token_node(*lst_node, *i))
+		if (!split_token_node(*token_node, *i))
 			return (false);
-		*lst_node = (*lst_node)->next;
-		*token_data = get_token_data_from_list(*lst_node);
+		*token_node = (*token_node)->next;
+		*token_data = get_token_data_from_list(*token_node);
 		*i = 0;
 	}
 	return (true);
