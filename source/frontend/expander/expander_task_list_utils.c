@@ -26,7 +26,8 @@ bool	any_task_of_type(t_list *task_list, t_expd_tsk_typ type)
 	return (false);
 }
 
-void	drop_task_types(t_list **task_list, char **word, t_expd_tsk_typ type)
+void	drop_task_types(
+			t_list **task_list, char **word, t_expd_tsk_typ type)
 {
 	t_expd_tsk	*task;
 	t_list		*task_node;
@@ -43,7 +44,7 @@ void	drop_task_types(t_list **task_list, char **word, t_expd_tsk_typ type)
 }
 
 t_list	*get_expander_task_node(
-	t_list *task_list, char **base_str, int i, t_expd_tsk_typ type)
+			t_list *task_list, char **base_str, int i, t_expd_tsk_typ type)
 {
 	t_expd_tsk	*task;
 
@@ -58,7 +59,8 @@ t_list	*get_expander_task_node(
 	return (NULL);
 }
 
-void	update_expander_tasks(t_list *task_list, int diff, char **new_base_str)
+void	update_expander_tasks(
+			t_list *task_list, int diff, char **new_base_str)
 {
 	char		**old_base_str;
 	t_expd_tsk	*task;

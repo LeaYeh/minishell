@@ -18,8 +18,7 @@
 void	executor(t_sh *shell);
 int		set_expanded_cmd_name(
 			char **cmd_name, t_sh *shell, t_list *simple_cmd_list);
-void	handle_expansion_error(
-			t_sh *shell, t_list_d **cmd_table_node, int ret);
+void	handle_expansion_error(t_sh *shell, t_list_d **cmd_table_node, int ret);
 
 void	handle_process(t_sh *shell, t_list_d *cmd_table_node);
 void	fork_subshell(t_sh *shell, t_list_d **cmd_table_node);

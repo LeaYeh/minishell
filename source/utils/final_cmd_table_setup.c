@@ -71,7 +71,8 @@ bool	setup_exec_path(t_sh *shell, t_fct *final_cmd_table)
 	return (true);
 }
 
-bool	setup_assignment_array(t_fct *final_cmd_table, t_list *assignment_list)
+bool	setup_assignment_array(
+			t_fct *final_cmd_table, t_list *assignment_list)
 {
 	final_cmd_table->assignment_array = NULL;
 	if (!assignment_list)

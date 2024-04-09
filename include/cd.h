@@ -26,8 +26,8 @@ bool		is_abs_path(char *path);
 /* cmpnt_list.c */
 t_list_d	*get_abs_path_cmpnt_list(char *pwd, char *target_dir);
 t_list_d	*create_cmpnt_list(char *path);
-char		*convert_cmpnt_node_to_path(t_list_d *cmpnt_list,
-				t_list_d *cmpnt_node);
+char		*convert_cmpnt_node_to_path(
+				t_list_d *cmpnt_list, t_list_d *cmpnt_node);
 
 /* cmpnt_list_utils.c */
 int			check_cmpnt_node_path(

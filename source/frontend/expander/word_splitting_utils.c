@@ -44,7 +44,10 @@ int	trim_front_whitespace(char **base_str, int *i, int *end)
 }
 
 bool	append_rest_to_list(
-	t_list **expanded_list, t_list *task_node, char *rest, int trimmed_len)
+			t_list **expanded_list,
+			t_list *task_node,
+			char *rest,
+			int trimmed_len)
 {
 	char		**new_base_str;
 	t_list		*new_node;

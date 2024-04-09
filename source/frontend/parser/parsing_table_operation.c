@@ -18,14 +18,13 @@ static bool			match_rule(
 						t_prs_act action_mask,
 						int row_index,
 						const int parsing_table[PT_ROW_NUM][PT_COL_NUM]);
-static t_pt_node	*init_pt_node(
-						const int pt_row[PT_ROW_NUM]);
+static t_pt_node	*init_pt_node(const int pt_row[PT_ROW_NUM]);
 
 bool	set_next_pt_entry(
-	t_pt_node **pt_entry,
-	int state,
-	t_prs_elem element,
-	t_prs_act action_mask)
+			t_pt_node **pt_entry,
+			int state,
+			t_prs_elem element,
+			t_prs_act action_mask)
 {
 	const int	parsing_table[PT_ROW_NUM][PT_COL_NUM] = PARSING_TABLE;
 	int			i;
@@ -49,10 +48,10 @@ bool	set_next_pt_entry(
 }
 
 static bool	match_rule(
-	t_prs_elem element,
-	t_prs_act action_mask,
-	int row_index,
-	const int parsing_table[PT_ROW_NUM][PT_COL_NUM])
+				t_prs_elem element,
+				t_prs_act action_mask,
+				int row_index,
+				const int parsing_table[PT_ROW_NUM][PT_COL_NUM])
 {
 	if ((action_mask & A_ACCEPT) == A_ACCEPT && \
 		parsing_table[row_index][PT_COL_ACTION] == A_ACCEPT)
@@ -71,8 +70,7 @@ static bool	match_rule(
 	return (false);
 }
 
-static t_pt_node	*init_pt_node(
-	const int pt_row[PT_ROW_NUM])
+static t_pt_node	*init_pt_node(const int pt_row[PT_ROW_NUM])
 {
 	t_pt_node	*pt_node;
 

@@ -22,15 +22,10 @@ static t_rel_ast	*init_relation_ast_node(
 						t_ast *parent,
 						t_ast *current,
 						t_list *children);
-static int			print_relation_ast_node(
-						t_rel_ast *node,
-						int cur_level);
-static bool			append_children_to_queue(
-						t_list **queue,
-						t_rel_ast *node);
+static int			print_relation_ast_node(t_rel_ast *node, int cur_level);
+static bool			append_children_to_queue(t_list **queue, t_rel_ast *node);
 
-bool	print_ast_bfs(
-	t_ast *root)
+bool	print_ast_bfs(t_ast *root)
 {
 	t_list		*queue;
 	t_rel_ast	*node;
@@ -86,9 +81,7 @@ static t_rel_ast	*init_relation_ast_node(
 	return (node);
 }
 
-static int	print_relation_ast_node(
-	t_rel_ast *node,
-	int cur_level)
+static int	print_relation_ast_node(t_rel_ast *node, int cur_level)
 {
 	if (node->level != cur_level)
 	{
@@ -102,9 +95,7 @@ static int	print_relation_ast_node(
 	return (cur_level);
 }
 
-static bool	append_children_to_queue(
-	t_list **queue,
-	t_rel_ast *node)
+static bool	append_children_to_queue(t_list **queue, t_rel_ast *node)
 {
 	while (node->children)
 	{

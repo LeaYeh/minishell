@@ -14,13 +14,10 @@
 #include "utils.h"
 
 static bool	handle_current_token(
-				t_list **token_list,
-				t_list_d **cmd_table_list);
-static void	fill_subshell_level(
-				t_list_d *cmd_table_list);
+				t_list **token_list, t_list_d **cmd_table_list);
+static void	fill_subshell_level(t_list_d *cmd_table_list);
 
-t_list_d	*build_cmd_table_list(
-	t_list *token_list)
+t_list_d	*build_cmd_table_list(t_list *token_list)
 {
 	t_list_d	*cmd_table_list;
 
@@ -37,8 +34,7 @@ t_list_d	*build_cmd_table_list(
 }
 
 static bool	handle_current_token(
-	t_list **token_list,
-	t_list_d **cmd_table_list)
+				t_list **token_list, t_list_d **cmd_table_list)
 {
 	t_tok_typ	token_type;
 
@@ -61,8 +57,7 @@ static bool	handle_current_token(
 	return (false);
 }
 
-static void	fill_subshell_level(
-	t_list_d *cmd_table_list)
+static void	fill_subshell_level(t_list_d *cmd_table_list)
 {
 	t_ct	*cmd_table;
 	int		level;

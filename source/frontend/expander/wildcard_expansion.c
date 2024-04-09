@@ -13,13 +13,8 @@
 #include "expander.h"
 
 static bool	iter_word_list(
-				t_list **expanded_list,
-				t_list *file_list,
-				t_list **task_list);
-static bool	match_filename(
-				char *filename,
-				char *word,
-				t_list *task_list);
+				t_list **expanded_list, t_list *file_list, t_list **task_list);
+static bool	match_filename(char *filename, char *word, t_list *task_list);
 static bool	expand_wildcard(
 				t_list **tmp_lst,
 				char *word,
@@ -27,8 +22,7 @@ static bool	expand_wildcard(
 				t_list *task_list);
 
 bool	handle_wildcard_expansion(
-	t_list **expanded_list,
-	t_list **task_list)
+			t_list **expanded_list, t_list **task_list)
 {
 	t_list	*file_list;
 
@@ -45,9 +39,7 @@ bool	handle_wildcard_expansion(
 }
 
 static bool	iter_word_list(
-	t_list **expanded_list,
-	t_list *file_list,
-	t_list **task_list)
+				t_list **expanded_list, t_list *file_list, t_list **task_list)
 {
 	t_list	*cur;
 	t_list	*tmp_lst;
@@ -75,10 +67,7 @@ static bool	iter_word_list(
 	return (true);
 }
 
-static bool	match_filename(
-	char *filename,
-	char *word,
-	t_list *task_list)
+static bool	match_filename(char *filename, char *word, t_list *task_list)
 {
 	if (*filename == '.')
 	{
@@ -107,10 +96,10 @@ static bool	match_filename(
 }
 
 static bool	expand_wildcard(
-	t_list **tmp_lst,
-	char *word,
-	t_list *file_list,
-	t_list *task_list)
+				t_list **tmp_lst,
+				char *word,
+				t_list *file_list,
+				t_list *task_list)
 {
 	char	*dup;
 

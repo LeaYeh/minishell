@@ -12,22 +12,13 @@
 
 #include "expander.h"
 
-static bool	iter_word_splitting(
-				t_list *expanded_list,
-				t_list **task_list);
-static bool	split_str_into_nodes(
-				t_list **expanded_list,
-				t_list *task_node);
+static bool	iter_word_splitting(t_list *expanded_list, t_list **task_list);
+static bool	split_str_into_nodes(t_list **expanded_list, t_list *task_node);
 static bool	split_node(
-				t_list **expanded_list,
-				t_list *task_node,
-				int *i,
-				int *end);
+				t_list **expanded_list, t_list *task_node, int *i, int *end);
 
 bool	handle_word_splitting(
-	t_list **expanded_list,
-	t_expd_op op_mask,
-	t_list **task_list)
+			t_list **expanded_list, t_expd_op op_mask, t_list **task_list)
 {
 	if (op_mask & E_SPLIT_WORDS)
 	{
@@ -38,9 +29,7 @@ bool	handle_word_splitting(
 	return (true);
 }
 
-static bool	iter_word_splitting(
-	t_list *expanded_list,
-	t_list **task_list)
+static bool	iter_word_splitting(t_list *expanded_list, t_list **task_list)
 {
 	t_expd_tsk	*task;
 	t_list		*task_node;
@@ -61,9 +50,7 @@ static bool	iter_word_splitting(
 	return (true);
 }
 
-static bool	split_str_into_nodes(
-	t_list **expanded_list,
-	t_list *task_node)
+static bool	split_str_into_nodes(t_list **expanded_list, t_list *task_node)
 {
 	char		**base_str;
 	int			end;
@@ -90,10 +77,7 @@ static bool	split_str_into_nodes(
 }
 
 static bool	split_node(
-	t_list **expanded_list,
-	t_list *task_node,
-	int *i,
-	int *end)
+				t_list **expanded_list, t_list *task_node, int *i, int *end)
 {
 	char	**base_str;
 	char	*rest;

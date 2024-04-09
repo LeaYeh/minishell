@@ -14,21 +14,15 @@
 #include "utils.h"
 
 static int		get_total_export_printout_len(
-					t_list *env_list,
-					int prefix_len,
-					int format_len);
+					t_list *env_list, int prefix_len, int format_len);
 static int		get_env_str_len(
-					t_env *env_node,
-					int prefix_len,
-					int format_len);
+					t_env *env_node, int prefix_len, int format_len);
 static void		fill_export_printout(
 					t_list *env_list,
 					char *export_printout,
 					int prefix_len,
 					int format_len);
-static t_env	*get_next_env_node(
-					t_list *env_list,
-					char *prev_key);
+static t_env	*get_next_env_node(t_list *env_list, char *prev_key);
 
 /**
  * Print all exported env vars in ASCII order, with "export " prepended.
@@ -38,8 +32,7 @@ static t_env	*get_next_env_node(
  * Malloc once, then use ft_snprintf to fill.
  * Then print once.
  */
-int	print_exported_env(
-	t_list *env_list)
+int	print_exported_env(t_list *env_list)
 {
 	char	*export_printout;
 	int		format_len;
@@ -61,9 +54,7 @@ int	print_exported_env(
 }
 
 static int	get_total_export_printout_len(
-	t_list *env_list,
-	int prefix_len,
-	int format_len)
+				t_list *env_list, int prefix_len, int format_len)
 {
 	t_env	*env_node;
 	int		total_len;
@@ -80,9 +71,7 @@ static int	get_total_export_printout_len(
 }
 
 static int	get_env_str_len(
-	t_env *env_node,
-	int prefix_len,
-	int format_len)
+				t_env *env_node, int prefix_len, int format_len)
 {
 	int	len;
 
@@ -95,10 +84,10 @@ static int	get_env_str_len(
 }
 
 static void	fill_export_printout(
-		t_list *env_list,
-		char *export_printout,
-		int prefix_len,
-		int format_len)
+				t_list *env_list,
+				char *export_printout,
+				int prefix_len,
+				int format_len)
 {
 	t_env	*env_node;
 	int		i;
@@ -126,9 +115,7 @@ static void	fill_export_printout(
 	}
 }
 
-static t_env	*get_next_env_node(
-	t_list *env_list,
-	char *prev_key)
+static t_env	*get_next_env_node(t_list *env_list, char *prev_key)
 {
 	t_env	*env_node;
 	t_env	*next_node;
