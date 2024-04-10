@@ -81,7 +81,9 @@
 # define FORK_ERROR			254
 
 /* Text-Style Escape Codes */
+# define STY_RES			"\e[0m"
 # define STY_BOL			"\e[1m"
+# define STY_ITA			"\e[3m"
 # define STY_UND			"\e[4m"
 # define STY_RED			"\e[31m"
 # define STY_GRE			"\e[32m"
@@ -102,7 +104,6 @@
 # define STY_WHI_BG			"\e[47m"
 # define STY_GRA_BG			"\e[100m"
 # define STY_WHI_BRI_BG		"\e[107m"
-# define STY_RES			"\e[0m"
 
 /* Symbols */
 # define WORD_SEPERATORS	" \t\n"
