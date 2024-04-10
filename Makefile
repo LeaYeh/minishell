@@ -230,21 +230,48 @@ ifeq (,$(filter clean fclean re,$(MAKECMDGOALS)))
 endif
 
 
+# **************************** COLORS ******************************* #
+
+STY_RES			:=	"\e[0m"
+STY_BOL			:=	"\e[1m"
+STY_ITA			:=	"\e[3m"
+STY_UND			:=	"\e[4m"
+STY_RED			:=	"\e[31m"
+STY_GRE			:=	"\e[32m"
+STY_YEL			:=	"\e[33m"
+STY_BLU			:=	"\e[34m"
+STY_MAG			:=	"\e[35m"
+STY_CYA			:=	"\e[36m"
+STY_WHI			:=	"\e[37m"
+STY_GRA			:=	"\e[90m"
+STY_WHI_BRI		:=	"\e[97m"
+STY_BLA_BG		:=	"\e[41m"
+STY_RED_BG		:=	"\e[41m"
+STY_GRE_BG		:=	"\e[42m"
+STY_YEL_BG		:=	"\e[43m"
+STY_BLU_BG		:=	"\e[44m"
+STY_MAG_BG		:=	"\e[45m"
+STY_CYA_BG		:=	"\e[46m"
+STY_WHI_BG		:=	"\e[47m"
+STY_GRA_BG		:=	"\e[100m"
+STY_WHI_BRI_BG	:=	"\e[107m"
+
+
 # **************************** CUSTOM MESSAGES ******************************* #
 
 ################################################################################
-MSG_INFO		:=	"\e[3;37m Make version: $(MAKE_VERSION)\n\
-					\e[3;37mCompiler version: $(CC_VERSION)\n\e[0m"
+MSG_INFO		:=	$(STY_ITA)$(STY_WHI)" Make version: $(MAKE_VERSION)\n\
+					Compiler version: $(CC_VERSION)\n"$(STY_RES)
 ################################################################################
-MSG_START		:=	"\e[3mBuilding Crash ... \e[0m"
+MSG_START		:=	$(STY_ITA)"Building Crash ... "$(STY_RES)
 ################################################################################
-MSG_PROGRESS	:=	"\e[3m🌊\e[0m"
+MSG_PROGRESS	:=	$(STY_ITA)"🌊"$(STY_RES)
 ################################################################################
-MSG_SUCCESS		:=	"\e[1;3;36m\nDONE!\e[0m"
+MSG_SUCCESS		:=	$(STY_BOL)$(STY_ITA)$(STY_CYA)"\nDONE!"$(STY_RES)
 ################################################################################
-MSG_NO_CHNG		:=	"\e[3;37mEverything up-to-date!\e[0m"
+MSG_NO_CHNG		:=	$(STY_ITA)$(STY_WHI)"Everything up-to-date!"$(STY_RES)
 ################################################################################
-MSG_FAILURE		:=	"\e[1;3;31mBUILD FAILED!\e[0m"
+MSG_FAILURE		:=	$(STY_BOL)$(STY_ITA)$(STY_RED)"BUILD FAILED!"$(STY_RES)
 ################################################################################
 
 
