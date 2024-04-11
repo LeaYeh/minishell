@@ -7,7 +7,7 @@ RESULT=0
 while IFS= read -r line; do
   if [[ $line == *"❌"* ]]; then
     echo "$line"
-    test_number=$(echo "$line" | grep -oP '\d+' | head -1 || true)
+    test_number=$(echo "$line" | grep -oP '\d+(?=:)' | head -1 || true)
     line_number=$(echo "$line" | grep -oP '\d+' | tail -1 || true)
     file_path=$(echo "$line" | grep -oP '\s*'"$HOME"'/42_minishell_tester/cmds/.*\.sh' || true)
     file_basename=$(basename "${file_path%.*}")
