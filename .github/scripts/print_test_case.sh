@@ -35,6 +35,18 @@ print_output()
   fi
 }
 
+print_valgrind_output()
+{
+  local file_valgrind="${output_file_path}/valgrind_out_${test_number}"
+
+  # Print valgrind output
+  if [[ -f $file_valgrind ]]; then
+    echo -e "\e[1;91mVALGRIND OUTPUT:\e[1;97m"
+    cat "$file_valgrind"
+    echo -e "\e[0;91m---------------------------------------------------------------------------------\e[1;97m"
+  fi
+}
+
 if [[ -n $line_number && -n $file_path ]]; then
   # Print test case
   echo -e "\e[0;93m---------------------------------------------------------------------------------\e[1;97m"
@@ -42,9 +54,16 @@ if [[ -n $line_number && -n $file_path ]]; then
   sed -n "${line_number},\$p" "$file_path" | awk 'NF {p=1} !NF {if(p) exit} {if(p) print}'
   echo -e "\e[0;93m---------------------------------------------------------------------------------\e[1;97m"
 
-  for output_type in stdout stderr; do
-    print_output $output_type
-  done
+  # Check all arguments for the -v flag
+  if [[ " $* " =~ " -v " ]]; then
+    # Remove -v from arguments
+    set -- "${@//-v/}"
+    print_valgrind_output
+  else
+    for output_type in stdout stderr; do
+      print_output $output_type
+    done
+  fi
 
   echo -e "\e[1;95m=================================================================================\e[0m"
 fi

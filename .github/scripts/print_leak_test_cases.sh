@@ -9,7 +9,7 @@ while IFS= read -r line; do
   stripped_line=$(echo "$line" | sed 's/\x1b\[[0-9;]*m//g')
   if [[ $stripped_line == *"LEAKS: ❌"* ]]; then
     echo "$line"
-    "$HOME/print_test_case.sh" "$line"
+    "$HOME/print_test_case.sh" -v "$line"
     ((LEAKS++))
   fi
 
