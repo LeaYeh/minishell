@@ -17,7 +17,7 @@ bool	print_expander_task_list(t_list *task_list, char *calling_function)
 {
 	ft_dprintf(STDERR_FILENO, "\n");
 	if (calling_function)
-		ft_dprintf(STDERR_FILENO, STY_BLD "%s:\n" STY_RES, calling_function);
+		ft_dprintf(STDERR_FILENO, STY_BOL "%s:\n" STY_RES, calling_function);
 	if (!task_list)
 	{
 		ft_dprintf(STDERR_FILENO, "----- Empty expander task list -----\n");
