@@ -30,7 +30,7 @@ while IFS= read -r line; do
     # Print diff of stdout between bash and minishell
     if [[ -f $stdout_file_minishell && -f $stdout_file_bash ]]; then
       echo -e "\e[1;36mDIFF OF \e[1;34mSTDOUT\e[1;36m BETWEEN BASH AND MINISHELL:\e[1;97m"
-      diff -u0 "$stdout_file_bash" "$stdout_file_minishell"
+      diff -u0 --color=always "$stdout_file_bash" "$stdout_file_minishell"
       echo -e "\e[0;36m---------------------------------------------------------------------------------\e[1;97m"
     fi
     # Print stdout of minishell
@@ -48,7 +48,7 @@ while IFS= read -r line; do
     # Print diff of stderr between bash and minishell
     if [[ -f $stderr_file_minishell && -f $stderr_file_bash ]]; then
       echo -e "\e[1;36mDIFF OF \e[1;33mSTDERR\e[1;36m BETWEEN BASH AND MINISHELL:\e[1;97m"
-      diff -u0 "$stderr_file_bash" "$stderr_file_minishell"
+      diff -u0 --color=always "$stderr_file_bash" "$stderr_file_minishell"
       echo -e "\e[0;36m---------------------------------------------------------------------------------\e[1;97m"
     fi
     # Print stderr of minishell
