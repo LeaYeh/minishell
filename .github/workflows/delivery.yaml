@@ -38,7 +38,7 @@ jobs:
       if: env.proceed == 'true'
       run: |
         git checkout -b evaluation origin/evaluation || git checkout -b evaluation
-        git merge origin/main || (git checkout --theirs . && git add .)
+        git merge origin/main || (git checkout --theirs . && git add -A)
 
     - name: Partial cleanup of forbidden files
       if: env.proceed == 'true'
@@ -47,7 +47,7 @@ jobs:
     - name: Commit partial cleanup to evaluation branch
       if: env.proceed == 'true'
       run: |
-        git add .
+        git add -A
         git commit -m "[GH-BOT] Remove forbidden files and empty folders"
 
     - name: 📏 Check norminette
@@ -61,7 +61,7 @@ jobs:
     - name: Amend full cleanup to evaluation branch
       if: env.proceed == 'true'
       run: |
-        git add .
+        git add -A
         git commit --amend --no-edit
 
     - name: 🏷️ Set version tag on evaluation branch
