@@ -21,7 +21,7 @@ while IFS= read -r line; do
     echo -e "\e[0;94m---------------------------------------------------------------------------------\e[1;97m"
 
     # Print stdout and stderr outputs
-    for output_type in std_out std_err; do
+    for output_type in stdout stderr; do
       for shell_type in minishell bash; do
         output_file="./tester_output/${file_dirname}/${file_basename}/${output_type}_${shell_type}_${line_number}"
         if [[ -f $output_file ]]; then
