@@ -72,6 +72,8 @@ jobs:
         env:
           GH_BRANCH: IGNORE
         continue-on-error: true
+      - name: Save tester output to home directory
+        run: mv -f ./tester_output $HOME/. || true
       - name: 📝 Print all test cases that leaked on source branch
         run: |
           export RESULT_FILE="$HOME/leak_result.txt"
@@ -101,6 +103,8 @@ jobs:
           $HOME/42_minishell_tester/tester.sh m > $HOME/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
+      - name: Save tester output to home directory
+        run: mv -f ./tester_output $HOME/. || true
       - name: 📝 Print all test cases that failed on source branch
         run: |
           export RESULT_FILE="$HOME/source_test_result.txt"
@@ -139,6 +143,8 @@ jobs:
           $HOME/42_minishell_tester/tester.sh b > $HOME/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
+      - name: Save tester output to home directory
+        run: mv -f ./tester_output $HOME/. || true
       - name: 📝 Print all test cases that failed on source branch
         run: |
           export RESULT_FILE="$HOME/source_test_result.txt"
@@ -177,6 +183,8 @@ jobs:
           $HOME/42_minishell_tester/tester.sh ne > $HOME/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
+      - name: Save tester output to home directory
+        run: mv -f ./tester_output $HOME/. || true
       - name: 📝 Print all test cases that failed on source branch
         run: |
           export RESULT_FILE="$HOME/source_test_result.txt"
@@ -215,6 +223,8 @@ jobs:
           $HOME/42_minishell_tester/tester.sh d > $HOME/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
+      - name: Save tester output to home directory
+        run: mv -f ./tester_output $HOME/. || true
       - name: 📝 Print all test cases that failed on source branch
         run: |
           export RESULT_FILE="$HOME/source_test_result.txt"
