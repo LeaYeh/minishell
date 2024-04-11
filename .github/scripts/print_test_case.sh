@@ -1,12 +1,13 @@
 #!/bin/bash
 
 line=$1
+tester_output_dir=$2
+
 test_number=$(echo "$line" | grep -oP '\d+(?=:)' | head -1 || true)
 line_number=$(echo "$line" | grep -oP '\d+' | tail -1 || true)
 file_path=$(echo "$line" | grep -oP '\s*'"$HOME"'/42_minishell_tester/cmds/.*\.sh' || true)
 file_basename=$(basename "${file_path%.*}")
 file_dirname=$(basename "$(dirname "$file_path")")
-tester_output_dir="$HOME/tester_output"
 output_file_path="${tester_output_dir}/${file_dirname}/${file_basename}"
 
 print_output()

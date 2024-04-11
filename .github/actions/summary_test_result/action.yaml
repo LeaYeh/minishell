@@ -8,6 +8,9 @@ inputs:
   target_failed_count:
     description: Failed count on the target branch
     required: true
+  tester_output_dir:
+    description: Directory containing tester output
+    required: true
 runs:
   using: composite
   steps:
@@ -31,8 +34,12 @@ runs:
     - name: 📈 Show the regressions between source and target branch
       if: steps.comparison.outcome == 'failure'
       run: $HOME/print_changed_test_cases.sh
+      env:
+        TESTER_OUTPUT_DIR: ${{ inputs.tester_output_dir }}
       shell: bash
     - name: 📉 Show the improvements between source and target branch
       if: steps.comparison.outcome == 'success'
       run: $HOME/print_changed_test_cases.sh || true
+      env:
+        TESTER_OUTPUT_DIR: ${{ inputs.tester_output_dir }}
       shell: bash

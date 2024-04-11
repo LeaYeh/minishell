@@ -8,7 +8,7 @@ while IFS= read -r line; do
     echo -e "\e[94m🎯 Target branch: $line\e[0m"
   elif [[ $line == ">"* ]]; then
     echo -e "\e[93m🌱 Source branch: $line\e[0m"
-    "$HOME/print_test_case.sh" "$line"
+    "$HOME/print_test_case.sh" "$line" "$TESTER_OUTPUT_DIR"
   fi
 done <<< "$DIFF_OUTPUT"
 
