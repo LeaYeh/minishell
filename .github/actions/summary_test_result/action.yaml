@@ -22,10 +22,10 @@ runs:
       # Requires TESTER_OUTPUT_DIR environment variable
     - name: 📈 Show the regressions between source and target branch
       if: steps.comparison.outcome == 'failure'
-      run: $HOME/print_changed_test_cases.sh
+      run: ${{ env.home }}/print_changed_test_cases.sh
       shell: bash
       # Requires TESTER_OUTPUT_DIR environment variable
     - name: 📉 Show the improvements between source and target branch
       if: steps.comparison.outcome == 'success'
-      run: $HOME/print_changed_test_cases.sh || true
+      run: ${{ env.home }}/print_changed_test_cases.sh || true
       shell: bash
