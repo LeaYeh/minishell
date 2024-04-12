@@ -15,6 +15,7 @@ print_output()
 
   # Print diff of output between bash and minishell
   if [[ -f $file_minishell && -f $file_bash ]]; then
+    echo -e "\e[0;36m---------------------------------------------------------------------------------\e[1;97m"
     if [[ $output_type == "stdout" ]]; then
       echo -e "\e[1;36mDIFF OF \e[1;34m${output_type^^}\e[1;36m BETWEEN BASH AND MINISHELL:\e[1;97m"
     elif [[ $output_type == "stderr" ]]; then
@@ -25,12 +26,14 @@ print_output()
   fi
   # Print output of minishell
   if [[ -f $file_minishell ]]; then
+    echo -e "\e[0;91m---------------------------------------------------------------------------------\e[1;97m"
     echo -e "\e[1;91m${output_type^^} OF MINISHELL:\e[1;97m"
     cat "$file_minishell"
     echo -e "\e[0;91m---------------------------------------------------------------------------------\e[1;97m"
   fi
   # Print output of bash
   if [[ -f $file_bash ]]; then
+    echo -e "\e[0;92m---------------------------------------------------------------------------------\e[1;97m"
     echo -e "\e[1;92m${output_type^^} OF BASH:\e[1;97m"
     cat "$file_bash"
     echo -e "\e[0;92m---------------------------------------------------------------------------------\e[1;97m"
@@ -43,6 +46,7 @@ print_valgrind_output()
 
   # Print valgrind output
   if [[ -f $file_valgrind ]]; then
+    echo -e "\e[0;91m---------------------------------------------------------------------------------\e[1;97m"
     echo -e "\e[1;91mVALGRIND OUTPUT:\e[1;97m"
     cat "$file_valgrind"
     echo -e "\e[0;91m---------------------------------------------------------------------------------\e[1;97m"
