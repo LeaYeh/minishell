@@ -15,7 +15,11 @@ print_output()
 
   # Print diff of output between bash and minishell
   if [[ -f $file_minishell && -f $file_bash ]]; then
-    echo -e "\e[1;36mDIFF OF \e[1;34m${output_type^^}\e[1;36m BETWEEN BASH AND MINISHELL:\e[1;97m"
+    if [[ $output_type == "stdout" ]]; then
+      echo -e "\e[1;36mDIFF OF \e[1;34m${output_type^^}\e[1;36m BETWEEN BASH AND MINISHELL:\e[1;97m"
+    elif [[ $output_type == "stderr" ]]; then
+      echo -e "\e[1;36mDIFF OF \e[1;33m${output_type^^}\e[1;36m BETWEEN BASH AND MINISHELL:\e[1;97m"
+    fi
     diff -u0 --color=always "$file_bash" "$file_minishell"
     echo -e "\e[0;36m---------------------------------------------------------------------------------\e[1;97m"
   fi
