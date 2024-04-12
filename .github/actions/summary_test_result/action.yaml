@@ -8,13 +8,13 @@ runs:
     - name: 🆚 Compare failed count
       id: comparison
       run: |
-        echo "TARGET_FAILED_COUNT: $TARGET_FAILED_COUNT"
-        echo "SOURCE_FAILED_COUNT: $SOURCE_FAILED_COUNT"
+        echo -e "\e[93m🌱 SOURCE_FAILED_COUNT: $SOURCE_FAILED_COUNT\e[0m"
+        echo -e "\e[94m🎯 TARGET_FAILED_COUNT: $TARGET_FAILED_COUNT\e[0m"
         if [ $SOURCE_FAILED_COUNT -gt $TARGET_FAILED_COUNT ]; then
-          echo "SOURCE_FAILED_COUNT is greater than TARGET_FAILED_COUNT"
+          echo -e "\e[1;31mSOURCE_FAILED_COUNT is greater than TARGET_FAILED_COUNT\e[0m"
           exit 1
         else
-          echo "SOURCE_FAILED_COUNT is less than or equal to TARGET_FAILED_COUNT"
+          echo -e "\e[1;32mSOURCE_FAILED_COUNT is less than or equal to TARGET_FAILED_COUNT\e[0m"
           exit 0
         fi
       continue-on-error: true
