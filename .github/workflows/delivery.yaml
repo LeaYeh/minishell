@@ -9,6 +9,9 @@ on:
 jobs:
   update_evaluation_branch:
     runs-on: ubuntu-latest
+    env:
+      proceed:
+      main_tag:
 
     steps:
     - name: Checkout code
