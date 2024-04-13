@@ -95,8 +95,7 @@ bool	is_open_pair(unsigned char c, t_pair_op operation)
 	else if (operation == OP_RESET)
 		status[i] = false;
 	else if (operation == OP_CLEAN)
-		while (i < 2)
-			status[i++] = false;
+		ft_memset(status, false, sizeof(status));
 	return (status[i]);
 }
 
