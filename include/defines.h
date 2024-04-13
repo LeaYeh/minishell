@@ -31,6 +31,8 @@
 #  include <sysexits.h>
 #  include <readline/readline.h>
 #  include <readline/history.h>
+# else
+#  define NAME_MAX 255
 # endif
 # include "libft.h"
 # include "ft_printf.h"

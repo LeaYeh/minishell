@@ -68,14 +68,19 @@ static void	handle_simple_cmd(t_sh *shell, t_list_d **cmd_table_node)
 	cmd_table = (*cmd_table_node)->content;
 	ret = set_expanded_cmd_name(&cmd_name, shell, cmd_table->simple_cmd_list);
 	if (ret != SUCCESS)
-		return (free(cmd_name),
-			handle_expansion_error(shell, cmd_table_node, ret));
+	{
+		free(cmd_name);
+		handle_expansion_error(shell, cmd_table_node, ret);
+		return ;
+	}
 	if (!cmd_name || is_builtin(cmd_name, shell))
 	{
 		free(cmd_name);
 		if (set_final_cmd_table(shell, cmd_table) != SUCCESS)
-			return (handle_expansion_error(
-					shell, cmd_table_node, MALLOC_ERROR));
+		{
+			handle_expansion_error(shell, cmd_table_node, MALLOC_ERROR);
+			return ;
+		}
 		handle_builtin(shell, cmd_table_node);
 		free_final_cmd_table(&shell->final_cmd_table);
 	}
