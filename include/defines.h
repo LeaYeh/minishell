@@ -17,19 +17,21 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <linux/limits.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <sysexits.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# ifndef __FRAMAC__
+#  include <linux/limits.h>
+#  include <sysexits.h>
+#  include <readline/readline.h>
+#  include <readline/history.h>
+# endif
 # include "libft.h"
 # include "ft_printf.h"
 # include "get_next_line.h"
