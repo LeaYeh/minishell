@@ -1,6 +1,5 @@
 # .github/workflows/test.yaml
 name: Test Workflow
-
 on:
   pull_request:
   workflow_dispatch:
@@ -10,6 +9,8 @@ on:
     branches:
       - main
       - evaluation
+env:
+  home: /home/runner
 
 jobs:
   compilation_test:
@@ -60,7 +61,7 @@ jobs:
         uses: ./.github/actions/setup
       - name: Delete all but one test script
         run: |
-          for file in $HOME/42_minishell_tester/cmds/**/*.sh; do
+          for file in ${{ env.home }}/42_minishell_tester/cmds/**/*.sh; do
             if [[ "$(basename "$file")" != "${{ matrix.test_script }}" ]]; then
               rm "$file"
             fi
@@ -68,14 +69,17 @@ jobs:
       - name: 🔍 Check memory leaks
         run: |
           make re CC=clang-12
-          $HOME/42_minishell_tester/tester.sh va > $HOME/leak_result.txt
+          ${{ env.home }}/42_minishell_tester/tester.sh va > ${{ env.home }}/leak_result.txt
         env:
           GH_BRANCH: IGNORE
         continue-on-error: true
+      - name: Save tester output to home directory
+        run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that leaked on source branch
-        run: |
-          export RESULT_FILE="$HOME/leak_result.txt"
-          $HOME/print_leak_test_cases.sh
+        run: ${{ env.home }}/print_leak_test_cases.sh
+        env:
+          RESULT_FILE: ${{ env.home }}/leak_result.txt
+          TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
 
   combine_memory_leak_test_results:
     name: Combine Memory Leak Test Results
@@ -98,13 +102,16 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          $HOME/42_minishell_tester/tester.sh m > $HOME/source_test_result.txt
+          ${{ env.home }}/42_minishell_tester/tester.sh m > ${{ env.home }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
+      - name: Save tester output to home directory
+        run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: |
-          export RESULT_FILE="$HOME/source_test_result.txt"
-          $HOME/print_all_failed_test_cases.sh
+        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        env:
+          RESULT_FILE: ${{ env.home }}/source_test_result.txt
+          TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
       - name: Checkout target branch of pull request
         uses: actions/checkout@v4
         with:
@@ -112,16 +119,17 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          $HOME/42_minishell_tester/tester.sh m > $HOME/target_test_result.txt
+          ${{ env.home }}/42_minishell_tester/tester.sh m > ${{ env.home }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
       - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
-        with:
-          source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
-          target_failed_count: ${{ env.TARGET_FAILED_COUNT }}
+        env:
+          SOURCE_FAILED_COUNT: ${{ env.SOURCE_FAILED_COUNT }}
+          TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
+          TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
 
   bonus_regression_test:
     name: Bonus Part Regression Test
@@ -136,13 +144,16 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          $HOME/42_minishell_tester/tester.sh b > $HOME/source_test_result.txt
+          ${{ env.home }}/42_minishell_tester/tester.sh b > ${{ env.home }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
+      - name: Save tester output to home directory
+        run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: |
-          export RESULT_FILE="$HOME/source_test_result.txt"
-          $HOME/print_all_failed_test_cases.sh
+        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        env:
+          RESULT_FILE: ${{ env.home }}/source_test_result.txt
+          TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
       - name: Checkout target branch of pull request
         uses: actions/checkout@v4
         with:
@@ -150,16 +161,17 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          $HOME/42_minishell_tester/tester.sh b > $HOME/target_test_result.txt
+          ${{ env.home }}/42_minishell_tester/tester.sh b > ${{ env.home }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
       - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
-        with:
-          source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
-          target_failed_count: ${{ env.TARGET_FAILED_COUNT }}
+        env:
+          SOURCE_FAILED_COUNT: ${{ env.SOURCE_FAILED_COUNT }}
+          TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
+          TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
 
   empty_env_regression_test:
     name: Empty Env Regression Test
@@ -174,13 +186,16 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          $HOME/42_minishell_tester/tester.sh ne > $HOME/source_test_result.txt
+          ${{ env.home }}/42_minishell_tester/tester.sh ne > ${{ env.home }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
+      - name: Save tester output to home directory
+        run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: |
-          export RESULT_FILE="$HOME/source_test_result.txt"
-          $HOME/print_all_failed_test_cases.sh
+        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        env:
+          RESULT_FILE: ${{ env.home }}/source_test_result.txt
+          TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
       - name: Checkout target branch of pull request
         uses: actions/checkout@v4
         with:
@@ -188,16 +203,17 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          $HOME/42_minishell_tester/tester.sh ne > $HOME/target_test_result.txt
+          ${{ env.home }}/42_minishell_tester/tester.sh ne > ${{ env.home }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
       - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
-        with:
-          source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
-          target_failed_count: ${{ env.TARGET_FAILED_COUNT }}
+        env:
+          SOURCE_FAILED_COUNT: ${{ env.SOURCE_FAILED_COUNT }}
+          TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
+          TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
 
   hardcore_regression_test:
     name: Hardcore Regression Test
@@ -212,13 +228,16 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          $HOME/42_minishell_tester/tester.sh d > $HOME/source_test_result.txt
+          ${{ env.home }}/42_minishell_tester/tester.sh d > ${{ env.home }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
+      - name: Save tester output to home directory
+        run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: |
-          export RESULT_FILE="$HOME/source_test_result.txt"
-          $HOME/print_all_failed_test_cases.sh
+        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        env:
+          RESULT_FILE: ${{ env.home }}/source_test_result.txt
+          TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
       - name: Checkout target branch of pull request
         uses: actions/checkout@v4
         with:
@@ -226,13 +245,14 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          $HOME/42_minishell_tester/tester.sh d > $HOME/target_test_result.txt
+          ${{ env.home }}/42_minishell_tester/tester.sh d > ${{ env.home }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
       - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
-        with:
-          source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
-          target_failed_count: ${{ env.TARGET_FAILED_COUNT }}
+        env:
+          SOURCE_FAILED_COUNT: ${{ env.SOURCE_FAILED_COUNT }}
+          TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
+          TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
