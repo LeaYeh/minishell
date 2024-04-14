@@ -118,8 +118,8 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
-.PHONY			:	all test run val noenv valfd frama-c build lib waitforlib \
-					clean fclean ffclean re
+.PHONY			:	all test run val noenv valfd frama-c infer build lib \
+					waitforlib clean fclean ffclean re
 
 
 #	Compilation
@@ -151,6 +151,10 @@ endif
 
 frama-c:
 					frama-c -eva $(SRC) -cpp-extra-args="$(INCLUDES)"
+
+infer:
+					rm -rf infer-out
+					infer run -- make re
 
 
 #	Library dependency management
