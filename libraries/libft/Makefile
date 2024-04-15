@@ -49,7 +49,7 @@ DEP				:=	$(SRC:%.c=$D%.d)
 OBJ_SUBDIRS		:=	$(sort $(dir $(OBJ)))
 DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
-.PHONY			:	all cleandep cleanobj clean fclean re debug norm print-%
+.PHONY			:	all cleandep cleanobj clean fclean re debug norm
 
 all				:	$(NAME)
 
