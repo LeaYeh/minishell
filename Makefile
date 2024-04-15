@@ -192,7 +192,7 @@ $(DEP_DIR)/%.d	:	%.c $(BUILDFILES) | $(DEP_SUBDIRS)
 						-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
 
 
-#	Mirror directory structure for build artifacts
+#	Mirror directory structure of source files for build artifacts
 
 $(OBJ_SUBDIRS) \
 $(DEP_SUBDIRS)	:

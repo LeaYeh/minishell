@@ -10,27 +10,28 @@
 #                                                                              #
 # **************************************************************************** #
 
+# Initialize SRC
+SRC		:= $(SRC)
 
-# Source files:
-#  Main:
-SUBDIR	:=	./
-SRC		:=	$(addprefix $(SUBDIR), \
+# Main:
+DIR		:=	./
+SRC		+=	$(addprefix $(DIR), \
             main.c \
 )
 
-#  Backend:
-#   Builtins:
-SUBDIR	:=	backend/builtins/
-SRC		+=	$(addprefix $(SUBDIR), \
+# Backend:
+#  Builtins:
+DIR		:=	backend/builtins/
+SRC		+=	$(addprefix $(DIR), \
             easter_egg.c \
             echo.c \
             env.c \
             pwd.c \
             unset.c \
 )
-#   cd:
-SUBDIR	:=	backend/builtins/cd/
-SRC		+=	$(addprefix $(SUBDIR), \
+#  cd:
+DIR		:=	backend/builtins/cd/
+SRC		+=	$(addprefix $(DIR), \
             cd.c \
             cd_errors.c \
             cd_utils.c \
@@ -40,21 +41,21 @@ SRC		+=	$(addprefix $(SUBDIR), \
             env_pwd_update.c \
             path.c \
 )
-#   exit:
-SUBDIR	:=	backend/builtins/exit/
-SRC		+=	$(addprefix $(SUBDIR), \
+#  exit:
+DIR		:=	backend/builtins/exit/
+SRC		+=	$(addprefix $(DIR), \
             exit.c \
             exit_utils.c \
 )
-#   export:
-SUBDIR	:=	backend/builtins/export/
-SRC		+=	$(addprefix $(SUBDIR), \
+#  export:
+DIR		:=	backend/builtins/export/
+SRC		+=	$(addprefix $(DIR), \
             export.c \
             export_output.c \
 )
-#   Executor:
-SUBDIR	:=	backend/executor/
-SRC		+=	$(addprefix $(SUBDIR), \
+#  Executor:
+DIR		:=	backend/executor/
+SRC		+=	$(addprefix $(DIR), \
             builtin_cmd.c \
             control_operator.c \
             executor.c \
@@ -65,9 +66,9 @@ SRC		+=	$(addprefix $(SUBDIR), \
             subshell_process.c \
             wait_process.c \
 )
-#   Redirection:
-SUBDIR	:=	backend/redirection/
-SRC		+=	$(addprefix $(SUBDIR), \
+#  Redirection:
+DIR		:=	backend/redirection/
+SRC		+=	$(addprefix $(DIR), \
             file_descriptor.c \
             heredoc.c \
             heredoc_string_utils.c \
@@ -78,9 +79,9 @@ SRC		+=	$(addprefix $(SUBDIR), \
             stdio_bind.c \
 )
 
-#  Debug:
-SUBDIR	:=	debug/
-SRC		+=	$(addprefix $(SUBDIR), \
+# Debug:
+DIR		:=	debug/
+SRC		+=	$(addprefix $(DIR), \
             print_ast_bfs.c \
             print_cmd_table.c \
             print_expanded_cmd_table.c \
@@ -91,10 +92,10 @@ SRC		+=	$(addprefix $(SUBDIR), \
             print_stack.c \
 )
 
-#  Frontend:
-#   Expander:
-SUBDIR	:=	frontend/expander/
-SRC		+=	$(addprefix $(SUBDIR), \
+# Frontend:
+#  Expander:
+DIR		:=	frontend/expander/
+SRC		+=	$(addprefix $(DIR), \
             bad_substitution.c \
             expander.c \
             expander_task_list.c \
@@ -111,9 +112,9 @@ SRC		+=	$(addprefix $(SUBDIR), \
             word_splitting.c \
             word_splitting_utils.c \
 )
-#   Lexer:
-SUBDIR	:=	frontend/lexer/
-SRC		+=	$(addprefix $(SUBDIR), \
+#  Lexer:
+DIR		:=	frontend/lexer/
+SRC		+=	$(addprefix $(DIR), \
             lexer.c \
             lexer_utils.c \
             token_data_list.c \
@@ -121,9 +122,9 @@ SRC		+=	$(addprefix $(SUBDIR), \
             token_list_post_processing.c \
             token_type.c \
 )
-#   Parser:
-SUBDIR	:=	frontend/parser/
-SRC		+=	$(addprefix $(SUBDIR), \
+#  Parser:
+DIR		:=	frontend/parser/
+SRC		+=	$(addprefix $(DIR), \
             cmd_table_list.c \
             cmd_table_symbol.c \
             cmd_table_symbol_utils.c \
@@ -135,25 +136,25 @@ SRC		+=	$(addprefix $(SUBDIR), \
             syntax_error.c \
 )
 
-#  Shell:
-SUBDIR	:=	shell/
-SRC		+=	$(addprefix $(SUBDIR), \
+# Shell:
+DIR		:=	shell/
+SRC		+=	$(addprefix $(DIR), \
             clean.c \
             default_env_list.c \
             env_list.c \
             init.c \
 )
 
-#  Signal:
-SUBDIR	:=	signal/
-SRC		+=	$(addprefix $(SUBDIR), \
+# Signal:
+DIR		:=	signal/
+SRC		+=	$(addprefix $(DIR), \
             exception_broadcaster.c \
             signal_handler.c \
 )
 
-#  Utils:
-SUBDIR	:=	utils/
-SRC		+=	$(addprefix $(SUBDIR), \
+# Utils:
+DIR		:=	utils/
+SRC		+=	$(addprefix $(DIR), \
             array_utils.c \
             ast_utils.c \
             cmd_table_list_utils.c \
