@@ -107,7 +107,6 @@ TERMINALFLAGS	:=	--title="$(TERMINALTITLE)" -- /bin/sh -c
 #	Files
 
 include				$(BUILD_DIR)/source_files.mk
-SRC				:=	$(addprefix $(SRC_DIR)/,$(SRC))
 OBJ 			:=	$(SRC:%.c=$(OBJ_DIR)/%.o)
 DEP				:=	$(SRC:%.c=$(DEP_DIR)/%.d)
 
@@ -180,14 +179,14 @@ $(NAME)			:	$(LIBRARIES) $(OBJ)
 
 #	Source file compiling
 
-$(OBJ_DIR)/%.o	:	%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
+$(OBJ_DIR)/%.o	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
 					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -c $< -o $@ \
 						&& echo -n $(MSG_PROGRESS)
 
 
 #	Pre-processing and dependency file creation
 
-$(DEP_DIR)/%.d	:	%.c $(BUILDFILES) | $(DEP_SUBDIRS)
+$(DEP_DIR)/%.d	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(DEP_SUBDIRS)
 					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) \
 						-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
 
