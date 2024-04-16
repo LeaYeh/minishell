@@ -38,7 +38,10 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 
 	(void)info;
 	if (!shell)
-		return (shell = context, (void) NULL);
+	{
+		shell = context;
+		return ;
+	}
 	shell->exit_code = TERM_BY_SIGNAL + signo;
 	if (signo == SIGINT)
 	{

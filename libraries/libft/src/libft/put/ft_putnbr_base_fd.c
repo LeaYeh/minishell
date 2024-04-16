@@ -44,7 +44,7 @@ size_t	ft_putnbr_base_fd(long n, const char *base, int fd)
 	{
 		if (write(fd, "-", 1) == 1)
 			written += 1;
-		u_n = (unsigned long) n * -1;
+		u_n = (unsigned long) -n;
 	}
 	else
 		u_n = (unsigned long) n;

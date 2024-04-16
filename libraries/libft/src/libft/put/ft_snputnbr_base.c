@@ -37,7 +37,7 @@ size_t	ft_snputnbr_base(char *str, long n, const char *base, size_t max_len)
 		if (written == max_len)
 			return (written);
 		max_len--;
-		u_n = (unsigned long) n * -1;
+		u_n = (unsigned long) -n;
 	}
 	else
 		u_n = (unsigned long) n;

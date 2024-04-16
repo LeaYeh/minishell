@@ -123,7 +123,7 @@ static void	sprint_nbr_in_correct_base(long nbr, t_sformat *f)
 		f->sprinted += ft_snputnbr_base(&f->str[f->sprinted], nbr,
 				"0123456789ABCDEF", f->size - f->sprinted);
 	else if (nbr < 0)
-		f->sprinted += ft_snputnbr_base(&f->str[f->sprinted], nbr * -1,
+		f->sprinted += ft_snputnbr_base(&f->str[f->sprinted], -nbr,
 				"0123456789", f->size - f->sprinted);
 	else
 		f->sprinted += ft_snputnbr_base(&f->str[f->sprinted], nbr,

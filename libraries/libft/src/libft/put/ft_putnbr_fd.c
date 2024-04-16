@@ -23,7 +23,7 @@ void	ft_putnbr_fd(int n, int fd)
 	else if (n < 0)
 	{
 		(void) write(fd, "-", 1);
-		putnbr_fd_recursive(n * -1, fd);
+		putnbr_fd_recursive(-n, fd);
 	}
 	else
 		putnbr_fd_recursive(n, fd);
