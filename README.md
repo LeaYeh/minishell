@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌊rash Minishell | @42Vienna
+# <i>🌊</i>rash Minishell | @42Vienna
 
 ![Workflow Status](https://github.com/LeaYeh/minishell/actions/workflows/test.yaml/badge.svg?branch=main&style=flat)
 ![Norminette Status](https://github.com/LeaYeh/minishell/actions/workflows/norminette.yaml/badge.svg?branch=main&style=flat)
