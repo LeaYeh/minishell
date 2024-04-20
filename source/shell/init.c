@@ -13,11 +13,12 @@
 #include "init.h"
 #include "executor.h"
 #include "signals.h"
+#include "utils.h"
 
 bool	init_shell(t_sh *shell)
 {
 	shell->is_interactive = isatty(STDIN_FILENO);
-	shell->pid = getpid();
+	shell->pid = getpid_asm();
 	shell->subshell_pid = -1;
 	shell->subshell_level = 0;
 	shell->signal_record = 0;
