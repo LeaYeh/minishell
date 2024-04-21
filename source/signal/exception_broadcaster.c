@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "signals.h"
+#include "utils.h"
 
 static void	signal_to_all_subprocess(t_sh *shell, int signo);
 
@@ -42,7 +43,7 @@ void	raise_error_to_own_subprocess(t_sh *shell, int exit_code, char *msg)
 	setup_signal(shell, SIGTERM, SIG_STANDARD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	signal_to_all_subprocess(shell, SIGTERM);
-	kill(getpid(), SIGTERM);
+	kill(getpid_from_proc(), SIGTERM);
 }
 
 static void	signal_to_all_subprocess(t_sh *shell, int signo)
@@ -51,7 +52,7 @@ static void	signal_to_all_subprocess(t_sh *shell, int signo)
 	pid_t	child_pid;
 	t_list	*node;
 
-	pid = getpid();
+	pid = getpid_from_proc();
 	node = shell->child_pid_list;
 	while (node)
 	{

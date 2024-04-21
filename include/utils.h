@@ -132,4 +132,7 @@ char		*get_varname(char *str);
 void		print_welcome_msg(t_sh *shell);
 void		clear_terminal_soft(void);
 
+/* Pid utils */
+pid_t	getpid_from_proc(void);
+
 #endif

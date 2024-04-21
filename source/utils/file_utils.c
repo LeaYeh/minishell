@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "defines.h"
+#include "utils.h"
 
 char	*generate_tmp_filename(int cmdtable_id, char *category)
 {
@@ -22,7 +22,8 @@ char	*generate_tmp_filename(int cmdtable_id, char *category)
 	ft_snprintf(
 		filename,
 		NAME_MAX,
-		"/tmp/%s_%s_%d-%d", PROGRAM_NAME, category, getpid(), cmdtable_id);
+		"/tmp/%s_%s_%d-%d",
+		PROGRAM_NAME, category, getpid_from_proc(), cmdtable_id);
 	return (filename);
 }
 
