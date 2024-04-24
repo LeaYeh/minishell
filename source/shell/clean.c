@@ -74,6 +74,8 @@ static void	remove_heredoc_files(t_ct *cmd_table)
 
 static void	close_std_io(void)
 {
+	fflush(stdout);
+	fflush(stderr);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
