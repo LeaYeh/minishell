@@ -43,7 +43,7 @@ BUILDFILES		:=	Makefile \
 
 CC 				:=	cc
 CC_VERSION		:=	$(shell $(CC) --version | head -1)
-CFLAGS 			:=	-Wall -Wextra -Werror -g
+CFLAGS 			:=	-Wall -Wextra -Werror -ggdb3
 INCFLAGS 		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
 LIBFLAGS		:=	$(addprefix -L,$(LIBRARIES)) \
 					$(addprefix -l,$(patsubst lib%,%,$(notdir \
