@@ -17,13 +17,13 @@ void	print_welcome_msg(t_sh *shell)
 	if (shell->is_interactive)
 	{
 		clear_terminal_soft();
-		ft_printf(WELCOME_ART1);
-		ft_printf(WELCOME_MSG);
+		printf(WELCOME_ART1);
+		printf(WELCOME_MSG);
 	}
 }
 
 void	clear_terminal_soft(void)
 {
 	if (isatty(STDIN_FILENO))
-		ft_printf("\e[2J\e[1;1H");
+		printf("\e[2J\e[1;1H");
 }
