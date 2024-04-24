@@ -21,7 +21,7 @@ static void	close_std_io(void);
 void	clean_and_exit_shell(t_sh *shell, int exit_code, char *msg)
 {
 	if (msg)
-		ft_printf("%s\n", msg);
+		print_error("%s\n", msg);
 	clean_shell(shell);
 	safe_close_all_pipes(shell);
 	(void)get_next_line(-1);
