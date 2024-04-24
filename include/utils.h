@@ -133,7 +133,7 @@ void		print_welcome_msg(t_sh *shell);
 void		clear_terminal_soft(void);
 
 /* Pid utils */
-pid_t	getpid_from_proc(void);
+pid_t		getpid_from_proc(void);
 
 /* Error utils */
 void		print_error(char *fmt, ...);
