@@ -21,6 +21,7 @@ NAME 			:=	minishell
 #	Directories
 
 SRC_DIR			:=	source
+INC_DIR			:=	include
 BUILD_DIR		:=	build
 OBJ_DIR			:=	$(BUILD_DIR)/_obj
 DEP_DIR			:=	$(BUILD_DIR)/_dep
@@ -29,9 +30,9 @@ LIB_DIR			:=	libraries
 
 #	Dependencies
 
-LIBRARIES		:=	$(wildcard $(LIB_DIR)/*)
+LIBRARIES		:=	$(LIB_DIR)/libft
 LIBRARIES_EXT	:=	readline termcap
-INCLUDES 		:=	-I./include -I./$(LIBRARIES)/inc
+LIB_INCLUDES 	:=	$(LIB_DIR)/libft/inc
 BUILDFILES		:=	Makefile \
 					$(BUILD_DIR)/parsing_table.mk \
 					$(BUILD_DIR)/source_files.mk \
@@ -42,7 +43,8 @@ BUILDFILES		:=	Makefile \
 
 CC 				:=	cc
 CC_VERSION		:=	$(shell $(CC) --version | head -1)
-CFLAGS 			:=	-Wall -Wextra -Werror -g
+CFLAGS 			:=	-Wall -Wextra -Werror -ggdb3
+INCFLAGS 		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
 LIBFLAGS		:=	$(addprefix -L,$(LIBRARIES)) \
 					$(addprefix -l,$(patsubst lib%,%,$(notdir \
 					$(LIBRARIES) $(LIBRARIES_EXT))))
@@ -162,7 +164,7 @@ endif
 
 #	Library compilation
 
-export				MAKECMDGOALS
+export				CC CFLAGS MAKECMDGOALS MAKEFLAGS
 
 lib				:
 					$(MAKE) -C $(LIBRARIES)
@@ -173,20 +175,20 @@ waitforlib		:	lib
 #	Executable linking
 
 $(NAME)			:	$(LIBRARIES) $(OBJ)
-					$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFLAGS) -o $(NAME)
+					$(CC) $(CFLAGS) $(INCFLAGS) $(OBJ) $(LIBFLAGS) -o $(NAME)
 
 
 #	Source file compiling
 
 $(OBJ_DIR)/%.o	:	%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
-					$(CC) $(CFLAGS) $(MACROS) $(INCLUDES) -c $< -o $@ \
+					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -c $< -o $@ \
 						&& echo -n $(MSG_PROGRESS)
 
 
 #	Pre-processing and dependency file creation
 
 $(DEP_DIR)/%.d	:	%.c $(BUILDFILES) | $(DEP_SUBDIRS)
-					$(CC) $(CFLAGS) $(MACROS) $(INCLUDES) \
+					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) \
 						-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
 
 

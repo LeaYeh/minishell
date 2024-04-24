@@ -34,7 +34,8 @@ SOURCELISTS		:=	libft.mk \
 
 # Flags:
 CC				?=	cc
-CFLAGS			?=	-Wall -Wextra -Werror $(addprefix -I,$I) -g
+CFLAGS			?=	-Wall -Wextra -Werror
+INCFLAGS		:=	$(addprefix -I,$I)
 DEBUGFLAGS		:=	-g
 ARFLAGS			:=	rcs
 
@@ -60,10 +61,10 @@ $(NAME)			:	$(OBJ)
 					ar $(ARFLAGS) $(NAME) $(OBJ)
 
 $(OBJ):	$O%.o	:	$S%.c | $(SUBDIRS_O)
-					$(CC) $(CFLAGS) -c $< -o $@
+					$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
 $(DEP):	$D%.d	:	$S%.c | $(SUBDIRS_D)
-	@				$(CC) $(CFLAGS) -M -MP -MF $@ -MT "$O$*.o $@" $<
+	@				$(CC) $(CFLAGS) $(INCFLAGS) -M -MP -MF $@ -MT "$O$*.o $@" $<
 
 $(SUBDIRS_O) $(SUBDIRS_D):
 	@				mkdir -p $@
