@@ -30,19 +30,6 @@ void	clean_and_exit_shell(t_sh *shell, int exit_code, char *msg)
 	exit(exit_code);
 }
 
-static void	clean_shell(t_sh *shell)
-{
-	ft_free_and_null((void **)&shell->input_line);
-	ft_lstclear(&shell->child_pid_list, NULL);
-	ft_lstclear(&shell->env_list, (void *)free_env_node);
-	ft_lstclear(&shell->token_list, (void *)free_token);
-	if (shell->subshell_level == 0)
-		ft_lstiter_d(shell->cmd_table_list, (void *)remove_heredoc_files);
-	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
-	free_final_cmd_table(&shell->final_cmd_table);
-	rl_clear_history();
-}
-
 void	reset_submodule_variable(t_sh *shell)
 {
 	shell->subshell_level = 0;
@@ -54,6 +41,19 @@ void	reset_submodule_variable(t_sh *shell)
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
 	ft_free_and_null((void **)&shell->input_line);
 	free_final_cmd_table(&shell->final_cmd_table);
+}
+
+static void	clean_shell(t_sh *shell)
+{
+	ft_free_and_null((void **)&shell->input_line);
+	ft_lstclear(&shell->child_pid_list, NULL);
+	ft_lstclear(&shell->env_list, (void *)free_env_node);
+	ft_lstclear(&shell->token_list, (void *)free_token);
+	if (shell->subshell_level == 0)
+		ft_lstiter_d(shell->cmd_table_list, (void *)remove_heredoc_files);
+	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
+	free_final_cmd_table(&shell->final_cmd_table);
+	rl_clear_history();
 }
 
 static void	remove_heredoc_files(t_ct *cmd_table)
