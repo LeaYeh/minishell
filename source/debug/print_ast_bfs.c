@@ -45,7 +45,7 @@ bool	print_ast_bfs(t_ast *root)
 			return (ft_lstclear(&queue, free), false);
 		free(node);
 	}
-	printf("\n\n");
+	ft_printf("\n\n");
 	return (ft_lstclear(&queue, free), true);
 }
 
@@ -85,13 +85,13 @@ static int	print_relation_ast_node(t_rel_ast *node, int cur_level)
 {
 	if (node->level != cur_level)
 	{
-		printf("\n\n%d: ", node->level);
+		ft_printf("\n\n%d: ", node->level);
 		cur_level = node->level;
 	}
 	if (cur_level == 0)
-		printf("\n%d: %d ", node->level, node->current->element);
+		ft_printf("\n%d: %d ", node->level, node->current->element);
 	else
-		printf("%d(%d) ", node->current->element, node->parent->element);
+		ft_printf("%d(%d) ", node->current->element, node->parent->element);
 	return (cur_level);
 }
 

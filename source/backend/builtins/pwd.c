@@ -23,7 +23,7 @@ int	exec_pwd(void)
 		perror(NULL);
 		return (CMD_EXEC_FAILED);
 	}
-	printf("%s\n", pwd);
+	ft_printf("%s\n", pwd);
 	free(pwd);
 	return (EXIT_SUCCESS);
 }

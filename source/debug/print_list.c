@@ -16,26 +16,26 @@ static char	*get_token_type_str(t_tok_typ type);
 
 void	print_env_list(t_sh *shell)
 {
-	printf("--------- ENV LIST ---------\n");
+	ft_printf("--------- ENV LIST ---------\n");
 	ft_lstiter(shell->env_list, (void *)print_env);
-	printf("----------------------------\n\n");
+	ft_printf("----------------------------\n\n");
 }
 
 void	print_env(t_env *env)
 {
-	printf("%s=%s\n", env->key, env->value);
+	ft_printf("%s=%s\n", env->key, env->value);
 }
 
 void	print_token_list(t_list *token_list)
 {
-	printf("-------- TOKEN LIST --------\n");
+	ft_printf("-------- TOKEN LIST --------\n");
 	ft_lstiter(token_list, (void *)print_token);
-	printf("----------------------------\n\n");
+	ft_printf("----------------------------\n\n");
 }
 
 void	print_token(t_tok *token)
 {
-	printf("(type: %s, data: %s)\n",
+	ft_printf("(type: %s, data: %s)\n",
 		get_token_type_str(token->type), token->data);
 }
 

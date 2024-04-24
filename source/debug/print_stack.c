@@ -19,10 +19,10 @@ void	print_state_stack(t_list *stack)
 	node = stack;
 	while (node)
 	{
-		printf("%d <- ", get_state_from_stack(node));
+		ft_printf("%d <- ", get_state_from_stack(node));
 		node = node->next;
 	}
-	printf("(NULL)\n");
+	ft_printf("(NULL)\n");
 }
 
 void	print_parse_stack(t_list *node)
@@ -30,8 +30,8 @@ void	print_parse_stack(t_list *node)
 	while (node)
 	{
 		if (get_token_from_stack(node))
-			printf("%d <- ", get_ast_from_stack(node)->element);
+			ft_printf("%d <- ", get_ast_from_stack(node)->element);
 		node = node->next;
 	}
-	printf("(NULL)\n");
+	ft_printf("(NULL)\n");
 }
