@@ -34,7 +34,7 @@ SOURCELISTS		:=	libft.mk \
 
 # Flags:
 CC				?=	cc
-CFLAGS			?=	-Wall -Wextra -Werror -g
+CFLAGS			?=	-Wall -Wextra -Werror
 INCFLAGS		:=	$(addprefix -I,$I)
 DEBUGFLAGS		:=	-g
 ARFLAGS			:=	rcs

@@ -164,7 +164,7 @@ endif
 
 #	Library compilation
 
-export				MAKECMDGOALS
+export				CC CFLAGS MAKECMDGOALS MAKEFLAGS
 
 lib				:
 					$(MAKE) -C $(LIBRARIES)
