@@ -28,9 +28,7 @@ S				:=	src/
 
 # Makefiles in build/ directory with source file listings to be included
 # (files that are dependent on others need to be below their dependency):
-SOURCELISTS		:=	libft.mk \
-					ft_printf.mk \
-					get_next_line.mk \
+SOURCELISTS		:=	libft.mk
 
 # Flags:
 CC				?=	cc
@@ -46,27 +44,26 @@ ARFLAGS			:=	rcs
 
 include				$(addprefix $B,$(SOURCELISTS))
 
-SRC				:=	$(foreach name,$(basename $(SOURCELISTS)),$(SRC_$(name)))
-
-DEP				:=	$(SRC:%.c=$D%.d)
 OBJ				:=	$(SRC:%.c=$O%.o)
-SUBDIRS_D		:=	$(sort $(dir $(DEP)))
-SUBDIRS_O		:=	$(sort $(dir $(OBJ)))
+DEP				:=	$(SRC:%.c=$D%.d)
+OBJ_SUBDIRS		:=	$(sort $(dir $(OBJ)))
+DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
-.PHONY			:	all cleandep cleanobj clean fclean re debug norm print-%
+.PHONY			:	all cleandep cleanobj clean fclean re debug norm
 
 all				:	$(NAME)
 
 $(NAME)			:	$(OBJ)
 					ar $(ARFLAGS) $(NAME) $(OBJ)
 
-$(OBJ):	$O%.o	:	$S%.c | $(SUBDIRS_O)
+$(OBJ):	$O%.o	:	$S%.c | $(OBJ_SUBDIRS)
 					$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
-$(DEP):	$D%.d	:	$S%.c | $(SUBDIRS_D)
+$(DEP):	$D%.d	:	$S%.c | $(DEP_SUBDIRS)
 	@				$(CC) $(CFLAGS) $(INCFLAGS) -M -MP -MF $@ -MT "$O$*.o $@" $<
 
-$(SUBDIRS_O) $(SUBDIRS_D):
+$(OBJ_SUBDIRS) \
+$(DEP_SUBDIRS)	:
 	@				mkdir -p $@
 
 cleandep		:
@@ -98,8 +95,6 @@ debug			:	CFLAGS += $(DEBUGFLAGS)
 debug			:	re
 
 norm			:
-	@				read -p "Press Enter to check $$(basename "$$(pwd)")..." \
-					userInput;
 	@				-norminette -R CheckForbiddenSourceHeader -R CheckDefine \
 					$(addprefix $S,$(SRC)) $(foreach dir,$I,$(dir)*.h)
 
