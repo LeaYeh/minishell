@@ -42,11 +42,11 @@
 # endif
 
 # ifndef WELCOME_ART1
-#  define WELCOME_ART1		0
+#  define WELCOME_ART1		""
 # endif
 
 # ifndef WELCOME_ART2
-#  define WELCOME_ART2		0
+#  define WELCOME_ART2		""
 # endif
 
 # define PROGRAM_NAME		"crash"
