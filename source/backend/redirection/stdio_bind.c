@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:09:45 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:48:16 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/05/03 17:18:22 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	save_std_io(int saved_std_io[2])
 	saved_std_io[1] = dup(STDOUT_FILENO);
 	if (saved_std_io[0] == -1 || saved_std_io[1] == -1)
 	{
-		ft_dprintf(STDERR_FILENO, "%s: ", PROGRAM_NAME);
+		print_error("%s: ", PROGRAM_NAME);
 		perror(NULL);
 		safe_close(&saved_std_io[0]);
 		safe_close(&saved_std_io[1]);
@@ -36,7 +36,7 @@ bool	redirect_scmd_io(t_sh *shell, int *read_fd, int *write_fd)
 	if (dup2(*read_fd, STDIN_FILENO) == -1 || \
 		dup2(*write_fd, STDOUT_FILENO) == -1)
 	{
-		ft_dprintf(STDERR_FILENO, "%s: ", PROGRAM_NAME);
+		print_error("%s: ", PROGRAM_NAME);
 		perror(NULL);
 		ret = false;
 	}
@@ -63,7 +63,7 @@ int	redirect_subshell_io(t_sh *shell, t_ct *cmd_table)
 		((read_fd != -1 && dup2(read_fd, STDIN_FILENO) == -1) || \
 		(write_fd != -1 && dup2(write_fd, STDOUT_FILENO) == -1)))
 	{
-		ft_dprintf(STDERR_FILENO, "%s: ", PROGRAM_NAME);
+		print_error("%s: ", PROGRAM_NAME);
 		perror(NULL);
 		ret = GENERAL_ERROR;
 	}
@@ -85,7 +85,7 @@ bool	restore_std_io(int saved_std_io[2])
 			error = true;
 	if (error)
 	{
-		ft_dprintf(STDERR_FILENO, "%s: ", PROGRAM_NAME);
+		print_error("%s: ", PROGRAM_NAME);
 		perror(NULL);
 		return (false);
 	}

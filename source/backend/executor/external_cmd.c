@@ -6,7 +6,7 @@
 /*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:17:06 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:44:08 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/05/03 17:18:03 by lyeh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	handle_external_cmd(t_sh *shell, t_ct *cmd_table)
 static bool	check_execfile_exist(char *exec_path, char *cmd_name)
 {
 	if (!exec_path)
-		ft_dprintf(STDERR_FILENO, ERROR_CMD_NOT_FOUND, PROGRAM_NAME, cmd_name);
+		print_error(ERROR_CMD_NOT_FOUND, PROGRAM_NAME, cmd_name);
 	else if (access(exec_path, F_OK) != 0 && errno != ENOTDIR)
-		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
+		print_error("%s: %s: %s\n",
 			PROGRAM_NAME, exec_path, strerror(errno));
 	else
 		return (true);
@@ -72,13 +72,13 @@ static void	handle_exec_error(t_sh *shell, char *exec_path)
 
 	error = errno;
 	if (error == ENOEXEC)
-		ft_dprintf(STDERR_FILENO, ERROR_CANNOT_EXEC_FILE,
+		print_error(ERROR_CANNOT_EXEC_FILE,
 			PROGRAM_NAME, exec_path, strerror(ENOEXEC));
 	else if (is_dir(exec_path))
-		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
+		print_error("%s: %s: %s\n",
 			PROGRAM_NAME, exec_path, strerror(EISDIR));
 	else
-		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
+		print_error("%s: %s: %s\n",
 			PROGRAM_NAME, exec_path, strerror(error));
 	clean_and_exit_shell(shell, CMD_EXEC_FAILED, NULL);
 }
