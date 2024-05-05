@@ -32,7 +32,7 @@ void	print_missing_pair_error(char *str)
 		missing_pair = CLOSING_BRACE;
 	else
 		missing_pair = *str;
-	ft_dprintf(STDERR_FILENO, ERROR_LEXER_SYNTAX, PROGRAM_NAME, missing_pair);
+	print_error(ERROR_LEXER_SYNTAX, PROGRAM_NAME, missing_pair);
 }
 
 void	skip_operator(char *token_data, int *i)

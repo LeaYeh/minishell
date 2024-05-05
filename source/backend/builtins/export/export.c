@@ -29,8 +29,7 @@ int	exec_export(char *args[], t_list **env_list)
 	{
 		if (!is_valid_varname(args[i]))
 		{
-			ft_dprintf(STDERR_FILENO, ERROR_EXPORT_INVALID_IDENTIFIER,
-				PROGRAM_NAME, args[i]);
+			print_error(ERROR_EXPORT_INVALID_IDENTIFIER, PROGRAM_NAME, args[i]);
 			ret = GENERAL_ERROR;
 		}
 		else if (!handle_var_export(args[i], env_list))

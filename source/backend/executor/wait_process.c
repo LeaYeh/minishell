@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "clean.h"
+#include "utils.h"
 
 static int	handle_exit_status(int wstatus);
 static void	print_exit_msg(int wstatus, int signo);
@@ -69,10 +70,10 @@ static int	handle_exit_status(int wstatus)
 static void	print_exit_msg(int wstatus, int signo)
 {
 	if (signo == SIGQUIT)
-		ft_dprintf(STDERR_FILENO, "Quit");
+		print_error("Quit");
 	else if (signo == SIGSEGV)
-		ft_dprintf(STDERR_FILENO, "Segmentation fault");
+		print_error("Segmentation fault");
 	if (WCOREDUMP(wstatus))
-		ft_dprintf(STDERR_FILENO, " (core dumped)");
-	ft_dprintf(STDERR_FILENO, "\n");
+		print_error(" (core dumped)");
+	print_error("\n");
 }
