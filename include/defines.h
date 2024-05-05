@@ -286,7 +286,7 @@ typedef enum e_exit_argument_error
 	EX_NO_ARGS		= -1,
 	EX_NORM_ARGS	= 0,
 	EX_TOO_MANY_ARGS,
-	EX_NOT_NUMERIC,
+	EX_NOT_NUMERIC
 }	t_exit_err;
 
 typedef struct s_environment_node
