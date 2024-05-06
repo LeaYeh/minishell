@@ -1,6 +1,7 @@
 <div align="center">
 
 # <i>🌊</i>rash Minishell | @42Vienna
+### The Creative Abort Shell
 
 [![Workflow Status](https://github.com/LeaYeh/minishell/actions/workflows/test.yaml/badge.svg?branch=main&style=flat)](https://github.com/LeaYeh/minishell/actions/workflows/test.yaml?query=branch%3Amain)
 [![Norminette Status](https://github.com/LeaYeh/minishell/actions/workflows/norminette.yaml/badge.svg?branch=main&style=flat)](https://github.com/LeaYeh/minishell/actions/workflows/norminette.yaml?query=branch%3Amain)
