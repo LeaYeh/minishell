@@ -14,9 +14,13 @@
 [![Lines of Code](https://img.shields.io/tokei/lines/github.com/LeaYeh/minishell?category=code&style=flat&color=purple)](https://github.com/LeaYeh/minishell/tree/main/source)
 [![GitHub](https://img.shields.io/github/license/LeaYeh/minishell?style=flat&color=darkred)](https://github.com/LeaYeh/minishell/blob/main/LICENSE)
 
-</div>
+<br>
 
 This project goes beyond merely crafting a new shell from scratch; it endeavors to emulate the Bash source code and the GNU Bash POSIX manual while incorporating principles from compiler parsing. By referencing these authoritative sources, the project aims to meticulously implement a shell interpreter. Moreover, it documents the entire journey from ground zero to the creation of a personalized shell, serving as a valuable resource for future learners seeking insights into shell development.
+
+</div>
+
+---
 
 # Table of Contents
 
