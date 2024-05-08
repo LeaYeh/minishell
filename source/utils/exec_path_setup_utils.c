@@ -39,7 +39,7 @@ static bool	set_path_list(t_list **path_list, char *env[])
 
 	*path_list = NULL;
 	path = get_value_from_env(env, "PATH");
-	if (!path)
+	if (!path || !*path)
 		return (true);
 	while (true)
 	{
