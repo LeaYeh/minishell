@@ -17,13 +17,13 @@ int	exec_easter_egg(void)
 	static int	egg_counter;
 
 	if (egg_counter % 2 == 0 && WELCOME_ART1)
-		printf(WELCOME_ART1);
+		ft_printf(WELCOME_ART1);
 	else if (WELCOME_ART2)
-		printf(WELCOME_ART2);
+		ft_printf(WELCOME_ART2);
 	else
-		printf(WELCOME_MSG);
+		ft_printf(WELCOME_MSG);
 	if (WELCOME_ART1 || WELCOME_ART2)
-		printf(VALERIA_MSG);
+		ft_printf(VALERIA_MSG);
 	egg_counter++;
 	return (42);
 }

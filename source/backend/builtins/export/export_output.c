@@ -48,7 +48,7 @@ int	print_exported_env(t_list *env_list)
 	if (!export_printout)
 		return (BUILTIN_ERROR);
 	fill_export_printout(env_list, export_printout, prefix_len, format_len);
-	printf("%s", export_printout);
+	ft_printf("%s", export_printout);
 	free(export_printout);
 	return (SUCCESS);
 }

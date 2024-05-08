@@ -20,7 +20,6 @@
 # include <linux/limits.h>
 # include <signal.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <sysexits.h>
@@ -42,11 +41,11 @@
 # endif
 
 # ifndef WELCOME_ART1
-#  define WELCOME_ART1		0
+#  define WELCOME_ART1		""
 # endif
 
 # ifndef WELCOME_ART2
-#  define WELCOME_ART2		0
+#  define WELCOME_ART2		""
 # endif
 
 # define PROGRAM_NAME		"crash"
