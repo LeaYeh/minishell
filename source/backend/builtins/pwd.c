@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "defines.h"
+#include "utils.h"
 
 int	exec_pwd(void)
 {
@@ -19,7 +19,7 @@ int	exec_pwd(void)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		ft_dprintf(STDERR_FILENO, "%s: %s: ", PROGRAM_NAME, "pwd");
+		print_error("%s: %s: ", PROGRAM_NAME, "pwd");
 		perror(NULL);
 		return (CMD_EXEC_FAILED);
 	}

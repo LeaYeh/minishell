@@ -114,7 +114,7 @@ static t_hd_st	read_heredoc(t_sh *shell, t_list **line_list, char *here_end)
 		if (shell->exit_code == TERM_BY_SIGNAL + SIGINT)
 			return (free(line), HD_ABORT);
 		if (!line)
-			return (ft_dprintf(STDERR_FILENO, ERROR_HEREDOC_UNEXPECTED_EOF,
+			return (print_error(ERROR_HEREDOC_UNEXPECTED_EOF,
 					PROGRAM_NAME, here_end), HD_SUCCESS);
 		if (ft_strcmp(line, here_end) == 0)
 			break ;

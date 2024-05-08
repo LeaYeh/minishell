@@ -24,7 +24,7 @@ void	report_syntax_error(t_sh *shell, t_prs_data *parser_data)
 	if (!error_token)
 		error_token = "newline";
 	shell->exit_code = SYNTAX_ERROR;
-	ft_dprintf(STDERR_FILENO, ERROR_PARSER_SYNTAX, PROGRAM_NAME, error_token);
+	print_error(ERROR_PARSER_SYNTAX, PROGRAM_NAME, error_token);
 }
 
 static char	*get_error_token_data(t_list *token_list, t_list *parse_stack)

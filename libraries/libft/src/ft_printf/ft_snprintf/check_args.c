@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_errors.c                                        :+:      :+:    :+:   */
+/*   check_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/26 02:15:26 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/28 02:59:43 by ldulling         ###   ########.fr       */
+/*   Created: 2024/05/05 11:45:40 by ldulling          #+#    #+#             */
+/*   Updated: 2024/05/05 17:21:32 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "ft_printf.h"
 
-int	handle_cd_error(int error, char *target_dir)
+bool	check_args(char *str, size_t size, const char *format, t_sformat *f)
 {
-	if (error == ENOMEM || error == EIO)
+	if (format == NULL)
 	{
-		print_error("%s: cd: ", PROGRAM_NAME);
-		perror(NULL);
-		return (BUILTIN_ERROR);
+		if (size > 0)
+			str[0] = '\0';
+		f->sprinted = -1;
+		return (false);
 	}
-	print_error("%s: cd: %s: ", PROGRAM_NAME, target_dir);
-	perror(NULL);
-	return (GENERAL_ERROR);
+	if (size == 0)
+	{
+		f->sprinted = 0;
+		return (false);
+	}
+	return (true);
 }

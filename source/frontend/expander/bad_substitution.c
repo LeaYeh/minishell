@@ -73,6 +73,5 @@ static void	print_bad_substitution_error(char *str, int i)
 	}
 	else
 		start = str;
-	ft_dprintf(STDERR_FILENO, ERROR_EXPANDER_BAD_SUBSTITUTION,
-		PROGRAM_NAME, start);
+	print_error(ERROR_EXPANDER_BAD_SUBSTITUTION, PROGRAM_NAME, start);
 }

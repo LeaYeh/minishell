@@ -164,6 +164,7 @@ SRC		+=	$(addprefix $(DIR), \
             env_list_operation_utils.c \
             env_list_status_utils.c \
             env_utils.c \
+            error_utils.c \
             exec_path_setup_utils.c \
             expansion_utils.c \
             file_utils.c \

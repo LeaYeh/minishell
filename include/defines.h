@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/08 17:25:12 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/05/05 12:37:49 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@
 # define EXPORT_PREFIX		"export "
 
 /* Error Messages */
+# define ERROR_MAX_LEN 131072
 # define ERROR_LEXER_SYNTAX					\
 "%s: syntax error: missing `%c'\n"
 # define ERROR_PARSER_SYNTAX				\
@@ -285,7 +286,7 @@ typedef enum e_exit_argument_error
 	EX_NO_ARGS		= -1,
 	EX_NORM_ARGS	= 0,
 	EX_TOO_MANY_ARGS,
-	EX_NOT_NUMERIC,
+	EX_NOT_NUMERIC
 }	t_exit_err;
 
 typedef struct s_environment_node

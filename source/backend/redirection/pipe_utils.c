@@ -36,7 +36,7 @@ bool	create_pipe(t_pipe *new_pipe)
 {
 	if (new_pipe->pipe_fd[0] != -1 || new_pipe->pipe_fd[1] != -1)
 	{
-		ft_dprintf(STDERR_FILENO, "Warning: Pipe is not empty\n");
+		print_error("Warning: Pipe is not empty\n");
 		safe_close_pipe(new_pipe);
 	}
 	if (pipe(new_pipe->pipe_fd) == -1)

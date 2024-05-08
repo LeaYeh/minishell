@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:08 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/19 16:03:45 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/05/05 17:21:20 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,10 @@ void	reset_format(t_format *f);
 int		set_format(const char *format, int *i, t_format *f, va_list *ap);
 
 \
-/* ft_snprintf */
+/* ft_snprintf + ft_vsnprintf */
 
 int		ft_snprintf(char *str, size_t size, const char *format, ...);
+int		ft_vsnprintf(char *str, size_t size, const char *format, va_list ap);
 bool	check_args(char *str, size_t size, const char *format, t_sformat *f);
 void	parseandsprint(const char *format, int *i, t_sformat *f, va_list *ap);
 void	sprint_argument(t_sformat *f, va_list *ap);

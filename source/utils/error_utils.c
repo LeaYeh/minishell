@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_errors.c                                        :+:      :+:    :+:   */
+/*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/26 02:15:26 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/28 02:59:43 by ldulling         ###   ########.fr       */
+/*   Created: 2024/05/03 17:14:48 by lyeh              #+#    #+#             */
+/*   Updated: 2024/05/05 13:28:52 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "defines.h"
 
-int	handle_cd_error(int error, char *target_dir)
+void	print_error(char *format, ...)
 {
-	if (error == ENOMEM || error == EIO)
-	{
-		print_error("%s: cd: ", PROGRAM_NAME);
-		perror(NULL);
-		return (BUILTIN_ERROR);
-	}
-	print_error("%s: cd: %s: ", PROGRAM_NAME, target_dir);
-	perror(NULL);
-	return (GENERAL_ERROR);
+	char	buffer[ERROR_MAX_LEN];
+	va_list	ap;
+
+	va_start(ap, format);
+	ft_vsnprintf(buffer, ERROR_MAX_LEN, format, ap);
+	va_end(ap);
+	ft_dprintf(STDERR_FILENO, "%s", buffer);
 }

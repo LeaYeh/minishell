@@ -47,7 +47,7 @@ bool	write_content_to_file(char *content, char *filename)
 void	remove_file(char *filename)
 {
 	if (unlink(filename) == -1)
-		ft_dprintf(STDERR_FILENO, ERROR_REMOVE_FILE, PROGRAM_NAME, filename);
+		print_error(ERROR_REMOVE_FILE, PROGRAM_NAME, filename);
 }
 
 bool	is_dir(char *dir)
