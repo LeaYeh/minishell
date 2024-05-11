@@ -20,6 +20,8 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
 
 </div>
 
+https://starchart.cc/LeaYeh/minishell
+
 ---
 
 # Table of Contents
@@ -599,3 +601,10 @@ Reference:
     - https://github.com/LeaYeh/minishell/pull/202
 - Our question in Stackoverflow
     - https://stackoverflow.com/questions/78140706/exception-handling-through-signal-communication-in-multiprocess-programs-in-c
+
+# Liked it?
+
+Hope you liked this project, don't forget to give it a star ⭐.
+<a href="https://starchart.cc/LeaYeh/minishell">
+    <img alt="chart" src="https://starchart.cc/LeaYeh/minishell.svg" width="600px">
+</a>
