@@ -605,6 +605,6 @@ Reference:
 # Liked it?
 
 Hope you liked this project, don't forget to give it a star ⭐.
-<a href="https://starchart.cc/LeaYeh/minishell">
+<a href="https://github.com/LeaYeh/minishell">
     <img alt="chart" src="https://starchart.cc/LeaYeh/minishell.svg" width="600px">
 </a>
