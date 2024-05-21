@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:18:23 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 16:12:01 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/05/21 16:43:23 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ bool	write_content_to_file(char *content, char *filename)
 
 void	remove_file(char *filename)
 {
+	struct stat	path_stat;
+
+	if (stat(filename, &path_stat) == -1)
+		return ;
 	if (unlink(filename) == -1)
 		print_error(ERROR_REMOVE_FILE, PROGRAM_NAME, filename);
 }
