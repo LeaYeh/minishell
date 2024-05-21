@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:39:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/05/21 15:17:02 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:05:36 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ bool	ft_isoverflow_long(const char *nptr)
 {
 	int		i;
 	char	*long_max;
+	int		long_max_len;
 	int		num_len;
 
 	i = 0;
@@ -41,6 +42,7 @@ bool	ft_isoverflow_long(const char *nptr)
 		long_max = "9223372036854775808";
 	else
 		long_max = "9223372036854775807";
+	long_max_len = ft_strlen(long_max);
 	if (ft_issign(nptr[i]))
 		i++;
 	while (nptr[i] == '0')
@@ -48,8 +50,8 @@ bool	ft_isoverflow_long(const char *nptr)
 	num_len = 0;
 	while (ft_isdigit(nptr[i + num_len]))
 		num_len++;
-	if (num_len > (int)ft_strlen(long_max) || \
-		ft_strncmp(&nptr[i], long_max, num_len) > 0)
+	if ((num_len == long_max_len && ft_strncmp(&nptr[i], long_max, num_len) > 0)
+		|| num_len > long_max_len)
 		return (true);
 	return (false);
 }
