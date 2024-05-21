@@ -56,7 +56,7 @@ print_valgrind_output()
 if [[ -n $line_number && -n $file_path ]]; then
   # Print test case
   echo -e "\e[0;93m---------------------------------------------------------------------------------\e[1;97m"
-  echo -e "\e[1;93mTEST CASE $test_number FROM $file_dirname/$file_basename AT LINE $line_number:\e[1;97m"
+  echo -e "\e[1;93mTEST CASE \e[35m$test_number\e[93m FROM $file_dirname/$file_basename AT LINE $line_number:\e[1;97m"
   sed -n "${line_number},\$p" "$file_path" | awk 'NF {p=1} !NF {if(p) exit} {if(p) print}'
   echo -e "\e[0;93m---------------------------------------------------------------------------------\e[1;97m"
 
