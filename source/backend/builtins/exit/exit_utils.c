@@ -6,16 +6,14 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:40:30 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/20 00:36:35 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:05:47 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
 #include "builtins.h"
+#include "utils.h"
 
 static bool	valid_number(char *str);
-static bool	is_sign(char c);
-static bool	is_atol_overflow(char *str);
 
 t_exit_err	get_args_error(char *args[])
 {
@@ -24,7 +22,7 @@ t_exit_err	get_args_error(char *args[])
 	if (!args || !args[1])
 		return (EX_NO_ARGS);
 	error_type = EX_NORM_ARGS;
-	if (!valid_number(args[1]) || is_atol_overflow(args[1]))
+	if (!valid_number(args[1]) || ft_isoverflow_long(args[1]))
 		error_type = EX_NOT_NUMERIC;
 	else if (args[2])
 		error_type = EX_TOO_MANY_ARGS;
@@ -40,7 +38,7 @@ static bool	valid_number(char *str)
 	i = 0;
 	while (str[i] && ft_strchr(WHITESPACE, str[i]))
 		i++;
-	if (is_sign(str[i]))
+	if (ft_issign(str[i]))
 		i++;
 	if (!ft_isdigit(str[i]))
 		return (false);
@@ -56,37 +54,4 @@ static bool	valid_number(char *str)
 	if (str[i])
 		return (false);
 	return (true);
-}
-
-static bool	is_sign(char c)
-{
-	if (c == '+' || c == '-')
-		return (true);
-	return (false);
-}
-
-static bool	is_atol_overflow(char *str)
-{
-	int		i;
-	char	*long_max;
-	int		num_len;
-
-	i = 0;
-	while (str[i] && ft_strchr(WHITESPACE, str[i]))
-		i++;
-	if (str[i] == '-')
-		long_max = "9223372036854775808";
-	else
-		long_max = "9223372036854775807";
-	if (is_sign(str[i]))
-		i++;
-	while (str[i] == '0')
-		i++;
-	num_len = 0;
-	while (ft_isdigit(str[i + num_len]))
-		num_len++;
-	if (num_len > (int)ft_strlen(long_max) || \
-		ft_strncmp(&str[i], long_max, num_len) > 0)
-		return (true);
-	return (false);
 }

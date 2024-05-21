@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   ft_issign.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 12:12:35 by ldulling          #+#    #+#             */
-/*   Updated: 2024/05/21 15:02:11 by ldulling         ###   ########.fr       */
+/*   Created: 2024/05/21 14:55:40 by ldulling          #+#    #+#             */
+/*   Updated: 2024/05/21 15:08:44 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * The ft_isspace function checks if the passed character is a whitespace
- * character.
- * A whitespace character is one of the following:
- *   space, form feed, new line, carriage ret, horizontal tab, vertical tab
- *   ' '    '\f'       '\n'      '\r'          '\t'            '\v'
+ * The ft_issign function checks if the passed character is a sign character
+ * ('+' or '-').
  *
  * @param c    The character to check.
  *
- * @return     Returns 1 if the character is a whitespace character,
- *             0 otherwise.
+ * @return     Returns 1 if the character is a sign character, 0 otherwise.
  *
  */
-int	ft_isspace(int c)
+int	ft_issign(int c)
 {
-	if (ft_strchr(WHITESPACE, c))
+	if (c == '-' || c == '+')
 		return (1);
-	else
-		return (0);
+	return (0);
 }
