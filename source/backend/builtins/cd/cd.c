@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:05:20 by codespace         #+#    #+#             */
-/*   Updated: 2024/03/18 17:41:31 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/05/26 23:11:05 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	exec_cd(char *args[], t_list **env_list)
 		return (free(final_path), free(new_pwd),
 			handle_cd_error(errno, target_dir));
 	free(final_path);
+	if (args[1] && ft_strcmp(args[1], "-") == 0)
+		ft_printf("%s\n", target_dir);
 	if (!update_pwd_env(env_list, new_pwd))
 		return (free(new_pwd), BUILTIN_ERROR);
-	if (args[1] && ft_strcmp(args[1], "-") == 0)
-		ft_printf("%s\n", new_pwd);
 	return (EXIT_SUCCESS);
 }
