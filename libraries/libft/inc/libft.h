@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/03/31 23:45:05 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:58:24 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int			ft_isalnum(int c);
 int			ft_isalpha(int c);
 int			ft_isascii(int c);
 int			ft_isdigit(int c);
+int			ft_issign(int c);
 int			ft_isprint(int c);
 int			ft_isspace(int c);
 int			ft_tolower(int c);
@@ -102,6 +103,8 @@ void		*ft_memset(void *s, int c, size_t n);
 double		ft_atof(const char *nptr);
 int			ft_atoi(const char *nptr);
 long		ft_atol(const char *nptr);
+bool		ft_isoverflow_int(const char *nptr);
+bool		ft_isoverflow_long(const char *nptr);
 
 \
 /* Put */

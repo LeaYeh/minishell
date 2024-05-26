@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/05/05 17:21:36 by ldulling         ###   ########.fr        #
+#    Updated: 2024/05/21 14:58:39 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC		+=	$(addprefix $(DIR), \
 			ft_isalpha.c \
 			ft_isascii.c \
 			ft_isdigit.c \
+			ft_issign.c \
 			ft_isprint.c \
 			ft_isspace.c \
 			ft_tolower.c \
@@ -123,6 +124,8 @@ SRC		+=	$(addprefix $(DIR), \
 			ft_atof.c \
 			ft_atoi.c \
 			ft_atol.c \
+			ft_isoverflow_int.c \
+			ft_isoverflow_long.c \
 )
 
 # Put:
