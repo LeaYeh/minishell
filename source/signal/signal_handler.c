@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:46:19 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 10:27:36 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/01 11:03:14 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 	}
-	else if (signo == SIGABRT)
+	else if (signo == SIGUSR1)
 	{
 		if (shell->subshell_level == 0)
 			clean_and_exit_shell(

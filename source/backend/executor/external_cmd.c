@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:17:06 by lyeh              #+#    #+#             */
-/*   Updated: 2024/05/03 17:18:03 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/01 11:03:14 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	reset_external_signal_handler(t_sh *shell)
 	setup_signal(shell, SIGINT, SIG_DEFAULT);
 	setup_signal(shell, SIGQUIT, SIG_DEFAULT);
 	setup_signal(shell, SIGTERM, SIG_DEFAULT);
-	setup_signal(shell, SIGABRT, SIG_DEFAULT);
+	setup_signal(shell, SIGUSR1, SIG_DEFAULT);
 }
 
 static void	handle_exec_error(t_sh *shell, char *exec_path)

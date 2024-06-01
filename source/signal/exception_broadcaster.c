@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exception_broadcaster.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:45:41 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 17:48:59 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/01 11:03:14 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	raise_error_and_escape(t_sh *shell, char *msg)
 {
 	if (msg)
 		print_error(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
-	kill(-shell->pid, SIGABRT);
+	kill(-shell->pid, SIGUSR1);
 }
 
 void	raise_error_to_all_subprocess(t_sh *shell, int exit_code, char *msg)
@@ -28,7 +28,7 @@ void	raise_error_to_all_subprocess(t_sh *shell, int exit_code, char *msg)
 	if (msg)
 		print_error(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
 	setup_signal(shell, SIGINT, SIG_STANDARD);
-	setup_signal(shell, SIGABRT, SIG_STANDARD);
+	setup_signal(shell, SIGUSR1, SIG_STANDARD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	kill(-shell->pid, SIGTERM);
 }
@@ -39,7 +39,7 @@ void	raise_error_to_own_subprocess(t_sh *shell, int exit_code, char *msg)
 	if (msg)
 		print_error(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
 	setup_signal(shell, SIGINT, SIG_STANDARD);
-	setup_signal(shell, SIGABRT, SIG_STANDARD);
+	setup_signal(shell, SIGUSR1, SIG_STANDARD);
 	setup_signal(shell, SIGTERM, SIG_STANDARD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	signal_to_all_subprocess(shell, SIGTERM);

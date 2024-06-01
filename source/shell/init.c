@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:36:42 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/01 11:03:14 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	init_shell(t_sh *shell)
 	handle_signal_std(0, NULL, shell);
 	handle_signal_record(0, NULL, shell);
 	setup_signal(shell, SIGINT, SIG_STANDARD);
-	setup_signal(shell, SIGABRT, SIG_STANDARD);
+	setup_signal(shell, SIGUSR1, SIG_STANDARD);
 	setup_signal(shell, SIGTERM, SIG_STANDARD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	return (true);

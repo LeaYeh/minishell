@@ -95,7 +95,7 @@ https://starchart.cc/LeaYeh/minishell
 |            |             |                        | Handled `ctrl-D` as `EOF` as bash behavior.                                                              | ✅      |
 |            |             |                        | Handled `ctrl-\\` as `SIGQUIT` as bash behavior.                                                         | ✅      |
 |            |             | Exception Handling     | Ignored `SIGPIPE` in internal process and set it back as default in external commands sub-process.       | ✅      |
-|            |             |                        | Used `SIGABRT` and `SIGTERM` to raise internal critical error to all related process and handle it depends on scenario.       | ✅      |
+|            |             |                        | Used `SIGUSR1` and `SIGTERM` to raise internal critical error to all related process and handle it depends on scenario.       | ✅      |
 
 
 # DevOPS Spirit
@@ -564,7 +564,7 @@ Using signals for exception handling in shell programming, similar to Bash's des
     - By utilizing signals, we can promptly broadcast error messages and take appropriate actions, such as terminating subprocesses or halting execution, depending on the severity of the error.
 2. Ensuring Subprocess Termination:
     - In the event of a critical error, it's crucial to ensure that all subprocesses spawned by the shell are terminated to prevent any lingering processes that could potentially cause issues or consume resources.
-    - Signals like `SIGABRT` and `SIGTERM` are used to terminate subprocesses gracefully, ensuring that they clean up resources and exit properly.
+    - Signals like `SIGUSR1` and `SIGTERM` are used to terminate subprocesses gracefully, ensuring that they clean up resources and exit properly.
 3. Providing Feedback to Users:
     - Exception handling using signals allows us to provide feedback to users about the occurrence of critical errors. We can print error messages, indicating the nature of the error and any relevant details, enhancing user understanding and troubleshooting.
 4. Facilitating Controlled Shutdown:
@@ -572,7 +572,7 @@ Using signals for exception handling in shell programming, similar to Bash's des
 
 Let's take a closer look at how signals are utilized in our source code:
 
-- `raise_error_and_escape`: This function raises an error message and initiates an abort signal (`SIGABRT`) to terminate all subprocesses. It's used for critical errors where immediate termination is necessary.
+- `raise_error_and_escape`: This function raises an error message and initiates an abort signal (`SIGUSR1`) to terminate all subprocesses. It's used for critical errors where immediate termination is necessary.
 - `raise_error_to_all_subprocess`: Similar to the previous function, this one raises an error message and sends a termination signal (`SIGTERM`) to all subprocesses. It's used when the error is critical but allows for a graceful shutdown.
 - `raise_error_to_own_subprocess` and `signal_to_all_subprocess`: These functions are used for handling errors within subprocesses. They ensure that subprocesses receive termination signals (`SIGTERM`) and facilitate controlled shutdowns.
 
