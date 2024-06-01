@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:17:06 by lyeh              #+#    #+#             */
-/*   Updated: 2024/06/01 11:03:14 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/01 11:51:52 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "signals.h"
 
 static bool	check_execfile_exist(char *exec_path, char *cmd_name);
-static void	reset_external_signal_handler(t_sh *shell);
+static void	reset_external_signal_handler(void);
 static void	handle_exec_error(t_sh *shell, char *exec_path);
 
 void	handle_external_cmd(t_sh *shell, t_ct *cmd_table)
@@ -40,7 +40,7 @@ void	handle_external_cmd(t_sh *shell, t_ct *cmd_table)
 	if (!redirect_scmd_io(shell, &final_cmd_table->read_fd,
 			&final_cmd_table->write_fd))
 		clean_and_exit_shell(shell, GENERAL_ERROR, NULL);
-	reset_external_signal_handler(shell);
+	reset_external_signal_handler();
 	execve(final_cmd_table->exec_path, final_cmd_table->simple_cmd,
 		final_cmd_table->env);
 	handle_exec_error(shell, final_cmd_table->exec_path);
@@ -58,12 +58,12 @@ static bool	check_execfile_exist(char *exec_path, char *cmd_name)
 	return (false);
 }
 
-static void	reset_external_signal_handler(t_sh *shell)
+static void	reset_external_signal_handler(void)
 {
-	setup_signal(shell, SIGINT, SIG_DEFAULT);
-	setup_signal(shell, SIGTERM, SIG_DEFAULT);
-	setup_signal(shell, SIGUSR1, SIG_DEFAULT);
-	setup_signal(shell, SIGQUIT, SIG_DEFAULT);
+	setup_signal(SIGINT, SIG_DEFAULT);
+	setup_signal(SIGTERM, SIG_DEFAULT);
+	setup_signal(SIGUSR1, SIG_DEFAULT);
+	setup_signal(SIGQUIT, SIG_DEFAULT);
 }
 
 static void	handle_exec_error(t_sh *shell, char *exec_path)

@@ -6,19 +6,18 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:46:19 by lyeh              #+#    #+#             */
-/*   Updated: 2024/06/01 11:03:14 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/01 11:53:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signals.h"
 #include "clean.h"
 
-void	setup_signal(t_sh *shell, int signo, t_sig state)
+void	setup_signal(int signo, t_sig state)
 {
 	struct sigaction	sa;
 
-	if (sigemptyset(&sa.sa_mask) == -1)
-		clean_and_exit_shell(shell, PREPROCESS_ERROR, "sigemptyset failed");
+	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART | SA_SIGINFO;
 	if (state == SIG_DEFAULT)
 		sa.sa_handler = SIG_DFL;
