@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:16:41 by ldulling          #+#    #+#             */
-/*   Updated: 2024/04/04 21:16:41 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:52:12 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ bool	append_cmd_table_by_scenario(
 
 t_ct	*get_cmd_table_from_list(t_list_d *cmd_table_node)
 {
-	if (!cmd_table_node || !cmd_table_node->content)
+	if (!cmd_table_node)
 		return (NULL);
-	return (cmd_table_node->content);
+	return ((t_ct *)cmd_table_node->content);
 }
 
 t_ct	*get_last_simple_cmd_table(t_list_d *cmd_table_list)
