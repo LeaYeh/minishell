@@ -42,6 +42,7 @@ t_ct		*init_cmd_table(void);
 void		free_cmd_table(t_ct *cmd_table);
 bool		append_cmd_table_by_scenario(
 				t_tok_typ token_type, t_list_d **cmd_table_list);
+t_ct		*get_cmd_table_from_list(t_list_d *cmd_table_node);
 t_ct		*get_last_simple_cmd_table(t_list_d *cmd_table_list);
 t_ct		*get_subshell_start(t_list_d *cmd_table_node);
 bool		is_control_op_cmd_table(t_ct *cmd_table);
