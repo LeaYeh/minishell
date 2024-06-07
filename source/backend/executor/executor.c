@@ -40,7 +40,7 @@ void	handle_process(t_sh *shell, t_list_d *cmd_table_node)
 		cmd_table = cmd_table_node->content;
 		if (cmd_table->type == C_SUBSHELL_END)
 			clean_and_exit_shell(shell, shell->exit_code, NULL);
-		else if (is_control_op_cmd_table(cmd_table->type))
+		else if (is_control_op_cmd_table(cmd_table))
 			handle_control_op(shell, &cmd_table_node);
 		else if (cmd_table->type == C_SIMPLE_CMD)
 			handle_cmd_execution(shell, &cmd_table_node);

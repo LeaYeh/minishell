@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control_operator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:18:02 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:44:06 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/07 16:30:18 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ static void	handle_and_or_op(t_sh *shell, t_list_d **cmd_table_node);
 
 void	handle_control_op(t_sh *shell, t_list_d **cmd_table_node)
 {
-	t_ct	*cmd_table;
-
-	cmd_table = (*cmd_table_node)->content;
-	if (cmd_table->type == C_PIPE)
+	if (get_cmd_table_type_from_list(*cmd_table_node) == C_PIPE)
 		*cmd_table_node = (*cmd_table_node)->next;
 	else
 		handle_and_or_op(shell, cmd_table_node);
@@ -30,13 +27,13 @@ void	handle_control_op(t_sh *shell, t_list_d **cmd_table_node)
 
 static void	handle_and_or_op(t_sh *shell, t_list_d **cmd_table_node)
 {
-	t_ct	*cmd_table;
+	t_ct_typ	cmd_table_type;
 
 	if (shell->subshell_pid > 0)
 		wait_process(shell, shell->subshell_pid);
-	cmd_table = (*cmd_table_node)->content;
+	cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
 	*cmd_table_node = (*cmd_table_node)->next;
-	if (!should_execute_next_pipeline(shell, cmd_table->type))
+	if (!should_execute_next_pipeline(shell, cmd_table_type))
 		move_past_pipeline(cmd_table_node);
 }
 

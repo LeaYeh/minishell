@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:09:31 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:47:36 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/07 09:02:56 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 
 bool	need_pipe(t_list_d *cmd_table_node)
 {
-	if (get_cmd_table_type_from_list(cmd_table_node) == C_SUBSHELL_START)
+	t_ct_typ	cmd_table_type;
+
+	cmd_table_type = get_cmd_table_type_from_list(cmd_table_node);
+	if (cmd_table_type == C_SUBSHELL_START)
 		move_past_subshell(&cmd_table_node);
-	else if (get_cmd_table_type_from_list(cmd_table_node) == C_SIMPLE_CMD)
+	else if (cmd_table_type == C_SIMPLE_CMD)
 		cmd_table_node = cmd_table_node->next;
 	if (get_cmd_table_type_from_list(cmd_table_node) == C_PIPE)
 		return (true);

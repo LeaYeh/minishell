@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:12 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/04 22:48:15 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:34:47 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,7 @@ static bool	insert_child_pid_list(t_sh *shell, pid_t pid)
 
 static void	handle_end_of_pipeline(t_sh *shell, t_list_d **cmd_table_node)
 {
-	t_ct_typ	cmd_table_type;
-
-	cmd_table_type = get_cmd_table_type_from_list(*cmd_table_node);
-	if (is_control_op_cmd_table(cmd_table_type))
+	if (is_control_op_cmd_table((*cmd_table_node)->content))
 		handle_control_op(shell, cmd_table_node);
 	else
 	{
