@@ -90,6 +90,7 @@ SRC		+=	$(addprefix $(DIR), \
 			ft_lstclear.c \
 			ft_lstdelone.c \
 			ft_lstdrop_node.c \
+			ft_lstdup.c \
 			ft_lstinsert_after.c \
 			ft_lstinsert_before.c \
 			ft_lstiter.c \

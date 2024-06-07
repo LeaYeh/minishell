@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/06/07 18:28:17 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:59:14 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void		ft_lstadd_front(t_list **lst, t_list *new);
 void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstdelone(t_list *lst, void (*del)(void *));
 void		ft_lstdrop_node(t_list **lst, t_list **node, void (*del)(void *));
+t_list		*ft_lstdup(t_list *lst, void *(*dup)(void *), void (*del)(void *));
 void		ft_lstinsert_after(t_list **lst, t_list *new);
 void		ft_lstinsert_before(t_list **lst, t_list *cur, t_list *new);
 void		ft_lstiter(t_list *lst, void (*f)(void *));
