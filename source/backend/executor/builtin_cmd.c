@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 01:10:43 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:44:04 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/07 07:23:48 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	handle_builtin(t_sh *shell, t_list_d **cmd_table_node)
 	int		ret;
 
 	cmd_table = (*cmd_table_node)->content;
-	ret = handle_io_redirect(shell,
+	ret = open_io_files(shell,
 			&shell->final_cmd_table->read_fd,
 			&shell->final_cmd_table->write_fd, cmd_table->io_red_list);
 	if (ret == MALLOC_ERROR)

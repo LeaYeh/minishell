@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_file.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:18 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:46:56 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/07 07:28:14 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@
 #include "clean.h"
 
 static int	expand_filename(t_sh *shell, char **filename);
-static bool	handle_redirect_by_type(
-				int *read_fd, int *write_fd, t_io_red *io_red);
-static bool	handle_red_in(int *read_fd, char *filename);
-static bool	handle_red_out(int *write_fd, char *filename, int o_flags);
+static bool	open_io_file_by_type(int *read_fd, int *write_fd, t_io_red *io_red);
+static bool	open_in_file(int *read_fd, char *filename);
+static bool	open_out_file(int *write_fd, char *filename, int o_flags);
 
-int	handle_io_redirect(
+int	open_io_files(
 		t_sh *shell, int *read_fd, int *write_fd, t_list *io_red_list)
 {
 	t_io_red	*io_red;
@@ -38,7 +37,7 @@ int	handle_io_redirect(
 			if (ret != SUCCESS)
 				return (ret);
 		}
-		if (!handle_redirect_by_type(read_fd, write_fd, io_red_list->content))
+		if (!open_io_file_by_type(read_fd, write_fd, io_red_list->content))
 			return (GENERAL_ERROR);
 		io_red_list = io_red_list->next;
 	}
@@ -69,21 +68,20 @@ static int	expand_filename(t_sh *shell, char **filename)
 	return (SUCCESS);
 }
 
-static bool	handle_redirect_by_type(
-				int *read_fd, int *write_fd, t_io_red *io_red)
+static bool	open_io_file_by_type(int *read_fd, int *write_fd, t_io_red *io_red)
 {
 	if (io_red->type == T_RED_IN || io_red->type == T_HERE_DOC)
-		return (handle_red_in(read_fd, io_red->filename));
+		return (open_in_file(read_fd, io_red->filename));
 	else if (io_red->type == T_RED_OUT)
-		return (handle_red_out(write_fd,
+		return (open_out_file(write_fd,
 				io_red->filename, O_CREAT | O_RDWR | O_TRUNC));
 	else if (io_red->type == T_APPEND)
-		return (handle_red_out(write_fd,
+		return (open_out_file(write_fd,
 				io_red->filename, O_CREAT | O_RDWR | O_APPEND));
 	return (true);
 }
 
-static bool	handle_red_in(int *read_fd, char *filename)
+static bool	open_in_file(int *read_fd, char *filename)
 {
 	int	fd;
 
@@ -97,7 +95,7 @@ static bool	handle_red_in(int *read_fd, char *filename)
 	return (true);
 }
 
-static bool	handle_red_out(int *write_fd, char *filename, int o_flags)
+static bool	open_out_file(int *write_fd, char *filename, int o_flags)
 {
 	int	fd;
 
