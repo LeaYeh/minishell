@@ -79,7 +79,7 @@ static void	redirect_io_and_exec_builtin(t_sh *shell)
 	if (!redirect_scmd_io(shell, &shell->final_cmd_table->read_fd,
 			&shell->final_cmd_table->write_fd))
 		raise_error_to_own_subprocess(
-			shell, GENERAL_ERROR, "fd bind failed");
+			shell, GENERAL_ERROR, "fd redirect failed");
 	exec_builtin_cmd(shell);
 }
 

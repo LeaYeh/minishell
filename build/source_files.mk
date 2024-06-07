@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:15:33 by ldulling          #+#    #+#              #
-#    Updated: 2024/04/04 23:25:38 by ldulling         ###   ########.fr        #
+#    Updated: 2024/06/07 07:25:14 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ SRC		+=	$(addprefix $(DIR), \
             io_file.c \
             pipe.c \
             pipe_utils.c \
-            stdio_bind.c \
+            stdio_redirect.c \
 )
 
 # Debug:
