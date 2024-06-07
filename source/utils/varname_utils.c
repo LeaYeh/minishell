@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 00:12:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/04 23:36:44 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:43:12 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ bool	is_valid_varname_char(char c)
 
 char	*get_varname(char *str)
 {
-	int	varname_len;
-
-	varname_len = get_varname_len(str);
-	return (ft_strndup(str, varname_len));
+	return (ft_strndup(str, get_varname_len(str)));
 }
 
 static int	get_varname_len(char *str)
