@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 13:57:23 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/14 17:15:46 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/07 17:59:09 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,15 @@ static t_hd_st	handle_heredoc_content(
  */
 t_hd_st	heredoc(t_sh *shell)
 {
-	t_ct		*cur_cmd_table;
+	t_ct		*cmd_table;
 	t_list_d	*cmd_table_node;
 	t_hd_st		ret;
 
 	cmd_table_node = shell->cmd_table_list;
 	while (cmd_table_node && cmd_table_node->content)
 	{
-		cur_cmd_table = cmd_table_node->content;
-		ret = handle_heredoc(
-				shell, cur_cmd_table->id, cur_cmd_table->io_red_list);
+		cmd_table = cmd_table_node->content;
+		ret = handle_heredoc(shell, cmd_table->id, cmd_table->io_red_list);
 		if (ret != HD_SUCCESS)
 			return (ret);
 		cmd_table_node = cmd_table_node->next;
@@ -60,7 +59,7 @@ static t_hd_st	handle_heredoc(
 
 	while (io_red_list && io_red_list->content)
 	{
-		io_red = (t_io_red *)io_red_list->content;
+		io_red = io_red_list->content;
 		if (io_red->type == T_HERE_DOC)
 		{
 			need_content_expansion = true;
