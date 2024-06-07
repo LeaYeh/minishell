@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd_process.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:15 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:44:12 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/07 16:25:22 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "clean.h"
 #include "signals.h"
 
-static void	exec_simple_cmd(t_sh *shell, t_list_d **cmd_table_node);
+static void	exec_simple_cmd(t_sh *shell, t_ct *cmd_table);
 
 void	fork_simple_cmd(t_sh *shell, t_list_d **cmd_table_node)
 {
@@ -28,17 +28,17 @@ void	fork_simple_cmd(t_sh *shell, t_list_d **cmd_table_node)
 	{
 		shell->subshell_level += 1;
 		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
-		exec_simple_cmd(shell, cmd_table_node);
+		exec_simple_cmd(shell, (*cmd_table_node)->content);
 	}
 	else
 		*cmd_table_node = (*cmd_table_node)->next;
 }
 
-static void	exec_simple_cmd(t_sh *shell, t_list_d **cmd_table_node)
+static void	exec_simple_cmd(t_sh *shell, t_ct *cmd_table)
 {
-	int			ret;
+	int	ret;
 
-	ret = set_final_cmd_table(shell, (*cmd_table_node)->content);
+	ret = set_final_cmd_table(shell, cmd_table);
 	if (ret == MALLOC_ERROR)
 		raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
 	if (ret == BAD_SUBSTITUTION)
@@ -46,9 +46,9 @@ static void	exec_simple_cmd(t_sh *shell, t_list_d **cmd_table_node)
 	else if (is_builtin(shell->final_cmd_table->simple_cmd[0], shell))
 	{
 		setup_signal(shell, SIGPIPE, SIG_IGNORE);
-		handle_builtin(shell, cmd_table_node);
+		handle_builtin(shell, cmd_table);
 	}
 	else
-		handle_external_cmd(shell, get_cmd_table_from_list(*cmd_table_node));
+		handle_external_cmd(shell, cmd_table);
 	clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
