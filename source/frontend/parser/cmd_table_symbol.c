@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_table_symbol.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 14:07:59 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 18:13:36 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/07 16:03:00 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "utils.h"
 
-bool	handle_symbol_token(t_list **token_list, t_list_d **cmd_table_list)
+bool	handle_symbol_token(t_list **token_list, t_list_d *cmd_table_list)
 {
 	t_tok_typ	token_type;
 
@@ -25,12 +25,12 @@ bool	handle_symbol_token(t_list **token_list, t_list_d **cmd_table_list)
 	}
 	else if (is_control_op(token_type))
 	{
-		fill_control_op(token_list, cmd_table_list);
+		fill_control_op(token_type, cmd_table_list);
 		return (true);
 	}
 	else if (is_subshell_symbol(token_type))
 	{
-		fill_bracket(token_list, cmd_table_list);
+		fill_bracket(token_type, cmd_table_list);
 		return (true);
 	}
 	return (false);

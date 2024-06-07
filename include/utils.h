@@ -25,7 +25,6 @@ bool		read_input(
 /* Token list utils */
 t_tok		*init_token(t_tok_typ type, char *data);
 void		free_token(t_tok *token);
-t_tok		*get_token_from_list(t_list *token_list);
 t_tok_typ	get_token_type_from_list(t_list *token_list);
 char		*get_token_data_from_list(t_list *token_list);
 t_list		*dup_token_list(t_list *token_list);

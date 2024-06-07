@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_table_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:25:20 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/06 19:47:28 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/07 16:07:07 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ static bool	handle_current_token(
 		return (false);
 	if (is_word(token_type))
 	{
-		if (handle_word_token(token_list, cmd_table_list))
+		if (handle_word_token(*token_list, *cmd_table_list))
 			return (true);
 	}
 	else if (is_control_op(token_type) || is_io_red_op(token_type) || \
 			is_subshell_symbol(token_type))
 	{
-		if (handle_symbol_token(token_list, cmd_table_list))
+		if (handle_symbol_token(token_list, *cmd_table_list))
 			return (true);
 	}
 	else if (token_type == T_END)
