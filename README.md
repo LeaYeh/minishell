@@ -70,13 +70,13 @@ https://starchart.cc/LeaYeh/minishell
 |            |             |                        | Support `ASSIGNMENT_WORD` `=` for variable assignments.                                                   | ✅      |
 | Frontend   | Parser      | Syntax Analysis        | Analyze syntax of token list and report syntax errors based on Shift-Reduce algorithm with predefined grammar rules and then output as command table list. | ✅      |
 | Frontend   | Expander    | Brace Expansion        | Perform brace expansion to generate multiple strings based on expressions enclosed in braces `{}`.      | ✅      |
-|            |             | Tilde Expansion        | Perform tilde expansion to replace `~` with the current user's home directory path.                      | ❌      |
+|            |             | Tilde Expansion        | Perform tilde expansion to replace `~` with the current user's home directory path.                      | 🛇      |
 |            |             | Parameter Expansion    | Perform parameter expansion to replace variables and special parameters in a string.                     | ✅      |
-|            |             | Command Substitution   | Perform command substitution to replace command output in a string.                                      | ❌      |
-|            |             | Arithmetic Expansion   | Perform arithmetic expansion to evaluate mathematical expressions enclosed in `$(())`.                    | ❌      |
-|            |             | Process Substitution   | Perform process substitution to use the output of a command as a file or input to another command.        | ❌      |
+|            |             | Command Substitution   | Perform command substitution to replace command output in a string.                                      | 🛇      |
+|            |             | Arithmetic Expansion   | Perform arithmetic expansion to evaluate mathematical expressions enclosed in `$(())`.                    | 🛇      |
+|            |             | Process Substitution   | Perform process substitution to use the output of a command as a file or input to another command.        | 🛇      |
 |            |             | Word Splitting         | Perform word splitting to split a string into separate words based on spaces, tabs, and newlines.        | ✅      |
-|            |             | Wildcard Expansion     | Perform filename expansion (globbing) to generate filenames matching a specified pattern.                | ❌      |
+|            |             | Wildcard Expansion     | Perform filename expansion (globbing) to generate filenames matching a specified pattern.                | ✅      |
 |            |             | Quote Removal          | Remove quotes from strings to interpret them as literal values.                                           | ✅      |
 | Backend    | Builtins    | cd                     | Implement `cd` with only a relative or absolute path.                                                    | ✅      |
 |            |             | echo                   | Implement `echo` with option `-n`.                                                                      | ✅      |
