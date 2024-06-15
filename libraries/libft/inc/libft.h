@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:17:46 by ldulling          #+#    #+#             */
-/*   Updated: 2024/02/15 12:15:59 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:58:24 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int			ft_isalnum(int c);
 int			ft_isalpha(int c);
 int			ft_isascii(int c);
 int			ft_isdigit(int c);
+int			ft_issign(int c);
 int			ft_isprint(int c);
 int			ft_isspace(int c);
 int			ft_tolower(int c);
@@ -55,6 +56,7 @@ void		ft_lstclear_d(t_list_d **lst, void (*del)(void *));
 void		ft_lstdelone_d(t_list_d *lst, void (*del)(void *));
 void		ft_lstdrop_node_d(t_list_d **lst, t_list_d **node, \
 								void (*del)(void *));
+void		ft_lstiter_d(t_list_d *lst, void (*f)(void *));
 t_list_d	*ft_lstlast_d(t_list_d *lst);
 bool		ft_lstnew_back_d(t_list_d **lst, void *content);
 t_list_d	*ft_lstnew_d(void *content);
@@ -68,6 +70,7 @@ void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstdelone(t_list *lst, void (*del)(void *));
 void		ft_lstdrop_node(t_list **lst, t_list **node, void (*del)(void *));
 void		ft_lstinsert_after(t_list **lst, t_list *new);
+void		ft_lstinsert_before(t_list **lst, t_list *cur, t_list *new);
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
@@ -79,6 +82,7 @@ void		*ft_lstpop_front_content(t_list **lst);
 int			ft_lstsize(t_list *lst);
 int			ft_lstsize_non_null(t_list *lst);
 void		ft_lstsort_bubble(t_list **lst, void *(*cmp)(void *, void *));
+void		ft_lstsort_merge(t_list **lst, void *(*cmp)(void *, void *));
 void		ft_lstswap_head(t_list **lst);
 
 \
@@ -99,6 +103,8 @@ void		*ft_memset(void *s, int c, size_t n);
 double		ft_atof(const char *nptr);
 int			ft_atoi(const char *nptr);
 long		ft_atol(const char *nptr);
+bool		ft_isoverflow_int(const char *nptr);
+bool		ft_isoverflow_long(const char *nptr);
 
 \
 /* Put */
@@ -117,6 +123,7 @@ size_t		ft_sputnstr(char *str, const char *s, size_t n);
 \
 /* Strings */
 
+bool		ft_alphabetic(const char *str1, const char *str2);
 char		*ft_itoa(int n);
 char		**ft_split(char const *s, char c);
 char		**ft_split_at_index(char *str, size_t index);
@@ -136,6 +143,7 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char		*ft_strndup(const char *s, size_t n);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
 char		*ft_strrchr(const char *s, int c);
+char		*ft_strrnstr(const char *big, const char *little, size_t len);
 bool		ft_strrplc_part(char **str, const char *rplcmt, size_t start, \
 							size_t len);
 char		*ft_strrplc_sequence(const char *str, const char *sequence, \

@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/19 17:34:16 by ldulling         ###   ########.fr        #
+#    Updated: 2024/04/02 23:08:11 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ NAME 			:=	minishell
 #	Directories
 
 SRC_DIR			:=	source
+INC_DIR			:=	include
 BUILD_DIR		:=	build
 OBJ_DIR			:=	$(BUILD_DIR)/_obj
 DEP_DIR			:=	$(BUILD_DIR)/_dep
@@ -29,15 +30,21 @@ LIB_DIR			:=	libraries
 
 #	Dependencies
 
-LIBRARIES		:=	$(wildcard $(LIB_DIR)/*)
+LIBRARIES		:=	$(LIB_DIR)/libft
 LIBRARIES_EXT	:=	readline termcap
-INCLUDES 		:=	-I./include -I./$(LIBRARIES)/inc
+LIB_INCLUDES 	:=	$(LIB_DIR)/libft/inc
+BUILDFILES		:=	Makefile \
+					$(BUILD_DIR)/parsing_table.mk \
+					$(BUILD_DIR)/source_files.mk \
+					$(BUILD_DIR)/welcome_art.mk
 
 
 #	Flags
 
 CC 				:=	cc
-CFLAGS 			:=	-Wall -Wextra -Werror -g
+CC_VERSION		:=	$(shell $(CC) --version | head -1)
+CFLAGS 			:=	-Wall -Wextra -Werror -ggdb3
+INCFLAGS 		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
 LIBFLAGS		:=	$(addprefix -L,$(LIBRARIES)) \
 					$(addprefix -l,$(patsubst lib%,%,$(notdir \
 					$(LIBRARIES) $(LIBRARIES_EXT))))
@@ -46,19 +53,10 @@ MAKEFLAGS		:=	-j -s
 
 #	Macro definitions
 
-include				$(BUILD_DIR)/parsing_table.mk
-
-MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE)
-
-
-#	Test mode
-
-ifeq ($(filter test,$(MAKECMDGOALS)),test)
-
-CC 				:=	clang-12
-MACROS			+=	-D TEST_MODE=true
-
-endif
+include				$(BUILD_DIR)/parsing_table.mk $(BUILD_DIR)/welcome_art.mk
+MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE) \
+					-D WELCOME_ART1=$(WELCOME_ART1) \
+					-D WELCOME_ART2=$(WELCOME_ART2)
 
 
 #	Characters
@@ -108,9 +106,7 @@ TERMINALFLAGS	:=	--title="$(TERMINALTITLE)" -- /bin/sh -c
 
 #	Files
 
-SRC				:=
 include				$(BUILD_DIR)/source_files.mk
-SRC				:=	$(addprefix $(SRC_DIR)/,$(SRC))
 OBJ 			:=	$(SRC:%.c=$(OBJ_DIR)/%.o)
 DEP				:=	$(SRC:%.c=$(DEP_DIR)/%.d)
 
@@ -123,7 +119,8 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
-.PHONY			:	all test run val noenv valfd build lib clean fclean re
+.PHONY			:	all test run val noenv valfd build lib waitforlib clean \
+					fclean ffclean re
 
 
 #	Compilation
@@ -133,10 +130,6 @@ all				:
 						|| (echo -n $(MSG_INFO)$(MSG_START) \
 							&& ($(MAKE) build && echo $(MSG_SUCCESS)) \
 							|| (echo $(MSG_FAILURE) && exit 42))
-
-test			:
-					echo $(MSG_TEST_MODE)
-					$(MAKE) all
 
 run				:	all
 					"./$(NAME)"
@@ -158,51 +151,47 @@ else
 endif
 
 
-#		Version check for Make
+#	Library dependency management
 
 ifeq ($(firstword $(sort $(MAKE_VERSION) 4.4)),4.4)
-
-MSG_INFO		=	$(MSG_MAKE_V4.4+)
 build			:	lib .WAIT $(NAME)
-
 else
-
-MSG_INFO		=	$(MSG_MAKE_V4.3-)
-.NOTPARALLEL	:	lib
-build			:	lib $(NAME)
-
+build			:	waitforlib
+					$(MAKE) $(NAME)
 endif
 
 
-#		Library compilation
+#	Library compilation
 
-export				MAKECMDGOALS
+export				CC CFLAGS MAKECMDGOALS MAKEFLAGS
 
 lib				:
 					$(MAKE) -C $(LIBRARIES)
 
+waitforlib		:	lib
 
-#		Executable linking
+
+#	Executable linking
 
 $(NAME)			:	$(LIBRARIES) $(OBJ)
-					$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFLAGS) -o $(NAME)
+					$(CC) $(CFLAGS) $(INCFLAGS) $(OBJ) $(LIBFLAGS) -o $(NAME)
 
 
-#		Source file compiling
+#	Source file compiling
 
-$(OBJ_DIR)/%.o	:	%.c Makefile | $(OBJ_SUBDIRS)
-					$(CC) $(CFLAGS) $(MACROS) $(INCLUDES) -c $< -o $@ \
+$(OBJ_DIR)/%.o	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
+					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -c $< -o $@ \
 						&& echo -n $(MSG_PROGRESS)
 
 
-#		Pre-processing and dependency file creation
+#	Pre-processing and dependency file creation
 
-$(DEP_DIR)/%.d	:	%.c Makefile | $(DEP_SUBDIRS)
-					$(CC) $(CFLAGS) $(MACROS) $(INCLUDES) \
+$(DEP_DIR)/%.d	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(DEP_SUBDIRS)
+					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) \
 						-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
 
 
-#		Mirror directory structure for build artifacts
+#	Mirror directory structure of source files for build artifacts
 
 $(OBJ_SUBDIRS) \
 $(DEP_SUBDIRS)	:
@@ -225,6 +214,9 @@ fclean			:	clean
 					$(MAKE) fclean -C $(LIBRARIES)
 					rm -f $(NAME)
 
+ffclean			:	fclean
+					rm -rf $(OBJ_DIR) $(DEP_DIR)
+
 re				:
 					$(MAKE) fclean
 					$(MAKE) all
@@ -239,28 +231,48 @@ ifeq (,$(filter clean fclean re,$(MAKECMDGOALS)))
 endif
 
 
+# **************************** COLORS ******************************* #
+
+STY_RES			:=	"\e[0m"
+STY_BOL			:=	"\e[1m"
+STY_ITA			:=	"\e[3m"
+STY_UND			:=	"\e[4m"
+STY_RED			:=	"\e[31m"
+STY_GRE			:=	"\e[32m"
+STY_YEL			:=	"\e[33m"
+STY_BLU			:=	"\e[34m"
+STY_MAG			:=	"\e[35m"
+STY_CYA			:=	"\e[36m"
+STY_WHI			:=	"\e[37m"
+STY_GRA			:=	"\e[90m"
+STY_WHI_BRI		:=	"\e[97m"
+STY_BLA_BG		:=	"\e[41m"
+STY_RED_BG		:=	"\e[41m"
+STY_GRE_BG		:=	"\e[42m"
+STY_YEL_BG		:=	"\e[43m"
+STY_BLU_BG		:=	"\e[44m"
+STY_MAG_BG		:=	"\e[45m"
+STY_CYA_BG		:=	"\e[46m"
+STY_WHI_BG		:=	"\e[47m"
+STY_GRA_BG		:=	"\e[100m"
+STY_WHI_BRI_BG	:=	"\e[107m"
+
+
 # **************************** CUSTOM MESSAGES ******************************* #
 
 ################################################################################
-MSG_MAKE_V4.4+	:=	"\e[3;37m Make version 4.4+ detected\n\
-					Make version: $(MAKE_VERSION)\n\
-					Parallel build for libraries enabled\n\e[0m"
+MSG_INFO		:=	$(STY_ITA)$(STY_WHI)" Make version: $(MAKE_VERSION)\n\
+					Compiler version: $(CC_VERSION)\n"$(STY_RES)
 ################################################################################
-MSG_MAKE_V4.3-	:=	"\e[3;37m Make version 4.4+ not detected\n\
-					Make version: $(MAKE_VERSION)\n\
-					Parallel build for libraries disabled\n\e[0m"
+MSG_START		:=	$(STY_ITA)"Building Crash ... "$(STY_RES)
 ################################################################################
-MSG_START		:=	"\e[3mBuilding \e[1;34m🌊rash \e[0;3m... \e[0m"
+MSG_PROGRESS	:=	$(STY_ITA)"🌊"$(STY_RES)
 ################################################################################
-MSG_PROGRESS	:=	"\e[3m🌊\e[0m"
+MSG_SUCCESS		:=	$(STY_BOL)$(STY_ITA)$(STY_CYA)"\nDONE!"$(STY_RES)
 ################################################################################
-MSG_SUCCESS		:=	"\e[1;3;36m\nDONE!\e[0m"
+MSG_NO_CHNG		:=	$(STY_ITA)$(STY_WHI)"Everything up-to-date!"$(STY_RES)
 ################################################################################
-MSG_NO_CHNG		:=	"\e[3;37mEverything up-to-date!\e[0m"
-################################################################################
-MSG_FAILURE		:=	"\e[1;3;31mBUILD FAILED!\e[0m"
-################################################################################
-MSG_TEST_MODE	:=	"\e[1;3;4;33m-------------- TEST MODE --------------\e[0m"
+MSG_FAILURE		:=	$(STY_BOL)$(STY_ITA)$(STY_RED)"BUILD FAILED!"$(STY_RES)
 ################################################################################
 
 
@@ -273,9 +285,6 @@ print-%			:
 
 
 # ********************************* NOTES ************************************ #
-
-#	test without env value:
-#	env -i
 
 #	PATH_MAX (4096 characters):
 #	255------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/510------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/765------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/1020-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/1275-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/1530-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/1785-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/2040-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/2295-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/2550-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/2805-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/3060-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/3315-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/3570-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/3825-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/4080-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/

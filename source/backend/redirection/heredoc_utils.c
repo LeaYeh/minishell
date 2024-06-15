@@ -14,13 +14,6 @@
 #include "expander.h"
 #include "signals.h"
 
-bool	is_here_end_quoted(char *here_end)
-{
-	if (ft_strchr(here_end, '\'') || ft_strchr(here_end, '\"'))
-		return (true);
-	return (false);
-}
-
 bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
 {
 	int	fd;
@@ -39,29 +32,29 @@ bool	setup_tmp_hdfile(int cmdtable_id, t_io_red *io_red)
 	return (true);
 }
 
-int	expand_heredoc_content(t_shell *shell, char **content)
+t_hd_st	expand_heredoc_content(t_sh *shell, char **content)
 {
 	t_list	*expanded_list;
 	int		ret;
 
 	expanded_list = NULL;
-	ret = expander(*content, &expanded_list, shell, E_EXPAND);
+	ret = expander(*content, &expanded_list, shell, E_PARAM);
 	if (ret == MALLOC_ERROR)
-		return (ft_lstclear(&expanded_list, free), HEREDOC_ERROR);
+		return (ft_lstclear(&expanded_list, free), HD_ERROR);
 	if (ret == BAD_SUBSTITUTION)
 	{
 		shell->exit_code = BAD_SUBSTITUTION;
-		return (ft_lstclear(&expanded_list, free), HEREDOC_ABORT);
+		return (ft_lstclear(&expanded_list, free), HD_ABORT);
 	}
 	ft_free_and_null((void **)content);
 	if (expanded_list)
 		*content = expanded_list->content;
 	ft_lstclear(&expanded_list, NULL);
-	return (SUCCESS);
+	return (HD_SUCCESS);
 }
 
 bool	remove_here_end_quote(
-	t_shell *shell, t_io_red *io_red, bool *need_content_expansion)
+			t_sh *shell, t_io_red *io_red, bool *need_content_expansion)
 {
 	t_list	*expanded_list;
 

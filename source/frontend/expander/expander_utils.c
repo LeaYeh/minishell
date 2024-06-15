@@ -13,9 +13,9 @@
 #include "expander.h"
 #include "utils.h"
 
-size_t	get_offset(char *str)
+int	get_offset(char *str)
 {
-	size_t	offset;
+	int	offset;
 
 	offset = 0;
 	if (*str == '$')
@@ -28,27 +28,41 @@ size_t	get_offset(char *str)
 	return (offset);
 }
 
-size_t	get_replace_len(char *str)
+int	get_replace_len(char *str)
 {
-	size_t	replace_len;
+	int	replace_len;
 
 	replace_len = 0;
 	if (str[replace_len] == '$')
-		replace_len++;
-	if (str[replace_len] == OPENING_BRACE)
 	{
-		if (skip_dollar_brace(str, &replace_len, is_open_pair('"', OP_GET)))
-			replace_len++;
-	}
-	else if (str[replace_len] == '?')
 		replace_len++;
-	else
-		while (is_valid_varname_char(str[replace_len]))
+		if (str[replace_len] == OPENING_BRACE)
+		{
+			if (skip_dollar_brace(str, &replace_len, is_open_pair('"', OP_GET)))
+				replace_len++;
+		}
+		else if (str[replace_len] == '?' || str[replace_len] == '$')
+			replace_len++;
+		else
+			while (is_valid_varname_char(str[replace_len]))
+				replace_len++;
+	}
+	else if (str[replace_len] == '*')
+		while (str[replace_len] == '*')
 			replace_len++;
 	return (replace_len);
 }
 
-void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
+bool	is_unquoted_quote(char quote)
+{
+	if (quote == '"' && !is_open_pair('\'', OP_GET))
+		return (true);
+	if (quote == '\'' && !is_open_pair('"', OP_GET))
+		return (true);
+	return (false);
+}
+
+void	skip_to_dollar_not_in_single_quotes(char *str, int *i)
 {
 	while (str[*i])
 	{
@@ -58,16 +72,6 @@ void	skip_to_dollar_not_in_single_quotes(char *str, size_t *i)
 			is_open_pair('"', OP_SET);
 		else if (str[*i] == '\'' && !is_open_pair('"', OP_GET))
 			skip_single_quote(str, i);
-		(*i)++;
-	}
-}
-
-void	skip_to_expander_symbol(char *str, size_t *i)
-{
-	while (str[*i])
-	{
-		if (ft_strchr(EXPANDER_SYMBOLS, str[*i]))
-			return ;
 		(*i)++;
 	}
 }

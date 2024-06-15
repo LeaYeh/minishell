@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 18:08:54 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/08 18:04:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,27 @@
 #include "parser.h"
 #include "utils.h"
 
-bool	parse_step(t_parser_data *parser_data, t_pt_node *pt_entry)
+static bool	parse_step(t_prs_data *parser_data, t_pt_node *pt_entry);
+static bool	parse(t_sh *shell, t_prs_data *parser_data);
+
+bool	parser(t_sh *shell)
 {
-	if (pt_entry->action == A_SHIFT)
-	{
-		if (!parse_shift(ft_lstpop_front_content(&parser_data->token_list),
-				&parser_data->state_stack,
-				&parser_data->parse_stack, pt_entry->next_state))
-			return (false);
-	}
-	else if (pt_entry->action == A_REDUCE)
-	{
-		if (!(parse_reduce(&parser_data->state_stack,
-					&parser_data->parse_stack, pt_entry) && \
-			parse_goto(&parser_data->state_stack,
-					get_token_from_stack(parser_data->parse_stack)->type)))
-			return (false);
-	}
+	t_prs_data	parser_data;
+
+	if (!init_parser_data(&parser_data, shell->token_list))
+		clean_and_exit_shell(shell, PREPROCESS_ERROR, "parser malloc failed");
+	if (!parse(shell, &parser_data))
+		return (free_parser_data(&parser_data), false);
+	free_parser_data(&parser_data);
+	shell->cmd_table_list = build_cmd_table_list(shell->token_list);
+	if (!shell->cmd_table_list)
+		clean_and_exit_shell(
+			shell, PREPROCESS_ERROR, "build cmd table malloc failed");
+	ft_lstclear(&shell->token_list, (void *)free_token);
 	return (true);
 }
 
-char	*get_error_token_data(t_list *token_list, t_list *parse_stack)
-{
-	char	*error_token_data;
-
-	if (token_list)
-		error_token_data = get_token_data_from_list(token_list);
-	else
-		error_token_data = get_ast_from_stack(parse_stack)->data;
-	return (error_token_data);
-}
-
-void	report_syntax_error(t_shell *shell, t_parser_data *parser_data)
-{
-	char	*error_token;
-
-	error_token = get_error_token_data(
-			parser_data->token_list, parser_data->parse_stack);
-	if (!error_token)
-		error_token = "newline";
-	shell->exit_code = SYNTAX_ERROR;
-	ft_dprintf(STDERR_FILENO, ERROR_PARSER_SYNTAX, PROGRAM_NAME, error_token);
-}
-
-bool	parse(t_shell *shell, t_parser_data *parser_data)
+static bool	parse(t_sh *shell, t_prs_data *parser_data)
 {
 	t_pt_node	*pt_entry;
 
@@ -66,7 +43,7 @@ bool	parse(t_shell *shell, t_parser_data *parser_data)
 	{
 		if (!set_next_pt_entry(&pt_entry,
 				get_state_from_stack(parser_data->state_stack),
-				get_token_type_from_list(parser_data->token_list),
+				(t_prs_elem)get_token_type_from_list(parser_data->token_list),
 				A_SHIFT | A_REDUCE | A_ACCEPT))
 			(free_parser_data(parser_data),
 				clean_and_exit_shell(
@@ -86,19 +63,23 @@ bool	parse(t_shell *shell, t_parser_data *parser_data)
 	}
 }
 
-bool	parser(t_shell *shell)
+static bool	parse_step(t_prs_data *parser_data, t_pt_node *pt_entry)
 {
-	t_parser_data	parser_data;
-
-	if (!init_parser_data(&parser_data, shell->token_list))
-		clean_and_exit_shell(shell, PREPROCESS_ERROR, "parser malloc failed");
-	if (!parse(shell, &parser_data))
-		return (free_parser_data(&parser_data), false);
-	free_parser_data(&parser_data);
-	shell->cmd_table_list = build_cmd_table_list(shell->token_list);
-	if (!shell->cmd_table_list)
-		clean_and_exit_shell(
-			shell, PREPROCESS_ERROR, "build cmd table malloc failed");
-	ft_lstclear(&shell->token_list, (void *)free_token_node);
+	if (pt_entry->action == A_SHIFT)
+	{
+		if (!parse_shift(ft_lstpop_front_content(&parser_data->token_list),
+				&parser_data->state_stack,
+				&parser_data->parse_stack, pt_entry->next_state))
+			return (false);
+	}
+	else if (pt_entry->action == A_REDUCE)
+	{
+		if (!(parse_reduce(&parser_data->state_stack,
+					&parser_data->parse_stack, pt_entry) && \
+			parse_goto(&parser_data->state_stack,
+					(t_prs_elem)get_token_from_stack(
+						parser_data->parse_stack)->type)))
+			return (false);
+	}
 	return (true);
 }

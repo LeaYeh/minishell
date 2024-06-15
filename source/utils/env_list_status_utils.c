@@ -12,35 +12,6 @@
 
 #include "utils.h"
 
-char	*get_value_from_env_list(t_list *env_list, char *key)
-{
-	t_env	*env_node;
-
-	while (env_list)
-	{
-		env_node = env_list->content;
-		if (ft_strcmp(env_node->key, key) == 0)
-			return (env_node->value);
-		env_list = env_list->next;
-	}
-	return (NULL);
-}
-
-bool	is_exported_env_node(t_list *env_list, char *key)
-{
-	t_env	*env_node;
-
-	while (env_list)
-	{
-		env_node = env_list->content;
-		if (ft_strcmp(env_node->key, key) == 0 && \
-			env_node->export == EXPORT_YES)
-			return (true);
-		env_list = env_list->next;
-	}
-	return (false);
-}
-
 bool	is_key_in_env_list(t_list *env_list, char *key)
 {
 	t_list	*cur;
@@ -57,6 +28,20 @@ bool	is_key_in_env_list(t_list *env_list, char *key)
 		cur = cur->next;
 	}
 	return (false);
+}
+
+char	*get_value_from_env_list(t_list *env_list, char *key)
+{
+	t_env	*env_node;
+
+	while (env_list)
+	{
+		env_node = env_list->content;
+		if (ft_strcmp(env_node->key, key) == 0)
+			return (env_node->value);
+		env_list = env_list->next;
+	}
+	return (NULL);
 }
 
 t_env	*find_env_node(t_list *env_list, char *key, char *value)
@@ -83,6 +68,21 @@ t_env	*find_env_node(t_list *env_list, char *key, char *value)
 		env_list = env_list->next;
 	}
 	return (NULL);
+}
+
+bool	is_exported_env_node(t_list *env_list, char *key)
+{
+	t_env	*env_node;
+
+	while (env_list)
+	{
+		env_node = env_list->content;
+		if (ft_strcmp(env_node->key, key) == 0 && \
+			env_node->export == EXPORT_YES)
+			return (true);
+		env_list = env_list->next;
+	}
+	return (false);
 }
 
 int	get_exported_env_size(t_list *env_list)

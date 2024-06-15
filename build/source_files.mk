@@ -6,153 +6,178 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:15:33 by ldulling          #+#    #+#              #
-#    Updated: 2024/03/19 17:42:04 by ldulling         ###   ########.fr        #
+#    Updated: 2024/04/04 23:25:38 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# Initialize SRC
+SRC		:= $(SRC)
 
-# Source files:
-#  Main:
-SUBDIR	:=	./
-SRC		+=	$(addprefix $(SUBDIR), \
+# Main:
+DIR		:=	./
+SRC		+=	$(addprefix $(DIR), \
             main.c \
-            shell_clean.c \
 )
 
-#  Backend:
-#   Executor:
-SUBDIR	:=	backend/executor/
-SRC		+=	$(addprefix $(SUBDIR), \
-            executor.c \
-            executor_utils.c \
-            handle_builtin.c \
-            handle_control_op.c \
-            handle_external.c \
-            handle_pipeline.c \
-            handle_simple_cmd.c \
-            handle_subshell.c \
-)
-#   Redirection:
-SUBDIR	:=	backend/redirection/
-SRC		+=	$(addprefix $(SUBDIR), \
-            bind.c \
-            heredoc.c \
-            heredoc_utils.c \
-            io_redirect.c \
-            pipe_redirect.c \
-            pipe_redirect_utils.c \
-)
-
+# Backend:
 #  Builtins:
-SUBDIR	:=	builtins/
-SRC		+=	$(addprefix $(SUBDIR), \
+DIR		:=	backend/builtins/
+SRC		+=	$(addprefix $(DIR), \
+            easter_egg.c \
             echo.c \
             env.c \
-            exit.c \
-            exit_utils.c \
             pwd.c \
             unset.c \
 )
-#   cd:
-SUBDIR	:=	builtins/cd/
-SRC		+=	$(addprefix $(SUBDIR), \
+#  cd:
+DIR		:=	backend/builtins/cd/
+SRC		+=	$(addprefix $(DIR), \
             cd.c \
             cd_errors.c \
             cd_utils.c \
-            cmpnt_list.c \
-            cmpnt_list_utils.c \
-            dot_cmpnts.c \
+            component_list.c \
+            component_list_utils.c \
+            dot_component.c \
             env_pwd_update.c \
-            get_target_dir.c \
-            process_path.c \
+            path.c \
 )
-#   export:
-SUBDIR	:=	builtins/export/
-SRC		+=	$(addprefix $(SUBDIR), \
+#  exit:
+DIR		:=	backend/builtins/exit/
+SRC		+=	$(addprefix $(DIR), \
+            exit.c \
+            exit_utils.c \
+)
+#  export:
+DIR		:=	backend/builtins/export/
+SRC		+=	$(addprefix $(DIR), \
             export.c \
-            print_exported_env.c \
+            export_output.c \
+)
+#  Executor:
+DIR		:=	backend/executor/
+SRC		+=	$(addprefix $(DIR), \
+            builtin_cmd.c \
+            control_operator.c \
+            executor.c \
+            executor_utils.c \
+            external_cmd.c \
+            pipeline_process.c \
+            simple_cmd_process.c \
+            subshell_process.c \
+            wait_process.c \
+)
+#  Redirection:
+DIR		:=	backend/redirection/
+SRC		+=	$(addprefix $(DIR), \
+            file_descriptor.c \
+            heredoc.c \
+            heredoc_string_utils.c \
+            heredoc_utils.c \
+            io_file.c \
+            pipe.c \
+            pipe_utils.c \
+            stdio_bind.c \
 )
 
-#  Frontend:
-#   Lexer:
-SUBDIR	:=	frontend/lexer/
-SRC		+=	$(addprefix $(SUBDIR), \
-            create_token_data_list.c \
-            create_token_list.c \
-            finetune_token_list.c \
-            lexer.c \
-            lexer_utils.c \
-            set_token_type.c \
+# Debug:
+DIR		:=	debug/
+SRC		+=	$(addprefix $(DIR), \
+            print_ast_bfs.c \
+            print_cmd_table.c \
+            print_expanded_cmd_table.c \
+            print_expanded_cmd_table_content.c \
+            print_expander_task_list.c \
+            print_final_cmd_table.c \
+            print_list.c \
+            print_stack.c \
 )
-#   Parser:
-SUBDIR	:=	frontend/parser/
-SRC		+=	$(addprefix $(SUBDIR), \
-            cmd_table_list.c \
-            cmd_table_symbol.c \
-            cmd_table_symbol_utils.c \
-            cmd_table_word.c \
-            parser.c \
-            parser_operation.c \
-            parser_utils.c \
-            parsing_table.c \
-)
-#   Expander:
-SUBDIR	:=	frontend/expander/
-SRC		+=	$(addprefix $(SUBDIR), \
+
+# Frontend:
+#  Expander:
+DIR		:=	frontend/expander/
+SRC		+=	$(addprefix $(DIR), \
             bad_substitution.c \
             expander.c \
             expander_task_list.c \
             expander_task_list_utils.c \
+            expander_task_utils.c \
             expander_utils.c \
-            expansion_handler.c \
             null_expansion.c \
+            parameter_expansion.c \
             quote_removal.c \
-            special_param_expansion.c \
-            variable_expansion.c \
+            wildcard_expansion.c \
+            wildcard_expansion_utils.c \
+            wildcard_file_list.c \
+            wildcard_task_list.c \
             word_splitting.c \
+            word_splitting_utils.c \
+)
+#  Lexer:
+DIR		:=	frontend/lexer/
+SRC		+=	$(addprefix $(DIR), \
+            lexer.c \
+            lexer_utils.c \
+            token_data_list.c \
+            token_list.c \
+            token_list_post_processing.c \
+            token_type.c \
+)
+#  Parser:
+DIR		:=	frontend/parser/
+SRC		+=	$(addprefix $(DIR), \
+            cmd_table_list.c \
+            cmd_table_symbol.c \
+            cmd_table_symbol_utils.c \
+            cmd_table_word.c \
+            parser_action.c \
+            parser.c \
+            parser_data.c \
+            parsing_table_operation.c \
+            syntax_error.c \
 )
 
-#  Init:
-SUBDIR	:=	init/
-SRC		+=	$(addprefix $(SUBDIR), \
-            init_shell.c \
-            setup_default_env_list.c \
-            setup_env_list.c \
+# Shell:
+DIR		:=	shell/
+SRC		+=	$(addprefix $(DIR), \
+            clean.c \
+            default_env_list.c \
+            env_list.c \
+            init.c \
 )
 
-#  Signal:
-SUBDIR	:=	signal/
-SRC		+=	$(addprefix $(SUBDIR), \
+# Signal:
+DIR		:=	signal/
+SRC		+=	$(addprefix $(DIR), \
             exception_broadcaster.c \
             signal_handler.c \
 )
 
-#  Utils:
-SUBDIR	:=	utils/
-SRC		+=	$(addprefix $(SUBDIR), \
+# Utils:
+DIR		:=	utils/
+SRC		+=	$(addprefix $(DIR), \
             array_utils.c \
             ast_utils.c \
+            cmd_table_list_utils.c \
             cmd_table_operation_utils.c \
-            cmd_table_status_utils.c \
             cmd_table_traversal_utils.c \
             cmd_table_type_utils.c \
-            env_list_op_utils.c \
+            env_list_operation_utils.c \
             env_list_status_utils.c \
             env_utils.c \
+            error_utils.c \
             exec_path_setup_utils.c \
             expansion_utils.c \
             file_utils.c \
             final_cmd_table_setup.c \
             final_cmd_table_utils.c \
-            io_redirect_status_utils.c \
             io_redirect_utils.c \
-            process_utils.c \
-            stack_status_utils.c \
+            pid_utils.c \
+            print_utils.c \
             stack_utils.c \
-            string_utils.c \
             symbol_utils.c \
             token_status_utils.c \
+            token_type_utils.c \
             token_utils.c \
-            type_utils.c \
+            user_input_utils.c \
             varname_utils.c \
 )

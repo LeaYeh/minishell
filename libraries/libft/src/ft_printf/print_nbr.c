@@ -123,7 +123,7 @@ static int	print_nbr_in_correct_base(long nbr, t_format *f)
 	else if (f->specifier == 'X')
 		printed += ft_putnbr_base_fd(nbr, "0123456789ABCDEF", f->fd);
 	else if (nbr < 0)
-		printed += ft_putnbr_base_fd(nbr * -1, "0123456789", f->fd);
+		printed += ft_putnbr_base_fd(-nbr, "0123456789", f->fd);
 	else
 		printed += ft_putnbr_base_fd(nbr, "0123456789", f->fd);
 	return (printed);

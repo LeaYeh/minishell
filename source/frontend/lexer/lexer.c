@@ -13,7 +13,7 @@
 #include "lexer.h"
 #include "clean.h"
 
-bool	lexer(t_shell *shell)
+bool	lexer(t_sh *shell)
 {
 	t_list	*token_data_list;
 
@@ -32,7 +32,7 @@ bool	lexer(t_shell *shell)
 	}
 	set_token_type(shell->token_list);
 	finetune_token_list(shell->token_list);
-	if (!add_end_node(&shell->token_list))
+	if (!append_end_node(&shell->token_list))
 		clean_and_exit_shell(shell, PREPROCESS_ERROR, "lexer malloc failed");
 	return (true);
 }

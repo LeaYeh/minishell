@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 15:35:09 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/05/05 12:37:49 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINES_H
 # define DEFINES_H
 
+# include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <linux/limits.h>
 # include <signal.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <sysexits.h>
@@ -33,14 +33,19 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 
-# ifndef TEST_MODE
-#  define TEST_MODE false
-# endif
-
 # ifndef PARSING_TABLE
+#  define PARSING_TABLE		0
 #  define DEFINITIONS_OK	false
 # else
 #  define DEFINITIONS_OK	true
+# endif
+
+# ifndef WELCOME_ART1
+#  define WELCOME_ART1		""
+# endif
+
+# ifndef WELCOME_ART2
+#  define WELCOME_ART2		""
 # endif
 
 # define PROGRAM_NAME		"crash"
@@ -49,6 +54,14 @@
 
 # define HEREDOC_PROMPT		"\e[1;37m> \e[0m"
 # define EXIT_MSG			"exit\n"
+
+# define WELCOME_MSG		"\
+                    ╭───────────🌊🌊🌊───────────╮\n\
+                    │  Dive deep into the shell  │\n\
+                    ╰───────────🌊🌊🌊───────────╯\n"
+
+# define VALERIA_MSG		"\
+           Big thank you to \e[1m@ValeriaGart\e[0m for the pixel art!\n"
 
 /* Error Codes */
 # define SUCCESS			0
@@ -67,45 +80,47 @@
 # define FORK_ERROR			254
 
 /* Text-Style Escape Codes */
-# define STY_BLD			"\e[1m"
+# define STY_RES			"\e[0m"
+# define STY_BOL			"\e[1m"
+# define STY_ITA			"\e[3m"
 # define STY_UND			"\e[4m"
 # define STY_RED			"\e[31m"
-# define STY_GRN			"\e[32m"
+# define STY_GRE			"\e[32m"
 # define STY_YEL			"\e[33m"
 # define STY_BLU			"\e[34m"
 # define STY_MAG			"\e[35m"
-# define STY_CYN			"\e[36m"
-# define STY_WHT			"\e[37m"
-# define STY_GRY			"\e[90m"
-# define STY_HWHT			"\e[97m"
-# define STY_BLKB			"\e[41m"
-# define STY_REDB			"\e[41m"
-# define STY_GRNB			"\e[42m"
-# define STY_YELB			"\e[43m"
-# define STY_BLUB			"\e[44m"
-# define STY_MAGB			"\e[45m"
-# define STY_CYNB			"\e[46m"
-# define STY_WHTB			"\e[47m"
-# define STY_GRYB			"\e[100m"
-# define STY_HWHTB			"\e[107m"
-# define STY_RES			"\e[0m"
+# define STY_CYA			"\e[36m"
+# define STY_WHI			"\e[37m"
+# define STY_GRA			"\e[90m"
+# define STY_WHI_BRI		"\e[97m"
+# define STY_BLA_BG			"\e[41m"
+# define STY_RED_BG			"\e[41m"
+# define STY_GRE_BG			"\e[42m"
+# define STY_YEL_BG			"\e[43m"
+# define STY_BLU_BG			"\e[44m"
+# define STY_MAG_BG			"\e[45m"
+# define STY_CYA_BG			"\e[46m"
+# define STY_WHI_BG			"\e[47m"
+# define STY_GRA_BG			"\e[100m"
+# define STY_WHI_BRI_BG		"\e[107m"
 
 /* Symbols */
+# define WORD_SEPERATORS	" \t\n"
 # define QUOTES				"'\""
-# define EXPANDER_SYMBOLS	"$*\"'"
 # define OPENING_BRACE		'{'
 # define CLOSING_BRACE		'}'
 # define DOLLAR_BRACE		"${"
 
 /* Parsing Table */
-# define PT_COL_SIZE		5
-# define PT_ROW_SIZE		191
+# define PT_COL_NUM			5
+# define PT_ROW_NUM			192
 # define UNDEFINED_STATE	-1
 
 /* Export */
 # define EXPORT_PREFIX		"export "
 
 /* Error Messages */
+# define ERROR_MAX_LEN 131072
 # define ERROR_LEXER_SYNTAX					\
 "%s: syntax error: missing `%c'\n"
 # define ERROR_PARSER_SYNTAX				\
@@ -143,36 +158,18 @@
 
 typedef enum e_heredoc_status
 {
-	HEREDOC_SUCCESS	= 0,
-	HEREDOC_ABORT,
-	HEREDOC_ERROR
-}	t_heredoc_status;
+	HD_SUCCESS		= 0,
+	HD_ABORT,
+	HD_ERROR
+}	t_hd_st;
 
-typedef enum e_state
+typedef enum e_signal_state
 {
 	SIG_DEFAULT		= 0,
 	SIG_IGNORE,
 	SIG_STANDARD,
-	SIG_RECORD,
-	SIG_HEREDOC
-}	t_state;
-
-typedef enum e_pt_col
-{
-	PT_COL_STATE	= 0,
-	PT_COL_TOKEN_TYPE,
-	PT_COL_ACTION,
-	PT_COL_NEXT_STATE,
-	PT_COL_NUM_REDUCED
-}	t_pt_col;
-
-typedef enum e_action_type
-{
-	A_ACCEPT		= 0,
-	A_SHIFT			= 0b001,
-	A_REDUCE		= 0b010,
-	A_GOTO			= 0b100
-}	t_action_type;
+	SIG_RECORD
+}	t_sig;
 
 typedef enum e_token_type
 {
@@ -189,9 +186,58 @@ typedef enum e_token_type
 	T_AND,
 	T_L_BRACKET,
 	T_R_BRACKET
-}	t_token_type;
+}	t_tok_typ;
 
-typedef enum e_cmdtable_type
+typedef enum e_parsing_table_column
+{
+	PT_COL_STATE	= 0,
+	PT_COL_ELEMENT,
+	PT_COL_ACTION,
+	PT_COL_NEXT_STATE,
+	PT_COL_NUM_REDUCED
+}	t_pt_col;
+
+typedef enum e_parser_element
+{
+	P_END			= -2,
+	P_NONE			= -1,
+	P_WORD			= 0,
+	P_ASSIGNMENT_WORD,
+	P_RED_IN,
+	P_RED_OUT,
+	P_PIPE,
+	P_HERE_DOC,
+	P_APPEND,
+	P_OR,
+	P_AND,
+	P_L_BRACKET,
+	P_R_BRACKET,
+	P_AND_OR		= 100,
+	P_PIPE_SEQ,
+	P_CMD,
+	P_SUBSHELL,
+	P_SIMPLE_CMD,
+	P_CMD_NAME,
+	P_CMD_WORD,
+	P_CMD_PREFIX,
+	P_CMD_SUFFIX,
+	P_RED_LIST,
+	P_IO_RED,
+	P_IO_FILE,
+	P_FILENAME,
+	P_IO_HERE,
+	P_HERE_END
+}	t_prs_elem;
+
+typedef enum e_parser_action
+{
+	A_ACCEPT		= 0,
+	A_SHIFT			= 0b001,
+	A_REDUCE		= 0b010,
+	A_GOTO			= 0b100
+}	t_prs_act;
+
+typedef enum e_command_table_type
 {
 	C_NONE			= -1,
 	C_SIMPLE_CMD	= 0,
@@ -200,118 +246,122 @@ typedef enum e_cmdtable_type
 	C_OR,
 	C_SUBSHELL_START,
 	C_SUBSHELL_END
-}	t_cmdtable_type;
+}	t_ct_typ;
 
-typedef enum e_is_open_pair_op
+typedef enum e_open_pair_operator
 {
 	OP_GET			= 0,
 	OP_SET,
 	OP_RESET,
 	OP_CLEAN
-}	t_is_open_pair_op;
+}	t_pair_op;
 
-typedef enum e_expander_op
+typedef enum e_expander_operator
 {
-	E_EXPAND		= 0b001,
-	E_SPLIT_WORDS	= 0b010,
-	E_RM_QUOTES		= 0b100
-}	t_expander_op;
+	E_PARAM			= 0b0001,
+	E_SPLIT_WORDS	= 0b0010,
+	E_WILDCARD		= 0b0100,
+	E_RM_QUOTES		= 0b1000
+}	t_expd_op;
 
 typedef enum e_expander_task_type
 {
 	ET_VAR			= 0,
 	ET_VAR_NO_SPLIT,
 	ET_EXIT_CODE,
+	ET_SHELL_PID,
+	ET_WILDCARD,
 	ET_QUOTE
-}	t_expander_task_type;
+}	t_expd_tsk_typ;
 
 typedef enum e_export
 {
 	EXPORT_NO		= 0,
 	EXPORT_YES
-}	t_export;
+}	t_expt;
 
-typedef enum e_exit_args_error
+typedef enum e_exit_argument_error
 {
 	EX_NO_ARGS		= -1,
 	EX_NORM_ARGS	= 0,
 	EX_TOO_MANY_ARGS,
-	EX_NOT_NUMERIC,
-}	t_exit_args_error;
+	EX_NOT_NUMERIC
+}	t_exit_err;
 
-typedef struct s_env
+typedef struct s_environment_node
 {
 	char			*key;
 	char			*value;
-	t_export		export;
+	t_expt			export;
 }	t_env;
 
 typedef struct s_token
 {
-	int				type;
+	t_tok_typ		type;
 	char			*data;
-}	t_token;
+}	t_tok;
 
 typedef struct s_expander_task
 {
-	t_expander_task_type	type;
-	size_t					start;
-	size_t					replace_len;
-	char					*varname;
-	size_t					result_len;
-}	t_expander_task;
+	t_expd_tsk_typ	type;
+	char			**base_str;
+	int				start;
+	int				replace_len;
+	char			*varname;
+	int				result_len;
+}	t_expd_tsk;
 
-typedef struct s_ast
+typedef struct s_abstract_syntax_tree
 {
-	int				type;
+	t_prs_elem		element;
 	char			*data;
 	t_list			*children;
 }	t_ast;
 
-typedef struct s_relation_ast
+typedef struct s_relational_abstract_syntax_tree
 {
 	int				level;
 	t_ast			*parent;
 	t_ast			*current;
 	t_list			*children;
-}	t_relation_ast;
+}	t_rel_ast;
 
 typedef struct s_parser_data
 {
 	t_list			*token_list;
 	t_list			*state_stack;
 	t_list			*parse_stack;
-}	t_parser_data;
+}	t_prs_data;
 
-typedef struct s_pt_node
+typedef struct s_parsing_table_node
 {
 	int				state;
-	int				token_type;
-	int				action;
+	t_prs_elem		element;
+	t_prs_act		action;
 	int				next_state;
 	int				num_reduced;
 }	t_pt_node;
 
-typedef struct s_io_red
+typedef struct s_io_redirection
 {
-	int				type;
+	t_tok_typ		type;
 	char			*filename;
 	char			*here_end;
 }	t_io_red;
 
-typedef struct s_cmd_table
+typedef struct s_command_table
 {
 	int				id;
+	t_ct_typ		type;
 	int				subshell_level;
 	int				read_fd;
 	int				write_fd;
-	int				type;
 	t_list			*simple_cmd_list;
 	t_list			*assignment_list;
 	t_list			*io_red_list;
-}	t_cmd_table;
+}	t_ct;
 
-typedef struct s_final_cmd_table
+typedef struct s_final_command_table
 {
 	char			**simple_cmd;
 	char			*exec_path;
@@ -319,7 +369,7 @@ typedef struct s_final_cmd_table
 	char			**env;
 	int				read_fd;
 	int				write_fd;
-}	t_final_cmd_table;
+}	t_fct;
 
 typedef struct s_pipe
 {
@@ -330,19 +380,20 @@ typedef struct s_pipe
 
 typedef struct s_shell
 {
-	pid_t				pid;
-	pid_t				subshell_pid;
-	int					subshell_level;
-	int					signal_record;
-	t_pipe				old_pipe;
-	t_pipe				new_pipe;
-	int					exit_code;
-	char				*input_line;
-	t_list				*child_pid_list;
-	t_list				*env_list;
-	t_list				*token_list;
-	t_list_d			*cmd_table_list;
-	t_final_cmd_table	*final_cmd_table;
-}	t_shell;
+	bool			is_interactive;
+	pid_t			pid;
+	pid_t			subshell_pid;
+	int				subshell_level;
+	int				signal_record;
+	t_pipe			old_pipe;
+	t_pipe			new_pipe;
+	unsigned char	exit_code;
+	char			*input_line;
+	t_list			*child_pid_list;
+	t_list			*env_list;
+	t_list			*token_list;
+	t_list_d		*cmd_table_list;
+	t_fct			*final_cmd_table;
+}	t_sh;
 
 #endif

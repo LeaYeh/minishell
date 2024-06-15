@@ -3,84 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   word_splitting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:17:46 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 18:17:47 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/03/30 11:49:31 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
-static int	trim_whitespace(char **new_str, size_t *i, size_t *end)
-{
-	int	trimmed_len;
+static bool	iter_word_splitting(t_list *expanded_list, t_list **task_list);
+static bool	split_str_into_nodes(t_list **expanded_list, t_list *task_node);
+static bool	split_node(
+				t_list **expanded_list, t_list *task_node, int *i, int *end);
 
-	while (ft_strchr(" \t\n", (*new_str)[*i]) && *i < *end)
-		(*i)++;
-	if (!ft_strrplc_part(new_str, "", 0, *i))
-		return (-1);
-	trimmed_len = *i;
-	*end -= trimmed_len;
-	*i = 0;
-	return (trimmed_len);
+bool	handle_word_splitting(
+			t_list **expanded_list, t_expd_op op_mask, t_list **task_list)
+{
+	if (op_mask & E_SPLIT_WORDS)
+	{
+		if (!iter_word_splitting(*expanded_list, task_list))
+			return (false);
+	}
+	drop_null_expansion_nodes(expanded_list);
+	return (true);
 }
 
-static char	*split(char **new_str, size_t *i, size_t *end)
+static bool	iter_word_splitting(t_list *expanded_list, t_list **task_list)
 {
-	char	**halves;
-	char	*word;
+	t_expd_tsk	*task;
+	t_list		*task_node;
 
-	halves = ft_split_at_index(*new_str, *i);
-	if (!halves)
-		return (NULL);
-	word = halves[0];
-	free(*new_str);
-	*new_str = halves[1];
-	free(halves);
-	*end -= *i;
-	*i = 0;
-	return (word);
+	task_node = *task_list;
+	while (task_node)
+	{
+		task = task_node->content;
+		if (task->type == ET_VAR)
+		{
+			if (!split_str_into_nodes(&expanded_list, task_node))
+				return (false);
+			ft_lstdrop_node(task_list, &task_node, (void *)free_expander_task);
+		}
+		else
+			task_node = task_node->next;
+	}
+	return (true);
 }
 
-static char	*extract_word(
-	char **new_str, t_list *task_list, size_t *i, size_t *end)
+static bool	split_str_into_nodes(t_list **expanded_list, t_list *task_node)
 {
-	int		trimmed_len;
-	char	*word;
+	char		**base_str;
+	int			end;
+	int			i;
+	t_expd_tsk	*task;
 
-	word = split(new_str, i, end);
-	if (!word)
-		return (NULL);
-	trimmed_len = trim_whitespace(new_str, i, end);
-	if (trimmed_len == -1)
-		return (NULL);
-	update_expander_tasks(task_list, 0 - ft_strlen(word) - trimmed_len);
-	return (word);
-}
-
-static bool	handle_word_splitting(
-	char **new_str, t_list *task_list, t_list **lst)
-{
-	size_t			end;
-	size_t			i;
-	t_expander_task	*task;
-	char			*word;
-
-	task = task_list->content;
+	base_str = (char **)&(*expanded_list)->content;
+	task = task_node->content;
 	end = task->start + task->result_len;
 	i = task->start;
 	while (i < end)
 	{
-		if (ft_strchr(" \t\n", (*new_str)[i]))
+		if (ft_strchr(WORD_SEPERATORS, (*base_str)[i]))
 		{
-			word = extract_word(new_str, task_list, &i, &end);
-			if (!word)
+			if (!split_node(expanded_list, task_node, &i, &end))
 				return (false);
-			if (!*word)
-				free(word);
-			else if (!ft_lstnew_back(lst, word))
-				return (free(word), false);
+			*expanded_list = (*expanded_list)->next;
+			base_str = (char **)&(*expanded_list)->content;
 		}
 		else
 			i++;
@@ -88,19 +76,22 @@ static bool	handle_word_splitting(
 	return (true);
 }
 
-bool	split_words(t_list **lst, char **new_str, t_list *task_list)
+static bool	split_node(
+				t_list **expanded_list, t_list *task_node, int *i, int *end)
 {
-	t_expander_task	*task;
+	char	**base_str;
+	char	*rest;
+	int		trimmed_len;
 
-	while (task_list)
-	{
-		task = task_list->content;
-		if (task->type == ET_VAR)
-		{
-			if (!handle_word_splitting(new_str, task_list, lst))
-				return (false);
-		}
-		task_list = task_list->next;
-	}
-	return (ft_lstnew_back(lst, *new_str));
+	base_str = (char **)&(*expanded_list)->content;
+	rest = split_base_str(base_str, i, end);
+	if (!rest)
+		return (false);
+	trimmed_len = trim_front_whitespace(&rest, i, end);
+	if (trimmed_len == -1)
+		return (free(rest), false);
+	trimmed_len += ft_strlen(*base_str);
+	if (!append_rest_to_list(expanded_list, task_node, rest, trimmed_len))
+		return (free(rest), false);
+	return (true);
 }

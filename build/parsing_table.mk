@@ -1,4 +1,16 @@
-# | State | Token Type | Action | Next State | Number of Reduced Tokens |
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    parsing_table.mk                                   :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/03/30 17:50:52 by ldulling          #+#    #+#              #
+#    Updated: 2024/04/08 15:34:22 by ldulling         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# | State | Element | Action | Next State | Number of Reduced Tokens |
 
 PARSING_TABLE	:=	"{\
 					{0, 0, 1, 1, -1}, \

@@ -6,65 +6,90 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/02/15 12:16:17 by ldulling         ###   ########.fr        #
+#    Updated: 2024/05/21 14:58:39 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# Initialize SRC
+SRC		:= $(SRC)
 
-# ****************************** PREPARATION ********************************* #
-
-# Gets this file's name (without suffix) for automatic variable creation later.
-FILENAME	:=	$(basename $(notdir $(lastword $(MAKEFILE_LIST))))
-
-# Resets TMP to get rid of any old values from other .mk files.
-TMP			:=
-
-
-# ***************************** CONFIGURATION ******************************** #
-
-# Dependencies - has to be the basename of the corresponding .mk file:
-DEPS	:=
-
-# Directory of source files in src/ directory:
-DIR		:=	libft/
-
-# Source files:
-#  Chars:
-SUBDIR	:=	chars/
-TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+# Chars:
+DIR		:=	chars/
+SRC		+=	$(addprefix $(DIR), \
 			ft_isalnum.c \
 			ft_isalpha.c \
 			ft_isascii.c \
 			ft_isdigit.c \
+			ft_issign.c \
 			ft_isprint.c \
 			ft_isspace.c \
 			ft_tolower.c \
 			ft_toupper.c \
 )
 
-#  Lists:
-#   Doubly-linked:
-SUBDIR	:=	lists/doubly_linked/
-TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+# ft_printf:
+#  ft_printf + ft_dprintf:
+DIR		:=	ft_printf/
+SRC		+=	$(addprefix $(DIR), \
+			ft_dprintf.c \
+			ft_printf.c \
+			parseandprint.c \
+			print_char.c \
+			print_nbr.c \
+			print_parsed.c \
+			print_ptr.c \
+			print_str.c \
+			set_format.c \
+)
+
+#  ft_snprintf + ft_vsnprintf:
+DIR		:=	ft_printf/ft_snprintf/
+SRC		+=	$(addprefix $(DIR), \
+			check_args.c \
+			ft_snprintf.c \
+			ft_vsnprintf.c \
+			get_max_size.c \
+			parseandsprint.c \
+			sprint_char.c \
+			sprint_nbr.c \
+			sprint_parsed.c \
+			sprint_ptr.c \
+			sprint_str.c \
+			set_sformat.c \
+)
+
+# get_next_line:
+DIR		:=	get_next_line/
+SRC		+=	$(addprefix $(DIR), \
+			get_next_line.c \
+			get_next_line_utils.c \
+)
+
+# Lists:
+#  Doubly-linked:
+DIR		:=	lists/doubly_linked/
+SRC		+=	$(addprefix $(DIR), \
 			ft_lstadd_back_d.c \
 			ft_lstadd_front_d.c \
 			ft_lstclear_d.c \
 			ft_lstdelone_d.c \
 			ft_lstdrop_node_d.c \
+			ft_lstiter_d.c \
 			ft_lstlast_d.c \
 			ft_lstnew_back_d.c \
 			ft_lstnew_d.c \
 )
 
-#   Singly-linked:
-SUBDIR	:=	lists/singly_linked/
-TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+#  Singly-linked:
+DIR		:=	lists/singly_linked/
+SRC		+=	$(addprefix $(DIR), \
 			ft_lstadd_back.c \
 			ft_lstadd_front.c \
 			ft_lstclear.c \
 			ft_lstdelone.c \
 			ft_lstdrop_node.c \
 			ft_lstinsert_after.c \
+			ft_lstinsert_before.c \
 			ft_lstiter.c \
 			ft_lstlast.c \
 			ft_lstmap.c \
@@ -76,12 +101,13 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_lstsize.c \
 			ft_lstsize_non_null.c \
 			ft_lstsort_bubble.c \
+			ft_lstsort_merge.c \
 			ft_lstswap_head.c \
 )
 
-#  Memory:
-SUBDIR	:=	memory/
-TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+# Memory:
+DIR		:=	memory/
+SRC		+=	$(addprefix $(DIR), \
 			ft_bzero.c \
 			ft_calloc.c \
 			ft_free_and_null.c \
@@ -92,17 +118,19 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_memset.c \
 )
 
-#  Numbers:
-SUBDIR	:=	numbers/
-TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+# Numbers:
+DIR		:=	numbers/
+SRC		+=	$(addprefix $(DIR), \
 			ft_atof.c \
 			ft_atoi.c \
 			ft_atol.c \
+			ft_isoverflow_int.c \
+			ft_isoverflow_long.c \
 )
 
-#  Put:
-SUBDIR	:=	put/
-TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+# Put:
+DIR		:=	put/
+SRC		+=	$(addprefix $(DIR), \
 			ft_putchar_fd.c \
 			ft_putendl_fd.c \
 			ft_putnbr_base_fd.c \
@@ -115,9 +143,10 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_sputnstr.c \
 )
 
-#  Strings:
-SUBDIR	:=	strings/
-TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
+# Strings:
+DIR		:=	strings/
+SRC		+=	$(addprefix $(DIR), \
+			ft_alphabetic.c \
 			ft_itoa.c \
 			ft_split.c \
 			ft_split_at_index.c \
@@ -137,33 +166,10 @@ TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
 			ft_strndup.c \
 			ft_strnstr.c \
 			ft_strrchr.c \
+			ft_strrnstr.c \
 			ft_strrplc_part.c \
 			ft_strrplc_sequence.c \
 			ft_strtok.c \
 			ft_strtrim.c \
 			ft_substr.c \
 )
-
-#  Various:
-SUBDIR	:=	various/
-TMP		+=	$(addprefix $(DIR)$(SUBDIR), \
-)
-
-
-# *************************** VARIABLE CREATION ****************************** #
-
-# Creates a final SRC variable and assigns all the source files specified above.
-$(eval SRC_$(FILENAME)		:=	$(TMP))
-
-# Creates an OBJ variable for the dependency rule below.
-$(eval OBJ_$(FILENAME)		:=	$(SRC_$(FILENAME):%.c=$O%.o))
-
-# Makes this file's object files dependent on any DEPS specified above.
-$(OBJ_$(FILENAME)):	$O%.o	:	$(foreach dep,$(DEPS),$(OBJ_$(dep)))
-
-
-# *************************** MAKEFILE DEBUGGING ***************************** #
-
-# Prints the values of the variable given after the minus.
-print-%	:
-	@		echo $* = $($*)

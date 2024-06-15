@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:03 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/29 15:46:40 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/05/05 17:21:31 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,4 @@ int	ft_snprintf(char *str, size_t size, const char *format, ...)
 	if (f.sprinted != -1)
 		f.str[f.sprinted] = '\0';
 	return (va_end(ap), f.sprinted);
-}
-
-bool	check_args(char *str, size_t size, const char *format, t_sformat *f)
-{
-	if (format == NULL)
-	{
-		if (size > 0)
-			str[0] = '\0';
-		f->sprinted = -1;
-		return (false);
-	}
-	if (size == 0)
-	{
-		f->sprinted = 0;
-		return (false);
-	}
-	return (true);
 }

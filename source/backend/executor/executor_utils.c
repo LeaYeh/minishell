@@ -3,35 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:15:37 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 15:29:08 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/04/04 22:45:47 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
-#include "heredoc.h"
 #include "clean.h"
-#include "utils.h"
 #include "signals.h"
+#include "utils.h"
 
 int	set_expanded_cmd_name(
-	char **cmd_name, t_shell *shell, t_list *simple_cmd_list)
+		char **cmd_name, t_sh *shell, t_list *simple_cmd_list)
 {
 	t_list	*expanded_list;
 	int		ret;
 
 	expanded_list = NULL;
 	ret = expand_list(shell, simple_cmd_list, &expanded_list, \
-			E_EXPAND | E_SPLIT_WORDS | E_RM_QUOTES);
+			E_PARAM | E_SPLIT_WORDS | E_WILDCARD | E_RM_QUOTES);
 	*cmd_name = ft_lstpop_front_content(&expanded_list);
 	ft_lstclear(&expanded_list, free);
 	return (ret);
 }
 
-void	handle_expansion_error(
-	t_shell *shell, t_list_d **cmd_table_node, int ret)
+void	handle_expansion_error(t_sh *shell, t_list_d **cmd_table_node, int ret)
 {
 	if (ret == MALLOC_ERROR)
 	{

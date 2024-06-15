@@ -13,8 +13,11 @@
 #include "expander.h"
 #include "utils.h"
 
-int	expand_list(t_shell *shell, t_list *list, t_list **expanded_list, \
-				t_expander_op op_mask)
+int	expand_list(
+		t_sh *shell,
+		t_list *list,
+		t_list **expanded_list,
+		t_expd_op op_mask)
 {
 	int		ret;
 	t_list	*tmp_list;

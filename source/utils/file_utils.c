@@ -3,33 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:18:23 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/19 16:12:01 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/05/21 16:43:23 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "defines.h"
+#include "utils.h"
 
 char	*generate_tmp_filename(int cmdtable_id, char *category)
 {
 	char	*filename;
 
-	filename = (char *)malloc(sizeof(char) * NAME_MAX);
+	filename = (char *)malloc(NAME_MAX * sizeof(char));
 	if (!filename)
 		return (NULL);
 	ft_snprintf(
 		filename,
 		NAME_MAX,
-		"/tmp/%s_%s_%d-%d", PROGRAM_NAME, category, getpid(), cmdtable_id);
+		"/tmp/%s_%s_%d-%d",
+		PROGRAM_NAME, category, getpid_from_proc(), cmdtable_id);
 	return (filename);
-}
-
-void	remove_file(char *filename)
-{
-	if (unlink(filename) == -1)
-		ft_dprintf(2, ERROR_REMOVE_FILE, PROGRAM_NAME, filename);
 }
 
 bool	write_content_to_file(char *content, char *filename)
@@ -49,13 +44,14 @@ bool	write_content_to_file(char *content, char *filename)
 	return (close(fd) != -1);
 }
 
-void	safe_close(int *fd)
+void	remove_file(char *filename)
 {
-	if (*fd > 2)
-	{
-		close(*fd);
-		*fd = -1;
-	}
+	struct stat	path_stat;
+
+	if (stat(filename, &path_stat) == -1)
+		return ;
+	if (unlink(filename) == -1)
+		print_error(ERROR_REMOVE_FILE, PROGRAM_NAME, filename);
 }
 
 bool	is_dir(char *dir)
