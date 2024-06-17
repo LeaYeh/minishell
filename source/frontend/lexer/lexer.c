@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 08:31:35 by codespace         #+#    #+#             */
-/*   Updated: 2024/01/07 14:09:24 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/05/30 23:48:44 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ bool	lexer(t_sh *shell)
 	if (!create_token_data_list(&token_data_list, shell->input_line))
 	{
 		ft_lstclear(&token_data_list, free);
-		clean_and_exit_shell(shell, PREPROCESS_ERROR, "lexer malloc failed");
+		clean_and_exit_shell(shell, MALLOC_ERROR, "lexer malloc failed");
 	}
 	if (!token_data_list)
 		return (false);
 	if (!create_token_list(&shell->token_list, &token_data_list))
 	{
 		ft_lstclear(&token_data_list, free);
-		clean_and_exit_shell(shell, PREPROCESS_ERROR, "lexer malloc failed");
+		clean_and_exit_shell(shell, MALLOC_ERROR, "lexer malloc failed");
 	}
 	set_token_type(shell->token_list);
 	finetune_token_list(shell->token_list);
 	if (!append_end_node(&shell->token_list))
-		clean_and_exit_shell(shell, PREPROCESS_ERROR, "lexer malloc failed");
+		clean_and_exit_shell(shell, MALLOC_ERROR, "lexer malloc failed");
 	return (true);
 }
