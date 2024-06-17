@@ -21,7 +21,10 @@ int	exec_pwd(void)
 	{
 		print_error("%s: %s: ", PROGRAM_NAME, "pwd");
 		perror(NULL);
-		return (GENERAL_ERROR);
+		if (errno == ENOMEM)
+			return (MALLOC_ERROR);
+		else
+			return (GENERAL_ERROR);
 	}
 	ft_printf("%s\n", pwd);
 	free(pwd);
