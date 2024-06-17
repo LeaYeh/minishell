@@ -57,7 +57,7 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 		else
 			clean_and_exit_shell(shell, shell->exit_code, NULL);
 	}
-	else if (signo == SIGTERM && shell->subshell_level != 0)
+	else if ((signo == SIGTERM && shell->subshell_level != 0) || signo == SIGPIPE)
 		clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
