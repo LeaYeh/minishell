@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:40:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/18 17:40:17 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/01 12:25:09 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	exec_pwd(void)
 	{
 		print_error("%s: %s: ", PROGRAM_NAME, "pwd");
 		perror(NULL);
-		return (CMD_EXEC_FAILED);
+		if (errno == ENOMEM)
+			return (MALLOC_ERROR);
+		else
+			return (GENERAL_ERROR);
 	}
 	ft_printf("%s\n", pwd);
 	free(pwd);
