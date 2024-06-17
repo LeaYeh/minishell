@@ -16,12 +16,14 @@
 bool	save_std_io(int saved_std_io[2])
 {
 	saved_std_io[0] = dup(STDIN_FILENO);
-	saved_std_io[1] = dup(STDOUT_FILENO);
-	if (saved_std_io[0] == -1 || saved_std_io[1] == -1)
+	if (saved_std_io[0] != -1)
+		saved_std_io[1] = dup(STDOUT_FILENO);
+	else
+		saved_std_io[1] = -1;
+	if (saved_std_io[1] == -1)
 	{
 		perror(PROGRAM_NAME);
 		safe_close(&saved_std_io[0]);
-		safe_close(&saved_std_io[1]);
 		return (false);
 	}
 	return (true);
