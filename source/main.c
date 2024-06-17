@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:09:49 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/03 13:55:43 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/05/30 23:54:25 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(void)
 	t_sh	shell;
 
 	if (!DEFINITIONS_OK || !init_shell(&shell))
-		raise_error_and_escape(&shell, "init shell failed");
+		clean_and_exit_shell(&shell, MALLOC_ERROR, "init shell failed");
 	print_welcome_msg(&shell);
 	while (true)
 	{

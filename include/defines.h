@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:56:26 by lyeh              #+#    #+#             */
-/*   Updated: 2024/05/05 12:37:49 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/05/30 23:48:09 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@
 # define CMD_NOT_FOUND		127
 # define UNEXPECT_EXIT		128
 # define TERM_BY_SIGNAL		128
-# define PREPROCESS_ERROR	195
-# define BUILTIN_ERROR		196
+# define BUILTIN_ERROR		195
 # define FORK_ERROR			254
 
 /* Text-Style Escape Codes */
