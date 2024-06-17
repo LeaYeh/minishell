@@ -17,8 +17,7 @@ int	exec_pwd(t_sh *shell)
 	shell->builtin_allocation = getcwd(NULL, 0);
 	if (!shell->builtin_allocation)
 	{
-		print_error("%s: %s: ", PROGRAM_NAME, "pwd");
-		perror(NULL);
+		print_error("%s: %s: ", PROGRAM_NAME, "pwd", strerror(errno));
 		if (errno == ENOMEM)
 			return (MALLOC_ERROR);
 		else
