@@ -76,7 +76,6 @@
 # define CMD_NOT_FOUND		127
 # define UNEXPECT_EXIT		128
 # define TERM_BY_SIGNAL		128
-# define BUILTIN_ERROR		195
 # define FORK_ERROR			254
 
 /* Text-Style Escape Codes */
