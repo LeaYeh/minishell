@@ -73,18 +73,18 @@ int	redirect_subshell_io(t_sh *shell, t_ct *cmd_table)
 
 bool	restore_std_io(int saved_std_io[2])
 {
-	bool	error;
+	int	error;
 
-	error = false;
+	error = SUCCESS;
 	if (saved_std_io[0] != -1)
 		if (dup2(saved_std_io[0], STDIN_FILENO) == -1)
-			error = true;
-	if (!error && saved_std_io[1] != -1)
+			error = errno;
+	if (saved_std_io[1] != -1)
 		if (dup2(saved_std_io[1], STDOUT_FILENO) == -1)
-			error = true;
-	if (error)
+			error = errno;
+	if (error != SUCCESS)
 	{
-		perror(PROGRAM_NAME);
+		print_error("%s: %s\n", PROGRAM_NAME, strerror(error));
 		return (false);
 	}
 	return (true);
