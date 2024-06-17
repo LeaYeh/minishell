@@ -19,8 +19,7 @@ bool	save_std_io(int saved_std_io[2])
 	saved_std_io[1] = dup(STDOUT_FILENO);
 	if (saved_std_io[0] == -1 || saved_std_io[1] == -1)
 	{
-		print_error("%s: ", PROGRAM_NAME);
-		perror(NULL);
+		perror(PROGRAM_NAME);
 		safe_close(&saved_std_io[0]);
 		safe_close(&saved_std_io[1]);
 		return (false);
@@ -36,8 +35,7 @@ bool	redirect_scmd_io(t_sh *shell, int *read_fd, int *write_fd)
 	if (dup2(*read_fd, STDIN_FILENO) == -1 || \
 		dup2(*write_fd, STDOUT_FILENO) == -1)
 	{
-		print_error("%s: ", PROGRAM_NAME);
-		perror(NULL);
+		perror(PROGRAM_NAME);
 		ret = false;
 	}
 	if (shell->subshell_level != 0)
@@ -63,8 +61,7 @@ int	redirect_subshell_io(t_sh *shell, t_ct *cmd_table)
 		((read_fd != -1 && dup2(read_fd, STDIN_FILENO) == -1) || \
 		(write_fd != -1 && dup2(write_fd, STDOUT_FILENO) == -1)))
 	{
-		print_error("%s: ", PROGRAM_NAME);
-		perror(NULL);
+		perror(PROGRAM_NAME);
 		ret = GENERAL_ERROR;
 	}
 	safe_close(&read_fd);
@@ -85,8 +82,7 @@ bool	restore_std_io(int saved_std_io[2])
 			error = true;
 	if (error)
 	{
-		print_error("%s: ", PROGRAM_NAME);
-		perror(NULL);
+		perror(PROGRAM_NAME);
 		return (false);
 	}
 	return (true);
