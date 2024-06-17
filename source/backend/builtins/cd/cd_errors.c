@@ -18,7 +18,7 @@ int	handle_cd_error(int error, char *target_dir)
 	{
 		print_error("%s: cd: ", PROGRAM_NAME);
 		perror(NULL);
-		return (BUILTIN_ERROR);
+		return (MALLOC_ERROR);
 	}
 	print_error("%s: cd: %s: ", PROGRAM_NAME, target_dir);
 	perror(NULL);

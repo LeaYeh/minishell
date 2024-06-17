@@ -33,7 +33,7 @@ int	exec_export(char *args[], t_list **env_list)
 			ret = GENERAL_ERROR;
 		}
 		else if (!handle_var_export(args[i], env_list))
-			return (BUILTIN_ERROR);
+			return (MALLOC_ERROR);
 		i++;
 	}
 	return (ret);
