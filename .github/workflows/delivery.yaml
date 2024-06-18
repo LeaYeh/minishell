@@ -41,7 +41,7 @@ jobs:
       if: env.proceed == 'true'
       run: |
         git checkout -b evaluation origin/evaluation || git checkout -b evaluation
-        git merge origin/main || (git checkout --theirs . && git add -A)
+        git merge origin/main || git merge --abort && (git checkout origin/main -- . && git add -A && git commit -m "[GH-BOT] Merge main into evaluation")
 
     - name: Partial cleanup of forbidden files
       if: env.proceed == 'true'
