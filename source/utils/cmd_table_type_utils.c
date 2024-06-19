@@ -6,17 +6,18 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:27:56 by lyeh              #+#    #+#             */
-/*   Updated: 2024/01/18 03:32:11 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:38:55 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-#include "expander.h"
 
-bool	is_control_op_cmd_table(t_ct_typ cmd_table_type)
+bool	is_control_op_cmd_table(t_ct *cmd_table)
 {
-	return (cmd_table_type == C_AND || cmd_table_type == C_OR || \
-		cmd_table_type == C_PIPE);
+	if (!cmd_table)
+		return (false);
+	return (cmd_table->type == C_AND || cmd_table->type == C_OR || \
+		cmd_table->type == C_PIPE);
 }
 
 bool	is_scmd_in_pipeline(t_list_d *cmd_table_node)
@@ -34,12 +35,9 @@ bool	is_scmd_in_pipeline(t_list_d *cmd_table_node)
 
 t_ct_typ	get_cmd_table_type_from_list(t_list_d *cmd_table_list)
 {
-	t_ct	*cmd_table;
-
 	if (!cmd_table_list || !cmd_table_list->content)
 		return (C_NONE);
-	cmd_table = cmd_table_list->content;
-	return (cmd_table->type);
+	return (((t_ct *)cmd_table_list->content)->type);
 }
 
 bool	is_builtin(char *cmd_name, t_sh *shell)

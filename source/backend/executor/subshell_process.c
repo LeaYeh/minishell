@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subshell_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:51:03 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:44:13 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/07 09:36:55 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	fork_subshell(t_sh *shell, t_list_d **cmd_table_node)
 	{
 		shell->subshell_level += 1;
 		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
-		ret = redirect_subshell_io(
-				shell, get_cmd_table_from_list(*cmd_table_node));
+		ret = redirect_subshell_io(shell, (*cmd_table_node)->content);
 		if (ret == MALLOC_ERROR)
 			raise_error_to_own_subprocess(shell, MALLOC_ERROR, MALLOC_FMSG);
 		if (ret != SUCCESS)

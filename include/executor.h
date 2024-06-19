@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:05:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/04 23:42:17 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/07 08:30:42 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	fork_pipeline(t_sh *shell, t_list_d **cmd_table_list);
 void	fork_simple_cmd(t_sh *shell, t_list_d **cmd_table_list);
 void	handle_control_op(t_sh *shell, t_list_d **cmd_table_node);
 void	handle_external_cmd(t_sh *shell, t_ct *cmd_table);
-void	handle_builtin(t_sh *shell, t_list_d **cmd_table_node);
+void	handle_builtin(t_sh *shell, t_ct *cmd_table);
 bool	wait_process(t_sh *shell, pid_t pid);
 void	wait_all_child_pid(t_sh *shell);
 
@@ -37,7 +37,7 @@ bool	restore_std_io(int saved_std_io[2]);
 bool	save_std_io(int saved_std_io[2]);
 bool	redirect_scmd_io(t_sh *shell, int *read_fd, int *write_fd);
 int		redirect_subshell_io(t_sh *shell, t_ct *cmd_table);
-int		handle_io_redirect(
+int		open_io_files(
 			t_sh *shell, int *read_fd, int *write_fd, t_list *io_red_list);
 
 /* Redirection - Pipe */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:38:17 by lyeh              #+#    #+#             */
-/*   Updated: 2024/05/03 17:16:26 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/07 16:05:28 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ bool		read_input(
 /* Token list utils */
 t_tok		*init_token(t_tok_typ type, char *data);
 void		free_token(t_tok *token);
-t_tok		*get_token_from_list(t_list *token_list);
 t_tok_typ	get_token_type_from_list(t_list *token_list);
 char		*get_token_data_from_list(t_list *token_list);
 t_list		*dup_token_list(t_list *token_list);
@@ -46,7 +45,7 @@ bool		append_cmd_table_by_scenario(
 t_ct		*get_cmd_table_from_list(t_list_d *cmd_table_node);
 t_ct		*get_last_simple_cmd_table(t_list_d *cmd_table_list);
 t_ct		*get_subshell_start(t_list_d *cmd_table_node);
-bool		is_control_op_cmd_table(t_ct_typ cmd_table_type);
+bool		is_control_op_cmd_table(t_ct *cmd_table);
 bool		is_scmd_in_pipeline(t_list_d *cmd_table_node);
 t_ct_typ	get_cmd_table_type_from_list(t_list_d *cmd_table_list);
 bool		is_builtin(char *cmd_name, t_sh *shell);

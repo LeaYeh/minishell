@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:04:52 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 22:45:04 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/07 10:23:33 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	handle_process(t_sh *shell, t_list_d *cmd_table_node)
 		cmd_table = cmd_table_node->content;
 		if (cmd_table->type == C_SUBSHELL_END)
 			clean_and_exit_shell(shell, shell->exit_code, NULL);
-		else if (is_control_op_cmd_table(cmd_table->type))
+		else if (is_control_op_cmd_table(cmd_table))
 			handle_control_op(shell, &cmd_table_node);
 		else if (cmd_table->type == C_SIMPLE_CMD)
 			handle_cmd_execution(shell, &cmd_table_node);
@@ -76,7 +76,8 @@ static void	handle_simple_cmd(t_sh *shell, t_list_d **cmd_table_node)
 		if (set_final_cmd_table(shell, cmd_table) != SUCCESS)
 			return (handle_expansion_error(
 					shell, cmd_table_node, MALLOC_ERROR));
-		handle_builtin(shell, cmd_table_node);
+		handle_builtin(shell, cmd_table);
+		*cmd_table_node = (*cmd_table_node)->next;
 		free_final_cmd_table(&shell->final_cmd_table);
 	}
 	else

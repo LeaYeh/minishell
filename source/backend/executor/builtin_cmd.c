@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 01:10:43 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:44:04 by lyeh             ###   ########.fr       */
+/*   Updated: 2024/06/07 16:34:36 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ static void	safe_redirect_io_and_exec_builtin(t_sh *shell);
 static void	redirect_io_and_exec_builtin(t_sh *shell);
 static void	exec_builtin_cmd(t_sh *shell);
 
-void	handle_builtin(t_sh *shell, t_list_d **cmd_table_node)
+void	handle_builtin(t_sh *shell, t_ct *cmd_table)
 {
-	t_ct	*cmd_table;
-	int		ret;
+	int	ret;
 
-	cmd_table = (*cmd_table_node)->content;
-	ret = handle_io_redirect(shell,
+	ret = open_io_files(shell,
 			&shell->final_cmd_table->read_fd,
 			&shell->final_cmd_table->write_fd, cmd_table->io_red_list);
 	if (ret == MALLOC_ERROR)
@@ -44,7 +42,6 @@ void	handle_builtin(t_sh *shell, t_list_d **cmd_table_node)
 		redirect_io_and_exec_builtin(shell);
 	if (shell->exit_code == BUILTIN_ERROR)
 		raise_error_to_own_subprocess(shell, MALLOC_ERROR, NULL);
-	*cmd_table_node = (*cmd_table_node)->next;
 }
 
 static void	safe_redirect_io_and_exec_builtin(t_sh *shell)
@@ -79,7 +76,7 @@ static void	redirect_io_and_exec_builtin(t_sh *shell)
 	if (!redirect_scmd_io(shell, &shell->final_cmd_table->read_fd,
 			&shell->final_cmd_table->write_fd))
 		raise_error_to_own_subprocess(
-			shell, GENERAL_ERROR, "fd bind failed");
+			shell, GENERAL_ERROR, "fd redirect failed");
 	exec_builtin_cmd(shell);
 }
 
