@@ -63,7 +63,6 @@ static void	reset_external_signal_handler(t_sh *shell)
 	setup_signal(shell, SIGINT, SIG_DEFAULT);
 	setup_signal(shell, SIGTERM, SIG_DEFAULT);
 	setup_signal(shell, SIGUSR1, SIG_DEFAULT);
-	setup_signal(shell, SIGPIPE, SIG_DEFAULT);
 	setup_signal(shell, SIGQUIT, SIG_DEFAULT);
 }
 
