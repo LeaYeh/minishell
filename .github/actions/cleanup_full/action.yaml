@@ -6,8 +6,7 @@ runs:
   steps:
     - run: |
         find . -type d -name .git -prune -o \
-          -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' \
+          -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' ! -name '.gitignore' \
           -exec rm -rf {} +
         find . -type d -empty -delete
-        rm -rf source/debug
       shell: bash
