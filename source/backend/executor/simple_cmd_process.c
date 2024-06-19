@@ -44,10 +44,7 @@ static void	exec_simple_cmd(t_sh *shell, t_list_d **cmd_table_node)
 	if (ret == BAD_SUBSTITUTION)
 		shell->exit_code = BAD_SUBSTITUTION;
 	else if (is_builtin(shell->final_cmd_table->simple_cmd[0], shell))
-	{
-		setup_signal(shell, SIGPIPE, SIG_IGNORE);
 		handle_builtin(shell, cmd_table_node);
-	}
 	else
 		handle_external_cmd(shell, get_cmd_table_from_list(*cmd_table_node));
 	clean_and_exit_shell(shell, shell->exit_code, NULL);

@@ -38,10 +38,7 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 
 	(void)info;
 	if (!shell)
-	{
-		shell = context;
-		return ;
-	}
+		return (shell = context, (void) NULL);
 	shell->exit_code = TERM_BY_SIGNAL + signo;
 	if (signo == SIGINT)
 	{
@@ -57,7 +54,8 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 		else
 			clean_and_exit_shell(shell, shell->exit_code, NULL);
 	}
-	else if (signo == SIGTERM && shell->subshell_level != 0)
+	else if ((signo == SIGTERM || signo == SIGPIPE) && \
+		shell->subshell_level != 0)
 		clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 
