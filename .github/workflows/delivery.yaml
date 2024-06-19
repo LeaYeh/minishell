@@ -37,11 +37,22 @@ jobs:
           echo "proceed=false" >> "$GITHUB_ENV"
         fi
 
+    - name: Save .github directory
+      if: env.proceed == 'true'
+      run: |
+        cp -rf .github ~/.github
+
     - name: Setup evaluation branch
       if: env.proceed == 'true'
       run: |
         git checkout -b evaluation origin/evaluation || git checkout -b evaluation
         git merge origin/main || (git checkout --theirs . && git add -A)
+
+    - name: Restore .github directory
+      if: env.proceed == 'true'
+      run: |
+        rm -rf .github
+        mv ~/.github .github
 
     - name: Partial cleanup of forbidden files
       if: env.proceed == 'true'
