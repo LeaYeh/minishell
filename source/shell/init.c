@@ -36,8 +36,8 @@ bool	init_shell(t_sh *shell)
 	handle_signal_std(0, NULL, shell);
 	handle_signal_record(0, NULL, shell);
 	setup_signal(shell, SIGINT, SIG_STANDARD);
-	setup_signal(shell, SIGUSR1, SIG_STANDARD);
 	setup_signal(shell, SIGTERM, SIG_STANDARD);
+	setup_signal(shell, SIGUSR1, SIG_STANDARD);
 	setup_signal(shell, SIGPIPE, SIG_STANDARD);
 	setup_signal(shell, SIGQUIT, SIG_IGNORE);
 	return (true);
