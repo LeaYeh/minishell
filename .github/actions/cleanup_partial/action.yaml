@@ -9,5 +9,4 @@ runs:
           -type f ! -name '*.c' ! -name '*.h' ! -name '*.mk' ! -name 'Makefile' ! -name '.gitignore' \
           -exec rm -rf {} +
         find . -type d -empty -delete
-        rm -rf source/debug
       shell: bash
