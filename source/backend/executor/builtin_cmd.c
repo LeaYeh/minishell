@@ -42,8 +42,8 @@ void	handle_builtin(t_sh *shell, t_list_d **cmd_table_node)
 		safe_redirect_io_and_exec_builtin(shell);
 	else if (shell->final_cmd_table->simple_cmd[0])
 		redirect_io_and_exec_builtin(shell);
-	if (shell->exit_code == BUILTIN_ERROR)
-		raise_error_to_own_subprocess(shell, MALLOC_ERROR, NULL);
+	if (shell->exit_code == MALLOC_ERROR)
+		raise_error_to_own_subprocess(shell, shell->exit_code, NULL);
 	*cmd_table_node = (*cmd_table_node)->next;
 }
 

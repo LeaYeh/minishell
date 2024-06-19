@@ -19,7 +19,7 @@ int	check_cmpnt_node_path(
 
 	path = convert_cmpnt_node_to_path(cmpnt_list, cmpnt_node);
 	if (!path)
-		return (BUILTIN_ERROR);
+		return (MALLOC_ERROR);
 	if (ft_strlen(path) + 1 <= PATH_MAX)
 	{
 		if (!check_dir(path, target_dir))
