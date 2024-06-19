@@ -1,10 +1,11 @@
 # .github/workflows/delivery.yaml
 name: Continuous Delivery
-
 on:
   push:
     tags:
       - 'v*'
+env:
+  home: /home/runner
 
 jobs:
   update_evaluation_branch:
@@ -40,7 +41,7 @@ jobs:
     - name: Save .github directory
       if: env.proceed == 'true'
       run: |
-        cp -rf .github ~/.github
+        cp -rf .github ${{ env.home }}/.github
 
     - name: Setup evaluation branch
       if: env.proceed == 'true'
@@ -52,7 +53,7 @@ jobs:
       if: env.proceed == 'true'
       run: |
         rm -rf .github
-        mv ~/.github .github
+        mv ${{ env.home }}/.github .github
 
     - name: Partial cleanup of forbidden files
       if: env.proceed == 'true'
