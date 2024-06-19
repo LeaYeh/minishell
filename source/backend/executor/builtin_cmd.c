@@ -87,6 +87,7 @@ static void	exec_builtin_cmd(t_sh *shell)
 {
 	t_fct	*final_cmd_table;
 
+	setup_signal(shell, SIGPIPE, SIG_IGNORE);
 	final_cmd_table = shell->final_cmd_table;
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "env") == 0)
 		shell->exit_code = exec_env(final_cmd_table->env);
@@ -108,4 +109,5 @@ static void	exec_builtin_cmd(t_sh *shell)
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "~") == 0 && \
 			shell->is_interactive)
 		shell->exit_code = exec_easter_egg();
+	setup_signal(shell, SIGPIPE, SIG_STANDARD);
 }
