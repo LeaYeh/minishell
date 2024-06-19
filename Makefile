@@ -126,10 +126,19 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 #	Compilation
 
 all				:
-					($(MAKE) --question build && echo $(MSG_NO_CHNG)) \
-						|| (echo -n $(MSG_INFO)$(MSG_START) \
-							&& ($(MAKE) build && echo $(MSG_SUCCESS)) \
-							|| (echo $(MSG_FAILURE) && exit 42))
+					if $(MAKE) --question build; then \
+						echo $(MSG_NO_CHNG); \
+					else \
+						echo -n $(MSG_INFO)$(MSG_START); \
+						if $(MAKE) build; then \
+							echo; \
+							echo $(MSG_SUCCESS); \
+						else \
+							echo; \
+							echo $(MSG_FAILURE); \
+							exit 42; \
+						fi; \
+					fi
 
 run				:	all
 					"./$(NAME)"
@@ -268,7 +277,7 @@ MSG_START		:=	$(STY_ITA)"Building Crash ... "$(STY_RES)
 ################################################################################
 MSG_PROGRESS	:=	$(STY_ITA)"🌊"$(STY_RES)
 ################################################################################
-MSG_SUCCESS		:=	$(STY_BOL)$(STY_ITA)$(STY_CYA)"\nDONE!"$(STY_RES)
+MSG_SUCCESS		:=	$(STY_BOL)$(STY_ITA)$(STY_CYA)"DONE!"$(STY_RES)
 ################################################################################
 MSG_NO_CHNG		:=	$(STY_ITA)$(STY_WHI)"Everything up-to-date!"$(STY_RES)
 ################################################################################
