@@ -6,13 +6,11 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:04:35 by ldulling          #+#    #+#             */
-/*   Updated: 2023/12/23 11:43:14 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/02/11 00:40:18 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static void	lstadd_back_eff(t_list **head, t_list **tail, t_list **new_node);
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
@@ -37,18 +35,8 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 			ft_lstclear(&new_lst, del);
 			return (NULL);
 		}
-		lstadd_back_eff(&new_lst, &new_lst_tail, &new_node);
+		ft_lstadd_back_eff(&new_lst, &new_lst_tail, new_node);
 		cur = cur->next;
 	}
 	return (new_lst);
-}
-
-static void	lstadd_back_eff(t_list **head, t_list **tail, t_list **new_node)
-{
-	if (*head == NULL)
-		*head = *new_node;
-	else
-		(*tail)->next = *new_node;
-	*tail = *new_node;
-	return ;
 }
