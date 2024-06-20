@@ -17,8 +17,7 @@ bool	check_dir(char *dir, char *target_dir)
 {
 	if (is_dir(dir))
 		return (true);
-	print_error("%s: cd: %s: ", PROGRAM_NAME, target_dir);
-	perror(NULL);
+	print_error("%s: cd: %s: %s\n", PROGRAM_NAME, target_dir, strerror(errno));
 	return (false);
 }
 

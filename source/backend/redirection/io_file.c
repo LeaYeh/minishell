@@ -90,8 +90,7 @@ static bool	handle_red_in(int *read_fd, char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
-		print_error("%s: %s: ", PROGRAM_NAME, filename);
-		perror("");
+		print_error("%s: %s: %s\n", PROGRAM_NAME, filename, strerror(errno));
 		return (false);
 	}
 	replace_fd(&fd, read_fd);
@@ -105,8 +104,7 @@ static bool	handle_red_out(int *write_fd, char *filename, int o_flags)
 	fd = open(filename, o_flags, (S_IRUSR + S_IWUSR) | S_IRGRP | S_IROTH);
 	if (fd < 0)
 	{
-		print_error("%s: %s: ", PROGRAM_NAME, filename);
-		perror("");
+		print_error("%s: %s: %s\n", PROGRAM_NAME, filename, strerror(errno));
 		return (false);
 	}
 	replace_fd(&fd, write_fd);

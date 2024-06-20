@@ -19,8 +19,7 @@ int	exec_pwd(void)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		print_error("%s: %s: ", PROGRAM_NAME, "pwd");
-		perror(NULL);
+		print_error("%s: %s: ", PROGRAM_NAME, "pwd", strerror(errno));
 		if (errno == ENOMEM)
 			return (MALLOC_ERROR);
 		else
