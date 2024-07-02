@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 13:33:38 by ldulling          #+#    #+#              #
-#    Updated: 2024/05/21 14:58:39 by ldulling         ###   ########.fr        #
+#    Updated: 2024/06/28 19:31:23 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,7 @@ DIR		:=	get_next_line/
 SRC		+=	$(addprefix $(DIR), \
 			get_next_line.c \
 			get_next_line_utils.c \
+			free_get_next_line.c \
 )
 
 # Lists:
