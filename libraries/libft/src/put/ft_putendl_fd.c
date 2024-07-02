@@ -16,7 +16,7 @@ void	ft_putendl_fd(char *s, int fd)
 {
 	if (s == NULL || fd < 0)
 		return ;
-	(void) write(fd, s, ft_strlen(s));
-	(void) write(fd, "\n", 1);
+	if (write(fd, s, ft_strlen(s)) == -1 || write(fd, "\n", 1) == -1)
+		return ;
 	return ;
 }

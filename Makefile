@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/04/02 23:08:11 by ldulling         ###   ########.fr        #
+#    Updated: 2024/07/02 17:06:11 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,9 +41,13 @@ BUILDFILES		:=	Makefile \
 
 #	Flags
 
-CC 				:=	cc
+CC 				?=	cc
 CC_VERSION		:=	$(shell $(CC) --version | head -1)
-CFLAGS 			:=	-Wall -Wextra -Werror -ggdb3
+CFLAGS_STD		:=	-Wall -Wextra -Werror
+CFLAGS_DBG		:=	-ggdb3
+CFLAGS_SAN		:=	-fsanitize=address,undefined,bounds,float-divide-by-zero
+CFLAGS_OPT		:=	-O3
+CFLAGS 			?=	$(CFLAGS_STD) $(CFLAGS_DBG)
 INCFLAGS 		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
 LIBFLAGS		:=	$(addprefix -L,$(LIBRARIES)) \
 					$(addprefix -l,$(patsubst lib%,%,$(notdir \
@@ -119,8 +123,8 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
-.PHONY			:	all test run val noenv valfd build lib waitforlib clean \
-					fclean ffclean re
+.PHONY			:	all fast run san val noenv valfd build lib waitforlib \
+					clean fclean ffclean re
 
 
 #	Compilation
@@ -140,7 +144,16 @@ all				:
 						fi; \
 					fi
 
+fast			:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_OPT)
+fast			:	re
+					$(MAKE) clean
+
 run				:	all
+					"./$(NAME)"
+
+san				:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_DBG) $(CFLAGS_SAN)
+san				:	re
+					$(MAKE) clean
 					"./$(NAME)"
 
 val				:	all
