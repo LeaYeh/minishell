@@ -41,7 +41,7 @@ BUILDFILES		:=	Makefile \
 
 #	Flags
 
-CC 				:=	cc
+CC 				?=	cc
 CC_VERSION		:=	$(shell $(CC) --version | head -1)
 CFLAGS_STD		:=	-Wall -Wextra -Werror
 CFLAGS_DBG		:=	-ggdb3
