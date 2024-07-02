@@ -26,9 +26,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (strj == NULL)
 		return (NULL);
 	if (len1)
-		(void) ft_memcpy(&strj[0], s1, len1);
+		ft_memcpy(&strj[0], s1, len1);
 	if (len2)
-		(void) ft_memcpy(&strj[len1], s2, len2);
+		ft_memcpy(&strj[len1], s2, len2);
 	strj[len1 + len2] = '\0';
 	return (strj);
 }
