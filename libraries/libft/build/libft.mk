@@ -79,6 +79,7 @@ SRC		+=	$(addprefix $(DIR), \
 			ft_lstlast_d.c \
 			ft_lstnew_back_d.c \
 			ft_lstnew_d.c \
+			ft_lstsize_d.c \
 )
 
 #  Singly-linked:
