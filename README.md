@@ -56,6 +56,7 @@ https://starchart.cc/LeaYeh/minishell
             * [Signal Handling](#signal-handling)
             * [Exception Handling](#exception-handling)
             * [Known Issue](#known-issue)
+* [How to test with Valgrind](#how-to-test-with-valgrind)
 
 # Support Features
 
@@ -601,6 +602,31 @@ Reference:
     - https://github.com/LeaYeh/minishell/pull/202
 - Our question in Stackoverflow
     - https://stackoverflow.com/questions/78140706/exception-handling-through-signal-communication-in-multiprocess-programs-in-c
+
+# How to test with Valgrind
+
+To test your minishell extensively with Valgrind, but without any reports from external commands, you can follow these steps:
+
+1. Start bash
+   ```bash
+   bash
+   ```
+2. If you have one, input the name of your suppression file to suppress leaks coming from readline
+   ```bash
+   export SUPPRESSION_FILE=/path/to/your/suppression_file
+   ```
+3. Set up environment variables
+   ```bash
+   export VALGRIND=$(which valgrind)
+   export VALGRINDFLAGS="--errors-for-leak-kinds=all --leak-check=full --read-var-info=yes --show-error-list=yes --show-leak-kinds=all --suppressions=$SUPPRESSION_FILE --trace-children=yes --track-origins=yes"
+   export VALGRINDFDFLAGS="--track-fds=all"
+   export IGNORED_PATHS="/bin/* /usr/bin/* /usr/sbin/* $(which -a norminette)"
+   export VALGRINDFLAGS+=" --trace-children-skip=$(echo $IGNORED_PATHS | sed 's/ /,/g')"
+   ```
+4. Run your minishell with valgrind
+   ```bash
+   $VALGRIND $VALGRINDFLAGS $VALGRINDFDFLAGS ./minishell
+   ```
 
 # Liked it?
 
