@@ -52,6 +52,7 @@ static void	clean_shell(t_sh *shell)
 		ft_lstiter_d(shell->cmd_table_list, (void *)remove_heredoc_files);
 	ft_lstclear_d(&shell->cmd_table_list, (void *)free_cmd_table);
 	free_final_cmd_table(&shell->final_cmd_table);
+	ft_free_and_null(&shell->builtin_allocation);
 	rl_clear_history();
 }
 

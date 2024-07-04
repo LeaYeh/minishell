@@ -12,12 +12,10 @@
 
 #include "utils.h"
 
-int	exec_pwd(void)
+int	exec_pwd(t_sh *shell)
 {
-	char	*pwd;
-
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
+	shell->builtin_allocation = getcwd(NULL, 0);
+	if (!shell->builtin_allocation)
 	{
 		print_error("%s: %s: ", PROGRAM_NAME, "pwd");
 		perror(NULL);
@@ -26,7 +24,7 @@ int	exec_pwd(void)
 		else
 			return (GENERAL_ERROR);
 	}
-	ft_printf("%s\n", pwd);
-	free(pwd);
+	ft_printf("%s\n", shell->builtin_allocation);
+	ft_free_and_null(&shell->builtin_allocation);
 	return (EXIT_SUCCESS);
 }

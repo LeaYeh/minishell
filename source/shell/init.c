@@ -32,5 +32,6 @@ bool	init_shell(t_sh *shell)
 	setup_signal(SIGTERM, SIG_STANDARD);
 	setup_signal(SIGUSR1, SIG_STANDARD);
 	setup_signal(SIGQUIT, SIG_IGNORE);
+	setup_signal(SIGPIPE, SIG_STANDARD);
 	return (true);
 }

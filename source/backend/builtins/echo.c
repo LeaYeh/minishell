@@ -16,22 +16,21 @@ static bool	is_newline_option(char *args[], int *i);
 static char	*combine_args(char *args[], bool end_with_newline);
 static int	get_combined_args_len(char *args[], bool end_with_newline);
 
-int	exec_echo(char *args[])
+int	exec_echo(t_sh *shell, char *args[])
 {
 	int		i;
 	bool	end_with_newline;
-	char	*combined_str;
 
 	i = 1;
 	if (is_newline_option(args, &i))
 		end_with_newline = false;
 	else
 		end_with_newline = true;
-	combined_str = combine_args(args + i, end_with_newline);
-	if (!combined_str)
+	shell->builtin_allocation = combine_args(args + i, end_with_newline);
+	if (!shell->builtin_allocation)
 		return (MALLOC_ERROR);
-	ft_printf("%s", combined_str);
-	free(combined_str);
+	ft_printf("%s", shell->builtin_allocation);
+	ft_free_and_null(&shell->builtin_allocation);
 	return (EXIT_SUCCESS);
 }
 
