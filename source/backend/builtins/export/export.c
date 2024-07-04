@@ -51,7 +51,7 @@ static bool	handle_var_export(char *str, t_list **env_list)
 	{
 		if (!extract_env_value(&value, str))
 			return (free(key), false);
-		if (value && replace_env_value(*env_list, key, value, &old_value))
+		if (value && replace_env_value(*env_list, key, &value, &old_value))
 			free(old_value);
 		change_export_flag(*env_list, key, EXPORT_YES);
 		free(key);

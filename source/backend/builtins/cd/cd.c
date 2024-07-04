@@ -33,7 +33,7 @@ int	exec_cd(t_sh *shell, char *args[], t_list **env_list)
 	free(final_path);
 	if (args[1] && ft_strcmp(args[1], "-") == 0)
 		ft_printf("%s\n", target_dir);
-	if (!update_pwd_env(env_list, shell->builtin_allocation))
+	if (!update_pwd_env(env_list, (char **)&shell->builtin_allocation))
 		return (ft_free_and_null(&shell->builtin_allocation), MALLOC_ERROR);
 	return (EXIT_SUCCESS);
 }

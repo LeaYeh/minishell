@@ -71,7 +71,7 @@ char		*get_value_from_env(char *env[], char *key);
 bool		is_key_in_env(char *env[], char *key);
 
 bool		append_env_node(
-				t_list **env_list, char *key, char *value, t_expt export);
+				t_list **env_list, char **key, char **value, t_expt export);
 void		free_env_node(t_env *env);
 bool		is_key_in_env_list(t_list *env_list, char *key);
 char		*get_value_from_env_list(t_list *env_list, char *key);
@@ -82,7 +82,7 @@ bool		process_str_to_env_list(
 				char *str, t_list **env_list, t_expt export);
 void		remove_env_node(t_list **env_list, char *key, char *value);
 bool		replace_env_value(
-				t_list *env_list, char *key, char *value, char **old_value);
+				t_list *env_list, char *key, char **value, char **old_value);
 
 /* Expansion utils */
 int			expand_list(
