@@ -27,7 +27,7 @@ bool	read_input(
 	{
 		tmp = get_next_line(STDIN_FILENO);
 		if (errno != SUCCESS)
-			return (false);
+			return (free(tmp), false);
 		if (tmp)
 		{
 			*line = ft_strtrim(tmp, "\n");
