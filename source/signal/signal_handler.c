@@ -51,8 +51,7 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 	else if (signo == SIGUSR1)
 	{
 		if (shell->subshell_level == 0)
-			clean_and_exit_shell(
-				shell, shell->exit_code, "Clean up and abort the program");
+			clean_and_exit_shell(shell, shell->exit_code, "Abort the shell");
 		else
 			clean_and_exit_shell(shell, shell->exit_code, NULL);
 	}
