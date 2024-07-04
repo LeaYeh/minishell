@@ -17,20 +17,13 @@
 
 bool	init_shell(t_sh *shell)
 {
+	ft_bzero(shell, sizeof(t_sh));
 	shell->is_interactive = isatty(STDIN_FILENO);
 	shell->pid = getpid_from_proc();
 	shell->subshell_pid = -1;
-	shell->subshell_level = 0;
-	shell->signal_record = 0;
 	init_pipe(&shell->old_pipe);
 	init_pipe(&shell->new_pipe);
 	shell->exit_code = EXIT_SUCCESS;
-	shell->child_pid_list = NULL;
-	shell->env_list = NULL;
-	shell->token_list = NULL;
-	shell->final_cmd_table = NULL;
-	shell->cmd_table_list = NULL;
-	shell->input_line = NULL;
 	if (!setup_env_list(shell))
 		return (false);
 	handle_signal_std(0, NULL, shell);
