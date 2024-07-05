@@ -18,15 +18,22 @@ void	setup_signal(int signo, t_sig state)
 	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART | SA_SIGINFO;
-	if (state == SIG_DEFAULT)
-		sa.sa_handler = SIG_DFL;
-	else if (state == SIG_IGNORE)
-		sa.sa_handler = SIG_IGN;
-	else if (state == SIG_STANDARD)
-		sa.sa_sigaction = handle_signal_std;
-	else if (state == SIG_RECORD)
-		sa.sa_sigaction = handle_signal_record;
+	if (state == SIG_DEFAULT || state == SIG_IGNORE)
+	{
+		sa.sa_flags = SA_RESTART;
+		if (state == SIG_DEFAULT)
+			sa.sa_handler = SIG_DFL;
+		else if (state == SIG_IGNORE)
+			sa.sa_handler = SIG_IGN;
+	}
+	else
+	{
+		sa.sa_flags = SA_RESTART | SA_SIGINFO;
+		if (state == SIG_STANDARD)
+			sa.sa_sigaction = handle_signal_std;
+		else if (state == SIG_RECORD)
+			sa.sa_sigaction = handle_signal_record;
+	}
 	if (sigaction(signo, &sa, NULL) != 0)
 		perror("The signal is not supported");
 }
