@@ -11,6 +11,7 @@ on:
       - evaluation
 env:
   home: /home/runner
+  SCRIPTS_DIR: /home/runner/scripts
 
 jobs:
   compilation_test:
@@ -76,7 +77,7 @@ jobs:
       - name: Save tester output to home directory
         run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that leaked on source branch
-        run: ${{ env.home }}/print_leak_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_leak_test_cases.sh
         env:
           RESULT_FILE: ${{ env.home }}/leak_result.txt
           TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
@@ -108,7 +109,7 @@ jobs:
       - name: Save tester output to home directory
         run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_all_failed_test_cases.sh
         env:
           RESULT_FILE: ${{ env.home }}/source_test_result.txt
           TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
@@ -150,7 +151,7 @@ jobs:
       - name: Save tester output to home directory
         run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_all_failed_test_cases.sh
         env:
           RESULT_FILE: ${{ env.home }}/source_test_result.txt
           TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
@@ -192,7 +193,7 @@ jobs:
       - name: Save tester output to home directory
         run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_all_failed_test_cases.sh
         env:
           RESULT_FILE: ${{ env.home }}/source_test_result.txt
           TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
@@ -234,7 +235,7 @@ jobs:
       - name: Save tester output to home directory
         run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_all_failed_test_cases.sh
         env:
           RESULT_FILE: ${{ env.home }}/source_test_result.txt
           TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
