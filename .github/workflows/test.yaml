@@ -11,6 +11,7 @@ on:
       - evaluation
 env:
   home: /home/runner
+  SCRIPTS_DIR: /home/runner/scripts
 
 jobs:
   compilation_test:
@@ -69,14 +70,14 @@ jobs:
       - name: 🔍 Check memory leaks
         run: |
           make re CC=clang-12
-          ${{ env.home }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh va > ${{ env.home }}/leak_result.txt
+          ${{ env.SCRIPTS_DIR }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh va > ${{ env.home }}/leak_result.txt
         env:
           GH_BRANCH: IGNORE
         continue-on-error: true
       - name: Save tester output to home directory
         run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that leaked on source branch
-        run: ${{ env.home }}/print_leak_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_leak_test_cases.sh
         env:
           RESULT_FILE: ${{ env.home }}/leak_result.txt
           TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
@@ -102,13 +103,13 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.home }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh m > ${{ env.home }}/source_test_result.txt
+          ${{ env.SCRIPTS_DIR }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh m > ${{ env.home }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
       - name: Save tester output to home directory
         run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_all_failed_test_cases.sh
         env:
           RESULT_FILE: ${{ env.home }}/source_test_result.txt
           TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
@@ -119,7 +120,7 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.home }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh m > ${{ env.home }}/target_test_result.txt
+          ${{ env.SCRIPTS_DIR }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh m > ${{ env.home }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
@@ -144,13 +145,13 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.home }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh b > ${{ env.home }}/source_test_result.txt
+          ${{ env.SCRIPTS_DIR }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh b > ${{ env.home }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
       - name: Save tester output to home directory
         run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_all_failed_test_cases.sh
         env:
           RESULT_FILE: ${{ env.home }}/source_test_result.txt
           TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
@@ -161,7 +162,7 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.home }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh b > ${{ env.home }}/target_test_result.txt
+          ${{ env.SCRIPTS_DIR }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh b > ${{ env.home }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
@@ -186,13 +187,13 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.home }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh ne > ${{ env.home }}/source_test_result.txt
+          ${{ env.SCRIPTS_DIR }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh ne > ${{ env.home }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
       - name: Save tester output to home directory
         run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_all_failed_test_cases.sh
         env:
           RESULT_FILE: ${{ env.home }}/source_test_result.txt
           TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
@@ -203,7 +204,7 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.home }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh ne > ${{ env.home }}/target_test_result.txt
+          ${{ env.SCRIPTS_DIR }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh ne > ${{ env.home }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
@@ -228,13 +229,13 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.home }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh d > ${{ env.home }}/source_test_result.txt
+          ${{ env.SCRIPTS_DIR }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh d > ${{ env.home }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
       - name: Save tester output to home directory
         run: mv -f tester_output ${{ env.home }} || true
       - name: 📝 Print all test cases that failed on source branch
-        run: ${{ env.home }}/print_all_failed_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_all_failed_test_cases.sh
         env:
           RESULT_FILE: ${{ env.home }}/source_test_result.txt
           TESTER_OUTPUT_DIR: ${{ env.home }}/tester_output
@@ -245,7 +246,7 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.home }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh d > ${{ env.home }}/target_test_result.txt
+          ${{ env.SCRIPTS_DIR }}/sigpipe_wrapper ${{ env.home }}/42_minishell_tester/tester.sh d > ${{ env.home }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request

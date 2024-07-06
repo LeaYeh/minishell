@@ -8,7 +8,7 @@ while IFS= read -r line; do
   if [[ $line == *"❌"* ]]; then
     echo "$line"
     export LINE="$line"
-    "$HOME/print_test_case.sh"
+    "$SCRIPTS_DIR/print_test_case.sh"
   fi
 
   # Check for the start of the result block and set the flag

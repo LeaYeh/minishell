@@ -10,7 +10,7 @@ while IFS= read -r line; do
   if [[ $stripped_line == *"LEAKS: ❌"* ]]; then
     echo "$line"
     export LINE="$line"
-    "$HOME/print_test_case.sh" -v
+    "$SCRIPTS_DIR/print_test_case.sh" -v
     ((leaks++))
   fi
 
