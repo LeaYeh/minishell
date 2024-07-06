@@ -20,4 +20,5 @@ runs:
         chmod +x ${{ env.home }}/42_minishell_tester/tester.sh
         find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
         cp .github/scripts/*.sh ${{ env.home }}
+        cp sigpipe_wrapper ${{ env.home }}
       shell: bash
