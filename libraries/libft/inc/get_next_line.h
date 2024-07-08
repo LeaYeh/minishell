@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 12:28:58 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/29 05:44:26 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/27 09:09:28 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,9 @@ size_t	count_result_size(t_buf *cur);
 ssize_t	find_endofline(t_buf *cur);
 void	free_list(t_buf **head);
 int		initial_check(int fd, t_buf **head);
+
+\
+/* free_get_next_line.c */
+void	free_get_next_line(void);
 
 #endif
