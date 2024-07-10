@@ -11,6 +11,7 @@ on:
       - evaluation
 env:
   HOME: /home/runner
+  TESTER_DIR: /home/runner/42_minishell_tester
   SCRIPTS_DIR: /home/runner/scripts
 
 jobs:
@@ -38,11 +39,11 @@ jobs:
       test_matrix: ${{ steps.prep_matrix.outputs.TEST_MATRIX }}
     steps:
       - name: Clone tester repository
-        run: git clone https://github.com/LeaYeh/42_minishell_tester.git
+        run: git clone https://github.com/LeaYeh/42_minishell_tester.git ${{ env.TESTER_DIR }}
       - name: Prepare matrix
         id: prep_matrix
         run: |
-          FILES=$(find 42_minishell_tester/cmds/**/*.sh \
+          FILES=$(find ${{ env.TESTER_DIR }}/cmds/**/*.sh \
           -exec basename {} \; | jq -R -s -c 'split("\n")[:-1]')
           echo "TEST_MATRIX=${FILES}" >> "$GITHUB_OUTPUT"
 
@@ -62,7 +63,7 @@ jobs:
         uses: ./.github/actions/setup
       - name: Delete all but one test script
         run: |
-          for file in ${{ env.HOME }}/42_minishell_tester/cmds/**/*.sh; do
+          for file in ${{ env.TESTER_DIR }}/cmds/**/*.sh; do
             if [[ "$(basename "$file")" != "${{ matrix.test_script }}" ]]; then
               rm "$file"
             fi
@@ -70,7 +71,7 @@ jobs:
       - name: 🔍 Check memory leaks
         run: |
           make re CC=clang-12
-          ${{ env.HOME }}/42_minishell_tester/tester.sh va > ${{ env.HOME }}/leak_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh va > ${{ env.HOME }}/leak_result.txt
         env:
           GH_BRANCH: IGNORE
         continue-on-error: true
@@ -103,7 +104,7 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.HOME }}/42_minishell_tester/tester.sh m > ${{ env.HOME }}/source_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh m > ${{ env.HOME }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
       - name: Save tester output to home directory
@@ -120,7 +121,7 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.HOME }}/42_minishell_tester/tester.sh m > ${{ env.HOME }}/target_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh m > ${{ env.HOME }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
@@ -145,7 +146,7 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.HOME }}/42_minishell_tester/tester.sh b > ${{ env.HOME }}/source_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh b > ${{ env.HOME }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
       - name: Save tester output to home directory
@@ -162,7 +163,7 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.HOME }}/42_minishell_tester/tester.sh b > ${{ env.HOME }}/target_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh b > ${{ env.HOME }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
@@ -187,7 +188,7 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.HOME }}/42_minishell_tester/tester.sh ne > ${{ env.HOME }}/source_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh ne > ${{ env.HOME }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
       - name: Save tester output to home directory
@@ -204,7 +205,7 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.HOME }}/42_minishell_tester/tester.sh ne > ${{ env.HOME }}/target_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh ne > ${{ env.HOME }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
@@ -229,7 +230,7 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.HOME }}/42_minishell_tester/tester.sh d > ${{ env.HOME }}/source_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh d > ${{ env.HOME }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
       - name: Save tester output to home directory
@@ -246,7 +247,7 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.HOME }}/42_minishell_tester/tester.sh d > ${{ env.HOME }}/target_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh d > ${{ env.HOME }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
       - name: Checkout source branch of pull request
