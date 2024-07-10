@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:28:20 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/08 18:04:43 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/05/30 23:49:06 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ bool	parser(t_sh *shell)
 	t_prs_data	parser_data;
 
 	if (!init_parser_data(&parser_data, shell->token_list))
-		clean_and_exit_shell(shell, PREPROCESS_ERROR, "parser malloc failed");
+		clean_and_exit_shell(shell, MALLOC_ERROR, "parser malloc failed");
 	if (!parse(shell, &parser_data))
 		return (free_parser_data(&parser_data), false);
 	free_parser_data(&parser_data);
 	shell->cmd_table_list = build_cmd_table_list(shell->token_list);
 	if (!shell->cmd_table_list)
 		clean_and_exit_shell(
-			shell, PREPROCESS_ERROR, "build cmd table malloc failed");
+			shell, MALLOC_ERROR, "build cmd table malloc failed");
 	ft_lstclear(&shell->token_list, (void *)free_token);
 	return (true);
 }
@@ -45,9 +45,10 @@ static bool	parse(t_sh *shell, t_prs_data *parser_data)
 				get_state_from_stack(parser_data->state_stack),
 				(t_prs_elem)get_token_type_from_list(parser_data->token_list),
 				A_SHIFT | A_REDUCE | A_ACCEPT))
-			(free_parser_data(parser_data),
-				clean_and_exit_shell(
-					shell, PREPROCESS_ERROR, "parser malloc failed"));
+		{
+			free_parser_data(parser_data);
+			clean_and_exit_shell(shell, MALLOC_ERROR, "parser malloc failed");
+		}
 		if (!pt_entry)
 			return (report_syntax_error(shell, parser_data), false);
 		if (pt_entry->action == A_ACCEPT)
@@ -56,8 +57,7 @@ static bool	parse(t_sh *shell, t_prs_data *parser_data)
 		{
 			free(pt_entry);
 			free_parser_data(parser_data);
-			clean_and_exit_shell(
-				shell, PREPROCESS_ERROR, "parser malloc failed");
+			clean_and_exit_shell(shell, MALLOC_ERROR, "parser malloc failed");
 		}
 		ft_free_and_null((void **)&pt_entry);
 	}

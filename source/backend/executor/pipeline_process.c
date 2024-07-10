@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 19:32:12 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/04 22:48:15 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/01 11:50:48 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ void	fork_pipeline(t_sh *shell, t_list_d **cmd_table_node)
 	}
 	else if (shell->subshell_pid == 0)
 	{
-		setup_signal(shell, SIGINT, SIG_IGNORE);
-		setup_signal(shell, SIGTERM, SIG_STANDARD);
+		setup_signal(SIGINT, SIG_IGNORE);
+		setup_signal(SIGTERM, SIG_STANDARD);
 		shell->subshell_level += 1;
 		handle_pipes_child(&shell->new_pipe, &shell->old_pipe);
 		exec_pipeline(shell, cmd_table_node);
 	}
 	else
 	{
-		setup_signal(shell, SIGINT, SIG_RECORD);
+		setup_signal(SIGINT, SIG_RECORD);
 		move_past_pipeline(cmd_table_node);
 		handle_end_of_pipeline(shell, cmd_table_node);
 		shell->subshell_pid = -1;
-		setup_signal(shell, SIGINT, SIG_STANDARD);
+		setup_signal(SIGINT, SIG_STANDARD);
 	}
 }
 

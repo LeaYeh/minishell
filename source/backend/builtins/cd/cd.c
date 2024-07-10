@@ -34,6 +34,6 @@ int	exec_cd(char *args[], t_list **env_list)
 	if (args[1] && ft_strcmp(args[1], "-") == 0)
 		ft_printf("%s\n", target_dir);
 	if (!update_pwd_env(env_list, new_pwd))
-		return (free(new_pwd), BUILTIN_ERROR);
+		return (free(new_pwd), MALLOC_ERROR);
 	return (EXIT_SUCCESS);
 }

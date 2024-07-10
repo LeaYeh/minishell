@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:45:41 by lyeh              #+#    #+#             */
-/*   Updated: 2024/06/01 11:03:14 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/01 11:50:48 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	raise_error_to_all_subprocess(t_sh *shell, int exit_code, char *msg)
 	shell->exit_code = exit_code;
 	if (msg)
 		print_error(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
-	setup_signal(shell, SIGINT, SIG_STANDARD);
-	setup_signal(shell, SIGUSR1, SIG_STANDARD);
-	setup_signal(shell, SIGQUIT, SIG_IGNORE);
+	setup_signal(SIGINT, SIG_STANDARD);
+	setup_signal(SIGUSR1, SIG_STANDARD);
+	setup_signal(SIGQUIT, SIG_IGNORE);
 	kill(-shell->pid, SIGTERM);
 }
 
@@ -38,10 +38,10 @@ void	raise_error_to_own_subprocess(t_sh *shell, int exit_code, char *msg)
 	shell->exit_code = exit_code;
 	if (msg)
 		print_error(STY_RED"%s: error: %s\n"STY_RES, PROGRAM_NAME, msg);
-	setup_signal(shell, SIGINT, SIG_STANDARD);
-	setup_signal(shell, SIGTERM, SIG_STANDARD);
-	setup_signal(shell, SIGUSR1, SIG_STANDARD);
-	setup_signal(shell, SIGQUIT, SIG_IGNORE);
+	setup_signal(SIGINT, SIG_STANDARD);
+	setup_signal(SIGTERM, SIG_STANDARD);
+	setup_signal(SIGUSR1, SIG_STANDARD);
+	setup_signal(SIGQUIT, SIG_IGNORE);
 	signal_to_all_subprocess(shell, SIGTERM);
 	kill(getpid_from_proc(), SIGTERM);
 }
