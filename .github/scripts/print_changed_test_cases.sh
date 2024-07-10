@@ -9,7 +9,7 @@ while IFS= read -r line; do
   elif [[ $line == ">"* ]]; then
     echo -e "\e[93m🌱 Source branch: $line\e[0m"
     export LINE="$line"
-    "$HOME/print_test_case.sh"
+    "$SCRIPTS_DIR/print_test_case.sh"
   fi
 done <<< "$diff_output"
 
