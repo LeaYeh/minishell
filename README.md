@@ -95,7 +95,7 @@ https://starchart.cc/LeaYeh/minishell
 | Cross-end  | Signal      | Signal Handling        | Handled `ctrl-C` as `SIGINT` as bash behavior.                                                           | ✅      |
 |            |             |                        | Handled `ctrl-D` as `EOF` as bash behavior.                                                              | ✅      |
 |            |             |                        | Handled `ctrl-\\` as `SIGQUIT` as bash behavior.                                                         | ✅      |
-|            |             | Exception Handling     | Ignored `SIGPIPE` in internal process and set it back as default in external commands sub-process.       | ✅      |
+|            |             | Exception Handling     | Handled `SIGPIPE` in internal process and set it back as default in external commands sub-process.       | ✅      |
 |            |             |                        | Used `SIGUSR1` and `SIGTERM` to raise internal critical error to all related process and handle it depends on scenario.       | ✅      |
 
 
@@ -552,9 +552,8 @@ Reference: https://tldp.org/LDP/abs/html/internal.html
     - Before executing an external command (`handle_external_cmd`), we reset the signal handlers to their default settings (`SIG_DEFAULT`). This ensures that the external command can handle signals according to its own logic without interference from the shell's signal handling.
     - By resetting the signal handlers, we allow the external command to have complete control over how it handles signals, providing flexibility and adherence to Unix signal handling conventions.
 4. Handling SIGPIPE Signal for Builtin Commands:
-    - For builtin commands (`handle_builtin`), especially those involved in pipeline operations, we need to handle the `SIGPIPE` signal differently.
-    - We set up the signal handler to ignore (`SIG_IGNORE`) the `SIGPIPE` signal. This prevents the shell from terminating if a builtin command attempts to write to a broken pipeline, which is the default behavior. Instead, the shell continues execution as expected.
-    - Ignoring the `SIGPIPE` signal for builtin commands ensures seamless execution and prevents unintended termination due to broken pipes, which can occur during pipeline operations.
+    - For builtin commands (`handle_builtin`), especially those involved in pipeline operations, we decided to handle the `SIGPIPE` signal ourselves to stay consistent with the 42 practice of no resource _leaks_ at exit.
+    - We set up the signal handler to catch the `SIGPIPE` signal. This prevents the shell from terminating immediately if a builtin command attempts to write to a broken pipeline, which would be the default behavior of a `SIGPIPE` signal. Instead, the shell frees all its resources manually and then exits cleanly.
 
 #### Exception Handling
 
