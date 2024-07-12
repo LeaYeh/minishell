@@ -16,13 +16,13 @@
 static bool	handle_var_export(char *str, t_list **env_list);
 static void	change_export_flag(t_list *env_list, char *key, t_expt export);
 
-int	exec_export(char *args[], t_list **env_list)
+int	exec_export(t_sh *shell, char *args[], t_list **env_list)
 {
 	int	i;
 	int	ret;
 
 	if (get_array_len(args) < 2)
-		return (print_exported_env(*env_list));
+		return (print_exported_env(shell, *env_list));
 	ret = SUCCESS;
 	i = 1;
 	while (args[i])
@@ -51,7 +51,7 @@ static bool	handle_var_export(char *str, t_list **env_list)
 	{
 		if (!extract_env_value(&value, str))
 			return (free(key), false);
-		if (value && replace_env_value(*env_list, key, value, &old_value))
+		if (value && replace_env_value(*env_list, key, &value, &old_value))
 			free(old_value);
 		change_export_flag(*env_list, key, EXPORT_YES);
 		free(key);

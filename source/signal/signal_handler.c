@@ -18,15 +18,22 @@ void	setup_signal(int signo, t_sig state)
 	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART | SA_SIGINFO;
-	if (state == SIG_DEFAULT)
-		sa.sa_handler = SIG_DFL;
-	else if (state == SIG_IGNORE)
-		sa.sa_handler = SIG_IGN;
-	else if (state == SIG_STANDARD)
-		sa.sa_sigaction = handle_signal_std;
-	else if (state == SIG_RECORD)
-		sa.sa_sigaction = handle_signal_record;
+	if (state == SIG_DEFAULT || state == SIG_IGNORE)
+	{
+		sa.sa_flags = SA_RESTART;
+		if (state == SIG_DEFAULT)
+			sa.sa_handler = SIG_DFL;
+		else if (state == SIG_IGNORE)
+			sa.sa_handler = SIG_IGN;
+	}
+	else
+	{
+		sa.sa_flags = SA_RESTART | SA_SIGINFO;
+		if (state == SIG_STANDARD)
+			sa.sa_sigaction = handle_signal_std;
+		else if (state == SIG_RECORD)
+			sa.sa_sigaction = handle_signal_record;
+	}
 	if (sigaction(signo, &sa, NULL) != 0)
 		perror("The signal is not supported");
 }
@@ -51,12 +58,12 @@ void	handle_signal_std(int signo, siginfo_t *info, void *context)
 	else if (signo == SIGUSR1)
 	{
 		if (shell->subshell_level == 0)
-			clean_and_exit_shell(
-				shell, shell->exit_code, "Clean up and abort the program");
+			clean_and_exit_shell(shell, shell->exit_code, "Abort the shell");
 		else
 			clean_and_exit_shell(shell, shell->exit_code, NULL);
 	}
-	else if (signo == SIGTERM && shell->subshell_level != 0)
+	else if ((signo == SIGTERM && shell->subshell_level != 0) || \
+		signo == SIGPIPE)
 		clean_and_exit_shell(shell, shell->exit_code, NULL);
 }
 

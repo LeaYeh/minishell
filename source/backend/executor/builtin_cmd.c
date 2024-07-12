@@ -87,7 +87,6 @@ static void	exec_builtin_cmd(t_sh *shell)
 {
 	t_fct	*final_cmd_table;
 
-	setup_signal(SIGPIPE, SIG_IGNORE);
 	final_cmd_table = shell->final_cmd_table;
 	if (ft_strcmp(final_cmd_table->simple_cmd[0], "env") == 0)
 		shell->exit_code = exec_env(final_cmd_table->env);
@@ -95,19 +94,18 @@ static void	exec_builtin_cmd(t_sh *shell)
 		shell->exit_code = exec_unset(final_cmd_table->simple_cmd,
 				&shell->env_list);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "echo") == 0)
-		shell->exit_code = exec_echo(final_cmd_table->simple_cmd);
+		shell->exit_code = exec_echo(shell, final_cmd_table->simple_cmd);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "pwd") == 0)
-		shell->exit_code = exec_pwd();
+		shell->exit_code = exec_pwd(shell);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "cd") == 0)
-		shell->exit_code = exec_cd(final_cmd_table->simple_cmd,
-				&shell->env_list);
+		shell->exit_code = exec_cd(shell,
+				final_cmd_table->simple_cmd, &shell->env_list);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "export") == 0)
-		shell->exit_code = exec_export(final_cmd_table->simple_cmd,
-				&shell->env_list);
+		shell->exit_code = exec_export(shell,
+				final_cmd_table->simple_cmd, &shell->env_list);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "exit") == 0)
 		exec_exit(shell, final_cmd_table->simple_cmd);
 	else if (ft_strcmp(final_cmd_table->simple_cmd[0], "~") == 0 && \
 			shell->is_interactive)
 		shell->exit_code = exec_easter_egg();
-	setup_signal(SIGPIPE, SIG_STANDARD);
 }

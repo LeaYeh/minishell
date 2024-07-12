@@ -46,6 +46,6 @@ char		*get_target_dir(char *args[], t_list *env_list);
 int			set_final_path(char **final_path, char **new_pwd, char *target_dir);
 
 /* update_pwd_env.c */
-bool		update_pwd_env(t_list **env_list, char *new_pwd);
+bool		update_pwd_env(t_list **env_list, char **new_pwd);
 
 #endif

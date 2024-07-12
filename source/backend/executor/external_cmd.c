@@ -64,6 +64,7 @@ static void	reset_external_signal_handler(void)
 	setup_signal(SIGTERM, SIG_DEFAULT);
 	setup_signal(SIGUSR1, SIG_DEFAULT);
 	setup_signal(SIGQUIT, SIG_DEFAULT);
+	setup_signal(SIGPIPE, SIG_DEFAULT);
 }
 
 static void	handle_exec_error(t_sh *shell, char *exec_path)

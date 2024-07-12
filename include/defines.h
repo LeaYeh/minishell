@@ -393,6 +393,7 @@ typedef struct s_shell
 	t_list			*token_list;
 	t_list_d		*cmd_table_list;
 	t_fct			*final_cmd_table;
+	void			*builtin_allocation;
 }	t_sh;
 
 #endif

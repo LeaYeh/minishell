@@ -16,6 +16,6 @@
 # include "defines.h"
 
 /* print_exported_env.c */
-int		print_exported_env(t_list *env_list);
+int		print_exported_env(t_sh *shell, t_list *env_list);
 
 #endif

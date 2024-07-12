@@ -32,24 +32,24 @@ static t_env	*get_next_env_node(t_list *env_list, char *prev_key);
  * Malloc once, then use ft_snprintf to fill.
  * Then print once.
  */
-int	print_exported_env(t_list *env_list)
+int	print_exported_env(t_sh *shell, t_list *env_list)
 {
-	char	*export_printout;
-	int		format_len;
-	int		prefix_len;
-	int		total_len;
+	int	format_len;
+	int	prefix_len;
+	int	total_len;
 
 	prefix_len = ft_strlen(EXPORT_PREFIX);
 	format_len = ft_strlen("=\"\"\n");
 	total_len = get_total_export_printout_len(env_list, prefix_len, format_len);
 	if (total_len == 0)
 		return (SUCCESS);
-	export_printout = (char *)malloc(total_len + 1);
-	if (!export_printout)
+	shell->builtin_allocation = malloc(total_len + 1);
+	if (!shell->builtin_allocation)
 		return (MALLOC_ERROR);
-	fill_export_printout(env_list, export_printout, prefix_len, format_len);
-	ft_printf("%s", export_printout);
-	free(export_printout);
+	fill_export_printout(
+		env_list, shell->builtin_allocation, prefix_len, format_len);
+	ft_printf("%s", shell->builtin_allocation);
+	ft_free_and_null(&shell->builtin_allocation);
 	return (SUCCESS);
 }
 
