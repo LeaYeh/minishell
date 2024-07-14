@@ -16,11 +16,9 @@ int	handle_cd_error(int error, char *target_dir)
 {
 	if (error == ENOMEM || error == EIO)
 	{
-		print_error("%s: cd: ", PROGRAM_NAME);
-		perror(NULL);
+		print_error("%s: cd: %s\n", PROGRAM_NAME, strerror(error));
 		return (MALLOC_ERROR);
 	}
-	print_error("%s: cd: %s: ", PROGRAM_NAME, target_dir);
-	perror(NULL);
+	print_error("%s: cd: %s: %s\n", PROGRAM_NAME, target_dir, strerror(error));
 	return (GENERAL_ERROR);
 }
