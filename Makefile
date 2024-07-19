@@ -123,8 +123,17 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
-.PHONY			:	all fast run san val noenv valfd build lib waitforlib \
+PHONY_TARGETS	:=	all fast run san val noenv valfd help build lib waitforlib \
 					clean fclean ffclean re
+HELP_TARGETS	:=	help \
+					$(addprefix help-,$(PHONY_TARGETS)) \
+					$(addsuffix -help,$(PHONY_TARGETS))
+PHONY_TARGETS	+=	$(HELP_TARGETS)
+
+.PHONY			:	$(PHONY_TARGETS)
+
+.DEFAULT		:
+					$(MAKE) help
 
 
 #	Compilation
@@ -144,23 +153,53 @@ all				:
 						fi; \
 					fi
 
+help-all		:
+					echo "Build the project."
+					echo "This is the default target when no target is specified."
+
+
 fast			:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_OPT)
 fast			:	re
 					$(MAKE) clean
 
+help-fast		:
+					echo "Build the project with the following compiler optimization flags:"
+					echo "  $(CFLAGS_OPT)"
+
+
 run				:	all
 					"./$(NAME)"
+
+help-run		:
+					echo "Build the project and run the executable."
+
 
 san				:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_DBG) $(CFLAGS_SAN)
 san				:	re
 					$(MAKE) clean
 					"./$(NAME)"
 
+help-san		:
+					echo "Rebuild the project with sanitizers enabled and run the executable."
+					echo "The following sanitizers are enabled:"
+					echo "  $(CFLAGS_SAN)"
+
+
 val				:	all
 					$(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
+help-val		:
+					echo "Build the project and run the executable with valgrind."
+					echo "The following valgrind flags are used:"
+					echo "$(VALGRINDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
+
+
 noenv			:	all
 					env -i $(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
+
+help-noenv		:
+					echo "Build and run the project with valgrind and with empty environment (env -i)."
+
 
 valfd			:	all
 ifneq ($(TERMINAL),)
@@ -171,6 +210,40 @@ ifneq ($(TERMINAL),)
 else
 					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) "./$(NAME)"
 endif
+
+help-valfd		:
+					echo "Build and run the project with valgrind and file descriptor tracking."
+					echo "The following valgrind flags are used:"
+					echo "$(VALGRINDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
+					echo "File descriptor specific flags:"
+					echo "$(VALGRINDFDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
+
+
+help			:
+					echo "Usage: make [target]"
+					echo
+					echo "Targets:"
+					echo "  all      - Build the project (default target)"
+					echo "  fast     - Build the project with optimizations"
+					echo "  run      - Build and run the project"
+					echo "  san      - Build and run the project with sanitizers"
+					echo "  val      - Build and run the project with valgrind"
+					echo "  noenv    - Build and run the project with valgrind and with empty environment"
+					echo "  valfd    - Build and run the project with valgrind and file descriptor tracking"
+					echo "  clean    - Remove build artifacts"
+					echo "  fclean   - Remove build artifacts and executable"
+					echo "  ffclean  - Remove build artifacts and executable without checking for unknown files"
+					echo "  re       - Rebuild the project"
+					echo "  print-%  - Print the value of a Makefile variable (replace % with variable name)"
+					echo "  help     - Display this message"
+					echo "  help-%   - Display more information for a specific target (replace % with target name)"
+					echo "  %-help   - Display more information for a specific target (replace % with target name)"
+
+help-help		:
+					echo "Display more information for a specific target by appending or prepending help."
+
+%-help:
+					$(MAKE) help-$(subst -help,,$@)
 
 
 #	Library dependency management
@@ -232,16 +305,31 @@ ifneq (,$(wildcard $(DEP_DIR)))
 					-find $(DEP_DIR) -type d -empty -delete
 endif
 
+help-clean		:
+					echo "Remove build artifacts."
+
+
 fclean			:	clean
 					$(MAKE) fclean -C $(LIBRARIES)
 					rm -f $(NAME)
 
+help-fclean		:
+					echo "Remove build artifacts and the executable."
+
+
 ffclean			:	fclean
 					rm -rf $(OBJ_DIR) $(DEP_DIR)
+
+help-ffclean	:
+					echo "Remove build artifacts and the executable without checking for unknown files."
+
 
 re				:
 					$(MAKE) fclean
 					$(MAKE) all
+
+help-re			:
+					echo "Rebuild the project."
 
 
 #	Include dependency files
