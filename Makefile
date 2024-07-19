@@ -334,7 +334,7 @@ help-re			:
 
 #	Include dependency files
 
-ifeq (,$(filter clean fclean re,$(MAKECMDGOALS)))
+ifeq (,$(filter $(HELP_TARGETS) clean fclean ffclean re,$(MAKECMDGOALS)))
     ifneq (,$(wildcard $(OBJ_DIR)))
         -include	$(DEP)
     endif
