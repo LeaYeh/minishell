@@ -62,41 +62,43 @@ https://starchart.cc/LeaYeh/minishell
 
 | Category   | Module      | Function               | Requirement                                                                                              | Status |
 |------------|-------------|------------------------|----------------------------------------------------------------------------------------------------------|--------|
-| Frontend   | Lexer       | Tokenizing             | Tokenized user input into token list.                                                                    | ✅      |
-|            |             |                        | Support the `PIPE` character `\|`.                                                                       | ✅      |
-|            |             |                        | Support logical `AND` `&&`.                                                                              | ✅      |
-|            |             |                        | Support logical `OR` `\|\|`.                                                                             | ✅      |
-|            |             |                        | Support left and right brackets `()` for `SUBSHELL`.                                                     | ✅      |
-|            |             |                        | Support `WORD` representing basic words.                                                                 | ✅      |
-|            |             |                        | Support `ASSIGNMENT_WORD` `=` for variable assignments.                                                   | ✅      |
-| Frontend   | Parser      | Syntax Analysis        | Analyze syntax of token list and report syntax errors based on Shift-Reduce algorithm with predefined grammar rules and then output as command table list. | ✅      |
-| Frontend   | Expander    | Brace Expansion        | Perform brace expansion to generate multiple strings based on expressions enclosed in braces `{}`.      | ✅      |
-|            |             | Tilde Expansion        | Perform tilde expansion to replace `~` with the current user's home directory path.                      | 🛇      |
-|            |             | Parameter Expansion    | Perform parameter expansion to replace variables and special parameters in a string.                     | ✅      |
-|            |             | Command Substitution   | Perform command substitution to replace command output in a string.                                      | 🛇      |
-|            |             | Arithmetic Expansion   | Perform arithmetic expansion to evaluate mathematical expressions enclosed in `$(())`.                    | 🛇      |
-|            |             | Process Substitution   | Perform process substitution to use the output of a command as a file or input to another command.        | 🛇      |
-|            |             | Word Splitting         | Perform word splitting to split a string into separate words based on spaces, tabs, and newlines.        | ✅      |
-|            |             | Wildcard Expansion     | Perform filename expansion (globbing) to generate filenames matching a specified pattern.                | ✅      |
-|            |             | Quote Removal          | Remove quotes from strings to interpret them as literal values.                                           | ✅      |
-| Backend    | Builtins    | cd                     | Implement `cd` with only a relative or absolute path.                                                    | ✅      |
-|            |             | echo                   | Implement `echo` with option `-n`.                                                                      | ✅      |
-|            |             | env                    | Implement `env` with no options or arguments.                                                            | ✅      |
-|            |             | exit                   | Implement `exit` with no options.                                                                        | ✅      |
-|            |             | export                 | Implement `export` with no options.                                                                      | ✅      |
-|            |             | pwd                    | Implement `pwd` with no options.                                                                         | ✅      |
-|            |             | unset                  | Implement `unset` with no options.                                                                       | ✅      |
-| Backend    | Redirection | IO Redirection         | Redirected `STDIN` with input redirection by `<` operator.                                              | ✅      |
-|            |             |                        | Redirected `HEREDOC` with input redirection by `<<` operator.                                             | ✅      |
-|            |             |                        | Redirected `STDOUT` with output redirection by `>` operator.                                              | ✅      |
-|            |             |                        | Redirected `STDOUT` append with output redirection by `>>` operator.                                      | ✅      |
-|            |             | Subsell Redirection    | Implement redirections and pipes (\| character).                                                         | ✅      |
-|            |             | Pipe Redirection       | Redirected `STDIN`/`STDOUT` by `pipe()`.                                                                 | ✅      |
-| Cross-end  | Signal      | Signal Handling        | Handled `ctrl-C` as `SIGINT` as bash behavior.                                                           | ✅      |
-|            |             |                        | Handled `ctrl-D` as `EOF` as bash behavior.                                                              | ✅      |
-|            |             |                        | Handled `ctrl-\\` as `SIGQUIT` as bash behavior.                                                         | ✅      |
-|            |             | Exception Handling     | Handled `SIGPIPE` in internal process and set it back as default in external commands sub-process.       | ✅      |
-|            |             |                        | Used `SIGUSR1` and `SIGTERM` to raise internal critical error to all related process and handle it depends on scenario.       | ✅      |
+| Frontend   | Lexer       | Tokenizing             | Tokenize user input into token list.                                                                     | ✅     |
+|            |             |                        | Support `PIPE` `\|`.                                                                                     | ✅     |
+|            |             |                        | Support logical `AND` `&&`.                                                                              | ✅     |
+|            |             |                        | Support logical `OR` `\|\|`.                                                                             | ✅     |
+|            |             |                        | Support sequential operator `;`.                                                                         | 🛇     |
+|            |             |                        | Support left and right brackets `()` for `SUBSHELL`.                                                     | ✅     |
+|            |             |                        | Support `WORD` representing basic words.                                                                 | ✅     |
+|            |             |                        | Recognize `ASSIGNMENT_WORD` `=` for local variable assignments.                                          | ✅     |
+| Frontend   | Parser      | Syntax Analysis        | Analyze syntax of token list and report syntax errors based on Shift-Reduce algorithm with predefined grammar rules and then output as command table list. | ✅     |
+| Frontend   | Expander    | Brace Expansion        | Perform brace expansion to generate multiple strings based on expressions enclosed in braces `{}`.       | 🛇     |
+|            |             | Tilde Expansion        | Perform tilde expansion to replace `~` with the current user's home directory path.                      | 🛇     |
+|            |             | Parameter Expansion    | Perform parameter expansion to replace variables and special parameters (optionally enclosed in braces `{}`) in a string. | ✅     |
+|            |             | Command Substitution   | Perform command substitution to replace command output in a string.                                      | 🛇     |
+|            |             | Arithmetic Expansion   | Perform arithmetic expansion to evaluate mathematical expressions enclosed in `$(())`.                   | 🛇     |
+|            |             | Process Substitution   | Perform process substitution to use the output of a command as a file or input to another command.       | 🛇     |
+|            |             | Word Splitting         | Perform word splitting to split a string into separate words based on spaces, tabs, and newlines.        | ✅     |
+|            |             | Wildcard Expansion     | Perform filename expansion (globbing) in the current directory to generate filenames matching a specified pattern. | ✅     |
+|            |             | Quote Removal          | Remove quotes from strings to interpret them as literal values.                                          | ✅     |
+| Backend    | Builtins    | cd                     | Implement `cd` with relative and absolute paths.                                                         | ✅     |
+|            |             | echo                   | Implement `echo` with option `-n`.                                                                       | ✅     |
+|            |             | env                    | Implement `env` with no options or arguments.                                                            | ✅     |
+|            |             | exit                   | Implement `exit` with no options.                                                                        | ✅     |
+|            |             | export                 | Implement `export` with no options.                                                                      | ✅     |
+|            |             | pwd                    | Implement `pwd` with no options.                                                                         | ✅     |
+|            |             | unset                  | Implement `unset` with no options.                                                                       | ✅     |
+| Backend    | Redirection | IO Redirection         | Redirect `STDIN` with input redirection by `<` operator.                                                 | ✅     |
+|            |             |                        | Redirect `HEREDOC` with input redirection by `<<` operator.                                              | ✅     |
+|            |             |                        | Redirect `STDOUT` with output redirection by `>` operator.                                               | ✅     |
+|            |             |                        | Redirect `STDOUT` append with output redirection by `>>` operator.                                       | ✅     |
+|            |             | Subshell Redirection   | Implement redirections and pipes between subshell groups (`\|`).                                         | ✅     |
+|            |             | Pipe Redirection       | Redirect `STDIN`/`STDOUT` by `pipe()`.                                                                   | ✅     |
+| Backend    | Assignment  | Local Assignment       | Assign variables local to the current shell environment or for the duration of a command following the assignment. | 🛇     |
+| Cross-end  | Signals     | Signal Handling        | Handle `ctrl-C` as `SIGINT` mirroring bash's behavior.                                                   | ✅     |
+|            |             |                        | Handle `ctrl-D` as `EOF` mirroring bash's behavior.                                                      | ✅     |
+|            |             |                        | Handle `ctrl-\\` as `SIGQUIT` mirroring bash's behavior.                                                 | ✅     |
+|            |             | Exception Handling     | Handle `SIGPIPE` in internal process and set it back to default in external command sub-processes.       | ✅     |
+|            |             |                        | Use `SIGUSR1` and `SIGTERM` to raise internal critical error to all related processes and handle it depending on scenario. | ✅     |
 
 
 # DevOPS Spirit
