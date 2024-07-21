@@ -20,8 +20,6 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
 
 </div>
 
-https://starchart.cc/LeaYeh/minishell
-
 ---
 
 # Table of Contents
@@ -111,7 +109,7 @@ Our [42-Docker-DevEnv](https://github.com/LeaYeh/42-Docker-DevEnv) project ensur
 
 ### Introduction
 
-Our CI/CD framework integrates [42_minishell_tester](https://github.com/zstenger93/42_minishell_tester), significantly enhancing our testing capability by adding an extensive set of test cases. This not only expanded our test coverage but also accelerated the testing process by 3x, slashing the time from 15 minutes to just 5 minutes. By adopting this framework, your Minishell project can benefit from a more robust and efficient development workflow.
+Our CI/CD framework integrates [42_minishell_tester](https://github.com/LeaYeh/42_minishell_tester), significantly enhancing our testing capability by adding an extensive set of test cases. This not only expanded our test coverage but also accelerated the testing process by 3x, slashing the time from 15 minutes to just 5 minutes. By adopting this framework, your Minishell project can benefit from a more robust and efficient development workflow.
 
 ![gh_action_demo](/doc/images/gh_action_demo.gif)
 
