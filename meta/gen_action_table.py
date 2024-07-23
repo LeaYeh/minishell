@@ -9,7 +9,7 @@ TOKEN_TYPES = ['WORD', 'ASSIGNMENT_WORD',
                 'RED_IN', 'RED_OUT', 'PIPE',
                 'HERE_DOC', 'APPEND',
                 'OR', 'AND',
-                'L_BRACKET', 'R_BRACKET']
+                'L_PAREN', 'R_PAREN']
 
 TOKEN_TYPES = {key: i for i, key in enumerate(TOKEN_TYPES)}
 TOKEN_TYPES['T_END'] = -2

@@ -30,7 +30,7 @@ bool	handle_symbol_token(t_list **token_list, t_list_d **cmd_table_list)
 	}
 	else if (is_subshell_symbol(token_type))
 	{
-		fill_bracket(token_list, cmd_table_list);
+		fill_parenthesis(token_list, cmd_table_list);
 		return (true);
 	}
 	return (false);

@@ -6,7 +6,7 @@
 | 0 | RED_OUT | shift | 4 | -1 |
 | 0 | HERE_DOC | shift | 5 | -1 |
 | 0 | APPEND | shift | 6 | -1 |
-| 0 | L_BRACKET | shift | 7 | -1 |
+| 0 | L_PAREN | shift | 7 | -1 |
 | 0 | and_or | goto | 8 | -1 |
 | 0 | pipe_sequence | goto | 9 | -1 |
 | 0 | command | goto | 10 | -1 |
@@ -33,7 +33,7 @@
 | 7 | RED_OUT | shift | 4 | -1 |
 | 7 | HERE_DOC | shift | 5 | -1 |
 | 7 | APPEND | shift | 6 | -1 |
-| 7 | L_BRACKET | shift | 7 | -1 |
+| 7 | L_PAREN | shift | 7 | -1 |
 | 7 | and_or | goto | 24 | -1 |
 | 7 | pipe_sequence | goto | 9 | -1 |
 | 7 | command | goto | 10 | -1 |
@@ -92,7 +92,7 @@
 | 23 | -1 | reduce | io_file | ['APPEND', 'filename'] |
 | 24 | AND | shift | 26 | -1 |
 | 24 | OR | shift | 27 | -1 |
-| 24 | R_BRACKET | shift | 38 | -1 |
+| 24 | R_PAREN | shift | 38 | -1 |
 | 25 | -1 | accept | None | -1 |
 | 26 | WORD | shift | 1 | -1 |
 | 26 | ASSIGNMENT_WORD | shift | 2 | -1 |
@@ -100,7 +100,7 @@
 | 26 | RED_OUT | shift | 4 | -1 |
 | 26 | HERE_DOC | shift | 5 | -1 |
 | 26 | APPEND | shift | 6 | -1 |
-| 26 | L_BRACKET | shift | 7 | -1 |
+| 26 | L_PAREN | shift | 7 | -1 |
 | 26 | pipe_sequence | goto | 39 | -1 |
 | 26 | command | goto | 10 | -1 |
 | 26 | subshell | goto | 11 | -1 |
@@ -116,7 +116,7 @@
 | 27 | RED_OUT | shift | 4 | -1 |
 | 27 | HERE_DOC | shift | 5 | -1 |
 | 27 | APPEND | shift | 6 | -1 |
-| 27 | L_BRACKET | shift | 7 | -1 |
+| 27 | L_PAREN | shift | 7 | -1 |
 | 27 | pipe_sequence | goto | 40 | -1 |
 | 27 | command | goto | 10 | -1 |
 | 27 | subshell | goto | 11 | -1 |
@@ -132,7 +132,7 @@
 | 28 | RED_OUT | shift | 4 | -1 |
 | 28 | HERE_DOC | shift | 5 | -1 |
 | 28 | APPEND | shift | 6 | -1 |
-| 28 | L_BRACKET | shift | 7 | -1 |
+| 28 | L_PAREN | shift | 7 | -1 |
 | 28 | command | goto | 41 | -1 |
 | 28 | subshell | goto | 11 | -1 |
 | 28 | simple_command | goto | 12 | -1 |
@@ -174,7 +174,7 @@
 | 36 | io_file | goto | 16 | -1 |
 | 36 | io_here | goto | 17 | -1 |
 | 37 | -1 | reduce | cmd_prefix | ['cmd_prefix', 'io_redirect'] |
-| 38 | -1 | reduce | subshell | ['L_BRACKET', 'and_or', 'R_BRACKET'] |
+| 38 | -1 | reduce | subshell | ['L_PAREN', 'and_or', 'R_PAREN'] |
 | 39 | PIPE | shift | 28 | -1 |
 | 39 | -1 | reduce | and_or | ['and_or', 'AND', 'pipe_sequence'] |
 | 40 | PIPE | shift | 28 | -1 |

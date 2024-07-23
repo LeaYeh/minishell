@@ -34,7 +34,7 @@ static void	adjust_assignment_word_tokens(t_list *token_list)
 		{
 			if (prev_type != T_NONE && prev_type != T_ASSIGNMENT_WORD
 				&& prev_type != T_PIPE && prev_type != T_OR
-				&& prev_type != T_AND && prev_type != T_L_BRACKET)
+				&& prev_type != T_AND && prev_type != T_L_PAREN)
 			{
 				token->type = T_WORD;
 			}
