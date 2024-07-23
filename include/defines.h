@@ -183,8 +183,8 @@ typedef enum e_token_type
 	T_APPEND,
 	T_OR,
 	T_AND,
-	T_L_BRACKET,
-	T_R_BRACKET
+	T_L_PAREN,
+	T_R_PAREN
 }	t_tok_typ;
 
 typedef enum e_parsing_table_column
@@ -209,8 +209,8 @@ typedef enum e_parser_element
 	P_APPEND,
 	P_OR,
 	P_AND,
-	P_L_BRACKET,
-	P_R_BRACKET,
+	P_L_PAREN,
+	P_R_PAREN,
 	P_AND_OR		= 100,
 	P_PIPE_SEQ,
 	P_CMD,

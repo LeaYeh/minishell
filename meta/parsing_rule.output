@@ -13,7 +13,7 @@ Grammar
     7        | subshell
     8        | subshell redirect_list
 
-    9 subshell: L_BRACKET and_or R_BRACKET
+    9 subshell: L_PAREN and_or R_PAREN
 
    10 simple_command: cmd_prefix cmd_word cmd_suffix
    11               | cmd_prefix cmd_word
@@ -65,8 +65,8 @@ HERE_DOC (263) 33
 APPEND (264) 31
 AND (265) 2
 OR (266) 3
-L_BRACKET (267) 9
-R_BRACKET (268) 9
+L_PAREN (267) 9
+R_PAREN (268) 9
 
 
 Nonterminals, with rules where they appear
@@ -115,7 +115,7 @@ state 0
     RED_OUT          shift, and go to state 4
     HERE_DOC         shift, and go to state 5
     APPEND           shift, and go to state 6
-    L_BRACKET        shift, and go to state 7
+    L_PAREN          shift, and go to state 7
 
     and_or          go to state 8
     pipe_sequence   go to state 9
@@ -181,7 +181,7 @@ state 6
 
 state 7
 
-    9 subshell: L_BRACKET . and_or R_BRACKET
+    9 subshell: L_PAREN . and_or R_PAREN
 
     WORD             shift, and go to state 1
     ASSIGNMENT_WORD  shift, and go to state 2
@@ -189,7 +189,7 @@ state 7
     RED_OUT          shift, and go to state 4
     HERE_DOC         shift, and go to state 5
     APPEND           shift, and go to state 6
-    L_BRACKET        shift, and go to state 7
+    L_PAREN          shift, and go to state 7
 
     and_or          go to state 24
     pipe_sequence   go to state 9
@@ -365,11 +365,11 @@ state 24
 
     2 and_or: and_or . AND pipe_sequence
     3       | and_or . OR pipe_sequence
-    9 subshell: L_BRACKET and_or . R_BRACKET
+    9 subshell: L_PAREN and_or . R_PAREN
 
     AND        shift, and go to state 26
     OR         shift, and go to state 27
-    R_BRACKET  shift, and go to state 38
+    R_PAREN    shift, and go to state 38
 
 
 state 25
@@ -389,7 +389,7 @@ state 26
     RED_OUT          shift, and go to state 4
     HERE_DOC         shift, and go to state 5
     APPEND           shift, and go to state 6
-    L_BRACKET        shift, and go to state 7
+    L_PAREN          shift, and go to state 7
 
     pipe_sequence   go to state 39
     command         go to state 10
@@ -412,7 +412,7 @@ state 27
     RED_OUT          shift, and go to state 4
     HERE_DOC         shift, and go to state 5
     APPEND           shift, and go to state 6
-    L_BRACKET        shift, and go to state 7
+    L_PAREN          shift, and go to state 7
 
     pipe_sequence   go to state 40
     command         go to state 10
@@ -435,7 +435,7 @@ state 28
     RED_OUT          shift, and go to state 4
     HERE_DOC         shift, and go to state 5
     APPEND           shift, and go to state 6
-    L_BRACKET        shift, and go to state 7
+    L_PAREN          shift, and go to state 7
 
     command         go to state 41
     subshell        go to state 11
@@ -546,7 +546,7 @@ state 37
 
 state 38
 
-    9 subshell: L_BRACKET and_or R_BRACKET .
+    9 subshell: L_PAREN and_or R_PAREN .
 
     $default  reduce using rule 9 (subshell)
 

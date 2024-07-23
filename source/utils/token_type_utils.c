@@ -30,5 +30,5 @@ bool	is_control_op(t_tok_typ token_type)
 
 bool	is_subshell_symbol(t_tok_typ token_type)
 {
-	return (token_type == T_L_BRACKET || token_type == T_R_BRACKET);
+	return (token_type == T_L_PAREN || token_type == T_R_PAREN);
 }

@@ -13,8 +13,8 @@
 /*       '>>'     */
 %token  AND    OR
 /*      '&&'  '||'   */
-%token  L_BRACKET    R_BRACKET
-/*          '('         ')'   */
+%token  L_PAREN    R_PAREN
+/*        '('        ')'   */
 
 %start and_or
 %%
@@ -23,14 +23,14 @@ and_or          :            pipe_sequence
                 | and_or AND pipe_sequence
                 | and_or OR  pipe_sequence
                 ;
-pipe_sequence	:                    command 
+pipe_sequence	:                    command
 				| pipe_sequence PIPE command
 				;
 command         : simple_command
                 | subshell
                 | subshell redirect_list
                 ;
-subshell        : L_BRACKET and_or R_BRACKET
+subshell        : L_PAREN and_or R_PAREN
                 ;
 simple_command	: cmd_prefix cmd_word cmd_suffix
 				| cmd_prefix cmd_word

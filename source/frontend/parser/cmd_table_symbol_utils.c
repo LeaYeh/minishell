@@ -53,16 +53,16 @@ void	fill_control_op(t_list **token_list, t_list_d **cmd_table_list)
 		cmd_table->type = C_PIPE;
 }
 
-void	fill_bracket(t_list **token_list, t_list_d **cmd_table_list)
+void	fill_parenthesis(t_list **token_list, t_list_d **cmd_table_list)
 {
 	t_tok	*token;
 	t_ct	*cmd_table;
 
 	token = get_token_from_list(*token_list);
 	cmd_table = ft_lstlast_d(*cmd_table_list)->content;
-	if (token->type == T_L_BRACKET)
+	if (token->type == T_L_PAREN)
 		cmd_table->type = C_SUBSHELL_START;
-	else if (token->type == T_R_BRACKET)
+	else if (token->type == T_R_PAREN)
 		cmd_table->type = C_SUBSHELL_END;
 }
 
