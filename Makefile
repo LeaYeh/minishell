@@ -141,8 +141,11 @@ PHONY_TARGETS	+=	$(HELP_TARGETS)
 all				:
 					if $(MAKE) --question build; then \
 						echo $(MSG_NO_CHNG); \
+						echo $(MSG_HELP); \
 					else \
-						echo -n $(MSG_INFO)$(MSG_START); \
+						echo " "$(MSG_INFO); \
+						echo " "$(MSG_HELP); \
+						echo -n $(MSG_START); \
 						if $(MAKE) build; then \
 							echo; \
 							echo $(MSG_SUCCESS); \
@@ -371,8 +374,10 @@ STY_WHI_BRI_BG	:=	"\e[107m"
 # **************************** CUSTOM MESSAGES ******************************* #
 
 ################################################################################
-MSG_INFO		:=	$(STY_ITA)$(STY_WHI)" Make version: $(MAKE_VERSION)\n\
-					Compiler version: $(CC_VERSION)\n"$(STY_RES)
+MSG_INFO		:=	$(STY_ITA)$(STY_WHI)"Make version: $(MAKE_VERSION)\n\
+					Compiler version: $(CC_VERSION)"$(STY_RES)
+################################################################################
+MSG_HELP		:=	$(STY_ITA)$(STY_WHI)"Run 'make help' to see all available Makefile targets."$(STY_RES)
 ################################################################################
 MSG_START		:=	$(STY_ITA)"Building Crash ... "$(STY_RES)
 ################################################################################
