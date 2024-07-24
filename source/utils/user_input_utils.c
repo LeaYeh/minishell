@@ -38,7 +38,7 @@ bool	read_input(
 		errno = SUCCESS;
 	else if (errno != SUCCESS)
 		return (false);
-	if (add_to_history && *line && **line)
+	if (add_to_history && is_interactive && *line && **line)
 		add_history(*line);
 	return (errno == SUCCESS);
 }
