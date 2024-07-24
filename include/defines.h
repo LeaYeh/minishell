@@ -115,6 +115,9 @@
 # define PT_ROW_NUM			192
 # define UNDEFINED_STATE	-1
 
+/* User Input */
+# define MAX_INPUT_RETRIES	5
+
 /* Export */
 # define EXPORT_PREFIX		"export "
 
