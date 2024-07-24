@@ -18,9 +18,9 @@
 /* User input utils */
 bool		read_input(
 				char **line,
+				t_sh *shell,
 				char *prompt,
-				bool add_to_history,
-				bool is_interactive);
+				bool add_to_history);
 
 /* Token list utils */
 t_tok		*init_token(t_tok_typ type, char *data);
