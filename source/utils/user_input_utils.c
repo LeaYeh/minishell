@@ -34,7 +34,7 @@ bool	read_input(
 			free(tmp);
 		}
 	}
-	if (errno == EINTR)
+	if (errno == EINTR || errno == ENOTTY)
 		errno = SUCCESS;
 	else if (errno != SUCCESS)
 		return (false);
