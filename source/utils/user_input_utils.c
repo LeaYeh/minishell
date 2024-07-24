@@ -55,7 +55,7 @@ static bool	limit_retries(t_sh *shell, bool success)
 		retries = 0;
 		return (true);
 	}
-	else if (++retries > 5)
+	else if (++retries > MAX_INPUT_RETRIES)
 		clean_and_exit_shell(shell, GENERAL_ERROR, "read input failed");
 	print_error("%s: read input failed, trying again...\n", PROGRAM_NAME);
 	return (false);
