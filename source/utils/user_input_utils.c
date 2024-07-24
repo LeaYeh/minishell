@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "clean.h"
+#include "utils.h"
 
 static bool	limit_retries(t_sh *shell, bool success);
 
@@ -56,5 +57,6 @@ static bool	limit_retries(t_sh *shell, bool success)
 	}
 	else if (++retries > 5)
 		clean_and_exit_shell(shell, GENERAL_ERROR, "read input failed");
+	print_error("%s: read input failed, trying again...\n", PROGRAM_NAME);
 	return (false);
 }
