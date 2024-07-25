@@ -1,0 +1,42 @@
+# .github/workflows/lines_of_code.yaml
+name: Lines of Code
+
+on :
+  push:
+    branches:
+      - main
+env:
+  CLOC_DIR     : /home/runner/cloc
+  LINES_OF_CODE: 0
+  BADGE_COLOR  : 61A
+
+jobs:
+  lines_of_code:
+    name           : Lines of Code
+    runs-on        : ubuntu-latest
+    timeout-minutes: 2
+    steps          :
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Install cloc
+        run : |
+          git clone https://github.com/AlDanial/cloc.git ${{ env.CLOC_DIR }}
+
+      - name: 🧮 Count lines by language
+        run : |
+          ${{ env.CLOC_DIR }}/cloc --fmt=2 --include-lang='C,C/C++ Header,make,YAML,Python,Bourne Shell,Bourne Again Shell,yacc,Markdown,Dockerfile' . | tee ${{ env.CLOC_DIR }}/cloc_output.txt
+          echo "LINES_OF_CODE=$(grep 'SUM' ${{ env.CLOC_DIR }}/cloc_output.txt | awk '{print $5}')" >> "$GITHUB_ENV"
+
+      - name: 📑 Count lines by file
+        run : |
+          ${{ env.CLOC_DIR }}/cloc --fmt=5 --include-lang='C,C/C++ Header,make,YAML,Python,Bourne Shell,Bourne Again Shell,yacc,Markdown,Dockerfile' .
+
+      - name: Create badge
+        uses: RubbaBoy/BYOB@v1
+        with:
+          name        : lines_of_code
+          label       : 'lines of code'
+          status      : ${{ env.LINES_OF_CODE }}
+          color       : ${{ env.BADGE_COLOR }}
+          github_token: ${{ github.token }}

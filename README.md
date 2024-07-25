@@ -11,7 +11,7 @@
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/LeaYeh/minishell?label=version&style=flat&color=yellow)](https://github.com/LeaYeh/minishell/tags)
 
 [![Visits Badge](https://visitor-badge.laobi.icu/badge?page_id=LeaYeh.minishell&style=flat&right_color=navy)](https://github.com/LeaYeh/minishell)
-[![Lines of Code](https://img.shields.io/tokei/lines/github.com/LeaYeh/minishell?category=code&style=flat&color=purple)](https://github.com/LeaYeh/minishell/tree/main/source)
+[![Lines of Code](https://byob.yarr.is/LeaYeh/minishell/lines_of_code)](https://github.com/LeaYeh/minishell/actions/workflows/lines_of_code.yaml)
 [![GitHub](https://img.shields.io/github/license/LeaYeh/minishell?style=flat&color=darkred)](https://github.com/LeaYeh/minishell/blob/main/LICENSE)
 
 <br>
@@ -19,8 +19,6 @@
 This project goes beyond merely crafting a new shell from scratch; it endeavors to emulate the Bash source code and the GNU Bash POSIX manual while incorporating principles from compiler parsing. By referencing these authoritative sources, the project aims to meticulously implement a shell interpreter. Moreover, it documents the entire journey from ground zero to the creation of a personalized shell, serving as a valuable resource for future learners seeking insights into shell development.
 
 </div>
-
-https://starchart.cc/LeaYeh/minishell
 
 ---
 
@@ -111,7 +109,7 @@ Our [42-Docker-DevEnv](https://github.com/LeaYeh/42-Docker-DevEnv) project ensur
 
 ### Introduction
 
-Our CI/CD framework integrates [42_minishell_tester](https://github.com/zstenger93/42_minishell_tester), significantly enhancing our testing capability by adding an extensive set of test cases. This not only expanded our test coverage but also accelerated the testing process by 3x, slashing the time from 15 minutes to just 5 minutes. By adopting this framework, your Minishell project can benefit from a more robust and efficient development workflow.
+Our CI/CD framework integrates [42_minishell_tester](https://github.com/LeaYeh/42_minishell_tester), significantly enhancing our testing capability by adding an extensive set of test cases. This not only expanded our test coverage but also accelerated the testing process by 3x, slashing the time from 15 minutes to just 5 minutes. By adopting this framework, your Minishell project can benefit from a more robust and efficient development workflow.
 
 ![gh_action_demo](/doc/images/gh_action_demo.gif)
 
