@@ -1,0 +1,44 @@
+# .github/workflows/lines_of_code.yaml
+name: Lines of Code
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lines_of_code:
+    name           : Lines of Code
+    runs-on        : ubuntu-latest
+    timeout-minutes: 2
+    steps          :
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Create lines of code badge
+        uses: shadowmoose/GHA-LoC-Badge@1.0.0
+        id  : badge
+        with:
+          directory  : ./
+          badge      : ./doc/images/lines_of_code.svg
+          patterns   : '*.c|*.h|Makefile|*.mk|*.py|*.yaml|*.sh|*.y|*.bnf'
+          badge_label: 'lines of code'
+          badge_color: purple
+          badge_style: flat
+          debug      : true
+
+      - name: Print the output
+        run : |
+          echo "Scanned: ${{ steps.badge.outputs.counted_files }}";
+          echo "Line Count: ${{ steps.badge.outputs.total_lines }}";
+
+      - name: Configure GitHub Actions bot
+        run : |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push badge
+        run : |
+          git add ${{ steps.badge.outputs.output_path }}
+          git commit -m "bot: Update lines of code badge [ignore]"
+          git push
