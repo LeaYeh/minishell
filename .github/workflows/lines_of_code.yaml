@@ -6,9 +6,12 @@ on :
     branches:
       - main
 env:
-  CLOC_DIR     : /home/runner/cloc
-  LINES_OF_CODE: 0
-  BADGE_COLOR  : 61A
+  ID            : lines_of_code
+  LABEL         : 'lines of code'
+  LANGUAGES     : 'C,C/C++ Header,make,YAML,Python,Bourne Shell,Bourne Again Shell,yacc,Markdown,Dockerfile'
+  BADGE_COLOR   : 61A
+  _CLOC_DIR     : /home/runner/cloc
+  _LINES_OF_CODE: 0
 
 jobs:
   lines_of_code:
@@ -21,22 +24,22 @@ jobs:
 
       - name: Install cloc
         run : |
-          git clone https://github.com/AlDanial/cloc.git ${{ env.CLOC_DIR }}
+          git clone https://github.com/AlDanial/cloc.git ${{ env._CLOC_DIR }}
 
       - name: 🧮 Count lines by language
         run : |
-          ${{ env.CLOC_DIR }}/cloc --fmt=2 --include-lang='C,C/C++ Header,make,YAML,Python,Bourne Shell,Bourne Again Shell,yacc,Markdown,Dockerfile' . | tee ${{ env.CLOC_DIR }}/cloc_output.txt
-          echo "LINES_OF_CODE=$(grep 'SUM' ${{ env.CLOC_DIR }}/cloc_output.txt | awk '{print $5}')" >> "$GITHUB_ENV"
+          ${{ env._CLOC_DIR }}/cloc --fmt=2 --include-lang="${{ env.LANGUAGES }}" . | tee ${{ env._CLOC_DIR }}/cloc_output.txt
+          echo "_LINES_OF_CODE=$(grep 'SUM' ${{ env._CLOC_DIR }}/cloc_output.txt | awk '{print $5}')" >> "$GITHUB_ENV"
 
       - name: 📑 Count lines by file
         run : |
-          ${{ env.CLOC_DIR }}/cloc --fmt=5 --include-lang='C,C/C++ Header,make,YAML,Python,Bourne Shell,Bourne Again Shell,yacc,Markdown,Dockerfile' .
+          ${{ env._CLOC_DIR }}/cloc --fmt=5 --include-lang="${{ env.LANGUAGES }}" .
 
       - name: Create badge
         uses: RubbaBoy/BYOB@v1
         with:
-          name        : lines_of_code
-          label       : 'lines of code'
-          status      : ${{ env.LINES_OF_CODE }}
-          color       : ${{ env.BADGE_COLOR }}
-          github_token: ${{ github.token }}
+          name        : "${{ env.ID }}"
+          label       : "${{ env.LABEL }}"
+          status      : "${{ env._LINES_OF_CODE }}"
+          color       : "${{ env.BADGE_COLOR }}"
+          github_token: "${{ github.token }}"
