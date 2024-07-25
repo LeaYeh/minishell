@@ -11,7 +11,7 @@
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/LeaYeh/minishell?label=version&style=flat&color=yellow)](https://github.com/LeaYeh/minishell/tags)
 
 [![Visits Badge](https://visitor-badge.laobi.icu/badge?page_id=LeaYeh.minishell&style=flat&right_color=navy)](https://github.com/LeaYeh/minishell)
-[![Lines of Code](https://byob.yarr.is/LeaYeh/minishell/lines_of_code)](https://github.com/LeaYeh/minishell/tree/main/source)
+[![Lines of Code](https://byob.yarr.is/LeaYeh/minishell/lines_of_code)](https://github.com/LeaYeh/minishell/actions/workflows/lines_of_code.yaml)
 [![GitHub](https://img.shields.io/github/license/LeaYeh/minishell?style=flat&color=darkred)](https://github.com/LeaYeh/minishell/blob/main/LICENSE)
 
 <br>
