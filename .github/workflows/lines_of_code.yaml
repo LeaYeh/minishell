@@ -1,10 +1,12 @@
 # .github/workflows/lines_of_code.yaml
 name: Lines of Code
 
-on:
+on :
   push:
     branches:
       - main
+env:
+  BADGE_COLOR: 61A
 
 jobs:
   lines_of_code:
@@ -23,8 +25,8 @@ jobs:
           badge      : ./doc/images/lines_of_code.svg
           patterns   : '**/*.c|**/*.h|**/Makefile|**/*.mk|**/*.py|**/*.yaml|**/*.sh|**/*.y|**/*.bnf'
           badge_label: 'lines of code'
-          badge_color: purple
-          badge_style: flat
+          badge_color: ${{ env.BADGE_COLOR }}
+          badge_style: classic
           debug      : true
 
       - name: Print the output
@@ -38,5 +40,5 @@ jobs:
           name        : lines_of_code
           label       : 'lines of code'
           status      : ${{ steps.loc.outputs.total_lines }}
-          color       : purple
+          color       : ${{ env.BADGE_COLOR }}
           github_token: ${{ github.token }}
