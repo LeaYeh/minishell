@@ -30,6 +30,7 @@ jobs:
         run : |
           ${{ env._CLOC_DIR }}/cloc --fmt=2 --include-lang="${{ env.LANGUAGES }}" . | tee ${{ env._CLOC_DIR }}/cloc_output.txt
           echo "_LINES_OF_CODE=$(grep 'SUM' ${{ env._CLOC_DIR }}/cloc_output.txt | awk '{print $5}')" >> "$GITHUB_ENV"
+          ${{ env._CLOC_DIR }}/cloc --md --include-lang="${{ env.LANGUAGES }}" . | tail -n +4 >> $GITHUB_STEP_SUMMARY
 
       - name: 📑 Count lines by file
         run : |
