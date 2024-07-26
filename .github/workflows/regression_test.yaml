@@ -5,7 +5,12 @@ on:
   workflow_call:
     inputs:
       test_mode:
+        description: Test mode (m, b, ne, d, a)
         required: true
+        type: string
+      test_name:
+        description: Name of the test
+        required: false
         type: string
     outputs:
       source_failed_count:
@@ -24,7 +29,7 @@ env:
 
 jobs:
   regression_test:
-    name: Regression Test
+    name: ${{ inputs.test_name }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:

@@ -91,30 +91,22 @@ jobs:
       - name: Combine memory leak test results
         run: echo "All memory leak tests finished"
 
-  mand_regression_test:
-    name: Mandatory Part Regression Test
+  regression_test:
+    name: Regression Test
     needs: compilation_test
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - test_mode: m
+            test_name: Mandatory Part
+          - test_mode: b
+            test_name: Bonus Part
+          - test_mode: ne
+            test_name: Empty Env
+          - test_mode: d
+            test_name: Hardcore
     uses: ./.github/workflows/regression_test.yaml
     with:
-      test_mode: 'm'
-
-  bonus_regression_test:
-    name: Bonus Part Regression Test
-    needs: compilation_test
-    uses: ./.github/workflows/regression_test.yaml
-    with:
-      test_mode: 'b'
-
-  empty_env_regression_test:
-    name: Empty Env Regression Test
-    needs: compilation_test
-    uses: ./.github/workflows/regression_test.yaml
-    with:
-      test_mode: 'ne'
-
-  hardcore_regression_test:
-    name: Hardcore Regression Test
-    needs: compilation_test
-    uses: ./.github/workflows/regression_test.yaml
-    with:
-      test_mode: 'd'
+      test_mode: ${{ matrix.test_mode }}
+      test_name: ${{ matrix.test_name }}
