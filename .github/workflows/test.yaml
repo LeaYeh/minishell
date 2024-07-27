@@ -76,7 +76,7 @@ jobs:
           GH_BRANCH: IGNORE
         continue-on-error: true
       - name: Save tester output to home directory
-        run: mv -f tester_output ${{ env.HOME }} || true
+        run: mv -f tester_output* ${{ env.HOME }}/tester_output || true
       - name: 📝 Print all test cases that leaked on source branch
         run: ${{ env.SCRIPTS_DIR }}/print_leak_test_cases.sh
         env:
