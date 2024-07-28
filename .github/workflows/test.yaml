@@ -31,6 +31,14 @@ jobs:
       - name: 🔨 Compile with Makefile
         run: make CC="${{ matrix.compiler }}"
 
+  combine_compilation_test_results:
+    name: Combine Compilation Test Results
+    needs: compilation_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Combine compilation test results
+        run: echo "All compilation tests finished"
+
   prepare_test_matrix:
     name: Prepare Test Matrix
     needs: compilation_test
@@ -85,7 +93,7 @@ jobs:
 
   combine_memory_leak_test_results:
     name: Combine Memory Leak Test Results
-    needs: [memory_leak_test]
+    needs: memory_leak_test
     runs-on: ubuntu-latest
     steps:
       - name: Combine memory leak test results
@@ -110,3 +118,11 @@ jobs:
     with:
       test_mode: ${{ matrix.test_mode }}
       test_name: ${{ matrix.test_name }}
+
+  combine_regression_test_results:
+    name: Combine Regression Test Results
+    needs: regression_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Combine regression test results
+        run: echo "All regression tests finished"
