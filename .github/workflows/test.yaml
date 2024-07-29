@@ -64,6 +64,9 @@ jobs:
       fail-fast: false
       matrix:
         test_script: ${{ fromJson(needs.prepare_test_matrix.outputs.test_matrix) }}
+    env:
+      TESTER_OUTPUT_DIR: /home/runner/tester_output
+      LOG_FILE: /home/runner/leak_test.log
     steps:
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
@@ -82,17 +85,14 @@ jobs:
       - name: 🔍 Check memory leaks
         run: |
           make re CC=clang-12
-          ${{ env.TESTER_DIR }}/tester.sh --no-update va > ${{ env.HOME }}/leak_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh --no-update va > ${{ env.LOG_FILE }}
         env:
           GH_BRANCH: IGNORE
         continue-on-error: true
-      - name: Save tester output to home directory
-        run: mv -f tester_output* ${{ env.HOME }}/tester_output || true
+      - name: Save tester output
+        run: mv -f tester_output* ${{ env.TESTER_OUTPUT_DIR }} || true
       - name: 📝 Print all test cases that leaked on source branch
         run: ${{ env.SCRIPTS_DIR }}/print_leak_test_cases.sh
-        env:
-          RESULT_FILE: ${{ env.HOME }}/leak_result.txt
-          TESTER_OUTPUT_DIR: ${{ env.HOME }}/tester_output
 
   combine_memory_leak_test_results:
     name: Combine Memory Leak Test Results

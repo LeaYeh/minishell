@@ -1,9 +1,9 @@
 #!/bin/bash
 
-test_output=$(cat "$RESULT_FILE")
+test_log=$(cat "$LOG_FILE")
 result=0
 
-# Extract line numbers and file paths from test output
+# Extract line numbers and file paths from test log
 while IFS= read -r line; do
   if [[ $line == *"❌"* ]]; then
     echo "$line"
@@ -19,4 +19,4 @@ while IFS= read -r line; do
   if [[ $result -ne 0 ]]; then
     echo "$line"
   fi
-done <<< "$test_output"
+done <<< "$test_log"
