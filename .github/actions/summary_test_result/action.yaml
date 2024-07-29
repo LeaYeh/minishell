@@ -25,18 +25,14 @@ inputs:
     description: Directory containing the scripts for analyzing the test results
     required: true
 
-env:
-  SOURCE_LOG_FILE: ${{ inputs.source_log_file }}
-  TARGET_LOG_FILE: ${{ inputs.target_log_file }}
-  TESTER_DIR: ${{ inputs.tester_dir }}
-  TESTER_OUTPUT_DIR: ${{ inputs.tester_output_dir }}
-  SCRIPTS_DIR: ${{ inputs.scripts_dir }}
-
 runs:
   using: composite
   steps:
     - name: 🆚 Compare failed count
       id: comparison
+      env:
+        SOURCE_FAILED_COUNT: ${{ inputs.source_failed_count }}
+        TARGET_FAILED_COUNT: ${{ inputs.target_failed_count }}
       run: |
         echo -e "\e[93m🌱 SOURCE_FAILED_COUNT: ${{ inputs.source_failed_count }}\e[0m"
         echo -e "\e[94m🎯 TARGET_FAILED_COUNT: ${{ inputs.target_failed_count }}\e[0m"
@@ -52,8 +48,16 @@ runs:
     - name: 📈 Show the regressions between source and target branch
       if: steps.comparison.outcome == 'failure'
       run: ${{ inputs.scripts_dir }}/print_changed_test_cases.sh
+      env:
+        TESTER_DIR: ${{ inputs.tester_dir }}
+        TESTER_OUTPUT_DIR: ${{ inputs.tester_output_dir }}
+        SCRIPTS_DIR: ${{ inputs.scripts_dir }}
       shell: bash
     - name: 📉 Show the improvements between source and target branch
       if: steps.comparison.outcome == 'success'
       run: ${{ inputs.scripts_dir }}/print_changed_test_cases.sh || true
+      env:
+        TESTER_DIR: ${{ inputs.tester_dir }}
+        TESTER_OUTPUT_DIR: ${{ inputs.tester_output_dir }}
+        SCRIPTS_DIR: ${{ inputs.scripts_dir }}
       shell: bash
