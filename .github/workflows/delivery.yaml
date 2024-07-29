@@ -7,14 +7,39 @@ on:
       - 'v*'
 
 jobs:
-  update_evaluation_branch:
+  check_tag_version:
+    name: Check Tag Version
     runs-on: ubuntu-latest
-    env:
-      PROCEED:
-      MAIN_TAG:
-
+    outputs:
+      main_tag: ${{ steps.check_new_version.outputs.main_tag }}
+      is_new_version: ${{ steps.check_new_version.outputs.is_new_version }}
     steps:
-    - name: Checkout code
+    - name: Checkout tag
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Check if new version
+      id: check_new_version
+      run: |
+        main_tag=$(git tag --sort=-creatordate --merged origin/main 2>/dev/null | head -n 1) || true
+        eval_tag=$(git tag --sort=-creatordate --no-merged origin/main 2>/dev/null | head -n 1) || true
+        echo "MAIN_TAG: $main_tag"
+        echo "EVAL_TAG: $eval_tag"
+        echo "main_tag=$main_tag" >> $GITHUB_OUTPUT
+        if [[ "$main_tag" > "$eval_tag" ]]; then
+          echo "is_new_version=true" >> $GITHUB_OUTPUT
+        else
+          echo "is_new_version=false" >> $GITHUB_OUTPUT
+        fi
+
+  update_evaluation_branch:
+    name: Update Evaluation Branch
+    needs: check_tag_version
+    if: needs.check_tag_version.outputs.is_new_version == 'true'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout tag
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
@@ -24,63 +49,41 @@ jobs:
         git config --local user.email "lyeh@student.42vienna.com"
         git config --local user.name "Lea Yeh"
 
-    - name: Check tag version
-      run: |
-        main_tag=$(git tag --sort=-creatordate --merged origin/main 2>/dev/null | head -n 1) || true
-        eval_tag=$(git tag --sort=-creatordate --no-merged origin/main 2>/dev/null | head -n 1) || true
-        echo "MAIN_TAG: $main_tag"
-        echo "EVAL_TAG: $eval_tag"
-        echo MAIN_TAG=$main_tag >> "$GITHUB_ENV"
-        if [[ "$main_tag" > "$eval_tag" ]]; then
-          echo "PROCEED=true" >> "$GITHUB_ENV"
-        else
-          echo "PROCEED=false" >> "$GITHUB_ENV"
-        fi
-
     - name: Save .github directory
-      if: env.PROCEED == 'true'
       run: |
         cp -rf .github ~/.github
 
     - name: Setup evaluation branch
-      if: env.PROCEED == 'true'
       run: |
         git checkout -b evaluation origin/evaluation || git checkout -b evaluation
         git merge origin/main || (git checkout --theirs . && git add -A)
 
     - name: Restore .github directory
-      if: env.PROCEED == 'true'
       run: |
         rm -rf .github
         mv ~/.github .github
 
     - name: Partial cleanup of forbidden files
-      if: env.PROCEED == 'true'
       uses: ./.github/actions/cleanup_partial
 
     - name: Commit partial cleanup to evaluation branch
-      if: env.PROCEED == 'true'
       run: |
         git add -A
         git commit -m "[GH-BOT] Remove forbidden files and empty folders"
 
     - name: 📏 Check norminette
-      if: env.PROCEED == 'true'
       uses: ./.github/actions/norminette
 
     - name: Full cleanup of forbidden files
-      if: env.PROCEED == 'true'
       uses: ./.github/actions/cleanup_full
 
     - name: Amend full cleanup to evaluation branch
-      if: env.PROCEED == 'true'
       run: |
         git add -A
         git commit --amend --no-edit
 
     - name: 🏷️ Set version tag on evaluation branch
-      if: env.PROCEED == 'true'
       run: |
-        eval_tag="${{ env.MAIN_TAG }}-eval"
+        eval_tag="${{ needs.check_tag_version.outputs.main_tag }}-eval"
         git tag "$eval_tag"
         git push origin evaluation "$eval_tag"
