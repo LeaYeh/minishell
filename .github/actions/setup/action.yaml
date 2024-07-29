@@ -1,6 +1,15 @@
 # .github/actions/setup/action.yaml
 name: Set Up Test Environment Action
 description: Setup action
+
+inputs:
+  tester_dir:
+    description: Directory where the tester will be installed to
+    required: false
+  scripts_dir:
+    description: Directory where the scripts for analyzing the test results will be copied to
+    required: false
+
 runs:
   using: composite
   steps:
@@ -17,9 +26,13 @@ runs:
       shell: bash
     - run: env --list-signal-handling bash
       shell: bash
-    - run: |
-        git clone https://github.com/LeaYeh/42_minishell_tester.git ${{ env.TESTER_DIR }}
-        chmod +x ${{ env.TESTER_DIR }}/tester.sh
+    - if: inputs.tester_dir
+      run: |
+        git clone https://github.com/LeaYeh/42_minishell_tester.git ${{ inputs.tester_dir }}
+        chmod +x ${{ inputs.tester_dir }}/tester.sh
+      shell: bash
+    - if: inputs.scripts_dir
+      run: |
         find .github/scripts -type f -name "*.sh" -exec chmod +x {} \;
-        cp -r .github/scripts ${{ env.SCRIPTS_DIR }}
+        cp -r .github/scripts ${{ inputs.scripts_dir }}
       shell: bash
