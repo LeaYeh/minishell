@@ -41,6 +41,9 @@ jobs:
 
       - name: Set up test environment
         uses: ./.github/actions/setup
+        with:
+          tester_dir: ${{ env.TESTER_DIR }}
+          scripts_dir: ${{ env.SCRIPTS_DIR }}
 
       - name: 🌱 Test source branch of pull request
         run: |
