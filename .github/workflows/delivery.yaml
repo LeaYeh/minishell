@@ -10,8 +10,8 @@ jobs:
   update_evaluation_branch:
     runs-on: ubuntu-latest
     env:
-      proceed:
-      main_tag:
+      PROCEED:
+      MAIN_TAG:
 
     steps:
     - name: Checkout code
@@ -26,61 +26,61 @@ jobs:
 
     - name: Check tag version
       run: |
-        MAIN_TAG=$(git tag --sort=-creatordate --merged origin/main 2>/dev/null | head -n 1) || true
-        EVAL_TAG=$(git tag --sort=-creatordate --no-merged origin/main 2>/dev/null | head -n 1) || true
-        echo "MAIN_TAG: $MAIN_TAG"
-        echo "EVAL_TAG: $EVAL_TAG"
-        echo main_tag=$MAIN_TAG >> "$GITHUB_ENV"
-        if [[ "$MAIN_TAG" > "$EVAL_TAG" ]]; then
-          echo "proceed=true" >> "$GITHUB_ENV"
+        main_tag=$(git tag --sort=-creatordate --merged origin/main 2>/dev/null | head -n 1) || true
+        eval_tag=$(git tag --sort=-creatordate --no-merged origin/main 2>/dev/null | head -n 1) || true
+        echo "MAIN_TAG: $main_tag"
+        echo "EVAL_TAG: $eval_tag"
+        echo MAIN_TAG=$main_tag >> "$GITHUB_ENV"
+        if [[ "$main_tag" > "$eval_tag" ]]; then
+          echo "PROCEED=true" >> "$GITHUB_ENV"
         else
-          echo "proceed=false" >> "$GITHUB_ENV"
+          echo "PROCEED=false" >> "$GITHUB_ENV"
         fi
 
     - name: Save .github directory
-      if: env.proceed == 'true'
+      if: env.PROCEED == 'true'
       run: |
         cp -rf .github ~/.github
 
     - name: Setup evaluation branch
-      if: env.proceed == 'true'
+      if: env.PROCEED == 'true'
       run: |
         git checkout -b evaluation origin/evaluation || git checkout -b evaluation
         git merge origin/main || (git checkout --theirs . && git add -A)
 
     - name: Restore .github directory
-      if: env.proceed == 'true'
+      if: env.PROCEED == 'true'
       run: |
         rm -rf .github
         mv ~/.github .github
 
     - name: Partial cleanup of forbidden files
-      if: env.proceed == 'true'
+      if: env.PROCEED == 'true'
       uses: ./.github/actions/cleanup_partial
 
     - name: Commit partial cleanup to evaluation branch
-      if: env.proceed == 'true'
+      if: env.PROCEED == 'true'
       run: |
         git add -A
         git commit -m "[GH-BOT] Remove forbidden files and empty folders"
 
     - name: 📏 Check norminette
-      if: env.proceed == 'true'
+      if: env.PROCEED == 'true'
       uses: ./.github/actions/norminette
 
     - name: Full cleanup of forbidden files
-      if: env.proceed == 'true'
+      if: env.PROCEED == 'true'
       uses: ./.github/actions/cleanup_full
 
     - name: Amend full cleanup to evaluation branch
-      if: env.proceed == 'true'
+      if: env.PROCEED == 'true'
       run: |
         git add -A
         git commit --amend --no-edit
 
     - name: 🏷️ Set version tag on evaluation branch
-      if: env.proceed == 'true'
+      if: env.PROCEED == 'true'
       run: |
-        EVAL_TAG="${{ env.main_tag }}-eval"
-        git tag "$EVAL_TAG"
-        git push origin evaluation "$EVAL_TAG"
+        eval_tag="${{ env.MAIN_TAG }}-eval"
+        git tag "$eval_tag"
+        git push origin evaluation "$eval_tag"
