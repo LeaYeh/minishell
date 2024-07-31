@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/07/31 02:22:58 by ldulling         ###   ########.fr        #
+#    Updated: 2024/07/31 02:23:16 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,7 +126,7 @@ export				CC CFLAGS MAKECMDGOALS MAKEFLAGS
 
 PHONY_TARGETS	:=	all fast run san val noenv valfd help build lib waitforlib \
 					clean fclean ffclean re
-HELP_TARGETS	:=	help \
+HELP_TARGETS	:=	help help-print \
 					$(addprefix help-,$(PHONY_TARGETS)) \
 					$(addsuffix -help,$(PHONY_TARGETS))
 PHONY_TARGETS	+=	$(HELP_TARGETS)
@@ -247,6 +247,7 @@ help			:
 
 help-help		:
 					echo "Display more information for a specific target by appending or prepending help."
+					echo "Usage: make help-<target> | make <target>-help"
 
 %-help:
 					$(MAKE) help-$(subst -help,,$@)
@@ -393,7 +394,10 @@ MSG_FAILURE		:=	$(STY_BOL)$(STY_ITA)$(STY_RED)"BUILD FAILED!"$(STY_RES)
 
 # *************************** MAKEFILE DEBUGGING ***************************** #
 
-#	Execute "make print-[variable name]" to list the variable's values
+help-print		:
+					echo "Print the value of a Makefile variable by appending the variable name to print-."
+					echo "Useful for Makefile debugging."
+					echo "Usage: make print-<variable name>"
 
 print-%			:
 					echo $* = $($*)
