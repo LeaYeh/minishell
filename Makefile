@@ -122,6 +122,8 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
+export				CC CFLAGS MAKECMDGOALS MAKEFLAGS
+
 PHONY_TARGETS	:=	all fast run san val noenv valfd help build lib waitforlib \
 					clean fclean ffclean re
 HELP_TARGETS	:=	help \
@@ -259,8 +261,6 @@ endif
 
 
 #	Library compilation
-
-export				CC CFLAGS MAKECMDGOALS MAKEFLAGS
 
 lib				:
 					$(MAKE) -C $(LIBRARIES)
