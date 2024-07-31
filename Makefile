@@ -131,7 +131,7 @@ HELP_TARGETS	:=	help help-print \
 					$(addsuffix -help,$(PHONY_TARGETS))
 PHONY_TARGETS	+=	$(HELP_TARGETS)
 
-.PHONY			:	$(PHONY_TARGETS)
+export .PHONY	:	$(PHONY_TARGETS)
 
 .DEFAULT		:
 					$(MAKE) help
