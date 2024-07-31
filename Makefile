@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/07/31 02:14:58 by ldulling         ###   ########.fr        #
+#    Updated: 2024/07/31 02:22:58 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,8 +136,14 @@ PHONY_TARGETS	+=	$(HELP_TARGETS)
 .DEFAULT		:
 					$(MAKE) help
 
+.DEFAULT_GOAL	:=	all
+
 
 #	Compilation
+
+help-all		:
+					echo "Build the project."
+					echo "This is the default target when no target is specified."
 
 all				:
 					if $(MAKE) --question build; then \
@@ -157,63 +163,49 @@ all				:
 						fi; \
 					fi
 
-help-all		:
-					echo "Build the project."
-					echo "This is the default target when no target is specified."
-
-
-fast			:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_OPT)
-fast			:	re
-					$(MAKE) clean
 
 help-fast		:
 					echo "Build the project with the following compiler optimization flags:"
 					echo "  $(CFLAGS_OPT)"
 
+fast			:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_OPT)
+fast			:	re
+					$(MAKE) clean
 
-run				:	all
-					"./$(NAME)"
 
 help-run		:
 					echo "Build the project and run the executable."
 
-
-san				:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_DBG) $(CFLAGS_SAN)
-san				:	re
-					$(MAKE) clean
+run				:	all
 					"./$(NAME)"
+
 
 help-san		:
 					echo "Rebuild the project with sanitizers enabled and run the executable."
 					echo "The following sanitizers are enabled:"
 					echo "  $(CFLAGS_SAN)"
 
+san				:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_DBG) $(CFLAGS_SAN)
+san				:	re
+					$(MAKE) clean
+					"./$(NAME)"
 
-val				:	all
-					$(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
 help-val		:
 					echo "Build the project and run the executable with valgrind."
 					echo "The following valgrind flags are used:"
 					echo "$(VALGRINDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
 
+val				:	all
+					$(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
-noenv			:	all
-					env -i $(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
 help-noenv		:
 					echo "Build and run the project with valgrind and with empty environment (env -i)."
 
+noenv			:	all
+					env -i $(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
-valfd			:	all
-ifneq ($(TERMINAL),)
-					$(TERMINAL) $(TERMINALFLAGS) \
-					"bash --posix -c 'trap \"\" SIGINT ; \
-					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME) ; \
-					exec bash --posix'"
-else
-					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) "./$(NAME)"
-endif
 
 help-valfd		:
 					echo "Build and run the project with valgrind and file descriptor tracking."
@@ -221,6 +213,16 @@ help-valfd		:
 					echo "$(VALGRINDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
 					echo "File descriptor specific flags:"
 					echo "$(VALGRINDFDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
+
+valfd			:	all
+ifneq ($(TERMINAL),)
+					$(TERMINAL) $(TERMINALFLAGS) \
+						"bash --posix -c 'trap \"\" SIGINT; \
+						$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME); \
+						exec bash --posix'"
+else
+					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) "./$(NAME)"
+endif
 
 
 help			:
@@ -284,8 +286,7 @@ $(OBJ_DIR)/%.o	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
 #	Pre-processing and dependency file creation
 
 $(DEP_DIR)/%.d	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(DEP_SUBDIRS)
-					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) \
-						-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
+					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
 
 
 #	Mirror directory structure of source files for build artifacts
@@ -297,6 +298,9 @@ $(DEP_SUBDIRS)	:
 
 #	Cleaning
 
+help-clean		:
+					echo "Remove build artifacts."
+
 clean			:
 					$(MAKE) clean -C $(LIBRARIES)
 					rm -f $(OBJ) $(DEP)
@@ -307,31 +311,28 @@ ifneq (,$(wildcard $(DEP_DIR)))
 					-find $(DEP_DIR) -type d -empty -delete
 endif
 
-help-clean		:
-					echo "Remove build artifacts."
 
+help-fclean		:
+					echo "Remove build artifacts and the executable."
 
 fclean			:	clean
 					$(MAKE) fclean -C $(LIBRARIES)
 					rm -f $(NAME)
 
-help-fclean		:
-					echo "Remove build artifacts and the executable."
-
-
-ffclean			:	fclean
-					rm -rf $(OBJ_DIR) $(DEP_DIR)
 
 help-ffclean	:
 					echo "Remove build artifacts and the executable without checking for unknown files."
 
+ffclean			:	fclean
+					rm -rf $(OBJ_DIR) $(DEP_DIR)
+
+
+help-re			:
+					echo "Rebuild the project."
 
 re				:
 					$(MAKE) fclean
 					$(MAKE) all
-
-help-re			:
-					echo "Rebuild the project."
 
 
 #	Include dependency files
