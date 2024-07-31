@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/07/02 17:06:11 by ldulling         ###   ########.fr        #
+#    Updated: 2024/07/31 02:14:58 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,9 +49,8 @@ CFLAGS_SAN		:=	-fsanitize=address,undefined,bounds,float-divide-by-zero
 CFLAGS_OPT		:=	-O3
 CFLAGS 			?=	$(CFLAGS_STD) $(CFLAGS_DBG)
 INCFLAGS 		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
-LIBFLAGS		:=	$(addprefix -L,$(LIBRARIES)) \
-					$(addprefix -l,$(patsubst lib%,%,$(notdir \
-					$(LIBRARIES) $(LIBRARIES_EXT))))
+LDFLAGS			:=	$(addprefix -L,$(LIBRARIES))
+LDLIBS			:=	$(addprefix -l,$(patsubst lib%,%,$(notdir $(LIBRARIES) $(LIBRARIES_EXT))))
 MAKEFLAGS		:=	-j -s
 
 
@@ -272,7 +271,7 @@ waitforlib		:	lib
 #	Executable linking
 
 $(NAME)			:	$(LIBRARIES) $(OBJ)
-					$(CC) $(CFLAGS) $(INCFLAGS) $(OBJ) $(LIBFLAGS) -o $(NAME)
+					$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $(NAME)
 
 
 #	Source file compiling
