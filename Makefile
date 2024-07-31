@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/07/31 02:23:16 by ldulling         ###   ########.fr        #
+#    Updated: 2024/07/31 09:20:27 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -124,7 +124,7 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 export				CC CFLAGS MAKECMDGOALS MAKEFLAGS
 
-PHONY_TARGETS	:=	all fast run san val noenv valfd help build lib waitforlib \
+PHONY_TARGETS	:=	all opt run san val noenv valfd help build lib waitforlib \
 					clean fclean ffclean re
 HELP_TARGETS	:=	help help-print \
 					$(addprefix help-,$(PHONY_TARGETS)) \
@@ -164,12 +164,12 @@ all				:
 					fi
 
 
-help-fast		:
+help-opt		:
 					echo "Build the project with the following compiler optimization flags:"
 					echo "  $(CFLAGS_OPT)"
 
-fast			:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_OPT)
-fast			:	re
+opt				:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_OPT)
+opt				:	re
 					$(MAKE) clean
 
 
@@ -230,7 +230,7 @@ help			:
 					echo
 					echo "Targets:"
 					echo "  all      - Build the project (default target)"
-					echo "  fast     - Build the project with optimizations"
+					echo "  opt      - Build the project with optimizations"
 					echo "  run      - Build and run the project"
 					echo "  san      - Build and run the project with sanitizers"
 					echo "  val      - Build and run the project with valgrind"
