@@ -1,6 +1,6 @@
 #!/bin/bash
 
-diff_output=$(diff "$HOME/target_test_result.txt" "$HOME/source_test_result.txt" || true)
+diff_output=$(diff "$TARGET_LOG_FILE" "$SOURCE_LOG_FILE" || true)
 
 # Extract line numbers and file paths from diff output
 while IFS= read -r line; do

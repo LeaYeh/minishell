@@ -1,16 +1,42 @@
 # .github/actions/summary_test_result/action.yaml
 name: Test Result Summary Action
 description: Compares failed counts between source and target branches
+
+inputs:
+  source_failed_count:
+    description: Number of failed test cases on source branch
+    required: true
+  target_failed_count:
+    description: Number of failed test cases on target branch
+    required: true
+  source_log_file:
+    description: Path to the log file for the source branch
+    required: true
+  target_log_file:
+    description: Path to the log file for the target branch
+    required: true
+  tester_dir:
+    description: Directory containing the tester
+    required: true
+  tester_output_dir:
+    description: Directory containing the tester output files
+    required: true
+  scripts_dir:
+    description: Directory containing the scripts for analyzing the test results
+    required: true
+
 runs:
   using: composite
   steps:
-      # Requires SOURCE_FAILED_COUNT and TARGET_FAILED_COUNT environment variables
     - name: 🆚 Compare failed count
       id: comparison
+      env:
+        SOURCE_FAILED_COUNT: ${{ inputs.source_failed_count }}
+        TARGET_FAILED_COUNT: ${{ inputs.target_failed_count }}
       run: |
-        echo -e "\e[93m🌱 SOURCE_FAILED_COUNT: $SOURCE_FAILED_COUNT\e[0m"
-        echo -e "\e[94m🎯 TARGET_FAILED_COUNT: $TARGET_FAILED_COUNT\e[0m"
-        if [ $SOURCE_FAILED_COUNT -gt $TARGET_FAILED_COUNT ]; then
+        echo -e "\e[93m🌱 SOURCE_FAILED_COUNT: ${{ inputs.source_failed_count }}\e[0m"
+        echo -e "\e[94m🎯 TARGET_FAILED_COUNT: ${{ inputs.target_failed_count }}\e[0m"
+        if [ ${{ inputs.source_failed_count }} -gt ${{ inputs.target_failed_count }} ]; then
           echo -e "\e[1;31mSOURCE_FAILED_COUNT is greater than TARGET_FAILED_COUNT\e[0m"
           exit 1
         else
@@ -19,13 +45,19 @@ runs:
         fi
       continue-on-error: true
       shell: bash
-      # Requires TESTER_OUTPUT_DIR environment variable
     - name: 📈 Show the regressions between source and target branch
       if: steps.comparison.outcome == 'failure'
-      run: ${{ env.SCRIPTS_DIR }}/print_changed_test_cases.sh
+      run: ${{ inputs.scripts_dir }}/print_changed_test_cases.sh
+      env:
+        TESTER_DIR: ${{ inputs.tester_dir }}
+        TESTER_OUTPUT_DIR: ${{ inputs.tester_output_dir }}
+        SCRIPTS_DIR: ${{ inputs.scripts_dir }}
       shell: bash
-      # Requires TESTER_OUTPUT_DIR environment variable
     - name: 📉 Show the improvements between source and target branch
       if: steps.comparison.outcome == 'success'
-      run: ${{ env.SCRIPTS_DIR }}/print_changed_test_cases.sh || true
+      run: ${{ inputs.scripts_dir }}/print_changed_test_cases.sh || true
+      env:
+        TESTER_DIR: ${{ inputs.tester_dir }}
+        TESTER_OUTPUT_DIR: ${{ inputs.tester_output_dir }}
+        SCRIPTS_DIR: ${{ inputs.scripts_dir }}
       shell: bash
