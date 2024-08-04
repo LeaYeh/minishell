@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/07/02 17:06:11 by ldulling         ###   ########.fr        #
+#    Updated: 2024/07/31 09:20:27 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,9 +49,8 @@ CFLAGS_SAN		:=	-fsanitize=address,undefined,bounds,float-divide-by-zero
 CFLAGS_OPT		:=	-O3
 CFLAGS 			?=	$(CFLAGS_STD) $(CFLAGS_DBG)
 INCFLAGS 		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
-LIBFLAGS		:=	$(addprefix -L,$(LIBRARIES)) \
-					$(addprefix -l,$(patsubst lib%,%,$(notdir \
-					$(LIBRARIES) $(LIBRARIES_EXT))))
+LDFLAGS			:=	$(addprefix -L,$(LIBRARIES))
+LDLIBS			:=	$(addprefix -l,$(patsubst lib%,%,$(notdir $(LIBRARIES) $(LIBRARIES_EXT))))
 MAKEFLAGS		:=	-j -s
 
 
@@ -123,20 +122,28 @@ DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 # ***************************** BUILD PROCESS ******************************** #
 
-PHONY_TARGETS	:=	all fast run san val noenv valfd help build lib waitforlib \
+export				CC CFLAGS MAKECMDGOALS MAKEFLAGS
+
+PHONY_TARGETS	:=	all opt run san val noenv valfd help build lib waitforlib \
 					clean fclean ffclean re
-HELP_TARGETS	:=	help \
+HELP_TARGETS	:=	help help-print \
 					$(addprefix help-,$(PHONY_TARGETS)) \
 					$(addsuffix -help,$(PHONY_TARGETS))
 PHONY_TARGETS	+=	$(HELP_TARGETS)
 
-.PHONY			:	$(PHONY_TARGETS)
+export .PHONY	:	$(PHONY_TARGETS)
 
 .DEFAULT		:
 					$(MAKE) help
 
+.DEFAULT_GOAL	:=	all
+
 
 #	Compilation
+
+help-all		:
+					echo "Build the project."
+					echo "This is the default target when no target is specified."
 
 all				:
 					if $(MAKE) --question build; then \
@@ -156,63 +163,49 @@ all				:
 						fi; \
 					fi
 
-help-all		:
-					echo "Build the project."
-					echo "This is the default target when no target is specified."
 
-
-fast			:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_OPT)
-fast			:	re
-					$(MAKE) clean
-
-help-fast		:
+help-opt		:
 					echo "Build the project with the following compiler optimization flags:"
 					echo "  $(CFLAGS_OPT)"
 
+opt				:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_OPT)
+opt				:	re
+					$(MAKE) clean
 
-run				:	all
-					"./$(NAME)"
 
 help-run		:
 					echo "Build the project and run the executable."
 
-
-san				:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_DBG) $(CFLAGS_SAN)
-san				:	re
-					$(MAKE) clean
+run				:	all
 					"./$(NAME)"
+
 
 help-san		:
 					echo "Rebuild the project with sanitizers enabled and run the executable."
 					echo "The following sanitizers are enabled:"
 					echo "  $(CFLAGS_SAN)"
 
+san				:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_DBG) $(CFLAGS_SAN)
+san				:	re
+					$(MAKE) clean
+					"./$(NAME)"
 
-val				:	all
-					$(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
 help-val		:
 					echo "Build the project and run the executable with valgrind."
 					echo "The following valgrind flags are used:"
 					echo "$(VALGRINDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
 
+val				:	all
+					$(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
-noenv			:	all
-					env -i $(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
 help-noenv		:
 					echo "Build and run the project with valgrind and with empty environment (env -i)."
 
+noenv			:	all
+					env -i $(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
 
-valfd			:	all
-ifneq ($(TERMINAL),)
-					$(TERMINAL) $(TERMINALFLAGS) \
-					"bash --posix -c 'trap \"\" SIGINT ; \
-					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME) ; \
-					exec bash --posix'"
-else
-					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) "./$(NAME)"
-endif
 
 help-valfd		:
 					echo "Build and run the project with valgrind and file descriptor tracking."
@@ -221,13 +214,23 @@ help-valfd		:
 					echo "File descriptor specific flags:"
 					echo "$(VALGRINDFDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
 
+valfd			:	all
+ifneq ($(TERMINAL),)
+					$(TERMINAL) $(TERMINALFLAGS) \
+						"bash --posix -c 'trap \"\" SIGINT; \
+						$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME); \
+						exec bash --posix'"
+else
+					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) "./$(NAME)"
+endif
+
 
 help			:
 					echo "Usage: make [target]"
 					echo
 					echo "Targets:"
 					echo "  all      - Build the project (default target)"
-					echo "  fast     - Build the project with optimizations"
+					echo "  opt      - Build the project with optimizations"
 					echo "  run      - Build and run the project"
 					echo "  san      - Build and run the project with sanitizers"
 					echo "  val      - Build and run the project with valgrind"
@@ -244,6 +247,7 @@ help			:
 
 help-help		:
 					echo "Display more information for a specific target by appending or prepending help."
+					echo "Usage: make help-<target> | make <target>-help"
 
 %-help:
 					$(MAKE) help-$(subst -help,,$@)
@@ -261,8 +265,6 @@ endif
 
 #	Library compilation
 
-export				CC CFLAGS MAKECMDGOALS MAKEFLAGS
-
 lib				:
 					$(MAKE) -C $(LIBRARIES)
 
@@ -272,7 +274,7 @@ waitforlib		:	lib
 #	Executable linking
 
 $(NAME)			:	$(LIBRARIES) $(OBJ)
-					$(CC) $(CFLAGS) $(INCFLAGS) $(OBJ) $(LIBFLAGS) -o $(NAME)
+					$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $(NAME)
 
 
 #	Source file compiling
@@ -285,8 +287,7 @@ $(OBJ_DIR)/%.o	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
 #	Pre-processing and dependency file creation
 
 $(DEP_DIR)/%.d	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(DEP_SUBDIRS)
-					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) \
-						-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
+					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
 
 
 #	Mirror directory structure of source files for build artifacts
@@ -298,6 +299,9 @@ $(DEP_SUBDIRS)	:
 
 #	Cleaning
 
+help-clean		:
+					echo "Remove build artifacts."
+
 clean			:
 					$(MAKE) clean -C $(LIBRARIES)
 					rm -f $(OBJ) $(DEP)
@@ -308,31 +312,28 @@ ifneq (,$(wildcard $(DEP_DIR)))
 					-find $(DEP_DIR) -type d -empty -delete
 endif
 
-help-clean		:
-					echo "Remove build artifacts."
 
+help-fclean		:
+					echo "Remove build artifacts and the executable."
 
 fclean			:	clean
 					$(MAKE) fclean -C $(LIBRARIES)
 					rm -f $(NAME)
 
-help-fclean		:
-					echo "Remove build artifacts and the executable."
-
-
-ffclean			:	fclean
-					rm -rf $(OBJ_DIR) $(DEP_DIR)
 
 help-ffclean	:
 					echo "Remove build artifacts and the executable without checking for unknown files."
 
+ffclean			:	fclean
+					rm -rf $(OBJ_DIR) $(DEP_DIR)
+
+
+help-re			:
+					echo "Rebuild the project."
 
 re				:
 					$(MAKE) fclean
 					$(MAKE) all
-
-help-re			:
-					echo "Rebuild the project."
 
 
 #	Include dependency files
@@ -393,7 +394,10 @@ MSG_FAILURE		:=	$(STY_BOL)$(STY_ITA)$(STY_RED)"BUILD FAILED!"$(STY_RES)
 
 # *************************** MAKEFILE DEBUGGING ***************************** #
 
-#	Execute "make print-[variable name]" to list the variable's values
+help-print		:
+					echo "Print the value of a Makefile variable by appending the variable name to print-."
+					echo "Useful for Makefile debugging."
+					echo "Usage: make print-<variable name>"
 
 print-%			:
 					echo $* = $($*)
