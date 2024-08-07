@@ -65,7 +65,7 @@ This project goes beyond merely crafting a new shell from scratch; it endeavors 
 |            |             |                        | Support logical `AND` `&&`.                                                                              | ✅     |
 |            |             |                        | Support logical `OR` `\|\|`.                                                                             | ✅     |
 |            |             |                        | Support sequential operator `;`.                                                                         | 🛇     |
-|            |             |                        | Support left and right brackets `()` for `SUBSHELL`.                                                     | ✅     |
+|            |             |                        | Support left and right parentheses `()` for `SUBSHELL`.                                                  | ✅     |
 |            |             |                        | Support `WORD` representing basic words.                                                                 | ✅     |
 |            |             |                        | Recognize `ASSIGNMENT_WORD` `=` for local variable assignments.                                          | ✅     |
 | Frontend   | Parser      | Syntax Analysis        | Analyze syntax of token list and report syntax errors based on Shift-Reduce algorithm with predefined grammar rules and then output as command table list. | ✅     |
@@ -299,8 +299,8 @@ In addition to the mandatory parts, in this project, we implemented all function
 * `APPEND`: This token type represents append redirection, indicating that the output should be appended to a file rather than overwriting it.
 * `OR`: This token type represents the logical OR operator, typically used in conditional statements or command chaining.
 * `AND`: This token type represents the logical AND operator, also used in conditional statements or command chaining.
-* `L_BRACKET`: This token type represents a left bracket, which may be used to denote the start of a group or condition in certain contexts.
-* `R_BRACKET`: This token type represents a right bracket, used to denote the end of a group or condition in corresponding contexts.
+* `L_PAREN`: This token type represents a left parenthesis, which may be used to denote the start of a group or condition in certain contexts.
+* `R_PAREN`: This token type represents a right parenthesis, used to denote the end of a group or condition in corresponding contexts.
 
 ### Parser
 
@@ -484,7 +484,7 @@ Part of BNF grammar:
 ```bnf
 pipe_sequence	: command | pipe_sequence PIPE command;
 command         : simple_command | subshell | subshell redirect_list;
-subshell        : L_BRACKET and_or R_BRACKET;
+subshell        : L_PAREN and_or R_PAREN;
 simple_command	: cmd_prefix cmd_word cmd_suffix | cmd_prefix cmd_word | cmd_prefix | cmd_name cmd_suffix | cmd_name;
 ```
 
