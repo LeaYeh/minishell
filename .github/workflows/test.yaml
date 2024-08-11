@@ -79,7 +79,7 @@ jobs:
       - name: 🔍 Check memory leaks
         run: |
           make re CC=clang-12
-          ${{ env.TESTER_DIR }}/tester.sh va > ${{ env.HOME }}/leak_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh --no-update va > ${{ env.HOME }}/leak_result.txt
         env:
           GH_BRANCH: IGNORE
         continue-on-error: true
