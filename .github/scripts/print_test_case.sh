@@ -10,8 +10,8 @@ output_file_path="${TESTER_OUTPUT_DIR}/${file_dirname}/${file_basename}"
 print_output()
 {
   local output_type=$1
-  local file_minishell="${output_file_path}/${output_type}_minishell_${test_number}"
-  local file_bash="${output_file_path}/${output_type}_bash_${test_number}"
+  local file_minishell="${output_file_path}/${test_number}_${output_type}_minishell"
+  local file_bash="${output_file_path}/${test_number}_${output_type}_bash"
 
   # Print diff of output between bash and minishell
   if [[ -f $file_minishell && -f $file_bash ]]; then
@@ -42,7 +42,7 @@ print_output()
 
 print_valgrind_output()
 {
-  local file_valgrind="${output_file_path}/valgrind_out_${test_number}"
+  local file_valgrind="${output_file_path}/${test_number}_valgrind_out"
 
   # Print valgrind output
   if [[ -f $file_valgrind ]]; then
