@@ -59,10 +59,10 @@ static char	*get_token_type_str(t_tok_typ type)
 		return ("OR");
 	else if (type == T_AND)
 		return ("AND");
-	else if (type == T_L_BRACKET)
-		return ("L_BRACKET");
-	else if (type == T_R_BRACKET)
-		return ("R_BRACKET");
+	else if (type == T_L_PAREN)
+		return ("L_PAREN");
+	else if (type == T_R_PAREN)
+		return ("R_PAREN");
 	else if (type == T_END)
 		return ("END");
 	return (NULL);

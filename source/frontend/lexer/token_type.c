@@ -36,9 +36,9 @@ void	set_token_type(t_list *token_list)
 		else if (ft_strcmp("&&", token_data) == 0)
 			token->type = T_AND;
 		else if (*token_data == '(')
-			token->type = T_L_BRACKET;
+			token->type = T_L_PAREN;
 		else if (*token_data == ')')
-			token->type = T_R_BRACKET;
+			token->type = T_R_PAREN;
 		else if (is_assignment_word(token_data))
 			token->type = T_ASSIGNMENT_WORD;
 		else
