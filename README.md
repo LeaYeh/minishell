@@ -18,6 +18,8 @@
 
 This project goes beyond merely crafting a new shell from scratch; it endeavors to emulate the Bash source code and the GNU Bash POSIX manual while incorporating principles from compiler parsing. By referencing these authoritative sources, the project aims to meticulously implement a shell interpreter. Moreover, it documents the entire journey from ground zero to the creation of a personalized shell, serving as a valuable resource for future learners seeking insights into shell development.
 
+![welcome_art](https://github.com/user-attachments/assets/aff6377b-3cfa-4746-9e98-9f0eb7546773)
+
 </div>
 
 ---
