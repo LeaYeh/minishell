@@ -45,7 +45,7 @@ jobs:
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.TESTER_DIR }}/tester.sh ${{ inputs.test_mode }} > ${{ env.HOME }}/source_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh --no-update ${{ inputs.test_mode }} > ${{ env.HOME }}/source_test_result.txt
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
 
@@ -66,7 +66,7 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.TESTER_DIR }}/tester.sh ${{ inputs.test_mode }} > ${{ env.HOME }}/target_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh --no-update ${{ inputs.test_mode }} > ${{ env.HOME }}/target_test_result.txt
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
 
