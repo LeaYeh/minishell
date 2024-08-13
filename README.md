@@ -606,28 +606,21 @@ Reference:
 
 # How to test with Valgrind
 
-To test your minishell extensively with Valgrind, but without any reports from external commands, you can follow these steps:
-
-1. Start bash
-   ```bash
-   bash
-   ```
-2. If you have one, input the name of your suppression file to suppress leaks coming from readline
-   ```bash
-   export SUPPRESSION_FILE=/path/to/your/suppression_file
-   ```
-3. Set up environment variables
-   ```bash
-   export VALGRIND=$(which valgrind)
-   export VALGRINDFLAGS="--errors-for-leak-kinds=all --leak-check=full --read-var-info=yes --show-error-list=yes --show-leak-kinds=all --suppressions=$SUPPRESSION_FILE --trace-children=yes --track-origins=yes"
-   export VALGRINDFDFLAGS="--track-fds=all"
-   export IGNORED_PATHS="/bin/* /usr/bin/* /usr/sbin/* $(which -a norminette)"
-   export VALGRINDFLAGS+=" --trace-children-skip=$(echo $IGNORED_PATHS | sed 's/ /,/g')"
-   ```
-4. Run your minishell with valgrind
-   ```bash
-   $VALGRIND $VALGRINDFLAGS $VALGRINDFDFLAGS ./minishell
-   ```
+To test your minishell extensively with Valgrind, but without any reports from external commands, you can use this command:
+```bash
+bash -c '
+export SUPPRESSION_FILE=$(mktemp)
+curl -s https://raw.githubusercontent.com/LeaYeh/42_minishell_tester/master/utils/minishell.supp > $SUPPRESSION_FILE
+export VALGRIND=$(which valgrind)
+export VALGRINDFLAGS="--errors-for-leak-kinds=all --leak-check=full --read-var-info=yes --show-error-list=yes --show-leak-kinds=all --suppressions=$SUPPRESSION_FILE --trace-children=yes --track-origins=yes"
+export VALGRINDFDFLAGS="--track-fds=all"
+export IGNORED_PATHS="/bin/* /usr/bin/* /usr/sbin/* $(which -a norminette)"
+export VALGRINDFLAGS+=" --trace-children-skip=$(echo $IGNORED_PATHS | sed '"'"'s/ /,/g'"'"')"
+export PATH="/bin:/usr/bin:/usr/sbin:$PATH"
+$VALGRIND $VALGRINDFLAGS $VALGRINDFDFLAGS ./minishell
+rm -f $SUPPRESSION_FILE
+'
+```
 
 # Liked it?
 
