@@ -23,9 +23,12 @@ on:
 env:
   HOME: /home/runner
   TESTER_DIR: /home/runner/42_minishell_tester
+  TESTER_OUTPUT_DIR: /home/runner/tester_output
   SCRIPTS_DIR: /home/runner/scripts
   SOURCE_FAILED_COUNT: 0
   TARGET_FAILED_COUNT: 0
+  SOURCE_LOG_FILE: /home/runner/source_test.log
+  TARGET_LOG_FILE: /home/runner/target_test.log
 
 jobs:
   regression_test:
@@ -41,22 +44,24 @@ jobs:
 
       - name: Set up test environment
         uses: ./.github/actions/setup
+        with:
+          tester_dir: ${{ env.TESTER_DIR }}
+          scripts_dir: ${{ env.SCRIPTS_DIR }}
 
       - name: 🌱 Test source branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.TESTER_DIR }}/tester.sh --no-update ${{ inputs.test_mode }} > ${{ env.HOME }}/source_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh --no-update ${{ inputs.test_mode }} > ${{ env.SOURCE_LOG_FILE }}
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
 
-      - name: Save tester output to home directory
-        run: mv -f tester_output* ${{ env.HOME }}/tester_output || true
+      - name: Save tester output
+        run: mv -f tester_output* ${{ env.TESTER_OUTPUT_DIR }} || true
 
       - name: 📝 Print all test cases that failed on source branch
         run: ${{ env.SCRIPTS_DIR }}/print_all_failed_test_cases.sh
         env:
-          RESULT_FILE: ${{ env.HOME }}/source_test_result.txt
-          TESTER_OUTPUT_DIR: ${{ env.HOME }}/tester_output
+          LOG_FILE: ${{ env.SOURCE_LOG_FILE }}
 
       - name: Checkout target branch of pull request
         uses: actions/checkout@v4
@@ -66,7 +71,7 @@ jobs:
       - name: 🎯 Test target branch of pull request
         run: |
           make re CC=clang-12
-          ${{ env.TESTER_DIR }}/tester.sh --no-update ${{ inputs.test_mode }} > ${{ env.HOME }}/target_test_result.txt
+          ${{ env.TESTER_DIR }}/tester.sh --no-update ${{ inputs.test_mode }} > ${{ env.TARGET_LOG_FILE }}
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
 
@@ -75,7 +80,11 @@ jobs:
 
       - name: 📜 Summarize regression test result
         uses: ./.github/actions/summary_test_result
-        env:
-          SOURCE_FAILED_COUNT: ${{ env.SOURCE_FAILED_COUNT }}
-          TARGET_FAILED_COUNT: ${{ env.TARGET_FAILED_COUNT }}
-          TESTER_OUTPUT_DIR: ${{ env.HOME }}/tester_output
+        with:
+          source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
+          target_failed_count: ${{ env.TARGET_FAILED_COUNT }}
+          source_log_file: ${{ env.SOURCE_LOG_FILE }}
+          target_log_file: ${{ env.TARGET_LOG_FILE }}
+          tester_dir: ${{ env.TESTER_DIR }}
+          tester_output_dir: ${{ env.TESTER_OUTPUT_DIR }}
+          scripts_dir: ${{ env.SCRIPTS_DIR }}
