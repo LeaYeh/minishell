@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/07/31 09:20:27 by ldulling         ###   ########.fr        #
+#    Updated: 2024/08/24 00:02:23 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@
 #	Executable
 
 NAME 			:=	minishell
+MAKE_NAME		:=	Crash
 
 
 #	Directories
@@ -94,14 +95,14 @@ ABSOLUTE_PATHS	:=	/bin/* \
 
 #	Terminal
 
-TERMINAL		:=	$(shell which gnome-terminal 2> /dev/null)
+TERMINAL		:=	$(shell which gnome-terminal 2>/dev/null)
 
 ifeq ($(filter val,$(MAKECMDGOALS)),val)
-TERMINALTITLE	:=	valgrind $(NAME)
+TERMINALTITLE	:=	valgrind $(MAKE_NAME)
 else ifeq ($(filter valfd,$(MAKECMDGOALS)),valfd)
-TERMINALTITLE	:=	valgrind-fd $(NAME)
+TERMINALTITLE	:=	valgrind-fd $(MAKE_NAME)
 else
-TERMINALTITLE	:=	$(NAME)
+TERMINALTITLE	:=	$(MAKE_NAME)
 endif
 
 TERMINALFLAGS	:=	--title="$(TERMINALTITLE)" -- /bin/sh -c
@@ -120,18 +121,21 @@ OBJ_SUBDIRS		:=	$(sort $(dir $(OBJ)))
 DEP_SUBDIRS		:=	$(sort $(dir $(DEP)))
 
 
-# ***************************** BUILD PROCESS ******************************** #
+# *************************** BUILD PREPARATION ****************************** #
 
 export				CC CFLAGS MAKECMDGOALS MAKEFLAGS
 
-PHONY_TARGETS	:=	all opt run san val noenv valfd help build lib waitforlib \
-					clean fclean ffclean re
+PHONY_TARGETS	:=	all run noenv nocolor opt san val valfd term clear modes re \
+					build lib waitforlib clean fclean ffclean
+ENV_VARIABLES	:=	MODE
 HELP_TARGETS	:=	help help-print \
-					$(addprefix help-,$(PHONY_TARGETS)) \
-					$(addsuffix -help,$(PHONY_TARGETS))
+					$(addprefix help-,$(PHONY_TARGETS) $(ENV_VARIABLES)) \
+					$(addsuffix -help,$(PHONY_TARGETS) $(ENV_VARIABLES))
 PHONY_TARGETS	+=	$(HELP_TARGETS)
-
 export .PHONY	:	$(PHONY_TARGETS)
+
+REBUILD_TARGETS	:=	nocolor opt san re
+CLEAN_TARGETS	:=	clean fclean ffclean
 
 .DEFAULT		:
 					$(MAKE) help
@@ -139,73 +143,135 @@ export .PHONY	:	$(PHONY_TARGETS)
 .DEFAULT_GOAL	:=	all
 
 
-#	Compilation
+# ********************************* MODES ************************************ #
+
+ifeq (run,$(filter run,$(MAKECMDGOALS) $(MODE)))
+RUN				:=	true
+endif
+
+ifeq (noenv,$(filter noenv,$(MAKECMDGOALS) $(MODE)))
+ENV				:=	env -i
+RUN				:=	true
+endif
+
+ifeq (nocolor,$(filter nocolor,$(MAKECMDGOALS) $(MODE)))
+MACROS			+=	-D NO_COLOR=1
+RECOMPILE		:=	true
+endif
+
+ifeq (opt,$(filter opt,$(MAKECMDGOALS) $(MODE)))
+CFLAGS			:=	$(CFLAGS_STD) $(CFLAGS_OPT)
+RECOMPILE		:=	true
+endif
+
+ifeq (san,$(filter san,$(MAKECMDGOALS) $(MODE)))
+CFLAGS			+=	$(CFLAGS_STD) $(CFLAGS_DBG) $(CFLAGS_SAN)
+RECOMPILE		:=	true
+endif
+
+ifeq (clear,$(filter clear,$(MAKECMDGOALS) $(MODE)))
+CLEAR			:=	true
+endif
+
+ifeq (val,$(filter val,$(MAKECMDGOALS) $(MODE)))
+ENV				+=	$(VALGRIND) $(VALGRINDFLAGS)
+PATH			:=	/bin:/usr/bin:/usr/sbin:$(PATH)
+RUN				:=	true
+endif
+
+ifeq (valfd,$(filter valfd,$(MAKECMDGOALS) $(MODE)))
+ENV				+=	$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS)
+PATH			:=	/bin:/usr/bin:/usr/sbin:$(PATH)
+RUN				:=	true
+NEW_TERM		:=	true
+endif
+
+ifeq (term,$(filter term,$(MAKECMDGOALS) $(MODE)))
+NEW_TERM		:=	true
+RUN				:=	true
+endif
+
+
+# ***************************** BUILD TARGETS ******************************** #
+
+all				:
+					if $(MAKE) --question build; then \
+						echo -n $(MSG_NO_CHANGE); \
+						echo -n $(MSG_HELP); \
+					else \
+						echo -n $(MSG_MODE); \
+						echo -n " "$(MSG_INFO); \
+						echo -n " "$(MSG_HELP); \
+						echo -n $(MSG_START); \
+						if $(MAKE) build; then \
+							echo; \
+							echo -n $(MSG_SUCCESS); \
+						else \
+							echo; \
+							echo -n $(MSG_FAILURE); \
+							exit 42; \
+						fi; \
+					fi
+
+run noenv nocolor opt san val valfd term clear: modes
+
+modes			:
+					if [ "$(RECOMPILE)" = "true" ]; then \
+						MAKELEVEL=$$(( $(MAKELEVEL) - 1 )) $(MAKE) re; \
+						MAKELEVEL=$$(( $(MAKELEVEL) - 1 )) $(MAKE) clean; \
+					else \
+						MAKELEVEL=$$(( $(MAKELEVEL) - 1 )) $(MAKE) all; \
+					fi
+					if [ "$(CLEAR)" = "true" ]; then \
+						clear; \
+					fi
+					if [ "$(NEW_TERM)" = "true" ] && [ -n "$(TERMINAL)" ]; then \
+						$(TERMINAL) $(TERMINALFLAGS) \
+							"bash --posix -c 'trap \"\" SIGINT; \
+							$(ENV) ./$(NAME); \
+							exec bash --posix'"; \
+					elif [ "$(RUN)" = "true" ]; then \
+						$(ENV) "./$(NAME)"; \
+					fi
+
+re				:
+					$(MAKE) fclean
+					MAKELEVEL=$$(( $(MAKELEVEL) - 1 )) $(MAKE) all
+
+
+# ****************************** HELP TARGETS ******************************** #
+
+#TODO Update help messages and order
 
 help-all		:
 					echo "Build the project."
 					echo "This is the default target when no target is specified."
 
-all				:
-					if $(MAKE) --question build; then \
-						echo $(MSG_NO_CHNG); \
-						echo $(MSG_HELP); \
-					else \
-						echo " "$(MSG_INFO); \
-						echo " "$(MSG_HELP); \
-						echo -n $(MSG_START); \
-						if $(MAKE) build; then \
-							echo; \
-							echo $(MSG_SUCCESS); \
-						else \
-							echo; \
-							echo $(MSG_FAILURE); \
-							exit 42; \
-						fi; \
-					fi
-
-
-help-opt		:
-					echo "Build the project with the following compiler optimization flags:"
-					echo "  $(CFLAGS_OPT)"
-
-opt				:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_OPT)
-opt				:	re
-					$(MAKE) clean
-
-
 help-run		:
 					echo "Build the project and run the executable."
 
-run				:	all
-					"./$(NAME)"
+help-nocolor	:
+					echo "Rebuild the project without colors in the prompt and printouts."
+					echo "Avoids issues when moving the cursor in the input line."
 
+help-opt		:
+					echo "Rebuild the project with the following compiler optimization flags:"
+					echo "  $(CFLAGS_OPT)"
 
 help-san		:
-					echo "Rebuild the project with sanitizers enabled and run the executable."
-					echo "The following sanitizers are enabled:"
+					echo "Rebuild the project with the following sanitizer flags:"
 					echo "  $(CFLAGS_SAN)"
 
-san				:	CFLAGS := $(CFLAGS_STD) $(CFLAGS_DBG) $(CFLAGS_SAN)
-san				:	re
-					$(MAKE) clean
-					"./$(NAME)"
-
+help-clear		:
+					echo "Build the project and clear the terminal."
 
 help-val		:
 					echo "Build the project and run the executable with valgrind."
 					echo "The following valgrind flags are used:"
 					echo "$(VALGRINDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
 
-val				:	all
-					$(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
-
-
 help-noenv		:
-					echo "Build and run the project with valgrind and with empty environment (env -i)."
-
-noenv			:	all
-					env -i $(VALGRIND) $(VALGRINDFLAGS) "./$(NAME)"
-
+					echo "Build and run the project with valgrind and an empty environment (env -i)."
 
 help-valfd		:
 					echo "Build and run the project with valgrind and file descriptor tracking."
@@ -214,43 +280,55 @@ help-valfd		:
 					echo "File descriptor specific flags:"
 					echo "$(VALGRINDFDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
 
-valfd			:	all
-ifneq ($(TERMINAL),)
-					$(TERMINAL) $(TERMINALFLAGS) \
-						"bash --posix -c 'trap \"\" SIGINT; \
-						$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) ./$(NAME); \
-						exec bash --posix'"
-else
-					$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS) "./$(NAME)"
-endif
-
+help-re			:
+					echo "Rebuild the project."
 
 help			:
-					echo "Usage: make [target]"
+					echo "Usage: make [target] [MODE=\"<mode1> [mode2] [...]\"]"
 					echo
 					echo "Targets:"
-					echo "  all      - Build the project (default target)"
-					echo "  opt      - Build the project with optimizations"
-					echo "  run      - Build and run the project"
-					echo "  san      - Build and run the project with sanitizers"
-					echo "  val      - Build and run the project with valgrind"
-					echo "  noenv    - Build and run the project with valgrind and with empty environment"
-					echo "  valfd    - Build and run the project with valgrind and file descriptor tracking"
-					echo "  clean    - Remove build artifacts"
-					echo "  fclean   - Remove build artifacts and executable"
-					echo "  ffclean  - Remove build artifacts and executable without checking for unknown files"
-					echo "  re       - Rebuild the project"
-					echo "  print-%  - Print the value of a Makefile variable (replace % with variable name)"
-					echo "  help     - Display this message"
-					echo "  help-%   - Display more information for a specific target (replace % with target name)"
-					echo "  %-help   - Display more information for a specific target (replace % with target name)"
+					echo "  all              Build the project (default target)"
+					echo "  run              Build and run the project"
+					echo "  nocolor          Rebuild the project without colors in the prompt and printouts"
+					echo "  opt              Rebuild the project with optimizations"
+					echo "  san              Rebuild the project with sanitizers"
+					echo "  val              Build and run the project with valgrind"
+					echo "  noenv            Build and run the project with valgrind and empty environment"
+					echo "  valfd            Build and run the project with valgrind and file descriptor tracking"
+					echo "  clear            Clear the terminal and build the project"
+					echo "  clean            Remove build artifacts"
+					echo "  fclean           Remove build artifacts and executable"
+					echo "  ffclean          Remove build artifacts and executable without checking for unknown files"
+					echo "  re               Rebuild the project"
+					echo "  print-%          Print the value of a Makefile variable (replace % with variable name)"
+					echo "  help             Display this message"
+					echo "  help-% | %-help  Display more information for a specific target (replace % with target name)"
+					echo
+					echo "Environment Variables:"
+					echo "  MODE             Build mode to combine multiple targets"
 
 help-help		:
 					echo "Display more information for a specific target by appending or prepending help."
 					echo "Usage: make help-<target> | make <target>-help"
 
+help-MODE MODE-help:
+					echo "Build mode to combine with other targets."
+					echo "Multiple modes can be combined by separating them with a space."
+					echo "Usage: make <target> MODE=\"<mode1> [mode2] [...]\""
+
 %-help:
 					$(MAKE) help-$(subst -help,,$@)
+
+
+# ***************************** BUILD PROCESS ******************************** #
+
+#	Include dependency files
+
+ifeq (,$(filter $(HELP_TARGETS) $(REBUILD_TARGETS) $(CLEAN_TARGETS),$(MAKECMDGOALS)))
+    ifneq (,$(wildcard $(OBJ_DIR)))
+        -include	$(DEP)
+    endif
+endif
 
 
 #	Library dependency management
@@ -297,55 +375,46 @@ $(DEP_SUBDIRS)	:
 					mkdir -p $@
 
 
-#	Cleaning
+# ***************************** CLEAN TARGETS ******************************** #
 
 help-clean		:
 					echo "Remove build artifacts."
 
 clean			:
+					echo -n $(MSG_CLEAN)
 					$(MAKE) clean -C $(LIBRARIES)
 					rm -f $(OBJ) $(DEP)
-ifneq (,$(wildcard $(OBJ_DIR)))
-					-find $(OBJ_DIR) -type d -empty -delete
-endif
-ifneq (,$(wildcard $(DEP_DIR)))
-					-find $(DEP_DIR) -type d -empty -delete
-endif
+                    ifneq (,$(wildcard $(OBJ_DIR)))
+						-find $(OBJ_DIR) -type d -empty -delete
+                    endif
+                    ifneq (,$(wildcard $(DEP_DIR)))
+						-find $(DEP_DIR) -type d -empty -delete
+                    endif
+					echo -n $(MSG_SUCCESS)
 
 
 help-fclean		:
 					echo "Remove build artifacts and the executable."
 
-fclean			:	clean
+fclean			:
+					echo -n $(MSG_FCLEAN)
+					$(MAKE) clean
 					$(MAKE) fclean -C $(LIBRARIES)
 					rm -f $(NAME)
+					echo -n $(MSG_SUCCESS)
 
 
 help-ffclean	:
 					echo "Remove build artifacts and the executable without checking for unknown files."
 
-ffclean			:	fclean
-					rm -rf $(OBJ_DIR) $(DEP_DIR)
-
-
-help-re			:
-					echo "Rebuild the project."
-
-re				:
+ffclean			:
+					echo -n $(MSG_FFCLEAN)
 					$(MAKE) fclean
-					$(MAKE) all
+					rm -rf $(OBJ_DIR) $(DEP_DIR)
+					echo -n $(MSG_SUCCESS)
 
 
-#	Include dependency files
-
-ifeq (,$(filter $(HELP_TARGETS) clean fclean ffclean re,$(MAKECMDGOALS)))
-    ifneq (,$(wildcard $(OBJ_DIR)))
-        -include	$(DEP)
-    endif
-endif
-
-
-# **************************** COLORS ******************************* #
+# ********************************* COLORS *********************************** #
 
 STY_RES			:=	"\e[0m"
 STY_BOL			:=	"\e[1m"
@@ -360,7 +429,7 @@ STY_CYA			:=	"\e[36m"
 STY_WHI			:=	"\e[37m"
 STY_GRA			:=	"\e[90m"
 STY_WHI_BRI		:=	"\e[97m"
-STY_BLA_BG		:=	"\e[41m"
+STY_BLA_BG		:=	"\e[40m"
 STY_RED_BG		:=	"\e[41m"
 STY_GRE_BG		:=	"\e[42m"
 STY_YEL_BG		:=	"\e[43m"
@@ -374,21 +443,89 @@ STY_WHI_BRI_BG	:=	"\e[107m"
 
 # **************************** CUSTOM MESSAGES ******************************* #
 
-################################################################################
-MSG_INFO		:=	$(STY_ITA)$(STY_WHI)"Make version: $(MAKE_VERSION)\n\
-					Compiler version: $(CC_VERSION)"$(STY_RES)
-################################################################################
-MSG_HELP		:=	$(STY_ITA)$(STY_WHI)"Run 'make help' to see all available Makefile targets."$(STY_RES)
-################################################################################
-MSG_START		:=	$(STY_ITA)"Building Crash ... "$(STY_RES)
-################################################################################
 MSG_PROGRESS	:=	$(STY_ITA)"🌊"$(STY_RES)
-################################################################################
-MSG_SUCCESS		:=	$(STY_BOL)$(STY_ITA)$(STY_CYA)"DONE!"$(STY_RES)
-################################################################################
-MSG_NO_CHNG		:=	$(STY_ITA)$(STY_WHI)"Everything up-to-date!"$(STY_RES)
-################################################################################
-MSG_FAILURE		:=	$(STY_BOL)$(STY_ITA)$(STY_RED)"BUILD FAILED!"$(STY_RES)
+
+
+########################## Top-level only messages #############################
+ifeq ($(MAKELEVEL),0)
+
+#	Make status messages
+
+MSG_INFO		:=	$(STY_ITA)$(STY_WHI)"Make version: $(MAKE_VERSION)\n\
+					Compiler version: $(CC_VERSION)"$(STY_RES)"\n"
+
+MSG_HELP		:=	$(STY_ITA)$(STY_WHI)"Run 'make help' to see all available Makefile targets."$(STY_RES)"\n"
+
+ifneq (,$(filter $(REBUILD_TARGETS),$(MAKECMDGOALS) $(MODE)))
+MSG_START		:=	$(STY_ITA)"Rebuilding $(MAKE_NAME) ... "$(STY_RES)
+else
+MSG_START		:=	$(STY_ITA)"Building $(MAKE_NAME) ... "$(STY_RES)
+endif
+
+MSG_SUCCESS		:=	$(STY_BOL)$(STY_ITA)$(STY_CYA)"DONE!"$(STY_RES)"\n"
+
+MSG_NO_CHANGE	:=	$(STY_ITA)$(STY_WHI)"Everything up-to-date!"$(STY_RES)"\n"
+
+MSG_FAILURE		:=	$(STY_BOL)$(STY_ITA)$(STY_RED)"BUILD FAILED!"$(STY_RES)"\n"
+
+
+#	Build modes
+
+MSG_RUN			:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_YEL)"~~~~~~~~~~~~~~~~~~~~~~~ RUN MODE ~~~~~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
+ifneq (,$(filter run,$(MAKECMDGOALS) $(MODE)))
+MSG_MODE		:=	$(MSG_MODE)$(MSG_RUN)
+endif
+
+MSG_NOENV		:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_MAG)"~~~~~~~~~~~~~~~~ EMPTY ENVIRONMENT MODE ~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
+ifneq (,$(filter noenv,$(MAKECMDGOALS) $(MODE)))
+MSG_MODE		:=	$(MSG_MODE)$(MSG_NOENV)
+endif
+
+MSG_NOCOLOR		:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_WHI_BRI)"~~~~~~~~~~~~~~~~~~~~~ NO COLOR MODE ~~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
+ifneq (,$(filter nocolor,$(MAKECMDGOALS) $(MODE)))
+MSG_MODE		:=	$(MSG_MODE)$(MSG_NOCOLOR)
+endif
+
+MSG_OPT			:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_GRE)"~~~~~~~~~~~~~~~~~~~ OPTIMIZATION MODE ~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
+ifneq (,$(filter opt,$(MAKECMDGOALS) $(MODE)))
+MSG_MODE		:=	$(MSG_MODE)$(MSG_OPT)
+endif
+
+MSG_SAN			:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_RED)"~~~~~~~~~~~~~~~~~~~~ SANITIZER MODE ~~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
+ifneq (,$(filter san,$(MAKECMDGOALS) $(MODE)))
+MSG_MODE		:=	$(MSG_MODE)$(MSG_SAN)
+endif
+
+MSG_VAL			:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_BLU)"~~~~~~~~~~~~~~~~~~~~~ VALGRIND MODE ~~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
+ifneq (,$(filter val,$(MAKECMDGOALS) $(MODE)))
+MSG_MODE		:=	$(MSG_MODE)$(MSG_VAL)
+endif
+
+MSG_VALFD		:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_CYA)"~~~~~~~~~~~~~~~~~~~ VALGRIND FD MODE ~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
+ifneq (,$(filter valfd,$(MAKECMDGOALS) $(MODE)))
+MSG_MODE		:=	$(MSG_MODE)$(MSG_VALFD)
+endif
+
+MSG_TERM		:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_YEL)"~~~~~~~~~~~~~~~~~~~ NEW TERMINAL MODE ~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
+ifneq (,$(filter term,$(MAKECMDGOALS) $(MODE)))
+MSG_MODE		:=	$(MSG_MODE)$(MSG_TERM)
+endif
+
+MSG_CLEAR		:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_GRA)"~~~~~~~~~~~~~~~~~~~~~ CLEAR MODE ~~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
+ifneq (,$(filter clear,$(MAKECMDGOALS) $(MODE)))
+MSG_MODE		:=	$(MSG_MODE)$(MSG_CLEAR)
+endif
+
+
+#	Clean messages
+
+MSG_CLEAN		:=	$(STY_ITA)"Cleaning up build artifacts ... "$(STY_RES)"\n"
+
+MSG_FCLEAN		:=	$(STY_ITA)"Cleaning up build artifacts and executable ... "$(STY_RES)"\n"
+
+MSG_FFCLEAN		:=	$(STY_ITA)"Forcefully cleaning up build artifacts directory and executable ... "$(STY_RES)"\n"
+
+endif
 ################################################################################
 
 
