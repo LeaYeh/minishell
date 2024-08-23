@@ -217,7 +217,7 @@ run noenv nocolor opt san val valfd term clear: modes
 
 modes			:
 					if [ "$(RECOMPILE)" = "true" ]; then \
-						MAKELEVEL=$$(( $(MAKELEVEL) - 1 )) $(MAKE) re; \
+						MAKELEVEL=$$(( $(MAKELEVEL) - 1 )) MSG_SUCCESS="" $(MAKE) re; \
 						MAKELEVEL=$$(( $(MAKELEVEL) - 1 )) $(MAKE) clean; \
 					else \
 						MAKELEVEL=$$(( $(MAKELEVEL) - 1 )) $(MAKE) all; \
@@ -462,7 +462,7 @@ else
 MSG_START		:=	$(STY_ITA)"Building $(MAKE_NAME) ... "$(STY_RES)
 endif
 
-MSG_SUCCESS		:=	$(STY_BOL)$(STY_ITA)$(STY_CYA)"DONE!"$(STY_RES)"\n"
+MSG_SUCCESS		?=	$(STY_BOL)$(STY_ITA)$(STY_CYA)"DONE!"$(STY_RES)"\n"
 
 MSG_NO_CHANGE	:=	$(STY_ITA)$(STY_WHI)"Everything up-to-date!"$(STY_RES)"\n"
 
