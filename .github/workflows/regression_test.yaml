@@ -54,6 +54,7 @@ jobs:
           ${{ env.TESTER_DIR }}/tester.sh --no-update ${{ inputs.test_mode }} > ${{ env.SOURCE_LOG_FILE }}
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
+        continue-on-error: true
 
       - name: Save tester output
         run: mv -f mstest_output* ${{ env.TESTER_OUTPUT_DIR }} || true
@@ -74,6 +75,7 @@ jobs:
           ${{ env.TESTER_DIR }}/tester.sh --no-update ${{ inputs.test_mode }} > ${{ env.TARGET_LOG_FILE }}
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
+        continue-on-error: true
 
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
