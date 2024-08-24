@@ -60,7 +60,7 @@ jobs:
         run: mv -f mstest_output* ${{ env.TESTER_OUTPUT_DIR }} || true
 
       - name: 📝 Print all test cases that failed on source branch
-        run: ${{ env.SCRIPTS_DIR }}/print_all_failed_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_failed_test_cases.sh
         env:
           LOG_FILE: ${{ env.SOURCE_LOG_FILE }}
 

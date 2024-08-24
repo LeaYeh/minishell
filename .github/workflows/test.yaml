@@ -92,7 +92,7 @@ jobs:
       - name: Save tester output
         run: mv -f mstest_output* ${{ env.TESTER_OUTPUT_DIR }} || true
       - name: 📝 Print all test cases that leaked on source branch
-        run: ${{ env.SCRIPTS_DIR }}/print_leak_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_failed_test_cases.sh -v
 
   combine_memory_leak_test_results:
     name: Combine Memory Leak Test Results
@@ -132,7 +132,7 @@ jobs:
       - name: Save tester output
         run: mv -f mstest_output* ${{ env.TESTER_OUTPUT_DIR }} || true
       - name: 📝 Print all test cases that crashed on source branch
-        run: ${{ env.SCRIPTS_DIR }}/print_crash_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_failed_test_cases.sh -c
 
   combine_crash_test_results:
     name: Combine Crash Test Results
