@@ -403,6 +403,12 @@ help-fclean		:
 help-ffclean	:
 					echo "Remove build artifacts and the executable without checking for unknown files."
 
+help-print		:
+					echo "Usage: make print-<\\$(STY_UND)variable name\\$(STY_RES)>"
+					echo
+					echo "Print the value of a Makefile variable by appending the variable name to print-..."
+					echo "Useful for Makefile debugging."
+
 help-help		:
 					echo "Usage: make help-<\\$(STY_UND)target\\$(STY_RES)> | make <\\$(STY_UND)target\\$(STY_RES)>-help"
 					echo
@@ -534,12 +540,6 @@ endif
 
 
 # *************************** MAKEFILE DEBUGGING ***************************** #
-
-help-print		:
-					echo "Usage: make print-<\\$(STY_UND)variable name\\$(STY_RES)>"
-					echo
-					echo "Print the value of a Makefile variable by appending the variable name to print-..."
-					echo "Useful for Makefile debugging."
 
 print-%			:
 					echo $* = $($*)
