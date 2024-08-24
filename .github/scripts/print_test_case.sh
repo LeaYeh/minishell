@@ -65,6 +65,10 @@ if [[ -n $line_number && -n $file_path ]]; then
     # Remove -v from arguments
     set -- "${@//-v/}"
     print_valgrind_output
+  elif [[ " $* " =~ " -c " ]]; then
+    # Remove -c from arguments
+    set -- "${@//-c/}"
+    # Print no output
   else
     for output_type in stdout stderr; do
       print_output $output_type

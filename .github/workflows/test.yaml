@@ -82,7 +82,7 @@ jobs:
               rm "$file"
             fi
           done
-      - name: 🔍 Check memory leaks
+      - name: 💧 Check for memory leaks
         run: |
           make re CC=clang-12
           ${{ env.TESTER_DIR }}/tester.sh --no-update va > ${{ env.LOG_FILE }}
@@ -102,6 +102,46 @@ jobs:
       - name: Combine memory leak test results
         run: echo "All memory leak tests finished"
 
+  crash_test:
+    name: Crash Test
+    needs: compilation_test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        test_mode: [a, a --no-env]
+    env:
+      TESTER_OUTPUT_DIR: /home/runner/tester_output
+      LOG_FILE: /home/runner/crash_test.log
+    steps:
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
+      - name: Set up test environment
+        uses: ./.github/actions/setup
+        with:
+          tester_dir: ${{ env.TESTER_DIR }}
+          scripts_dir: ${{ env.SCRIPTS_DIR }}
+      - name: 💥 Check for crashes
+        run: |
+          make re CC=clang-12
+          ${{ env.TESTER_DIR }}/tester.sh --no-update ${{ matrix.test_mode }} > ${{ env.LOG_FILE }}
+        env:
+          GH_BRANCH: IGNORE
+        continue-on-error: true
+      - name: Save tester output
+        run: mv -f mstest_output* ${{ env.TESTER_OUTPUT_DIR }} || true
+      - name: 📝 Print all test cases that crashed on source branch
+        run: ${{ env.SCRIPTS_DIR }}/print_crash_test_cases.sh
+
+  combine_crash_test_results:
+    name: Combine Crash Test Results
+    needs: crash_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Combine crash test results
+        run: echo "All crash tests finished"
+
   regression_test:
     name: Regression Test
     needs: compilation_test
@@ -115,8 +155,6 @@ jobs:
             test_name: Bonus Part
           - test_mode: ne
             test_name: Empty Env
-          - test_mode: c
-            test_name: Crash Test
     uses: ./.github/workflows/regression_test.yaml
     with:
       test_mode: ${{ matrix.test_mode }}
