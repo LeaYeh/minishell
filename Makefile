@@ -169,10 +169,6 @@ CFLAGS			+=	$(CFLAGS_STD) $(CFLAGS_DBG) $(CFLAGS_SAN)
 RECOMPILE		:=	true
 endif
 
-ifeq (clear,$(filter clear,$(MAKECMDGOALS) $(MODE)))
-CLEAR			:=	true
-endif
-
 ifeq (val,$(filter val,$(MAKECMDGOALS) $(MODE)))
 ENV				+=	$(VALGRIND) $(VALGRINDFLAGS)
 PATH			:=	/bin:/usr/bin:/usr/sbin:$(PATH)
@@ -182,13 +178,17 @@ endif
 ifeq (valfd,$(filter valfd,$(MAKECMDGOALS) $(MODE)))
 ENV				+=	$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS)
 PATH			:=	/bin:/usr/bin:/usr/sbin:$(PATH)
-RUN				:=	true
 NEW_TERM		:=	true
+RUN				:=	true
 endif
 
 ifeq (term,$(filter term,$(MAKECMDGOALS) $(MODE)))
 NEW_TERM		:=	true
 RUN				:=	true
+endif
+
+ifeq (clear,$(filter clear,$(MAKECMDGOALS) $(MODE)))
+CLEAR			:=	true
 endif
 
 
@@ -241,14 +241,15 @@ re				:
 
 # ****************************** HELP TARGETS ******************************** #
 
-#TODO Update help messages and order
-
 help-all		:
 					echo "Build the project."
 					echo "This is the default target when no target is specified."
 
 help-run		:
 					echo "Build the project and run the executable."
+
+help-noenv		:
+					echo "Build the project and run executable with an empty environment (env -i)."
 
 help-nocolor	:
 					echo "Rebuild the project without colors in the prompt and printouts."
@@ -262,59 +263,64 @@ help-san		:
 					echo "Rebuild the project with the following sanitizer flags:"
 					echo "  $(CFLAGS_SAN)"
 
-help-clear		:
-					echo "Build the project and clear the terminal."
-
 help-val		:
 					echo "Build the project and run the executable with valgrind."
 					echo "The following valgrind flags are used:"
 					echo "$(VALGRINDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
 
-help-noenv		:
-					echo "Build and run the project with valgrind and an empty environment (env -i)."
-
 help-valfd		:
-					echo "Build and run the project with valgrind and file descriptor tracking."
+					echo "Build the project and run the executable with valgrind and file descriptor tracking."
+					echo "A new terminal window is opened to avoid inheriting open file descriptors."
 					echo "The following valgrind flags are used:"
 					echo "$(VALGRINDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
 					echo "File descriptor specific flags:"
 					echo "$(VALGRINDFDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
 
+help-term		:
+					echo "Build the project and run the executable in a new terminal window."
+
+help-clear		:
+					echo "Build the project and clear the terminal."
+
 help-re			:
 					echo "Rebuild the project."
 
 help			:
-					echo "Usage: make [target] [MODE=\"<mode1> [mode2] [...]\"]"
+					echo "Usage: make [\\$(STY_UND)target\\$(STY_RES)] [MODE=\"<\\$(STY_UND)mode1\\$(STY_RES)> [\\$(STY_UND)mode2\\$(STY_RES)] [...]\"]"
 					echo
 					echo "Targets:"
 					echo "  all              Build the project (default target)"
 					echo "  run              Build and run the project"
+					echo "  noenv            Build and run the project with an empty environment"
 					echo "  nocolor          Rebuild the project without colors in the prompt and printouts"
 					echo "  opt              Rebuild the project with optimizations"
 					echo "  san              Rebuild the project with sanitizers"
 					echo "  val              Build and run the project with valgrind"
-					echo "  noenv            Build and run the project with valgrind and empty environment"
 					echo "  valfd            Build and run the project with valgrind and file descriptor tracking"
-					echo "  clear            Clear the terminal and build the project"
+					echo "  term             Build and run the project in a new terminal window"
+					echo "  clear            Build the project and clear the terminal"
+					echo "  re               Rebuild the project"
 					echo "  clean            Remove build artifacts"
 					echo "  fclean           Remove build artifacts and executable"
 					echo "  ffclean          Remove build artifacts and executable without checking for unknown files"
-					echo "  re               Rebuild the project"
 					echo "  print-%          Print the value of a Makefile variable (replace % with variable name)"
 					echo "  help             Display this message"
 					echo "  help-% | %-help  Display more information for a specific target (replace % with target name)"
 					echo
 					echo "Environment Variables:"
 					echo "  MODE             Build mode to combine multiple targets"
+					echo
 
 help-help		:
+					echo "Usage: make help-<\\$(STY_UND)target\\$(STY_RES)> | make <\\$(STY_UND)target\\$(STY_RES)>-help"
+					echo
 					echo "Display more information for a specific target by appending or prepending help."
-					echo "Usage: make help-<target> | make <target>-help"
 
 help-MODE MODE-help:
+					echo "Usage: make <\\$(STY_UND)target\\$(STY_RES)> MODE=\"<\\$(STY_UND)mode1\\$(STY_RES)> [\\$(STY_UND)mode2\\$(STY_RES)] [...]\""
+					echo
 					echo "Build mode to combine with other targets."
 					echo "Multiple modes can be combined by separating them with a space."
-					echo "Usage: make <target> MODE=\"<mode1> [mode2] [...]\""
 
 %-help:
 					$(MAKE) help-$(subst -help,,$@)
@@ -322,7 +328,7 @@ help-MODE MODE-help:
 
 # ***************************** BUILD PROCESS ******************************** #
 
-#	Include dependency files
+#	Dependency files inclusion
 
 ifeq (,$(filter $(HELP_TARGETS) $(REBUILD_TARGETS) $(CLEAN_TARGETS),$(MAKECMDGOALS)))
     ifneq (,$(wildcard $(OBJ_DIR)))
@@ -349,13 +355,13 @@ lib				:
 waitforlib		:	lib
 
 
-#	Executable linking
+#	Executable linkage
 
 $(NAME)			:	$(LIBRARIES) $(OBJ)
 					$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $(NAME)
 
 
-#	Source file compiling
+#	Source file compilation
 
 $(OBJ_DIR)/%.o	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
 					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -c $< -o $@ \
@@ -368,7 +374,7 @@ $(DEP_DIR)/%.d	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(DEP_SUBDIRS)
 					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
 
 
-#	Mirror directory structure of source files for build artifacts
+#	Directory structure mirroring of source files for build artifacts
 
 $(OBJ_SUBDIRS) \
 $(DEP_SUBDIRS)	:
@@ -532,9 +538,10 @@ endif
 # *************************** MAKEFILE DEBUGGING ***************************** #
 
 help-print		:
-					echo "Print the value of a Makefile variable by appending the variable name to print-."
+					echo "Usage: make print-<\\$(STY_UND)variable name\\$(STY_RES)>"
+					echo
+					echo "Print the value of a Makefile variable by appending the variable name to print-..."
 					echo "Useful for Makefile debugging."
-					echo "Usage: make print-<variable name>"
 
 print-%			:
 					echo $* = $($*)
