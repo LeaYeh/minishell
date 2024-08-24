@@ -239,6 +239,89 @@ re				:
 					MAKELEVEL=$$(( $(MAKELEVEL) - 1 )) $(MAKE) all
 
 
+# ***************************** BUILD PROCESS ******************************** #
+
+#	Dependency files inclusion
+
+ifeq (,$(filter $(HELP_TARGETS) $(REBUILD_TARGETS) $(CLEAN_TARGETS),$(MAKECMDGOALS)))
+    ifneq (,$(wildcard $(OBJ_DIR)))
+        -include	$(DEP)
+    endif
+endif
+
+
+#	Library dependency management
+
+ifeq ($(firstword $(sort $(MAKE_VERSION) 4.4)),4.4)
+build			:	lib .WAIT $(NAME)
+else
+build			:	waitforlib
+					$(MAKE) $(NAME)
+endif
+
+
+#	Library compilation
+
+lib				:
+					$(MAKE) -C $(LIBRARIES)
+
+waitforlib		:	lib
+
+
+#	Executable linkage
+
+$(NAME)			:	$(LIBRARIES) $(OBJ)
+					$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $(NAME)
+
+
+#	Source file compilation
+
+$(OBJ_DIR)/%.o	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
+					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -c $< -o $@ \
+						&& echo -n $(MSG_PROGRESS)
+
+
+#	Pre-processing and dependency file creation
+
+$(DEP_DIR)/%.d	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(DEP_SUBDIRS)
+					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
+
+
+#	Directory structure mirroring of source files for build artifacts
+
+$(OBJ_SUBDIRS) \
+$(DEP_SUBDIRS)	:
+					mkdir -p $@
+
+
+# ***************************** CLEAN TARGETS ******************************** #
+
+clean			:
+					echo -n $(MSG_CLEAN)
+					$(MAKE) clean -C $(LIBRARIES)
+					rm -f $(OBJ) $(DEP)
+                    ifneq (,$(wildcard $(OBJ_DIR)))
+						-find $(OBJ_DIR) -type d -empty -delete
+                    endif
+                    ifneq (,$(wildcard $(DEP_DIR)))
+						-find $(DEP_DIR) -type d -empty -delete
+                    endif
+					echo -n $(MSG_SUCCESS)
+
+fclean			:
+					echo -n $(MSG_FCLEAN)
+					$(MAKE) clean
+					$(MAKE) fclean -C $(LIBRARIES)
+					rm -f $(NAME)
+					echo -n $(MSG_SUCCESS)
+
+ffclean			:
+					echo -n $(MSG_FFCLEAN)
+					$(MAKE) fclean
+					rm -rf $(OBJ_DIR) $(DEP_DIR)
+					echo -n $(MSG_SUCCESS)
+
+
 # ****************************** HELP TARGETS ******************************** #
 
 help			:
@@ -333,89 +416,6 @@ help-MODE MODE-help:
 
 %-help:
 					$(MAKE) help-$(subst -help,,$@)
-
-
-# ***************************** BUILD PROCESS ******************************** #
-
-#	Dependency files inclusion
-
-ifeq (,$(filter $(HELP_TARGETS) $(REBUILD_TARGETS) $(CLEAN_TARGETS),$(MAKECMDGOALS)))
-    ifneq (,$(wildcard $(OBJ_DIR)))
-        -include	$(DEP)
-    endif
-endif
-
-
-#	Library dependency management
-
-ifeq ($(firstword $(sort $(MAKE_VERSION) 4.4)),4.4)
-build			:	lib .WAIT $(NAME)
-else
-build			:	waitforlib
-					$(MAKE) $(NAME)
-endif
-
-
-#	Library compilation
-
-lib				:
-					$(MAKE) -C $(LIBRARIES)
-
-waitforlib		:	lib
-
-
-#	Executable linkage
-
-$(NAME)			:	$(LIBRARIES) $(OBJ)
-					$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $(NAME)
-
-
-#	Source file compilation
-
-$(OBJ_DIR)/%.o	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
-					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -c $< -o $@ \
-						&& echo -n $(MSG_PROGRESS)
-
-
-#	Pre-processing and dependency file creation
-
-$(DEP_DIR)/%.d	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(DEP_SUBDIRS)
-					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
-
-
-#	Directory structure mirroring of source files for build artifacts
-
-$(OBJ_SUBDIRS) \
-$(DEP_SUBDIRS)	:
-					mkdir -p $@
-
-
-# ***************************** CLEAN TARGETS ******************************** #
-
-clean			:
-					echo -n $(MSG_CLEAN)
-					$(MAKE) clean -C $(LIBRARIES)
-					rm -f $(OBJ) $(DEP)
-                    ifneq (,$(wildcard $(OBJ_DIR)))
-						-find $(OBJ_DIR) -type d -empty -delete
-                    endif
-                    ifneq (,$(wildcard $(DEP_DIR)))
-						-find $(DEP_DIR) -type d -empty -delete
-                    endif
-					echo -n $(MSG_SUCCESS)
-
-fclean			:
-					echo -n $(MSG_FCLEAN)
-					$(MAKE) clean
-					$(MAKE) fclean -C $(LIBRARIES)
-					rm -f $(NAME)
-					echo -n $(MSG_SUCCESS)
-
-ffclean			:
-					echo -n $(MSG_FFCLEAN)
-					$(MAKE) fclean
-					rm -rf $(OBJ_DIR) $(DEP_DIR)
-					echo -n $(MSG_SUCCESS)
 
 
 # ********************************* COLORS *********************************** #
