@@ -241,6 +241,32 @@ re				:
 
 # ****************************** HELP TARGETS ******************************** #
 
+help			:
+					echo "Usage: make [\\$(STY_UND)target\\$(STY_RES)] [MODE=\"<\\$(STY_UND)mode1\\$(STY_RES)> [\\$(STY_UND)mode2\\$(STY_RES)] [...]\"]"
+					echo
+					echo "Targets:"
+					echo "  all              Build the project (default target)"
+					echo "  run              Build and run the project"
+					echo "  noenv            Build and run the project with an empty environment"
+					echo "  nocolor          Rebuild the project without colors in the prompt and printouts"
+					echo "  opt              Rebuild the project with optimizations"
+					echo "  san              Rebuild the project with sanitizers"
+					echo "  val              Build and run the project with valgrind"
+					echo "  valfd            Build and run the project with valgrind and file descriptor tracking"
+					echo "  term             Build and run the project in a new terminal window"
+					echo "  clear            Build the project and clear the terminal"
+					echo "  re               Rebuild the project"
+					echo "  clean            Remove build artifacts"
+					echo "  fclean           Remove build artifacts and executable"
+					echo "  ffclean          Remove build artifacts and executable without checking for unknown files"
+					echo "  print-%          Print the value of a Makefile variable (replace % with variable name)"
+					echo "  help             Display this message"
+					echo "  help-% | %-help  Display more information for a specific target (replace % with target name)"
+					echo
+					echo "Environment Variables:"
+					echo "  MODE             Build mode to combine multiple targets"
+					echo
+
 help-all		:
 					echo "Build the project."
 					echo "This is the default target when no target is specified."
@@ -285,31 +311,14 @@ help-clear		:
 help-re			:
 					echo "Rebuild the project."
 
-help			:
-					echo "Usage: make [\\$(STY_UND)target\\$(STY_RES)] [MODE=\"<\\$(STY_UND)mode1\\$(STY_RES)> [\\$(STY_UND)mode2\\$(STY_RES)] [...]\"]"
-					echo
-					echo "Targets:"
-					echo "  all              Build the project (default target)"
-					echo "  run              Build and run the project"
-					echo "  noenv            Build and run the project with an empty environment"
-					echo "  nocolor          Rebuild the project without colors in the prompt and printouts"
-					echo "  opt              Rebuild the project with optimizations"
-					echo "  san              Rebuild the project with sanitizers"
-					echo "  val              Build and run the project with valgrind"
-					echo "  valfd            Build and run the project with valgrind and file descriptor tracking"
-					echo "  term             Build and run the project in a new terminal window"
-					echo "  clear            Build the project and clear the terminal"
-					echo "  re               Rebuild the project"
-					echo "  clean            Remove build artifacts"
-					echo "  fclean           Remove build artifacts and executable"
-					echo "  ffclean          Remove build artifacts and executable without checking for unknown files"
-					echo "  print-%          Print the value of a Makefile variable (replace % with variable name)"
-					echo "  help             Display this message"
-					echo "  help-% | %-help  Display more information for a specific target (replace % with target name)"
-					echo
-					echo "Environment Variables:"
-					echo "  MODE             Build mode to combine multiple targets"
-					echo
+help-clean		:
+					echo "Remove build artifacts."
+
+help-fclean		:
+					echo "Remove build artifacts and the executable."
+
+help-ffclean	:
+					echo "Remove build artifacts and the executable without checking for unknown files."
 
 help-help		:
 					echo "Usage: make help-<\\$(STY_UND)target\\$(STY_RES)> | make <\\$(STY_UND)target\\$(STY_RES)>-help"
@@ -383,9 +392,6 @@ $(DEP_SUBDIRS)	:
 
 # ***************************** CLEAN TARGETS ******************************** #
 
-help-clean		:
-					echo "Remove build artifacts."
-
 clean			:
 					echo -n $(MSG_CLEAN)
 					$(MAKE) clean -C $(LIBRARIES)
@@ -398,20 +404,12 @@ clean			:
                     endif
 					echo -n $(MSG_SUCCESS)
 
-
-help-fclean		:
-					echo "Remove build artifacts and the executable."
-
 fclean			:
 					echo -n $(MSG_FCLEAN)
 					$(MAKE) clean
 					$(MAKE) fclean -C $(LIBRARIES)
 					rm -f $(NAME)
 					echo -n $(MSG_SUCCESS)
-
-
-help-ffclean	:
-					echo "Remove build artifacts and the executable without checking for unknown files."
 
 ffclean			:
 					echo -n $(MSG_FFCLEAN)
