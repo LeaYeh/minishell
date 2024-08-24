@@ -115,8 +115,8 @@ jobs:
             test_name: Bonus Part
           - test_mode: ne
             test_name: Empty Env
-          - test_mode: d
-            test_name: Hardcore
+          - test_mode: c
+            test_name: Crash Test
     uses: ./.github/workflows/regression_test.yaml
     with:
       test_mode: ${{ matrix.test_mode }}

@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       test_mode:
-        description: Test mode (m, b, ne, d, a)
+        description: Test mode (m, b, ne, c, a)
         required: true
         type: string
       test_name:
