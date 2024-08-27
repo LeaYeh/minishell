@@ -13,6 +13,8 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
+# define _DEFAULT_SOURCE
+
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
