@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       test_mode:
-        description: Test mode (m, b, ne, d, a)
+        description: Test mode (m, b, ne, a)
         required: true
         type: string
       test_name:
@@ -54,12 +54,13 @@ jobs:
           ${{ env.TESTER_DIR }}/tester.sh --no-update ${{ inputs.test_mode }} > ${{ env.SOURCE_LOG_FILE }}
         env:
           GH_BRANCH: SOURCE_FAILED_COUNT
+        continue-on-error: true
 
       - name: Save tester output
-        run: mv -f tester_output* ${{ env.TESTER_OUTPUT_DIR }} || true
+        run: mv -f mstest_output* ${{ env.TESTER_OUTPUT_DIR }} || true
 
       - name: 📝 Print all test cases that failed on source branch
-        run: ${{ env.SCRIPTS_DIR }}/print_all_failed_test_cases.sh
+        run: ${{ env.SCRIPTS_DIR }}/print_failed_test_cases.sh
         env:
           LOG_FILE: ${{ env.SOURCE_LOG_FILE }}
 
@@ -74,6 +75,7 @@ jobs:
           ${{ env.TESTER_DIR }}/tester.sh --no-update ${{ inputs.test_mode }} > ${{ env.TARGET_LOG_FILE }}
         env:
           GH_BRANCH: TARGET_FAILED_COUNT
+        continue-on-error: true
 
       - name: Checkout source branch of pull request
         uses: actions/checkout@v4
