@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/09/05 10:56:30 by ldulling         ###   ########.fr        #
+#    Updated: 2024/09/05 10:57:10 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -278,14 +278,14 @@ $(NAME)			:	$(LIBRARIES) $(OBJ)
 #	Source file compilation
 
 $(OBJ_DIR)/%.o	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
-					$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@ \
+					$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@ \
 						&& echo -n $(MSG_PROGRESS)
 
 
 #	Pre-processing and dependency file creation
 
 $(DEP_DIR)/%.d	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(DEP_SUBDIRS)
-					$(CC) $(CFLAGS) $(CPPFLAGS) $(DEPFLAGS) $<
+					$(CC) $(CPPFLAGS) $(DEPFLAGS) $(CFLAGS) $<
 
 
 #	Directory structure mirroring of source files for build artifacts
