@@ -56,3 +56,5 @@ dkms.conf
 .vscode/
 minishell
 .VSCodeCounter/
+.cache/
+compile_commands.json
