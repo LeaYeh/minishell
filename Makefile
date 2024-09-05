@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/09/05 10:23:32 by ldulling         ###   ########.fr        #
+#    Updated: 2024/09/05 10:56:30 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ CFLAGS_SAN		:=	-fsanitize=address,undefined,bounds,float-divide-by-zero
 CFLAGS_OPT		:=	-O3
 CFLAGS 			?=	$(CFLAGS_STD) $(CFLAGS_DBG)
 CPPFLAGS 		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
+DEPFLAGS		=	-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@"
 LDFLAGS			:=	$(addprefix -L,$(LIBRARIES))
 LDLIBS			:=	$(addprefix -l,$(patsubst lib%,%,$(notdir $(LIBRARIES) $(LIBRARIES_EXT))))
 MAKEFLAGS		:=	-j -s
@@ -284,7 +285,7 @@ $(OBJ_DIR)/%.o	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
 #	Pre-processing and dependency file creation
 
 $(DEP_DIR)/%.d	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(DEP_SUBDIRS)
-					$(CC) $(CFLAGS) $(CPPFLAGS) -M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
+					$(CC) $(CFLAGS) $(CPPFLAGS) $(DEPFLAGS) $<
 
 
 #	Directory structure mirroring of source files for build artifacts
