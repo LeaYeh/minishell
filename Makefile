@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2024/08/24 00:02:23 by ldulling         ###   ########.fr        #
+#    Updated: 2024/09/05 10:57:10 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,8 @@ CFLAGS_DBG		:=	-ggdb3
 CFLAGS_SAN		:=	-fsanitize=address,undefined,bounds,float-divide-by-zero
 CFLAGS_OPT		:=	-O3
 CFLAGS 			?=	$(CFLAGS_STD) $(CFLAGS_DBG)
-INCFLAGS 		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
+CPPFLAGS 		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
+DEPFLAGS		=	-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@"
 LDFLAGS			:=	$(addprefix -L,$(LIBRARIES))
 LDLIBS			:=	$(addprefix -l,$(patsubst lib%,%,$(notdir $(LIBRARIES) $(LIBRARIES_EXT))))
 MAKEFLAGS		:=	-j -s
@@ -58,7 +59,7 @@ MAKEFLAGS		:=	-j -s
 #	Macro definitions
 
 include				$(BUILD_DIR)/parsing_table.mk $(BUILD_DIR)/welcome_art.mk
-MACROS			:=	-D PARSING_TABLE=$(PARSING_TABLE) \
+CPPFLAGS		+=	-D PARSING_TABLE=$(PARSING_TABLE) \
 					-D WELCOME_ART1=$(WELCOME_ART1) \
 					-D WELCOME_ART2=$(WELCOME_ART2)
 
@@ -155,7 +156,7 @@ RUN				:=	true
 endif
 
 ifeq (nocolor,$(filter nocolor,$(MAKECMDGOALS) $(MODE)))
-MACROS			+=	-D NO_COLOR=1
+CPPFLAGS		+=	-D NO_COLOR=1
 RECOMPILE		:=	true
 endif
 
@@ -277,14 +278,14 @@ $(NAME)			:	$(LIBRARIES) $(OBJ)
 #	Source file compilation
 
 $(OBJ_DIR)/%.o	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(OBJ_SUBDIRS)
-					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -c $< -o $@ \
+					$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@ \
 						&& echo -n $(MSG_PROGRESS)
 
 
 #	Pre-processing and dependency file creation
 
 $(DEP_DIR)/%.d	:	$(SRC_DIR)/%.c $(BUILDFILES) | $(DEP_SUBDIRS)
-					$(CC) $(CFLAGS) $(MACROS) $(INCFLAGS) -M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@" $<
+					$(CC) $(CPPFLAGS) $(DEPFLAGS) $(CFLAGS) $<
 
 
 #	Directory structure mirroring of source files for build artifacts
