@@ -618,7 +618,10 @@ export IGNORED_PATHS="/bin/* /usr/bin/* /usr/sbin/* $(which -a norminette)"
 export VALGRINDFLAGS+=" --trace-children-skip=$(echo $IGNORED_PATHS | sed '"'"'s/ /,/g'"'"')"
 export PATH="/bin:/usr/bin:/usr/sbin:$PATH"
 $VALGRIND $VALGRINDFLAGS $VALGRINDFDFLAGS ./minishell
+EXIT_CODE=$?
 rm -f $SUPPRESSION_FILE
+echo "Exit code: $EXIT_CODE"
+exit $EXIT_CODE
 '
 ```
 
