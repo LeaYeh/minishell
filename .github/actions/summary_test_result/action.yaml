@@ -34,13 +34,13 @@ runs:
         SOURCE_FAILED_COUNT: ${{ inputs.source_failed_count }}
         TARGET_FAILED_COUNT: ${{ inputs.target_failed_count }}
       run: |
-        echo -e "\e[93m🌱 SOURCE_FAILED_COUNT: ${{ inputs.source_failed_count }}\e[0m"
-        echo -e "\e[94m🎯 TARGET_FAILED_COUNT: ${{ inputs.target_failed_count }}\e[0m"
+        echo -e "\001\e[93m\002🌱 SOURCE_FAILED_COUNT: ${{ inputs.source_failed_count }}\001\e[0m\002"
+        echo -e "\001\e[94m\002🎯 TARGET_FAILED_COUNT: ${{ inputs.target_failed_count }}\001\e[0m\002"
         if [ ${{ inputs.source_failed_count }} -gt ${{ inputs.target_failed_count }} ]; then
-          echo -e "\e[1;31mSOURCE_FAILED_COUNT is greater than TARGET_FAILED_COUNT\e[0m"
+          echo -e "\001\e[1;31m\002SOURCE_FAILED_COUNT is greater than TARGET_FAILED_COUNT\001\e[0m\002"
           exit 1
         else
-          echo -e "\e[1;32mSOURCE_FAILED_COUNT is less than or equal to TARGET_FAILED_COUNT\e[0m"
+          echo -e "\001\e[1;32m\002SOURCE_FAILED_COUNT is less than or equal to TARGET_FAILED_COUNT\001\e[0m\002"
           exit 0
         fi
       continue-on-error: true
