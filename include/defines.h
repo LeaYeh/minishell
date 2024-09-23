@@ -167,39 +167,39 @@ pixel art!\n"
 /* Error Messages */
 # define ERROR_MAX_LEN 131072
 # define ERROR_LEXER_SYNTAX					\
-"%s: syntax error: missing `%c'\n"
+	"%s: syntax error: missing `%c'\n"
 # define ERROR_PARSER_SYNTAX				\
-"%s: syntax error near unexpected token `%s'\n"
+	"%s: syntax error near unexpected token `%s'\n"
 # define ERROR_HEREDOC_UNEXPECTED_EOF		\
-"%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
+	"%s: warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_EXPANDER_BAD_SUBSTITUTION	\
-"%s: %s: bad substitution\n"
+	"%s: %s: bad substitution\n"
 # define ERROR_EXIT_TOO_MANY_ARGS			\
-"%s: %s: too many arguments\n"
+	"%s: %s: too many arguments\n"
 # define ERROR_EXIT_NUMERIC_ARG				\
-"%s: %s: %s: numeric argument required\n"
+	"%s: %s: %s: numeric argument required\n"
 # define ERROR_CD_TOO_MANY_ARGS				\
-"%s: cd: too many arguments\n"
+	"%s: cd: too many arguments\n"
 # define ERROR_CD_HOME_NOT_SET				\
-"%s: cd: HOME not set\n"
+	"%s: cd: HOME not set\n"
 # define ERROR_CD_OLDPWD_NOT_SET			\
-"%s: cd: OLDPWD not set\n"
+	"%s: cd: OLDPWD not set\n"
 # define ERROR_EXPORT_INVALID_IDENTIFIER	\
-"%s: export: `%s': not a valid identifier\n"
+	"%s: export: `%s': not a valid identifier\n"
 # define ERROR_REMOVE_FILE					\
-"%s: warning: failed to remove file `%s'\n"
+	"%s: warning: failed to remove file `%s'\n"
 # define ERROR_CREATE_PIPE					\
-"pipe error: Too many open files\n"
+	"pipe error: Too many open files\n"
 # define ERROR_CMD_NOT_FOUND				\
-"%s: %s: command not found\n"
+	"%s: %s: command not found\n"
 # define ERROR_CANNOT_EXEC_FILE				\
-"%s: %s: cannot execute file: %s\n"
+	"%s: %s: cannot execute file: %s\n"
 # define ERROR_AMBIGUOUS_REDIRECT			\
-"%s: %s: ambiguous redirect\n"
+	"%s: %s: ambiguous redirect\n"
 
 /* Failure Messages */
 # define MALLOC_FMSG						\
-"malloc failed"
+	"malloc failed"
 
 typedef enum e_heredoc_status
 {
