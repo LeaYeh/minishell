@@ -364,7 +364,7 @@ help-noenv		:
 
 help-nocolor	:
 					echo "Rebuild the project without colors in the prompt and printouts."
-					echo "Avoids issues when moving the cursor in the input line."
+					echo "Useful when ANSI escape sequences are not well supported in a terminal emulator."
 
 help-opt		:
 					echo "Rebuild the project with the following compiler optimization flags:"
