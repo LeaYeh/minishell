@@ -54,15 +54,15 @@
 # define PROGRAM_NAME		"crash"
 # if NO_COLOR
 #  define PRETTY_PROG_NAME	"🌊rash"
-#  define PROMPT			"🌊rash$ "
 # else
 #  define PRETTY_PROG_NAME	"\e[3;34m🌊\e[0m\e[1;34mrash\e[0m"
-#  define PROMPT			"\1\e[3;34m\2🌊\1\e[0m\2\1\e[1;34m\2rash$\1\e[0m\2 "
 # endif
 
 # if NO_COLOR
+#  define PROMPT			"🌊rash$ "
 #  define HEREDOC_PROMPT	"> "
 # else
+#  define PROMPT			"\1\e[3;34m\2🌊\1\e[0m\2\1\e[1;34m\2rash$\1\e[0m\2 "
 #  define HEREDOC_PROMPT	"\e[1;37m> \e[0m"
 # endif
 
