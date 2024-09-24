@@ -62,7 +62,10 @@
 #  define PROMPT			"🌊rash$ "
 #  define HEREDOC_PROMPT	"> "
 # else
-#  define PROMPT			"\1\e[3;34m\2🌊\1\e[0m\2\1\e[1;34m\2rash$\1\e[0m\2 "
+// '🌊' is a 4-byte character, but only takes up width of 2 characters ->
+// use hexcode of '🌊' to mark 2 bytes as invisible characters
+#  define PROMPT			\
+	"\1\e[3;34m\2\xf0\x9f\1\x8c\x8a\2\1\e[0m\2\1\e[1;34m\2rash$\1\e[0m\2 "
 #  define HEREDOC_PROMPT	"\e[1;37m> \e[0m"
 # endif
 
