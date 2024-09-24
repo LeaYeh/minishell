@@ -56,14 +56,14 @@
 #  define PRETTY_PROG_NAME	"🌊rash"
 #  define PROMPT			"🌊rash$ "
 # else
-#  define PRETTY_PROG_NAME	"\1\e[3;34m\2🌊\1\e[0m\2\1\e[1;34m\2rash\1\e[0m\2"
+#  define PRETTY_PROG_NAME	"\e[3;34m🌊\e[0m\e[1;34mrash\e[0m"
 #  define PROMPT			"\1\e[3;34m\2🌊\1\e[0m\2\1\e[1;34m\2rash$\1\e[0m\2 "
 # endif
 
 # if NO_COLOR
 #  define HEREDOC_PROMPT	"> "
 # else
-#  define HEREDOC_PROMPT	"\1\e[1;37m\2> \1\e[0m\2"
+#  define HEREDOC_PROMPT	"\e[1;37m> \e[0m"
 # endif
 
 # define EXIT_MSG			"exit\n"
@@ -78,7 +78,7 @@
            Big thank you to @ValeriaGart for the pixel art!\n"
 # else
 #  define VALERIA_MSG		"\
-           Big thank you to \1\e[1m\2@ValeriaGart\1\e[0m\2 for the pixel art!\n"
+           Big thank you to \e[1m@ValeriaGart\e[0m for the pixel art!\n"
 # endif
 
 /* Error Codes */
@@ -121,29 +121,29 @@
 #  define STY_GRA_BG		""
 #  define STY_WHI_BRI_BG	""
 # else
-#  define STY_RES			"\1\e[0m\2"
-#  define STY_BOL			"\1\e[1m\2"
-#  define STY_ITA			"\1\e[3m\2"
-#  define STY_UND			"\1\e[4m\2"
-#  define STY_RED			"\1\e[31m\2"
-#  define STY_GRE			"\1\e[32m\2"
-#  define STY_YEL			"\1\e[33m\2"
-#  define STY_BLU			"\1\e[34m\2"
-#  define STY_MAG			"\1\e[35m\2"
-#  define STY_CYA			"\1\e[36m\2"
-#  define STY_WHI			"\1\e[37m\2"
-#  define STY_GRA			"\1\e[90m\2"
-#  define STY_WHI_BRI		"\1\e[97m\2"
-#  define STY_BLA_BG		"\1\e[41m\2"
-#  define STY_RED_BG		"\1\e[41m\2"
-#  define STY_GRE_BG		"\1\e[42m\2"
-#  define STY_YEL_BG		"\1\e[43m\2"
-#  define STY_BLU_BG		"\1\e[44m\2"
-#  define STY_MAG_BG		"\1\e[45m\2"
-#  define STY_CYA_BG		"\1\e[46m\2"
-#  define STY_WHI_BG		"\1\e[47m\2"
-#  define STY_GRA_BG		"\1\e[100m\2"
-#  define STY_WHI_BRI_BG	"\1\e[107m\2"
+#  define STY_RES			"\e[0m"
+#  define STY_BOL			"\e[1m"
+#  define STY_ITA			"\e[3m"
+#  define STY_UND			"\e[4m"
+#  define STY_RED			"\e[31m"
+#  define STY_GRE			"\e[32m"
+#  define STY_YEL			"\e[33m"
+#  define STY_BLU			"\e[34m"
+#  define STY_MAG			"\e[35m"
+#  define STY_CYA			"\e[36m"
+#  define STY_WHI			"\e[37m"
+#  define STY_GRA			"\e[90m"
+#  define STY_WHI_BRI		"\e[97m"
+#  define STY_BLA_BG		"\e[41m"
+#  define STY_RED_BG		"\e[41m"
+#  define STY_GRE_BG		"\e[42m"
+#  define STY_YEL_BG		"\e[43m"
+#  define STY_BLU_BG		"\e[44m"
+#  define STY_MAG_BG		"\e[45m"
+#  define STY_CYA_BG		"\e[46m"
+#  define STY_WHI_BG		"\e[47m"
+#  define STY_GRA_BG		"\e[100m"
+#  define STY_WHI_BRI_BG	"\e[107m"
 # endif
 
 /* Symbols */
