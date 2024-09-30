@@ -329,8 +329,6 @@ ffclean			:
 # ****************************** HELP TARGETS ******************************** #
 
 help			:
-					echo "Usage: make [\\$(STY_UND)target\\$(STY_RES)] [MODE=\"<\\$(STY_UND)mode1\\$(STY_RES)> [\\$(STY_UND)mode2\\$(STY_RES)] [...]\"]"
-					echo
 					echo "Targets:"
 					echo "  all              Build the project (default target)"
 					echo "  run              Build and run the project"
@@ -353,6 +351,7 @@ help			:
 					echo "Environment Variables:"
 					echo "  MODE             Build mode to combine multiple targets"
 					echo
+					echo "Usage: make [\\$(STY_UND)target\\$(STY_RES)] [MODE=\"<\\$(STY_UND)mode1\\$(STY_RES)> [\\$(STY_UND)mode2\\$(STY_RES)] [...]\"]"
 
 help-all		:
 					echo "Build the project."
@@ -378,12 +377,14 @@ help-san		:
 
 help-val		:
 					echo "Build the project and run the executable with valgrind."
+					echo
 					echo "The following valgrind flags are used:"
 					echo "$(VALGRINDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
 
 help-valfd		:
 					echo "Build the project and run the executable with valgrind and file descriptor tracking."
 					echo "A new terminal window is opened to avoid inheriting open file descriptors."
+					echo
 					echo "The following valgrind flags are used:"
 					echo "$(VALGRINDFLAGS)" | tr ' ' '\n' | sed 's/^/  /'
 					echo "File descriptor specific flags:"
@@ -408,21 +409,21 @@ help-ffclean	:
 					echo "Remove build artifacts and the executable without checking for unknown files."
 
 help-print		:
-					echo "Usage: make print-<\\$(STY_UND)variable name\\$(STY_RES)>"
-					echo
 					echo "Print the value of a Makefile variable by appending the variable name to print-..."
 					echo "Useful for Makefile debugging."
+					echo
+					echo "Usage: make print-<\\$(STY_UND)variable name\\$(STY_RES)>"
 
 help-help		:
-					echo "Usage: make help-<\\$(STY_UND)target\\$(STY_RES)> | make <\\$(STY_UND)target\\$(STY_RES)>-help"
-					echo
 					echo "Display more information for a specific target by appending or prepending help."
+					echo
+					echo "Usage: make help-<\\$(STY_UND)target\\$(STY_RES)> | make <\\$(STY_UND)target\\$(STY_RES)>-help"
 
 help-MODE MODE-help:
-					echo "Usage: make <\\$(STY_UND)target\\$(STY_RES)> MODE=\"<\\$(STY_UND)mode1\\$(STY_RES)> [\\$(STY_UND)mode2\\$(STY_RES)] [...]\""
-					echo
 					echo "Build mode to combine with other targets."
 					echo "Multiple modes can be combined by separating them with a space."
+					echo
+					echo "Usage: make <\\$(STY_UND)target\\$(STY_RES)> MODE=\"<\\$(STY_UND)mode1\\$(STY_RES)> [\\$(STY_UND)mode2\\$(STY_RES)] [...]\""
 
 %-help:
 					$(MAKE) help-$(subst -help,,$@)
