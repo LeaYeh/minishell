@@ -98,9 +98,9 @@ ABSOLUTE_PATHS	:=	/bin/* \
 
 TERMINAL		:=	$(shell which gnome-terminal 2>/dev/null)
 
-ifeq ($(filter val,$(MAKECMDGOALS)),val)
+ifeq (val, $(filter val,$(MAKECMDGOALS)))
 TERMINALTITLE	:=	valgrind $(MAKE_NAME)
-else ifeq ($(filter valfd,$(MAKECMDGOALS)),valfd)
+else ifeq (valfd, $(filter valfd,$(MAKECMDGOALS)))
 TERMINALTITLE	:=	valgrind-fd $(MAKE_NAME)
 else
 TERMINALTITLE	:=	$(MAKE_NAME)
@@ -149,49 +149,49 @@ CLEAN_TARGETS	:=	clean fclean ffclean
 
 ENV				:=
 
-ifeq (run,$(filter run,$(MAKECMDGOALS) $(MODE)))
+ifeq (run, $(filter run,$(MAKECMDGOALS) $(MODE)))
 RUN				:=	true
 endif
 
-ifeq (noenv,$(filter noenv,$(MAKECMDGOALS) $(MODE)))
+ifeq (noenv, $(filter noenv,$(MAKECMDGOALS) $(MODE)))
 ENV				+=	env -i
 RUN				:=	true
 endif
 
-ifeq (nocolor,$(filter nocolor,$(MAKECMDGOALS) $(MODE)))
+ifeq (nocolor, $(filter nocolor,$(MAKECMDGOALS) $(MODE)))
 CPPFLAGS		+=	-D NO_COLOR=1
 RECOMPILE		:=	true
 endif
 
-ifeq (opt,$(filter opt,$(MAKECMDGOALS) $(MODE)))
+ifeq (opt, $(filter opt,$(MAKECMDGOALS) $(MODE)))
 CFLAGS			:=	$(CFLAGS_STD) $(CFLAGS_OPT)
 RECOMPILE		:=	true
 endif
 
-ifeq (san,$(filter san,$(MAKECMDGOALS) $(MODE)))
+ifeq (san, $(filter san,$(MAKECMDGOALS) $(MODE)))
 CFLAGS			+=	$(CFLAGS_STD) $(CFLAGS_DBG) $(CFLAGS_SAN)
 RECOMPILE		:=	true
 endif
 
-ifeq (val,$(filter val,$(MAKECMDGOALS) $(MODE)))
+ifeq (val, $(filter val,$(MAKECMDGOALS) $(MODE)))
 ENV				+=	$(VALGRIND) $(VALGRINDFLAGS)
 PATH			:=	/bin:/usr/bin:/usr/sbin:$(PATH)
 RUN				:=	true
 endif
 
-ifeq (valfd,$(filter valfd,$(MAKECMDGOALS) $(MODE)))
+ifeq (valfd, $(filter valfd,$(MAKECMDGOALS) $(MODE)))
 ENV				+=	$(VALGRIND) $(VALGRINDFLAGS) $(VALGRINDFDFLAGS)
 PATH			:=	/bin:/usr/bin:/usr/sbin:$(PATH)
 NEW_TERM		:=	true
 RUN				:=	true
 endif
 
-ifeq (term,$(filter term,$(MAKECMDGOALS) $(MODE)))
+ifeq (term, $(filter term,$(MAKECMDGOALS) $(MODE)))
 NEW_TERM		:=	true
 RUN				:=	true
 endif
 
-ifeq (clear,$(filter clear,$(MAKECMDGOALS) $(MODE)))
+ifeq (clear, $(filter clear,$(MAKECMDGOALS) $(MODE)))
 CLEAR			:=	true
 endif
 
@@ -247,8 +247,8 @@ re				:
 
 #	Dependency files inclusion
 
-ifeq (,$(filter $(HELP_TARGETS) $(REBUILD_TARGETS) $(CLEAN_TARGETS),$(MAKECMDGOALS)))
-    ifneq (,$(wildcard $(OBJ_DIR)))
+ifeq (, $(filter $(HELP_TARGETS) $(REBUILD_TARGETS) $(CLEAN_TARGETS),$(MAKECMDGOALS)))
+    ifneq (, $(wildcard $(OBJ_DIR)))
         -include	$(DEP)
     endif
 endif
@@ -256,7 +256,7 @@ endif
 
 #	Library dependency management
 
-ifeq ($(firstword $(sort $(MAKE_VERSION) 4.4)),4.4)
+ifeq (4.4, $(firstword $(sort $(MAKE_VERSION) 4.4)))
 build			:	lib .WAIT $(NAME)
 else
 build			:	waitforlib
@@ -304,10 +304,10 @@ clean			:
 					echo -n $(MSG_CLEAN)
 					$(MAKE) clean -C $(LIBRARIES)
 					rm -f $(OBJ) $(DEP)
-                    ifneq (,$(wildcard $(OBJ_DIR)))
+                    ifneq (, $(wildcard $(OBJ_DIR)))
 						-find $(OBJ_DIR) -type d -empty -delete
                     endif
-                    ifneq (,$(wildcard $(DEP_DIR)))
+                    ifneq (, $(wildcard $(DEP_DIR)))
 						-find $(DEP_DIR) -type d -empty -delete
                     endif
 					echo -n $(MSG_SUCCESS)
@@ -461,7 +461,7 @@ MSG_PROGRESS	:=	$(STY_ITA)"🌊"$(STY_RES)
 
 
 ########################## Top-level only messages #############################
-ifeq ($(MAKELEVEL),0)
+ifeq (0, $(MAKELEVEL))
 
 #	Make status messages
 
@@ -470,7 +470,7 @@ MSG_INFO		:=	$(STY_ITA)$(STY_WHI)"Make version: $(MAKE_VERSION)\n\
 
 MSG_HELP		:=	$(STY_ITA)$(STY_WHI)"Run 'make help' to see all available Makefile targets."$(STY_RES)"\n"
 
-ifneq (,$(filter $(REBUILD_TARGETS),$(MAKECMDGOALS) $(MODE)))
+ifneq (, $(filter $(REBUILD_TARGETS),$(MAKECMDGOALS) $(MODE)))
 MSG_START		:=	$(STY_ITA)"Rebuilding $(MAKE_NAME) ... "$(STY_RES)
 else
 MSG_START		:=	$(STY_ITA)"Building $(MAKE_NAME) ... "$(STY_RES)
@@ -486,47 +486,47 @@ MSG_FAILURE		:=	$(STY_BOL)$(STY_ITA)$(STY_RED)"BUILD FAILED!"$(STY_RES)"\n"
 #	Build modes
 
 MSG_RUN			:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_YEL)"~~~~~~~~~~~~~~~~~~~~~~~ RUN MODE ~~~~~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
-ifneq (,$(filter run,$(MAKECMDGOALS) $(MODE)))
+ifneq (, $(filter run,$(MAKECMDGOALS) $(MODE)))
 MSG_MODE		:=	$(MSG_MODE)$(MSG_RUN)
 endif
 
 MSG_NOENV		:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_MAG)"~~~~~~~~~~~~~~~~ EMPTY ENVIRONMENT MODE ~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
-ifneq (,$(filter noenv,$(MAKECMDGOALS) $(MODE)))
+ifneq (, $(filter noenv,$(MAKECMDGOALS) $(MODE)))
 MSG_MODE		:=	$(MSG_MODE)$(MSG_NOENV)
 endif
 
 MSG_NOCOLOR		:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_WHI_BRI)"~~~~~~~~~~~~~~~~~~~~~ NO COLOR MODE ~~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
-ifneq (,$(filter nocolor,$(MAKECMDGOALS) $(MODE)))
+ifneq (, $(filter nocolor,$(MAKECMDGOALS) $(MODE)))
 MSG_MODE		:=	$(MSG_MODE)$(MSG_NOCOLOR)
 endif
 
 MSG_OPT			:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_GRE)"~~~~~~~~~~~~~~~~~~~ OPTIMIZATION MODE ~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
-ifneq (,$(filter opt,$(MAKECMDGOALS) $(MODE)))
+ifneq (, $(filter opt,$(MAKECMDGOALS) $(MODE)))
 MSG_MODE		:=	$(MSG_MODE)$(MSG_OPT)
 endif
 
 MSG_SAN			:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_RED)"~~~~~~~~~~~~~~~~~~~~ SANITIZER MODE ~~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
-ifneq (,$(filter san,$(MAKECMDGOALS) $(MODE)))
+ifneq (, $(filter san,$(MAKECMDGOALS) $(MODE)))
 MSG_MODE		:=	$(MSG_MODE)$(MSG_SAN)
 endif
 
 MSG_VAL			:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_BLU)"~~~~~~~~~~~~~~~~~~~~~ VALGRIND MODE ~~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
-ifneq (,$(filter val,$(MAKECMDGOALS) $(MODE)))
+ifneq (, $(filter val,$(MAKECMDGOALS) $(MODE)))
 MSG_MODE		:=	$(MSG_MODE)$(MSG_VAL)
 endif
 
 MSG_VALFD		:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_CYA)"~~~~~~~~~~~~~~~~~~~ VALGRIND FD MODE ~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
-ifneq (,$(filter valfd,$(MAKECMDGOALS) $(MODE)))
+ifneq (, $(filter valfd,$(MAKECMDGOALS) $(MODE)))
 MSG_MODE		:=	$(MSG_MODE)$(MSG_VALFD)
 endif
 
 MSG_TERM		:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_YEL)"~~~~~~~~~~~~~~~~~~~ NEW TERMINAL MODE ~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
-ifneq (,$(filter term,$(MAKECMDGOALS) $(MODE)))
+ifneq (, $(filter term,$(MAKECMDGOALS) $(MODE)))
 MSG_MODE		:=	$(MSG_MODE)$(MSG_TERM)
 endif
 
 MSG_CLEAR		:=	$(STY_BOL)$(STY_ITA)$(STY_UND)$(STY_GRA)"~~~~~~~~~~~~~~~~~~~~~ CLEAR MODE ~~~~~~~~~~~~~~~~~~~~"$(STY_RES)"\n"
-ifneq (,$(filter clear,$(MAKECMDGOALS) $(MODE)))
+ifneq (, $(filter clear,$(MAKECMDGOALS) $(MODE)))
 MSG_MODE		:=	$(MSG_MODE)$(MSG_CLEAR)
 endif
 
