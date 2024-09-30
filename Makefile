@@ -147,12 +147,14 @@ CLEAN_TARGETS	:=	clean fclean ffclean
 
 # ********************************* MODES ************************************ #
 
+ENV				:=
+
 ifeq (run,$(filter run,$(MAKECMDGOALS) $(MODE)))
 RUN				:=	true
 endif
 
 ifeq (noenv,$(filter noenv,$(MAKECMDGOALS) $(MODE)))
-ENV				:=	env -i
+ENV				+=	env -i
 RUN				:=	true
 endif
 
