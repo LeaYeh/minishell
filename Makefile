@@ -79,7 +79,7 @@ VALGRINDFLAGS	=	--errors-for-leak-kinds=all \
 					--read-var-info=yes \
 					--show-error-list=yes \
 					--show-leak-kinds=all \
-					--suppressions=./minishell.supp \
+					--suppressions=$(CURDIR)/minishell.supp \
 					--trace-children=yes \
 					--trace-children-skip=$(subst $(SPACE),$(COMMA),$(ABSOLUTE_PATHS)) \
 					--track-origins=yes
