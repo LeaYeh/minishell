@@ -53,7 +53,7 @@ CPPFLAGS 		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
 DEPFLAGS		=	-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@"
 LDFLAGS			:=	$(addprefix -L,$(LIBRARIES))
 LDLIBS			:=	$(addprefix -l,$(patsubst lib%,%,$(notdir $(LIBRARIES) $(LIBRARIES_EXT))))
-MAKEFLAGS		:=	-j -s
+MAKEFLAGS		+=	-j -s
 
 
 #	Macro definitions
