@@ -14,6 +14,9 @@ runs:
   using: composite
   steps:
     - run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 12
         sudo apt-get update
         sudo apt-get install -y build-essential clang-12 valgrind
       shell: bash
