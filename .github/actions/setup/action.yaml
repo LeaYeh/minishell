@@ -15,7 +15,12 @@ runs:
   steps:
     - run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential clang-12 valgrind
+        sudo apt-get install -y build-essential valgrind libreadline-dev
+      shell: bash
+    - run: |
+        echo "deb http://archive.ubuntu.com/ubuntu/ jammy main universe" | sudo tee /etc/apt/sources.list.d/jammy-repositories.list
+        sudo apt-get update
+        sudo apt-get install -y clang-12=1:12.0.1-19ubuntu3
       shell: bash
     - run: |
         echo "Iy" | bash -c 'bash <(curl -s https://raw.githubusercontent.com/tmatis/funcheck/main/scripts/install.sh)'
