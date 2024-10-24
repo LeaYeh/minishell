@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:05:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/04/04 23:42:17 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/07 07:25:53 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	restore_std_io(int saved_std_io[2]);
 bool	save_std_io(int saved_std_io[2]);
 bool	redirect_scmd_io(t_sh *shell, int *read_fd, int *write_fd);
 int		redirect_subshell_io(t_sh *shell, t_ct *cmd_table);
-int		handle_io_redirect(
+int		open_io_files(
 			t_sh *shell, int *read_fd, int *write_fd, t_list *io_red_list);
 
 /* Redirection - Pipe */
