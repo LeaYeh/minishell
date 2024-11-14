@@ -45,7 +45,7 @@ void	wait_all_child_pid(t_sh *shell)
 		child_pid_node = child_pid_node->next;
 	}
 	if (got_sigint)
-		ft_printf("\n");
+		print_error("\n");
 	shell->exit_code = handle_exit_status(exit_wstatus);
 }
 
