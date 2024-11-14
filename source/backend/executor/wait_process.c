@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "clean.h"
 #include "utils.h"
 
+static int	wait_child_pid(pid_t pid, bool *got_sigint);
 static int	handle_exit_status(int wstatus);
 static void	print_signaled_exit_msg(int wstatus, int signo);
 
@@ -29,26 +29,35 @@ bool	wait_process(t_sh *shell, pid_t pid)
 void	wait_all_child_pid(t_sh *shell)
 {
 	t_list	*child_pid_node;
+	int		exit_wstatus;
 	bool	got_sigint;
 	pid_t	pid;
-	int		wstatus;
 
 	got_sigint = false;
 	child_pid_node = shell->child_pid_list;
 	pid = (pid_t)(long)child_pid_node->content;
-	if (wait_process(shell, pid) && shell->exit_code == TERM_BY_SIGNAL + SIGINT)
-		got_sigint = true;
+	exit_wstatus = wait_child_pid(pid, &got_sigint);
 	child_pid_node = child_pid_node->next;
 	while (child_pid_node)
 	{
 		pid = (pid_t)(long)child_pid_node->content;
-		if (waitpid(pid, &wstatus, 0) != -1 && \
-			WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGINT)
-			got_sigint = true;
+		wait_child_pid(pid, &got_sigint);
 		child_pid_node = child_pid_node->next;
 	}
 	if (got_sigint)
 		ft_printf("\n");
+	shell->exit_code = handle_exit_status(exit_wstatus);
+}
+
+static int	wait_child_pid(pid_t pid, bool *got_sigint)
+{
+	int	wstatus;
+
+	wstatus = 0;
+	if (waitpid(pid, &wstatus, 0) != -1 && \
+		WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGINT)
+		*got_sigint = true;
+	return (wstatus);
 }
 
 static int	handle_exit_status(int wstatus)
