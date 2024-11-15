@@ -1,7 +1,7 @@
 #!/bin/bash
 
 test_number=$(echo "$LINE" | grep -oP '\d+(?=:)' | head -1 || true)
-line_number=$(echo "$LINE" | grep -oP '\d+' | tail -1 || true)
+line_number=$(echo "$LINE" | grep -oP '(?<=:)\d+' | tail -1 || true)
 file_path=$(echo "$LINE" | grep -oP '\s*'"$TESTER_DIR"'/cmds/.*\.sh' || true)
 file_basename=$(basename "${file_path%.*}")
 file_dirname=$(basename "$(dirname "$file_path")")
