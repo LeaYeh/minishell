@@ -1,0 +1,21 @@
+# .github/workflows/test_image.yaml
+name: Test Image
+on:
+  workflow_dispatch:
+env:
+  HOME: /home/runner
+  TESTER_DIR: /home/runner/42_minishell_tester
+  SCRIPTS_DIR: /home/runner/scripts
+
+jobs:
+  remote_connect:
+    name: Remote Connect
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout source branch of pull request
+        uses: actions/checkout@v4
+      - name: Set up test environment
+        uses: ./.github/actions/setup
+      - name: Set up tmate session
+        uses: mxschmitt/action-tmate@v3
