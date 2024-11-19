@@ -47,8 +47,6 @@ static bool	should_execute_next_pipeline(t_sh *shell, t_ct_typ type)
 		shell->exit_code = TERM_BY_SIGNAL + shell->signal_record;
 		return (false);
 	}
-	if (shell->exit_code == TERM_BY_SIGNAL + SIGINT)
-		return (false);
 	if (type == C_AND && shell->exit_code == 0)
 		return (true);
 	else if (type == C_OR && shell->exit_code != 0)

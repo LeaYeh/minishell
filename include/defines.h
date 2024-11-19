@@ -13,7 +13,9 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-# define _DEFAULT_SOURCE
+# ifndef _DEFAULT_SOURCE
+#  define _DEFAULT_SOURCE
+# endif
 
 # include <dirent.h>
 # include <errno.h>
