@@ -629,5 +629,5 @@ exit $EXIT_CODE
 
 Hope you liked this project, don't forget to give it a star ⭐.
 <a href="https://github.com/LeaYeh/minishell">
-    <img alt="chart" src="https://starchart.cc/LeaYeh/minishell.svg" width="600px">
+    <img alt="chart" src="https://starchart.cc/LeaYeh/minishell.svg?variant=adaptive" width="600px">
 </a>
