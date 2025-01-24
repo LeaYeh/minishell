@@ -42,14 +42,14 @@ BUILDFILES		:=	Makefile \
 
 #	Flags
 
-CC 				?=	cc
+CC				?=	cc
 CC_VERSION		:=	$(shell $(CC) --version | head -1)
 CFLAGS_STD		:=	-Wall -Wextra -Werror
 CFLAGS_DBG		:=	-ggdb3
 CFLAGS_SAN		:=	-fsanitize=address,undefined,bounds,float-divide-by-zero
 CFLAGS_OPT		:=	-O3
-CFLAGS 			?=	$(CFLAGS_STD) $(CFLAGS_DBG)
-CPPFLAGS 		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
+CFLAGS			?=	$(CFLAGS_STD) $(CFLAGS_DBG)
+CPPFLAGS		:=	$(addprefix -I,$(INC_DIR) $(LIB_INCLUDES))
 DEPFLAGS		=	-M -MP -MF $@ -MT "$(OBJ_DIR)/$*.o $@"
 LDFLAGS			:=	$(addprefix -L,$(LIBRARIES))
 LDLIBS			:=	$(addprefix -l,$(patsubst lib%,%,$(notdir $(LIBRARIES) $(LIBRARIES_EXT))))
@@ -105,14 +105,14 @@ else
 TERMINALTITLE	:=	$(MAKE_NAME)
 endif
 
-TERMINALFLAGS	:=	--title="$(TERMINALTITLE)" -- /bin/sh -c
+TERMINALFLAGS	:=	--title="$(TERMINALTITLE)" --
 
 
 #	Files
 
 include				$(BUILD_DIR)/source_files.mk
 SRC_EXTENSION	:=	.c
-OBJ 			:=	$(SRC:%$(SRC_EXTENSION)=$(OBJ_DIR)/%.o)
+OBJ				:=	$(SRC:%$(SRC_EXTENSION)=$(OBJ_DIR)/%.o)
 DEP				:=	$(SRC:%$(SRC_EXTENSION)=$(DEP_DIR)/%.d)
 
 
@@ -231,10 +231,10 @@ modes			:
 						clear; \
 					fi
 					if [ "$(NEW_TERM)" = "true" ] && [ -n "$(TERMINAL)" ]; then \
-						$(TERMINAL) $(TERMINALFLAGS) \
-							"bash --posix -c 'trap \"\" SIGINT; \
+						$(TERMINAL) $(TERMINALFLAGS) bash --posix -c \
+							"trap '' SIGINT; \
 							$(ENV) ./$(NAME); \
-							exec bash --posix'"; \
+							exec bash --posix"; \
 					elif [ "$(RUN)" = "true" ]; then \
 						$(ENV) "./$(NAME)"; \
 					fi
@@ -276,7 +276,7 @@ waitforlib		:	lib
 #	Executable linkage
 
 $(NAME)			:	$(LIBRARIES) $(OBJ)
-					$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $@
+					$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $(NAME)
 
 
 #	Source file compilation
