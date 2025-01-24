@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2025/01/24 23:47:24 by ldulling         ###   ########.fr        #
+#    Updated: 2025/01/24 23:53:02 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -438,7 +438,7 @@ help-MODE MODE-help:
 help-TERMINAL TERMINAL-help:
 					echo -e "Override the default terminal emulator for targets opening a new terminal window."
 					echo
-					echo -e "Usage: make <target> TERMINAL=<\\$(STY_UND)terminal\\$(STY_RES)>"
+					echo -e "Usage: make <\\$(STY_UND)target\\$(STY_RES)> TERMINAL=<\\$(STY_UND)terminal\\$(STY_RES)>"
 
 %-help:
 					$(MAKE) help-$(subst -help,,$@)
