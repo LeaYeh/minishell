@@ -79,16 +79,19 @@ SRC		+=	$(addprefix $(DIR), \
 			ft_lstlast_d.c \
 			ft_lstnew_back_d.c \
 			ft_lstnew_d.c \
+			ft_lstsize_d.c \
 )
 
 #  Singly-linked:
 DIR		:=	lists/singly_linked/
 SRC		+=	$(addprefix $(DIR), \
 			ft_lstadd_back.c \
+			ft_lstadd_back_eff.c \
 			ft_lstadd_front.c \
 			ft_lstclear.c \
 			ft_lstdelone.c \
 			ft_lstdrop_node.c \
+			ft_lstdup.c \
 			ft_lstinsert_after.c \
 			ft_lstinsert_before.c \
 			ft_lstiter.c \
@@ -96,6 +99,7 @@ SRC		+=	$(addprefix $(DIR), \
 			ft_lstmap.c \
 			ft_lstnew.c \
 			ft_lstnew_back.c \
+			ft_lstnew_back_eff.c \
 			ft_lstnew_front.c \
 			ft_lstpop_front.c \
 			ft_lstpop_front_content.c \
