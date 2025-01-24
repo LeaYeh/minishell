@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 03:22:46 by ldulling          #+#    #+#              #
-#    Updated: 2025/01/24 23:34:49 by ldulling         ###   ########.fr        #
+#    Updated: 2025/01/24 23:47:24 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,17 +95,19 @@ ABSOLUTE_PATHS	:=	/bin/* \
 
 #	Terminal
 
-TERMINAL		:=	$(shell which gnome-terminal 2>/dev/null)
+TERMINAL		?=	$(if $(shell command -v gnome-terminal), gnome-terminal, \
+					$(if $(shell command -v terminator), terminator, \
+					$(if $(shell command -v xterm), xterm, \
+					)))
 
-ifeq (val, $(filter val,$(MAKECMDGOALS)))
-TERMINALTITLE	:=	valgrind $(MAKE_NAME)
-else ifeq (valfd, $(filter valfd,$(MAKECMDGOALS)))
-TERMINALTITLE	:=	valgrind-fd $(MAKE_NAME)
-else
-TERMINALTITLE	:=	$(MAKE_NAME)
-endif
+TERMINALTITLE	:=	$(if $(filter val, $(MAKECMDGOALS)), valgrind $(MAKE_NAME), \
+					$(if $(filter valfd, $(MAKECMDGOALS)), valgrind-fd $(MAKE_NAME), \
+					$(MAKE_NAME)))
 
-TERMINALFLAGS	:=	--title="$(TERMINALTITLE)" --
+TERMINALFLAGS	?=	$(if $(filter gnome-terminal, $(TERMINAL)), --title="$(TERMINALTITLE)" --, \
+					$(if $(filter terminator, $(TERMINAL)), --title="$(TERMINALTITLE)" -x, \
+					$(if $(filter xterm, $(TERMINAL)), -title "$(TERMINALTITLE)" -e, \
+					)))
 
 
 #	Files
@@ -130,7 +132,7 @@ SHELL			:=	/bin/bash
 
 PHONY_TARGETS	:=	all run noenv nocolor opt san val valfd term clear modes re \
 					build lib waitforlib clean fclean ffclean
-ENV_VARIABLES	:=	MODE
+ENV_VARIABLES	:=	MODE TERMINAL
 HELP_TARGETS	:=	help help-print \
 					$(addprefix help-,$(PHONY_TARGETS) $(ENV_VARIABLES)) \
 					$(addsuffix -help,$(PHONY_TARGETS) $(ENV_VARIABLES))
@@ -351,8 +353,9 @@ help			:
 					echo
 					echo -e "Environment Variables:"
 					echo -e "  MODE             Build mode to combine multiple targets"
+					echo -e "  TERMINAL         Terminal emulator to use for targets opening a new terminal window"
 					echo
-					echo -e "Usage: make [\\$(STY_UND)target\\$(STY_RES)] [MODE=\"<\\$(STY_UND)mode1\\$(STY_RES)> [\\$(STY_UND)mode2\\$(STY_RES)] [...]\"]"
+					echo -e "Usage: make [\\$(STY_UND)target\\$(STY_RES)] [MODE=\"<\\$(STY_UND)mode1\\$(STY_RES)> [\\$(STY_UND)mode2\\$(STY_RES)] [...]\"] [TERMINAL=<\\$(STY_UND)terminal\\$(STY_RES)>]"
 
 help-all		:
 					echo -e "Build the project."
@@ -393,6 +396,12 @@ help-valfd		:
 
 help-term		:
 					echo -e "Build the project and run the executable in a new terminal window."
+					echo -e "The terminal emulator used is determined by the TERMINAL variable."
+					echo
+					echo -e "The following terminal emulator is used by default:"
+					echo -e "  $(TERMINAL)"
+					echo
+					echo -e "Usage: make term [TERMINAL=<\\$(STY_UND)terminal\\$(STY_RES)>]"
 
 help-clear		:
 					echo -e "Build the project and clear the terminal."
@@ -425,6 +434,11 @@ help-MODE MODE-help:
 					echo -e "Multiple modes can be combined by separating them with a space."
 					echo
 					echo -e "Usage: make <\\$(STY_UND)target\\$(STY_RES)> MODE=\"<\\$(STY_UND)mode1\\$(STY_RES)> [\\$(STY_UND)mode2\\$(STY_RES)] [...]\""
+
+help-TERMINAL TERMINAL-help:
+					echo -e "Override the default terminal emulator for targets opening a new terminal window."
+					echo
+					echo -e "Usage: make <target> TERMINAL=<\\$(STY_UND)terminal\\$(STY_RES)>"
 
 %-help:
 					$(MAKE) help-$(subst -help,,$@)
