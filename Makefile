@@ -76,7 +76,6 @@ VALGRIND		:=	$(shell which valgrind)
 
 VALGRINDFLAGS	=	--errors-for-leak-kinds=all \
 					--leak-check=full \
-					--read-var-info=yes \
 					--show-error-list=yes \
 					--show-leak-kinds=all \
 					--suppressions=$(CURDIR)/minishell.supp \
