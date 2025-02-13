@@ -1,5 +1,5 @@
-You can find more notes and drawings on the [**notes-git_lfs_required**](https://github.com/LeaYeh/minishell/tree/notes-git_lfs_required/doc/notes) branch.
+You can find more [notes and drawings](https://github.com/LeaYeh/minishell/tree/notes-git_lfs_required/doc/notes) on this branch.
 
-Because of the large file sizes of these notes, that branch uses `git-lfs`.
+Because of the large file sizes of these notes, this branch uses `git-lfs`.
 
-To switch to the branch locally you need to install [git-lfs](https://git-lfs.com).
+To switch to this branch locally you need to install [**git-lfs**](https://git-lfs.com).
