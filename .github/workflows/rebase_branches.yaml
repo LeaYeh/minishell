@@ -1,0 +1,29 @@
+# .github/workflows/rebase_branches.yaml
+name: Rebase Branches
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  rebase_branches:
+    name: Rebase ${{ matrix.branch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: [notes-git_lfs_required]
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
+          fetch-depth: 0
+      - name: Setup Git
+        run: |
+          git config --local user.email "lyeh@student.42vienna.com"
+          git config --local user.name "Lea Yeh"
+      - name: Rebase branch
+        run: |
+          git rebase origin/main
+          git push --force-with-lease origin ${{ matrix.branch }}
