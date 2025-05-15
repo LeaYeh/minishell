@@ -28,7 +28,7 @@ int	main(void)
 	print_welcome_msg(&shell);
 	while (true)
 	{
-		if (!read_input(&shell.input_line, PROMPT, true, shell.is_interactive))
+		if (!read_input(&shell.input_line, &shell, PROMPT, true))
 			continue ;
 		if (!shell.input_line)
 			exec_exit(&shell, NULL);
