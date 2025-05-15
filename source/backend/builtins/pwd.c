@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:40:16 by lyeh              #+#    #+#             */
-/*   Updated: 2024/06/01 12:25:09 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/05/12 20:25:18 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	exec_pwd(t_sh *shell)
 	shell->builtin_allocation = getcwd(NULL, 0);
 	if (!shell->builtin_allocation)
 	{
-		print_error("%s: %s: ", PROGRAM_NAME, "pwd", strerror(errno));
+		print_error("%s: %s: %s\n", PROGRAM_NAME, "pwd", strerror(errno));
 		if (errno == ENOMEM)
 			return (MALLOC_ERROR);
 		else
