@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:22:50 by lyeh              #+#    #+#             */
-/*   Updated: 2025/05/28 16:43:00 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/05/28 17:38:19 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,29 @@ bool	setup_env_list(t_sh *shell)
 }
 
 /**
- * PWD should always be set by current shell.
+ * PWD should always be set by current shell, unless getcwd fails.
  * If OLDPWD exists and its value is not a real directory,
  * delete OLDPWD entirely (permissions don't matter).
  */
 static bool	check_special_env_vars(t_list **env_list)
 {
 	t_env	*env_node;
+	char	*pwd;
 
 	env_node = (*env_list)->content;
 	if (ft_strcmp(env_node->key, "PWD") == 0)
 	{
+		pwd = getcwd(NULL, 0);
+		if (!pwd)
+		{
+			if (errno == ENOMEM)
+				return (false);
+			print_error(
+				"%s: %s: %s\n", PROGRAM_NAME, "getcwd", strerror(errno));
+			return (true);
+		}
 		free(env_node->value);
-		env_node->value = getcwd(NULL, 0);
-		if (!env_node->value)
-			return (false);
+		env_node->value = pwd;
 	}
 	else if (ft_strcmp(env_node->key, "OLDPWD") == 0 && \
 			env_node->value && !is_dir(env_node->value))

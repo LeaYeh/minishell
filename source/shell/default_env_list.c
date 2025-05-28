@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   default_env_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:22:47 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:36:39 by lyeh             ###   ########.fr       */
+/*   Updated: 2025/05/28 17:32:17 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,13 @@ static bool	add_default_pwd_env_node(t_list **env_list)
 		return (false);
 	value = getcwd(NULL, 0);
 	if (!value)
-		return (free(key), false);
+	{
+		free(key);
+		if (errno == ENOMEM)
+			return (false);
+		print_error("%s: %s: %s\n", PROGRAM_NAME, "getcwd", strerror(errno));
+		return (true);
+	}
 	if (!append_env_node(env_list, &key, &value, EXPORT_YES))
 		return (free(key), free(value), false);
 	return (true);
