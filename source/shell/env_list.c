@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lyeh <lyeh@student.42vienna.com>           +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:22:50 by lyeh              #+#    #+#             */
-/*   Updated: 2024/03/21 17:36:41 by lyeh             ###   ########.fr       */
+/*   Updated: 2025/05/28 16:43:00 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	setup_env_list(t_sh *shell)
 		if (!process_str_to_env_list(environ[i], &tmp_list, EXPORT_YES))
 			return (false);
 		if (!check_special_env_vars(&tmp_list))
-			return (ft_lstclear(&tmp_list, free), false);
+			return (ft_lstclear(&tmp_list, (void *)free_env_node), false);
 		ft_lstadd_back(&shell->env_list, tmp_list);
 		i++;
 	}
@@ -58,6 +58,6 @@ static bool	check_special_env_vars(t_list **env_list)
 	}
 	else if (ft_strcmp(env_node->key, "OLDPWD") == 0 && \
 			env_node->value && !is_dir(env_node->value))
-		ft_lstclear(env_list, free);
+		ft_lstclear(env_list, (void *)free_env_node);
 	return (true);
 }
