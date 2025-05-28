@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2024/06/01 11:50:48 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/05/28 23:21:51 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ bool	init_shell(t_sh *shell)
 	init_pipe(&shell->old_pipe);
 	init_pipe(&shell->new_pipe);
 	shell->exit_code = EXIT_SUCCESS;
-	if (!setup_env_list(shell))
-		return (false);
 	handle_signal_std(0, NULL, shell);
 	handle_signal_record(0, NULL, shell);
 	setup_signal(SIGINT, SIG_STANDARD);
@@ -33,5 +31,7 @@ bool	init_shell(t_sh *shell)
 	setup_signal(SIGUSR1, SIG_STANDARD);
 	setup_signal(SIGQUIT, SIG_IGNORE);
 	setup_signal(SIGPIPE, SIG_STANDARD);
+	if (!setup_env_list(shell))
+		return (false);
 	return (true);
 }

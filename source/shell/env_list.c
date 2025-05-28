@@ -6,34 +6,36 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:22:50 by lyeh              #+#    #+#             */
-/*   Updated: 2025/05/28 17:38:19 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/05/28 23:29:16 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "init.h"
 #include "utils.h"
 
-static bool	check_special_env_vars(t_list **env_list);
+static bool	check_special_env_vars(t_list **env_list, t_list **tail);
 
 bool	setup_env_list(t_sh *shell)
 {
 	extern char	**environ;
 	int			i;
-	t_list		*tmp_list;
+	t_list		*new_node;
+	t_list		*tail;
 
 	if (!setup_default_env_list(shell))
 		return (false);
 	if (!environ)
 		return (true);
+	tail = ft_lstlast(shell->env_list);
 	i = 0;
 	while (environ[i])
 	{
-		tmp_list = NULL;
-		if (!process_str_to_env_list(environ[i], &tmp_list, EXPORT_YES))
+		new_node = NULL;
+		if (!process_str_to_env_list(environ[i], &new_node, EXPORT_YES))
 			return (false);
-		if (!check_special_env_vars(&tmp_list))
-			return (ft_lstclear(&tmp_list, (void *)free_env_node), false);
-		ft_lstadd_back(&shell->env_list, tmp_list);
+		ft_lstadd_back_tail(&shell->env_list, &tail, new_node);
+		if (!check_special_env_vars(&shell->env_list, &tail))
+			return (false);
 		i++;
 	}
 	return (true);
@@ -44,12 +46,12 @@ bool	setup_env_list(t_sh *shell)
  * If OLDPWD exists and its value is not a real directory,
  * delete OLDPWD entirely (permissions don't matter).
  */
-static bool	check_special_env_vars(t_list **env_list)
+static bool	check_special_env_vars(t_list **env_list, t_list **tail)
 {
 	t_env	*env_node;
 	char	*pwd;
 
-	env_node = (*env_list)->content;
+	env_node = (*tail)->content;
 	if (ft_strcmp(env_node->key, "PWD") == 0)
 	{
 		pwd = getcwd(NULL, 0);
@@ -66,6 +68,9 @@ static bool	check_special_env_vars(t_list **env_list)
 	}
 	else if (ft_strcmp(env_node->key, "OLDPWD") == 0 && \
 			env_node->value && !is_dir(env_node->value))
-		ft_lstclear(env_list, (void *)free_env_node);
+	{
+		ft_lstdrop_node(env_list, tail, (void *)free_env_node);
+		*tail = ft_lstlast(*env_list);
+	}
 	return (true);
 }
