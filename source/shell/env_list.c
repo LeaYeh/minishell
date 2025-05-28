@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:22:50 by lyeh              #+#    #+#             */
-/*   Updated: 2025/05/28 23:29:16 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/05/28 23:53:00 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "utils.h"
 
 static bool	check_special_env_vars(t_list **env_list, t_list **tail);
+static bool	handle_pwd(t_env *env_node);
+static bool	handle_oldpwd(t_env *env_node, t_list **env_list, t_list **tail);
 
 bool	setup_env_list(t_sh *shell)
 {
@@ -42,32 +44,48 @@ bool	setup_env_list(t_sh *shell)
 }
 
 /**
- * PWD should always be set by current shell, unless getcwd fails.
- * If OLDPWD exists and its value is not a real directory,
- * delete OLDPWD entirely (permissions don't matter).
+ * Special env variables get set on startup, under certain circumstances.
  */
 static bool	check_special_env_vars(t_list **env_list, t_list **tail)
 {
 	t_env	*env_node;
-	char	*pwd;
 
 	env_node = (*tail)->content;
 	if (ft_strcmp(env_node->key, "PWD") == 0)
+		return (handle_pwd(env_node));
+	if (ft_strcmp(env_node->key, "OLDPWD") == 0)
+		return (handle_oldpwd(env_node, env_list, tail));
+	return (true);
+}
+
+/**
+ * PWD should always be set by the current shell, unless getcwd fails.
+ */
+static bool	handle_pwd(t_env *env_node)
+{
+	char	*pwd;
+	
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
 	{
-		pwd = getcwd(NULL, 0);
-		if (!pwd)
-		{
-			if (errno == ENOMEM)
-				return (false);
-			print_error(
-				"%s: %s: %s\n", PROGRAM_NAME, "getcwd", strerror(errno));
-			return (true);
-		}
-		free(env_node->value);
-		env_node->value = pwd;
+		if (errno == ENOMEM)
+			return (false);
+		print_error(
+			"%s: %s: %s\n", PROGRAM_NAME, "getcwd", strerror(errno));
+		return (true);
 	}
-	else if (ft_strcmp(env_node->key, "OLDPWD") == 0 && \
-			env_node->value && !is_dir(env_node->value))
+	free(env_node->value);
+	env_node->value = pwd;
+	return (true);
+}
+
+/**
+ * If OLDPWD exists and its value is not a real directory, delete OLDPWD 
+ * entirely (permissions don't matter).
+ */
+static bool	handle_oldpwd(t_env *env_node, t_list **env_list, t_list **tail)
+{
+	if (env_node->value && !is_dir(env_node->value))
 	{
 		ft_lstdrop_node(env_list, tail, (void *)free_env_node);
 		*tail = ft_lstlast(*env_list);
