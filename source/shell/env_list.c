@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:22:50 by lyeh              #+#    #+#             */
-/*   Updated: 2025/05/28 23:53:00 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/05/29 00:29:49 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ static bool	check_special_env_vars(t_list **env_list, t_list **tail)
  */
 static bool	handle_pwd(t_env *env_node)
 {
-	char	*pwd;
+	char	*cwd;
 	
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 	{
 		if (errno == ENOMEM)
 			return (false);
@@ -75,7 +75,7 @@ static bool	handle_pwd(t_env *env_node)
 		return (true);
 	}
 	free(env_node->value);
-	env_node->value = pwd;
+	env_node->value = cwd;
 	return (true);
 }
 

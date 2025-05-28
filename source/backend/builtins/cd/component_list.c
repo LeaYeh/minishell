@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmpnt_list.c                                       :+:      :+:    :+:   */
+/*   component_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 02:18:36 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/26 02:24:14 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/05/29 00:30:10 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	convert_root_cmpnt_nodes_to_path(
 				char *path,
 				int *i);
 
-t_list_d	*get_abs_path_cmpnt_list(char *pwd, char *target_dir)
+t_list_d	*get_abs_path_cmpnt_list(char *cwd, char *target_dir)
 {
 	t_list_d	*cmpnt_list;
 	t_list_d	*tmp_list;
@@ -27,7 +27,7 @@ t_list_d	*get_abs_path_cmpnt_list(char *pwd, char *target_dir)
 	cmpnt_list = NULL;
 	if (!is_abs_path(target_dir))
 	{
-		cmpnt_list = create_cmpnt_list(pwd);
+		cmpnt_list = create_cmpnt_list(cwd);
 		if (!cmpnt_list)
 			return (NULL);
 	}

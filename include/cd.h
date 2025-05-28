@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 22:29:05 by ldulling          #+#    #+#             */
-/*   Updated: 2024/01/20 14:06:06 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/05/29 00:30:16 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool		ensure_path_not_empty(char **final_path);
 bool		is_abs_path(char *path);
 
 /* cmpnt_list.c */
-t_list_d	*get_abs_path_cmpnt_list(char *pwd, char *target_dir);
+t_list_d	*get_abs_path_cmpnt_list(char *cwd, char *target_dir);
 t_list_d	*create_cmpnt_list(char *path);
 char		*convert_cmpnt_node_to_path(
 				t_list_d *cmpnt_list, t_list_d *cmpnt_node);
