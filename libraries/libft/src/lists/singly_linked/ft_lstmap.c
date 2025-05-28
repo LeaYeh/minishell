@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:04:35 by ldulling          #+#    #+#             */
-/*   Updated: 2024/02/11 00:40:18 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:27:05 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 			ft_lstclear(&new_lst, del);
 			return (NULL);
 		}
-		ft_lstadd_back_eff(&new_lst, &new_lst_tail, new_node);
+		ft_lstadd_back_tail(&new_lst, &new_lst_tail, new_node);
 		cur = cur->next;
 	}
 	return (new_lst);

@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 00:35:12 by ldulling          #+#    #+#             */
-/*   Updated: 2024/06/07 19:09:20 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:27:00 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_list	*ft_lstdup(t_list *lst, void *(*dup)(void *), void (*del)(void *))
 		new_content = (*dup)(cur->content);
 		if (new_content == NULL)
 			return (ft_lstclear(&new_lst, del), NULL);
-		if (!ft_lstnew_back_eff(&new_lst, &new_lst_tail, new_content))
+		if (!ft_lstnew_back_tail(&new_lst, &new_lst_tail, new_content))
 			return (del(new_content), ft_lstclear(&new_lst, del), NULL);
 		cur = cur->next;
 	}
