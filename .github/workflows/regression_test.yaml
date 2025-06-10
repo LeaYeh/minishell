@@ -34,7 +34,7 @@ jobs:
   regression_test:
     name: ${{ inputs.test_name }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     outputs:
       source_failed_count: ${{ env.SOURCE_FAILED_COUNT }}
       target_failed_count: ${{ env.TARGET_FAILED_COUNT }}
