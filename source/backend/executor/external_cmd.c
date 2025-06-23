@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:17:06 by lyeh              #+#    #+#             */
-/*   Updated: 2024/06/01 11:51:52 by ldulling         ###   ########.fr       */
+/*   Updated: 2024/06/07 07:17:29 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_external_cmd(t_sh *shell, t_ct *cmd_table)
 	int		ret;
 
 	final_cmd_table = shell->final_cmd_table;
-	ret = handle_io_redirect(shell,
+	ret = open_io_files(shell,
 			&final_cmd_table->read_fd,
 			&final_cmd_table->write_fd, cmd_table->io_red_list);
 	if (ret == MALLOC_ERROR)
