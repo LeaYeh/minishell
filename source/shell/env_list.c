@@ -6,16 +6,16 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:22:50 by lyeh              #+#    #+#             */
-/*   Updated: 2025/05/29 00:29:49 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:24:50 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "init.h"
 #include "utils.h"
 
-static bool	check_special_env_vars(t_list **env_list, t_list **tail);
-static bool	handle_pwd(t_env *env_node);
-static bool	handle_oldpwd(t_env *env_node, t_list **env_list, t_list **tail);
+static bool	check_special_env_vars(t_list **env_node);
+static bool	handle_pwd(t_env *env_entry);
+static bool	handle_oldpwd(t_list **env_node);
 
 bool	setup_env_list(t_sh *shell)
 {
@@ -35,9 +35,9 @@ bool	setup_env_list(t_sh *shell)
 		new_node = NULL;
 		if (!process_str_to_env_list(environ[i], &new_node, EXPORT_YES))
 			return (false);
+		if (!check_special_env_vars(&new_node))
+			return (ft_lstclear(&new_node, (void *)free_env_node), false);
 		ft_lstadd_back_tail(&shell->env_list, &tail, new_node);
-		if (!check_special_env_vars(&shell->env_list, &tail))
-			return (false);
 		i++;
 	}
 	return (true);
@@ -46,22 +46,22 @@ bool	setup_env_list(t_sh *shell)
 /**
  * Special env variables get set on startup, under certain circumstances.
  */
-static bool	check_special_env_vars(t_list **env_list, t_list **tail)
+static bool	check_special_env_vars(t_list **env_node)
 {
-	t_env	*env_node;
+	t_env	*env_entry;
 
-	env_node = (*tail)->content;
-	if (ft_strcmp(env_node->key, "PWD") == 0)
-		return (handle_pwd(env_node));
-	if (ft_strcmp(env_node->key, "OLDPWD") == 0)
-		return (handle_oldpwd(env_node, env_list, tail));
+	env_entry = (*env_node)->content;
+	if (ft_strcmp(env_entry->key, "PWD") == 0)
+		return (handle_pwd(env_entry));
+	if (ft_strcmp(env_entry->key, "OLDPWD") == 0)
+		return (handle_oldpwd(env_node));
 	return (true);
 }
 
 /**
  * PWD should always be set by the current shell, unless getcwd fails.
  */
-static bool	handle_pwd(t_env *env_node)
+static bool	handle_pwd(t_env *env_entry)
 {
 	char	*cwd;
 	
@@ -74,8 +74,8 @@ static bool	handle_pwd(t_env *env_node)
 			"%s: %s: %s\n", PROGRAM_NAME, "getcwd", strerror(errno));
 		return (true);
 	}
-	free(env_node->value);
-	env_node->value = cwd;
+	free(env_entry->value);
+	env_entry->value = cwd;
 	return (true);
 }
 
@@ -83,12 +83,12 @@ static bool	handle_pwd(t_env *env_node)
  * If OLDPWD exists and its value is not a real directory, delete OLDPWD 
  * entirely (permissions don't matter).
  */
-static bool	handle_oldpwd(t_env *env_node, t_list **env_list, t_list **tail)
+static bool	handle_oldpwd(t_list **env_node)
 {
-	if (env_node->value && !is_dir(env_node->value))
-	{
-		ft_lstdrop_node(env_list, tail, (void *)free_env_node);
-		*tail = ft_lstlast(*env_list);
-	}
+	t_env	*env_entry;
+
+	env_entry = (*env_node)->content;
+	if (env_entry->value && !is_dir(env_entry->value))
+		ft_lstdrop_node(env_node, env_node, (void *)free_env_node);
 	return (true);
 }
