@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:06:39 by lyeh              #+#    #+#             */
-/*   Updated: 2024/06/01 11:50:48 by ldulling         ###   ########.fr       */
+/*   Updated: 2025/01/26 21:52:59 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ bool	init_shell(t_sh *shell)
 {
 	ft_bzero(shell, sizeof(t_sh));
 	shell->is_interactive = isatty(STDIN_FILENO);
+	rl_outstream = stderr;
 	shell->pid = getpid_from_proc();
 	shell->subshell_pid = -1;
 	init_pipe(&shell->old_pipe);

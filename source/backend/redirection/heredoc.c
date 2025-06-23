@@ -109,7 +109,7 @@ static t_hd_st	read_heredoc(t_sh *shell, t_list **line_list, char *here_end)
 	while (true)
 	{
 		line = NULL;
-		if (!read_input(&line, HEREDOC_PROMPT, false, shell->is_interactive))
+		if (!read_input(&line, shell, HEREDOC_PROMPT, false))
 			return (free(line), HD_ERROR);
 		if (shell->exit_code == TERM_BY_SIGNAL + SIGINT)
 			return (free(line), HD_ABORT);
