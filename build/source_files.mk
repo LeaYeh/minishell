@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:15:33 by ldulling          #+#    #+#              #
-#    Updated: 2024/04/04 23:25:38 by ldulling         ###   ########.fr        #
+#    Updated: 2025/06/23 09:53:24 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ SRC		+=	$(addprefix $(DIR), \
             cd_utils.c \
             component_list.c \
             component_list_utils.c \
-            dot_component.c \
+            dot_components.c \
             env_pwd_update.c \
             path.c \
 )
